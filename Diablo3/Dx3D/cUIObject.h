@@ -22,7 +22,7 @@ protected:
 	SYNTHESIZE(bool, m_bIsDrawBorder, DrawBorder);
 	SYNTHESIZE(bool, m_bIsDraw, IsDraw);
 	SYNTHESIZE(Ui_Tag, m_nTag, Tag);
-	SYNTHESIZE(RECT, m_rcDraw, DrawRc);
+	SYNTHESIZE_PASS_BY_REF(RECT, m_rcDraw, DrawRc);
 	SYNTHESIZE(D3DXMATRIX, m_matS, matS);
 	SYNTHESIZE_PASS_BY_REF(ST_CLICKED, m_stClickInfo, ClickInfo);
 	SYNTHESIZE_PASS_BY_REF(ST_COLLIDER, m_stCollider, Collider);

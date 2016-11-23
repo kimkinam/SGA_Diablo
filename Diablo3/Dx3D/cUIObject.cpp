@@ -6,7 +6,7 @@
 cUIObject::cUIObject()
 	: m_vPosition(0, 0, 0)
 	, m_pParent(NULL)
-	, m_bIsDrawBorder(false)
+	, m_bIsDrawBorder(true)
 	, m_bIsDraw(true)
 	, m_nTag(Normal)
 {
@@ -55,15 +55,17 @@ void cUIObject::Update()
 
 void cUIObject::Render(LPD3DXSPRITE pSprite)
 {
+	for each(auto c in m_vecChild)
+	{
+		c->Render(pSprite);
+	}
+
 	if (!m_bIsDraw) return;
 
 	if (m_bIsDrawBorder)
 		DrawBorder();
 
-	for each(auto c in m_vecChild)
-	{
-		c->Render(pSprite);
-	}
+	
 }
 
 void cUIObject::DrawBorder()
@@ -85,7 +87,7 @@ void cUIObject::DrawBorder()
 	v.p = D3DXVECTOR4(m_matW._41 + m_stCollider.nWidth, m_matW._42, 0, 1);
 	vecVertex.push_back(v);
 
-	v.p = D3DXVECTOR4(m_matW._41 + m_stCollider.nWidth, m_matW._42 + m_stCollider.nHeight, 0, 1);
+	v.p = D3DXVECTOR4(m_matW._41 + m_stCollider.nWidth, m_matW._42 + m_stCollider.nHeight +100, 0, 1);
 	vecVertex.push_back(v);
 
 	v.p = D3DXVECTOR4(m_matW._41 + m_stCollider.nWidth, m_matW._42 + m_stCollider.nHeight, 0, 1);

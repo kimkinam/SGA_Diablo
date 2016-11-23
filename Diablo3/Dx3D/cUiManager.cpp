@@ -47,6 +47,43 @@ void cUiManager::SetUp()
 	m_pHpBar = pBackGround;
 
 
+	cUIImage* Hp_C = new cUIImage; // 체력
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
+	Hp_C->SetmatS(matS);
+	Hp_C->SetTexture("./Resources/UI/HP_C.png");
+	Hp_C->SetPosition(84, 3, 0);
+	m_pHpBar->AddChild(Hp_C);
+
+
+	cUIImage* Hp_bar = new cUIImage; // 체력 글라스
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
+	Hp_bar->SetmatS(matS);
+	Hp_bar->SetTexture("./Resources/UI/HP_G.png");
+	Hp_bar->SetPosition(84,3, 0);
+	m_pHpBar->AddChild(Hp_bar);
+
+	cUIImage* Mp_C = new cUIImage; // 마나 
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
+	Mp_C->SetmatS(matS);
+	Mp_C->SetTexture("./Resources/UI/MANA_C.png");
+	Mp_C->SetPosition(550, 3, 0);
+	m_pHpBar->AddChild(Mp_C);
+
+
+
+	cUIImage* Mp_bar = new cUIImage; // 마나 글라스
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
+	Mp_bar->SetmatS(matS);
+	Mp_bar->SetTexture("./Resources/UI/MANA_G.png");
+	Mp_bar->SetPosition(550, 3, 0);
+	m_pHpBar->AddChild(Mp_bar);
+
+	
+
 	//cUIImage* pBaba_skill_1 = new cUIImage;
 	//D3DXMatrixIdentity(&matS);
 	//D3DXMatrixScaling(&matS, 0.5f, 0.5f, 1);

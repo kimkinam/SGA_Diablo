@@ -25,7 +25,7 @@ void cUIImage::SetTexture(char * szFileName)
 	m_stCollider.nWidth = stImageInfo.Width;
 	m_stCollider.nHeight = stImageInfo.Height;
 	m_rcDraw.right = stImageInfo.Width; // 이미지의 넓이
-	m_rcDraw.bottom = stImageInfo.Height;
+	m_rcDraw.bottom = stImageInfo.Height; // 이미지 높이
 
 	m_stCollider.nWidth *= m_matS._11;
 	m_stCollider.nHeight *= m_matS._22;
