@@ -62,6 +62,8 @@ void cUiManager::SetUp()
 	D3DXMatrixScaling(&matS, 0.5f, 0.5f, 1);
 	Inven_Button->SetmatS(matS);
 	Inven_Button->SetTexture("./Resources/UI/버튼오프.png", "./Resources/UI/버튼오프.png", "./Resources/UI/버튼온.png");
+	Inven_Button->SetDelegate(this);
+	Inven_Button->SetTag(1);
 	m_pInven->AddChild(Inven_Button);
 
 	m_pInven->SetDraw(false);
@@ -140,11 +142,16 @@ void cUiManager::Update()
 	if (m_pHpBar)
 		m_pHpBar->Update();
 
-	if (g_pKeyManager->isOnceKeyDown('I'))
+	if (g_pKeyManager->isOnceKeyDown('I')) // 
 	{
 		if (!m_pInven->GetIsDraw()) m_pInven->SetDraw(true);
 		else m_pInven->SetDraw(false);
 	}
+
+	if (m_pInven->GetTag() == 1) // 버튼을 눌러서 인벤창을 닫는다
+	{
+		m_pInven->SetDraw(false);
+	}	
 }
 
 void cUiManager::Render()
@@ -214,18 +221,12 @@ bool cUiManager::InCollider(cUIObject * pUI)
 
 void cUiManager::OnClick(cUIButton * pSender)
 {
-	//cUIText* pTextUI = (cUIText*)m_pInven->FindChildByTag(2);
-	//pTextUI->SetDrawTextFormat(DT_CENTER | DT_VCENTER | DT_WORDBREAK);
-	//
-	//if (pSender->GetTag() == 3)
-	//{
-	//	pTextUI->SetText("확인");
-	//	m_pInven->SetDraw(false);
-	//}
-	//else if (pSender->GetTag() == 4)
-	//{
-	//	pTextUI->SetText("취소");
-	//	//pTextView->SetText("취소");
-	//}
-
+	/*cUIText* pTextUI = (cUIText*)m_pInven->FindChildByTag(1);
+	pTextUI->SetDrawTextFormat(DT_CENTER | DT_VCENTER | DT_WORDBREAK);
+	*/
+	if (pSender->GetTag() == 1)
+	{
+		m_pInven->SetDraw(false);
+	}
+	
 }
