@@ -39,13 +39,13 @@ void cUiManager::SetUp()
 //================= HpBar ===============================================
 
 	cUIImage* pBackGround = new cUIImage;
-	pBackGround->SetPosition(rc_win.right/5.5, rc_win.bottom/1.20, 0);
 	D3DXMatrixIdentity(&matS);
-	D3DXMatrixScaling(&matS, 1.2f, 1.0f, 1);
+	D3DXMatrixScaling(&matS, 0.5f, 0.5f, 1);
 	pBackGround->SetmatS(matS);
-	pBackGround->SetTexture("./Resources/UI/밑ui.png");
+	pBackGround->SetTexture("./Resources/UI/유아이바.png");
+	pBackGround->SetPosition(rc_win.right / 5.5, rc_win.bottom - pBackGround->GetCollider().nHeight, 0);
 	m_pHpBar = pBackGround;
-
+	
 //================= 인벤토리 창 ========================================================================
 
 	cUIImage* pInventory = new cUIImage;
@@ -142,7 +142,7 @@ void cUiManager::Update()
 	if (m_pHpBar)
 		m_pHpBar->Update();
 
-	if (g_pKeyManager->isOnceKeyDown('I')) // 
+	if (g_pKeyManager->isOnceKeyDown('I')) // 키보드  i 로 열기 
 	{
 		if (!m_pInven->GetIsDraw()) m_pInven->SetDraw(true);
 		else m_pInven->SetDraw(false);
