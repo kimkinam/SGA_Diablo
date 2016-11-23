@@ -208,7 +208,7 @@
       <Filter>Scene\Manager</Filter>
     </ClInclude>
     <ClInclude Include="cUtility.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -333,7 +333,7 @@
       <Filter>Scene\Manager</Filter>
     </ClCompile>
     <ClCompile Include="cUtility.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
