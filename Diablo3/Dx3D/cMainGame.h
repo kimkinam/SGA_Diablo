@@ -6,6 +6,8 @@ class cMainGame
 {
 private:
 	iScene*		m_pCurScene;
+	iScene*		m_pGamingScene;
+	iScene*		m_pLoadingScene;
 
 public:
 	cMainGame(void);

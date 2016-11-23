@@ -5,12 +5,17 @@
 
 
 cMainGame::cMainGame(void)
+	: m_pCurScene(NULL)
+	, m_pGamingScene(NULL)
+	, m_pLoadingScene(NULL)
 {
 }
 
 cMainGame::~cMainGame(void)
 {
 	SAFE_DELETE(m_pCurScene);
+	SAFE_DELETE(m_pGamingScene);
+	SAFE_DELETE(m_pLoadingScene);
 
 	g_pTextureManager->Destroy();
 	g_pFontManger->Destroy();
@@ -19,7 +24,10 @@ cMainGame::~cMainGame(void)
 
 void cMainGame::Setup()
 {
-	m_pCurScene = new cLoadingScene;
+	m_pLoadingScene = new cLoadingScene;
+	m_pGamingScene = new cGamingScene;
+
+	m_pCurScene = m_pGamingScene;
 	m_pCurScene->SetUp();
 
 	SetLight();
@@ -32,13 +40,7 @@ void cMainGame::Update()
 	if (m_pCurScene)
 		m_pCurScene->Update();
 
-	if (g_pKeyManager->isOnceKeyDown('G'))
-	{
-		iScene* g = new cGamingScene;
-		g->SetUp();
-
-		m_pCurScene = g;
-	}
+	
 }
 
 void cMainGame::Render()
