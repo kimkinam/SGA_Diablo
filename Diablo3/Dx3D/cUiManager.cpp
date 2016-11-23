@@ -32,11 +32,14 @@ void cUiManager::SetUp()
 {
 	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
 	D3DXMATRIXA16 matS;
+
+	RECT rc_win; // 윈도우 렉트
+	GetClientRect(g_hWnd, &rc_win);
 	
 //================= HpBar ===============================================
 
 	cUIImage* pBackGround = new cUIImage;
-	pBackGround->SetPosition(200, 440, 0);
+	pBackGround->SetPosition(rc_win.right/5.5, rc_win.bottom/1.20, 0);
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixScaling(&matS, 1.2f, 1.0f, 1);
 	pBackGround->SetmatS(matS);
@@ -46,7 +49,7 @@ void cUiManager::SetUp()
 //================= 인벤토리 창 ========================================================================
 
 	cUIImage* pInventory = new cUIImage;
-	pInventory->SetPosition(810, 0, 0);
+	pInventory->SetPosition(rc_win.right-325, 0, 0);
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixScaling(&matS, 0.54f, 0.44f, 1);
 	pInventory->SetmatS(matS);
