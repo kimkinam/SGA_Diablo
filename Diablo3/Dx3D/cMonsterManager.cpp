@@ -11,7 +11,7 @@ cMonsterManager::cMonsterManager()
 
 cMonsterManager::~cMonsterManager()
 {
-	SAFE_DELETE(m_pPlayerManager);
+	//SAFE_DELETE(m_pPlayerManager);
 }
 
 void cMonsterManager::Render()

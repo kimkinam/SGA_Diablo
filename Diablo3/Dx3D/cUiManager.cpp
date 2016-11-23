@@ -24,7 +24,7 @@ cUiManager::~cUiManager()
 	if (m_pInven)
 		m_pInven->Destroy();
 
-	SAFE_DELETE(m_pPlayerManager);
+	//SAFE_DELETE(m_pPlayerManager);
 	SAFE_RELEASE(m_pSprite);
 }
 

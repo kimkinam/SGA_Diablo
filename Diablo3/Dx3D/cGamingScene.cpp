@@ -24,6 +24,8 @@ cGamingScene::~cGamingScene()
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pMap);
 	SAFE_DELETE(m_pUIManager);
+	SAFE_DELETE(m_pPlayerManager);
+	SAFE_DELETE(m_pMonsterManager);
 }
 
 void cGamingScene::SetUp()
