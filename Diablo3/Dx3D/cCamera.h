@@ -21,7 +21,6 @@ public:
 	cCamera(void);
 	~cCamera(void);
 
-	void SetView(D3DXVECTOR3* pEye, D3DXVECTOR3* pLookAt, D3DXVECTOR3* pUp);
 
 	void Setup();
 	void Render();

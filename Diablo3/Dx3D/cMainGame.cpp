@@ -13,7 +13,6 @@ cMainGame::cMainGame(void)
 
 cMainGame::~cMainGame(void)
 {
-	SAFE_DELETE(m_pCurScene);
 	SAFE_DELETE(m_pGamingScene);
 	SAFE_DELETE(m_pLoadingScene);
 
