@@ -8,7 +8,7 @@ cUIObject::cUIObject()
 	, m_pParent(NULL)
 	, m_bIsDrawBorder(false)
 	, m_bIsDraw(true)
-	, m_nTag(0)
+	, m_nTag(Normal)
 {
 	m_stCollider = ST_COLLIDER();
 	D3DXMatrixIdentity(&m_matW);
@@ -131,7 +131,7 @@ void cUIObject::SetDraw(bool isDraw)
 	m_bIsDraw = isDraw;
 }
 
-cUIObject* cUIObject::FindChildByTag(int nTag)
+cUIObject* cUIObject::FindChildByTag(cUIObject::Ui_Tag nTag)
 {
 	if (m_nTag == nTag)
 		return this;

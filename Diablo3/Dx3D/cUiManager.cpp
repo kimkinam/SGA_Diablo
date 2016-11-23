@@ -45,6 +45,36 @@ void cUiManager::SetUp()
 	pBackGround->SetTexture("./Resources/UI/유아이바.png");
 	pBackGround->SetPosition(rc_win.right / 5.5, rc_win.bottom - pBackGround->GetCollider().nHeight, 0);
 	m_pHpBar = pBackGround;
+
+
+	//cUIImage* pBaba_skill_1 = new cUIImage;
+	//D3DXMatrixIdentity(&matS);
+	//D3DXMatrixScaling(&matS, 0.5f, 0.5f, 1);
+	//pBaba_skill_1->SetmatS(matS);
+	//Skill_FileName = "./Resources/UI/휠윈드대기.png";
+	//pBaba_skill_1->SetTexture(Skill_FileName);
+	//pBaba_skill_1->SetPosition(400, 54, 0);
+	//pBaba_skill_1->SetTag(cUIObject::Skill_1);
+	//m_pHpBar->AddChild(pBaba_skill_1);
+
+	cUIButton* pBaba_skill_1 = new cUIButton;
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.5f, 0.5f, 1);
+	pBaba_skill_1->SetmatS(matS);
+	pBaba_skill_1->SetTexture("./Resources/UI/휠윈드대기.png","./Resources/UI/휠윈드대기.png","./Resources/UI/힐윈드선택.png" );
+	pBaba_skill_1->SetPosition(400, 54, 0);
+	pBaba_skill_1->SetTag(cUIObject::Skill_1);
+	m_pHpBar->AddChild(pBaba_skill_1);
+
+	//Inven_Button->SetPosition(300, 0, 0);
+	//D3DXMatrixIdentity(&matS);
+	//D3DXMatrixScaling(&matS, 0.5f, 0.5f, 1);
+	//Inven_Button->SetmatS(matS);
+	//Inven_Button->SetTexture("./Resources/UI/버튼오프.png", "./Resources/UI/버튼오프.png", "./Resources/UI/버튼온.png");
+	//Inven_Button->SetDelegate(this);
+	//Inven_Button->SetTag(cUIObject::Button_1);
+	//m_pInven->AddChild(Inven_Button);
+
 	
 //================= 인벤토리 창 ========================================================================
 
@@ -63,7 +93,7 @@ void cUiManager::SetUp()
 	Inven_Button->SetmatS(matS);
 	Inven_Button->SetTexture("./Resources/UI/버튼오프.png", "./Resources/UI/버튼오프.png", "./Resources/UI/버튼온.png");
 	Inven_Button->SetDelegate(this);
-	Inven_Button->SetTag(1);
+	Inven_Button->SetTag(cUIObject::Button_1);
 	m_pInven->AddChild(Inven_Button);
 
 	m_pInven->SetDraw(false);
@@ -142,16 +172,33 @@ void cUiManager::Update()
 	if (m_pHpBar)
 		m_pHpBar->Update();
 
+
 	if (g_pKeyManager->isOnceKeyDown('I')) // 키보드  i 로 열기 
 	{
 		if (!m_pInven->GetIsDraw()) m_pInven->SetDraw(true);
 		else m_pInven->SetDraw(false);
 	}
 
-	if (m_pInven->GetTag() == 1) // 버튼을 눌러서 인벤창을 닫는다
-	{
-		m_pInven->SetDraw(false);
-	}	
+	
+	//if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
+	//{
+	//	cUIButton* skillBtn = (cUIButton*)m_pHpBar->FindChildByTag(cUIObject::Skill_1);
+	//	skillBtn->SetIsClick(true);
+	//	m_bIsClick = true;
+	//	if (m_emButtonState == E_OVER)
+	//		m_emButtonState = E_CLICKED;
+	//}
+	//else
+	//{
+	//	m_bIsClick = false;
+	//	if (m_emButtonState == E_CLICKED)
+	//	{
+	//		if (m_pDelegate)
+	//			m_pDelegate->OnClick(this);
+	//	}
+	//	m_emButtonState = E_OVER;
+	//}
+	
 }
 
 void cUiManager::Render()
@@ -221,12 +268,16 @@ bool cUiManager::InCollider(cUIObject * pUI)
 
 void cUiManager::OnClick(cUIButton * pSender)
 {
-	/*cUIText* pTextUI = (cUIText*)m_pInven->FindChildByTag(1);
-	pTextUI->SetDrawTextFormat(DT_CENTER | DT_VCENTER | DT_WORDBREAK);
-	*/
-	if (pSender->GetTag() == 1)
+	//cUIButton* pTextUI = (cUIButton*)m_pInven->FindChildByTag(cUIObject::Button_1);
+	
+	if (pSender->GetTag() == cUIObject::Button_1)
 	{
 		m_pInven->SetDraw(false);
+	}
+
+	if (pSender->GetTag() == cUIObject::Skill_1)
+	{
+		Skill_FileName = "./Resources/UI/휠윈드선택.png";
 	}
 	
 }

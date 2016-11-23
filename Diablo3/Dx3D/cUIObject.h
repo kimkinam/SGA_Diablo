@@ -1,8 +1,18 @@
 #pragma once
 
+
+
+
 class cUIObject 
 	: public cObject
 {
+public : 
+	enum Ui_Tag
+	{
+		Normal,
+		Skill_1, // 힐윈드
+		Button_1 // 인벤토리 엑스와이
+	};
 protected:
 	std::vector<cUIObject*>	m_vecChild;
 	D3DXMATRIXA16			m_matW;
@@ -11,7 +21,7 @@ protected:
 	SYNTHESIZE(cUIObject*, m_pParent, Parent);
 	SYNTHESIZE(bool, m_bIsDrawBorder, DrawBorder);
 	SYNTHESIZE(bool, m_bIsDraw, IsDraw);
-	SYNTHESIZE(int, m_nTag, Tag);
+	SYNTHESIZE(Ui_Tag, m_nTag, Tag);
 	SYNTHESIZE(RECT, m_rcDraw, DrawRc);
 	SYNTHESIZE(D3DXMATRIX, m_matS, matS);
 	SYNTHESIZE_PASS_BY_REF(ST_CLICKED, m_stClickInfo, ClickInfo);
@@ -30,6 +40,6 @@ public:
 	virtual void DrawBorder();
 	virtual void SetDraw(bool isDraw);
 
-	virtual cUIObject* FindChildByTag(int nTag);
+	virtual cUIObject* FindChildByTag(cUIObject::Ui_Tag nTag);
 };
 

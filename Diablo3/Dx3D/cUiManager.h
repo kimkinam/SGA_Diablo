@@ -12,6 +12,9 @@ private:
 	POINT				m_ptClickPoint;
 	cPlayerManager*		m_pPlayerManager;
 	SYNTHESIZE(bool,	m_IsClick, IsClick);
+
+
+	char* Skill_FileName;
 public:
 	cUiManager();
 	~cUiManager();
