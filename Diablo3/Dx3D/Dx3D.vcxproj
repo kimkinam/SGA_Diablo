@@ -104,6 +104,7 @@
     <ClInclude Include="cMonsterManager.h" />
     <ClInclude Include="cMtlTex.h" />
     <ClInclude Include="cNode.h" />
+    <ClInclude Include="cObj.h" />
     <ClInclude Include="cObject.h" />
     <ClInclude Include="cObjLoader.h" />
     <ClInclude Include="cObjMap.h" />
@@ -111,6 +112,7 @@
     <ClInclude Include="cPyramid.h" />
     <ClInclude Include="cRay.h" />
     <ClInclude Include="cSkinnedMesh.h" />
+    <ClInclude Include="cTestScene.h" />
     <ClInclude Include="cTextureManager.h" />
     <ClInclude Include="cTimeManager.h" />
     <ClInclude Include="cUIButton.h" />
@@ -154,6 +156,7 @@
     <ClCompile Include="cMonsterManager.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
     <ClCompile Include="cNode.cpp" />
+    <ClCompile Include="cObj.cpp" />
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="cObjLoader.cpp" />
     <ClCompile Include="cObjMap.cpp" />
@@ -161,6 +164,7 @@
     <ClCompile Include="cPyramid.cpp" />
     <ClCompile Include="cRay.cpp" />
     <ClCompile Include="cSkinnedMesh.cpp" />
+    <ClCompile Include="cTestScene.cpp" />
     <ClCompile Include="cTextureManager.cpp" />
     <ClCompile Include="cTimeManager.cpp" />
     <ClCompile Include="cUIButton.cpp" />

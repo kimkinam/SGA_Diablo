@@ -2,6 +2,7 @@
 #include "cMainGame.h"
 #include "cLoadingScene.h"
 #include "cGamingScene.h"
+#include "cTestScene.h"
 
 
 cMainGame::cMainGame(void)
@@ -15,6 +16,7 @@ cMainGame::~cMainGame(void)
 {
 	SAFE_DELETE(m_pGamingScene);
 	SAFE_DELETE(m_pLoadingScene);
+	SAFE_DELETE(m_pTestScene);
 
 	g_pTextureManager->Destroy();
 	g_pFontManger->Destroy();
@@ -24,10 +26,13 @@ cMainGame::~cMainGame(void)
 void cMainGame::Setup()
 {
 	m_pLoadingScene = new cLoadingScene;
+	m_pLoadingScene->SetUp();
 	m_pGamingScene = new cGamingScene;
+	m_pGamingScene->SetUp();
+	m_pTestScene = new cTestScene;
+	m_pTestScene->SetUp();
 
-	m_pCurScene = m_pGamingScene;
-	m_pCurScene->SetUp();
+	m_pCurScene = m_pTestScene;
 
 	SetLight();
 }
@@ -36,9 +41,20 @@ void cMainGame::Update()
 {
 	g_pTimeManager->Update();
 
+	if (g_pKeyManager->isOnceKeyDown('1'))
+	{
+		m_pCurScene = m_pTestScene;
+		//m_pCurScene->SetUp();
+	}
+	if (g_pKeyManager->isOnceKeyDown('2'))
+	{
+		m_pCurScene = m_pGamingScene;
+		//m_pCurScene->SetUp();
+	}
+		
+
 	if (m_pCurScene)
 		m_pCurScene->Update();
-
 	
 }
 
@@ -47,8 +63,8 @@ void cMainGame::Render()
 	g_pD3DDevice->Clear(NULL,
 		NULL,
 		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-		D3DCOLOR_XRGB(20, 20, 20),
-		//D3DCOLOR_XRGB(0, 0, 255),
+		//D3DCOLOR_XRGB(20, 20, 20),
+		D3DCOLOR_XRGB(200, 200, 200),
 		1.0f, 0);
 
 	g_pD3DDevice->BeginScene();

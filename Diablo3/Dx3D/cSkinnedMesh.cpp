@@ -45,11 +45,11 @@ void cSkinnedMesh::Load(char* szFolder, char* szFile)
 	//UINT a = m_pAnimController->GetMaxNumTracks();
 	//
 	//
-	LPD3DXANIMATIONSET pAS;
-	m_pAnimController->GetAnimationSet(4, &pAS);
-	m_pAnimController->SetTrackAnimationSet(0, pAS);
+	//LPD3DXANIMATIONSET pAS;
+	//m_pAnimController->GetAnimationSet(4, &pAS);
+	//m_pAnimController->SetTrackAnimationSet(0, pAS);
 
-	SAFE_RELEASE(pAS);
+	//SAFE_RELEASE(pAS);
 }
 
 void cSkinnedMesh::Update()
@@ -74,9 +74,9 @@ void cSkinnedMesh::Update()
 	m_pAnimController->AdvanceTime(g_pTimeManager->GetDeltaTime(), NULL);
 	//if (m_pRoot)
 	//{
-		Update(m_pRoot, NULL);
-		if(m_bIsPlaying)
-			UpdateSkinnedMesh(m_pRoot);
+	Update(m_pRoot, NULL);
+	if (m_bIsPlaying)
+		UpdateSkinnedMesh(m_pRoot);
 	//}
 }
 
@@ -132,7 +132,37 @@ void cSkinnedMesh::SetAnimation(int nIndex)
 	SAFE_RELEASE(pPrevAnimSet);
 	SAFE_RELEASE(pNextAnimSet);
 
-	
+
+}
+
+void cSkinnedMesh::FindFrame(char * szName, char* szFileName)
+{
+	ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)D3DXFrameFind(m_pRoot, szName)->pMeshContainer;
+	pBoneMesh->vecMtlTex[pBoneMesh->vecMtlTex.size() - 1]->SetTexture(g_pTextureManager->GetTexture(szFileName));
+}
+
+D3DXMATRIX* cSkinnedMesh::FindWithName(char * szName)
+{
+	ST_BONE* pBone = (ST_BONE*)D3DXFrameFind(m_pRoot, szName);
+	return &pBone->CombinedTransformationMatrix;
+}
+
+D3DXMATRIX* cSkinnedMesh::FindWithName(ST_BONE* pFrame, char* szName)
+{
+	if (pFrame->Name != NULL)
+	{
+		string s1 = pFrame->Name;
+		string s2 = szName;
+
+		if (s1 == s2)
+			return &pFrame->CombinedTransformationMatrix;
+	}
+
+	if (pFrame->pFrameSibling)
+		FindWithName((ST_BONE*)pFrame->pFrameSibling, szName);
+
+	if (pFrame->pFrameFirstChild)
+		FindWithName((ST_BONE*)pFrame->pFrameFirstChild, szName);
 }
 
 void cSkinnedMesh::Render(ST_BONE* pFrame, D3DXMATRIX* pMat)
@@ -148,9 +178,13 @@ void cSkinnedMesh::Render(ST_BONE* pFrame, D3DXMATRIX* pMat)
 		{
 			for (size_t i = 0; i < pBoneMesh->vecMtlTex.size(); ++i)
 			{
-				g_pD3DDevice->SetMaterial(&pBoneMesh->vecMtlTex[i]->GetMtl());
-				g_pD3DDevice->SetTexture(0, pBoneMesh->vecMtlTex[i]->GetTexture());
-				pBoneMesh->pWrkMesh->DrawSubset(i);
+				if (pBoneMesh->vecMtlTex[i]->GetTexture())
+				{
+					g_pD3DDevice->SetMaterial(&pBoneMesh->vecMtlTex[i]->GetMtl());
+					g_pD3DDevice->SetTexture(0, pBoneMesh->vecMtlTex[i]->GetTexture());
+					pBoneMesh->pWrkMesh->DrawSubset(i);
+				}
+
 			}
 			pBoneMesh = (ST_BONE_MESH*)pBoneMesh->pNextMeshContainer;
 		}

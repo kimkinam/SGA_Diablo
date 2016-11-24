@@ -81,13 +81,16 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer(THIS_ LPCSTR Name,
 		D3DMATERIAL9& stMtl = pBoneMesh->vecMtlTex[i]->GetMtl();
 		stMtl = pMaterials[i].MatD3D;
 
-		std::string sFile(pMaterials[i].pTextureFilename);
-		std::string sFullPath = sFile;
-		if (m_sFolder.length() > 0)
+		if (pMaterials[i].pTextureFilename)
 		{
-			sFullPath = m_sFolder + "/" + sFile;
+			std::string sFile(pMaterials[i].pTextureFilename);
+			std::string sFullPath = sFile;
+			if (m_sFolder.length() > 0)
+			{
+				sFullPath = m_sFolder + "/" + sFile;
+			}
+			pBoneMesh->vecMtlTex[i]->SetTexture(g_pTextureManager->GetTexture(sFullPath));
 		}
-		pBoneMesh->vecMtlTex[i]->SetTexture(g_pTextureManager->GetTexture(sFullPath));
 	}
 
 	// step 3. pSkinInfo->GetNumBones()∏¶ ≈Î«ÿ

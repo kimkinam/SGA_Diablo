@@ -1,13 +1,12 @@
 #pragma once
 
-
-
 class cMainGame
 {
 private:
 	iScene*		m_pCurScene;
 	iScene*		m_pGamingScene;
 	iScene*		m_pLoadingScene;
+	iScene*		m_pTestScene;
 
 public:
 	cMainGame(void);

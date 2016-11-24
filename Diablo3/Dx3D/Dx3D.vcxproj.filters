@@ -61,6 +61,9 @@
     <Filter Include="Scene\Manager">
       <UniqueIdentifier>{04b6c5aa-4557-4a16-ad5f-b3d94eeb9409}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\TestScene">
+      <UniqueIdentifier>{17ecfc80-9c8e-4aef-b6cc-50678891ef9c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -219,6 +222,12 @@
     <ClInclude Include="Item.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="cTestScene.h">
+      <Filter>Scene\TestScene</Filter>
+    </ClInclude>
+    <ClInclude Include="cObj.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -349,6 +358,12 @@
     </ClCompile>
     <ClCompile Include="cUIInventory.cpp">
       <Filter>Scene\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="cTestScene.cpp">
+      <Filter>Scene\TestScene</Filter>
+    </ClCompile>
+    <ClCompile Include="cObj.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
