@@ -34,7 +34,7 @@ void cTestScene::SetUp()
 	m_pMesh->Load("Zealot", "Bab2.X");
 
 	m_pSword = new cObj;
-	m_pSword->LoadFile("twohandsword.obj", "Zealot");
+	m_pSword->LoadFile("twohandsword.objobj", "Zealot");
 
 	m_pSword->SetWorldTM(m_pMesh->FindWithName("right_weapon"));
 
