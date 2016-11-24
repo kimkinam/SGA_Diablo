@@ -117,6 +117,7 @@
     <ClInclude Include="cUIImage.h" />
     <ClInclude Include="cUiManager.h" />
     <ClInclude Include="cUIObject.h" />
+    <ClInclude Include="cUISkill.h" />
     <ClInclude Include="cUIText.h" />
     <ClInclude Include="cUtility.h" />
     <ClInclude Include="Dx3D.h" />
@@ -164,6 +165,7 @@
     <ClCompile Include="cUIImage.cpp" />
     <ClCompile Include="cUiManager.cpp" />
     <ClCompile Include="cUIObject.cpp" />
+    <ClCompile Include="cUISkill.cpp" />
     <ClCompile Include="cUIText.cpp" />
     <ClCompile Include="cUtility.cpp" />
     <ClCompile Include="Dx3D.cpp" />

@@ -210,6 +210,9 @@
     <ClInclude Include="cUtility.h">
       <Filter>Utility</Filter>
     </ClInclude>
+    <ClInclude Include="cUISkill.h">
+      <Filter>Scene\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -334,6 +337,9 @@
     </ClCompile>
     <ClCompile Include="cUtility.cpp">
       <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="cUISkill.cpp">
+      <Filter>Scene\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
