@@ -40,9 +40,9 @@ void cUIImage::Render(LPD3DXSPRITE pSprite)
 	m_matW = m_matS * m_matW;
 	pSprite->SetTransform(&m_matW);
 
-	SetRect(&rc_image, 0, 0, m_rcDraw.right, m_rcDraw.bottom);
+	//SetRect(&rc_image, 0, 0, m_rcDraw.right, m_rcDraw.bottom);
 	pSprite->Draw(m_pTexture,
-		&rc_image,
+		&m_rcDraw,
 		&D3DXVECTOR3(0, 0, 0),
 		&D3DXVECTOR3(0, 0, 0),
 		D3DCOLOR_ARGB(255, 255, 255, 255));

@@ -27,14 +27,14 @@ protected:
 	D3DXMATRIXA16			m_matW;
 
 	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vPosition, Position);
+	SYNTHESIZE_PASS_BY_REF(RECT, m_rcDraw, DrawRc); // 렉트 정보 
+	SYNTHESIZE_PASS_BY_REF(ST_COLLIDER, m_stCollider, Collider);
+	SYNTHESIZE(bool, m_bIsPicked, IsPicked);
 	SYNTHESIZE(cUIObject*, m_pParent, Parent);
 	SYNTHESIZE(bool, m_bIsDrawBorder, DrawBorder);
 	SYNTHESIZE(bool, m_bIsDraw, IsDraw);
 	SYNTHESIZE(Ui_Tag, m_nTag, Tag);
-	SYNTHESIZE_PASS_BY_REF(RECT, m_rcDraw, DrawRc); // 렉트 정보 
 	SYNTHESIZE(D3DXMATRIX, m_matS, matS);
-	SYNTHESIZE_PASS_BY_REF(ST_CLICKED, m_stClickInfo, ClickInfo);
-	SYNTHESIZE_PASS_BY_REF(ST_COLLIDER, m_stCollider, Collider);
 
 	
 public:

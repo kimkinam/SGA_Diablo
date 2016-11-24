@@ -39,50 +39,7 @@ void cUiManager::SetUp()
 	
 //================= HpBar =================================================================
 
-	cUIImage* pBackGround = new cUIImage;
-	D3DXMatrixIdentity(&matS);
-	D3DXMatrixScaling(&matS, 0.5f, 0.5f, 1);
-	pBackGround->SetmatS(matS);
-	pBackGround->SetTexture("./Resources/UI/유아이바.png");
-	pBackGround->SetPosition(rc_win.right / 5.5, rc_win.bottom - pBackGround->GetCollider().nHeight, 0);
-	m_pHpBar = pBackGround;
-
-
-	cUIImage* Hp_C = new cUIImage; // 체력 구 (빨간색)
-	D3DXMatrixIdentity(&matS);
-	D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
-	Hp_C->SetmatS(matS);
-	Hp_C->SetTexture("./Resources/UI/HP_C.png");
-	Hp_C->SetPosition(rc_win.right / 3.9, rc_win.bottom/1.2 ,0);
-	HP_sphere = Hp_C;
-
-
-	cUIImage* Hp_bar = new cUIImage; // 체력 글라스
-	D3DXMatrixIdentity(&matS);
-	D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
-	Hp_bar->SetmatS(matS);
-	Hp_bar->SetTexture("./Resources/UI/HP_G.png");
-	Hp_bar->SetPosition(84,3, 0);
-	m_pHpBar->AddChild(Hp_bar);
-
-	cUIImage* Mp_C = new cUIImage; // 마나 구 (파란색)
-	D3DXMatrixIdentity(&matS);
-	D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
-	Mp_C->SetmatS(matS);
-	Mp_C->SetTexture("./Resources/UI/MANA_C.png");
-	Mp_C->SetPosition(rc_win.right / 1.5, rc_win.bottom / 1.2, 0);
-	MP_sphere = Mp_C;
-
-
-
-	cUIImage* Mp_bar = new cUIImage; // 마나 글라스
-	D3DXMatrixIdentity(&matS);
-	D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
-	Mp_bar->SetmatS(matS);
-	Mp_bar->SetTexture("./Resources/UI/MANA_G.png");
-	Mp_bar->SetPosition(550, 3, 0);
-	m_pHpBar->AddChild(Mp_bar);
-
+	SetUpHpBar(rc_win);
 	
 //================================스킬 ============================================
 	pBaba_skill_1 = new cUISkill;
@@ -127,6 +84,10 @@ void cUiManager::SetUp()
 
 
 //====================인벤토리, 상단 아이템 ===================================
+
+	Image_vec.resize(10);
+
+
 	Inven_head = new cUIImage;
 	Inven_head->SetPosition(194, 85, 0);
 	D3DXMatrixIdentity(&matS);
@@ -135,6 +96,7 @@ void cUiManager::SetUp()
 	Inven_head->SetTexture("./Resources/UI/인벤머리.png");
 	Inven_head->SetTag(cUIObject::Inven_head);
 	m_pInven->AddChild(Inven_head);
+	Image_vec.push_back(Inven_head);
 
 	Inven_shoulder = new cUIImage;
 	Inven_shoulder->SetPosition(150, 95, 0);
@@ -144,6 +106,8 @@ void cUiManager::SetUp()
 	Inven_shoulder->SetTexture("./Resources/UI/인벤어깨.png");
 	Inven_shoulder->SetTag(cUIObject::Inven_shoulder);
 	m_pInven->AddChild(Inven_shoulder);
+	Image_vec.push_back(Inven_shoulder);
+
 
 	Inven_chest = new cUIImage;
 	Inven_chest->SetPosition(190, 115, 0);
@@ -153,6 +117,7 @@ void cUiManager::SetUp()
 	Inven_chest->SetTexture("./Resources/UI/인벤갑옷.png");
 	Inven_chest->SetTag(cUIObject::Inven_chest);
 	m_pInven->AddChild(Inven_chest);
+	Image_vec.push_back(Inven_chest);
 
 	Inven_boots = new cUIImage;
 	Inven_boots->SetPosition(194, 225, 0);
@@ -162,6 +127,7 @@ void cUiManager::SetUp()
 	Inven_boots->SetTexture("./Resources/UI/인벤부츠.png");
 	Inven_boots->SetTag(cUIObject::Inven_boots);
 	m_pInven->AddChild(Inven_boots);
+	Image_vec.push_back(Inven_boots);
 
 	Inven_pants = new cUIImage;
 	Inven_pants->SetPosition(194, 184, 0);
@@ -171,6 +137,7 @@ void cUiManager::SetUp()
 	Inven_pants->SetTexture("./Resources/UI/인벤바지.png");
 	Inven_pants->SetTag(cUIObject::Inven_pants);
 	m_pInven->AddChild(Inven_pants);
+	Image_vec.push_back(Inven_pants);
 
 	Inven_belt = new cUIImage;
 	Inven_belt->SetPosition(190, 167, 0);
@@ -180,6 +147,7 @@ void cUiManager::SetUp()
 	Inven_belt->SetTexture("./Resources/UI/인벤벨트.png");
 	Inven_belt->SetTag(cUIObject::Inven_belt);
 	m_pInven->AddChild(Inven_belt);
+	Image_vec.push_back(Inven_belt);
 
 	Inven_arm = new cUIImage;
 	Inven_arm->SetPosition(136, 139, 0);
@@ -189,6 +157,7 @@ void cUiManager::SetUp()
 	Inven_arm->SetTexture("./Resources/UI/인벤팔.png");
 	Inven_arm->SetTag(cUIObject::Inven_arm);
 	m_pInven->AddChild(Inven_arm);
+	Image_vec.push_back(Inven_arm);
 
 	Inven_wrist = new cUIImage;
 	Inven_wrist->SetPosition(253, 138, 0);
@@ -198,6 +167,7 @@ void cUiManager::SetUp()
 	Inven_wrist->SetTexture("./Resources/UI/인벤손목.png");
 	Inven_wrist->SetTag(cUIObject::Inven_wrist);
 	m_pInven->AddChild(Inven_wrist);
+	Image_vec.push_back(Inven_wrist);
 
 	Inven_sword = new cUIImage;
 	Inven_sword->SetPosition(136, 207, 0);
@@ -207,6 +177,7 @@ void cUiManager::SetUp()
 	Inven_sword->SetTexture("./Resources/UI/인벤칼.png");
 	Inven_sword->SetTag(cUIObject::Inven_sword);
 	m_pInven->AddChild(Inven_sword);
+	Image_vec.push_back(Inven_sword);
 }
 
 void cUiManager::Update()
@@ -227,11 +198,21 @@ void cUiManager::Update()
 		pBaba_skill_1->Update();
 
 
+	for (int i = 0; i < Image_vec.size(); i++)
+	{
+		
+	}
+
+
 	if (g_pKeyManager->isOnceKeyDown('I')) // 키보드  i 로 열기 
 	{
 		if (!m_pInven->GetIsDraw()) m_pInven->SetDraw(true);
 		else m_pInven->SetDraw(false);
 	}
+
+
+
+
 
 	
 	//if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
@@ -331,7 +312,7 @@ bool cUiManager::InCollider(cUIObject * pUI)
 
 void cUiManager::OnClick(cUIButton * pSender)
 {
-	cUIButton* pTextUI = (cUIButton*)m_pInven->FindChildByTag(cUIObject::Button_1);
+	//cUIButton* pTextUI = (cUIButton*)m_pInven->FindChildByTag(cUIObject::Button_1);
 	
 	if (pSender->GetTag() == cUIObject::Button_1)
 	{
@@ -345,9 +326,83 @@ void cUiManager::OnClick(cUIButton * pSender)
 	
 }
 
-void cUiManager::Itemswap()
+void cUiManager::Itemswap(cUIImage* Findimage)
 {
+
+	switch (Findimage->GetTag())
+	{
+	case cUIObject::Inven_arm:
+		//Findimage->SetTexture();
+		break;
+	case cUIObject::Inven_head:
+		break;
+	case cUIObject::Inven_chest:
+		break;
+	case cUIObject::Inven_boots:
+		break;
+	case cUIObject::Inven_pants:
+		break;
+	case cUIObject::Inven_belt:
+		break;
+	case cUIObject::Inven_wrist:
+		break;
+	case cUIObject::Inven_sword:
+		break;
+	case cUIObject::Inven_shoulder:
+		break;
+	default:
+		break;
+	}
 
 }
 
+void cUiManager::SetUpHpBar(RECT rc)
+{
+	D3DXMATRIXA16 matS;
+
+	cUIImage* pBackGround = new cUIImage;
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.5f, 0.5f, 1);
+	pBackGround->SetmatS(matS);
+	pBackGround->SetTexture("./Resources/UI/유아이바.png");
+	pBackGround->SetPosition(rc.right / 5.5, rc.bottom - pBackGround->GetCollider().nHeight, 0);
+	m_pHpBar = pBackGround;
+
+
+	cUIImage* Hp_C = new cUIImage; // 체력 구 (빨간색)
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
+	Hp_C->SetmatS(matS);
+	Hp_C->SetTexture("./Resources/UI/HP_C.png");
+	Hp_C->SetPosition(rc.right / 3.9, rc.bottom / 1.2, 0);
+	HP_sphere = Hp_C;
+
+
+	cUIImage* Hp_bar = new cUIImage; // 체력 글라스
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
+	Hp_bar->SetmatS(matS);
+	Hp_bar->SetTexture("./Resources/UI/HP_G.png");
+	Hp_bar->SetPosition(84, 3, 0);
+	m_pHpBar->AddChild(Hp_bar);
+
+	cUIImage* Mp_C = new cUIImage; // 마나 구 (파란색)
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
+	Mp_C->SetmatS(matS);
+	Mp_C->SetTexture("./Resources/UI/MANA_C.png");
+	Mp_C->SetPosition(rc.right / 1.5, rc.bottom / 1.2, 0);
+	MP_sphere = Mp_C;
+
+
+
+	cUIImage* Mp_bar = new cUIImage; // 마나 글라스
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
+	Mp_bar->SetmatS(matS);
+	Mp_bar->SetTexture("./Resources/UI/MANA_G.png");
+	Mp_bar->SetPosition(550, 3, 0);
+	m_pHpBar->AddChild(Mp_bar);
+
+}
 

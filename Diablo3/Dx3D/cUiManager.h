@@ -2,6 +2,7 @@
 
 class cPlayerManager;
 class cUISkill;
+class cUIImage;
 
 class cUiManager : public iButtonDelegate
 {
@@ -35,6 +36,8 @@ private:
 	cUIImage* Inven_sword;
 	cUIImage* Inven_shoulder;
 
+
+	std::vector<cUIImage*> Image_vec;
 	//==================//
 
 
@@ -45,6 +48,7 @@ public:
 	~cUiManager();
 
 	void SetUp();
+	void SetUpHpBar(RECT rc);
 	void Update();
 	void Render();
 	
@@ -60,7 +64,8 @@ public:
 
 	virtual void OnClick(cUIButton* pSender) override;
 
-	void Itemswap();
+	void Itemswap(cUIImage* Findimage);
+	char* imageName();
 	
 };
 

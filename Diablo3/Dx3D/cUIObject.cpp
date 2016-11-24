@@ -9,10 +9,10 @@ cUIObject::cUIObject()
 	, m_bIsDrawBorder(true)
 	, m_bIsDraw(true)
 	, m_nTag(Normal)
+	, m_bIsPicked(false)
 {
 	m_stCollider = ST_COLLIDER();
 	D3DXMatrixIdentity(&m_matW);
-	m_stClickInfo = ST_CLICKED();
 }
 
 
@@ -44,13 +44,11 @@ void cUIObject::Update()
 		m_matW._43 += m_pParent->m_matW._43;
 	}
 
-	
-
 	for each(auto c in m_vecChild)
 	{
 		c->Update();
 	}
-		
+	
 }
 
 void cUIObject::Render(LPD3DXSPRITE pSprite)
