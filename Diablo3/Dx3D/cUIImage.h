@@ -4,7 +4,7 @@ class cUIImage : public cUIObject
 {
 protected:
 	LPDIRECT3DTEXTURE9		m_pTexture;
-
+	SYNTHESIZE(RECT, rc_image, Rc_iamge);
 public:
 	cUIImage();
 	virtual ~cUIImage();

@@ -4,6 +4,7 @@
 #include "cUIText.h"
 #include "cUIButton.h"
 #include "cPlayerManager.h"
+#include "cUISkill.h"
 
 cUiManager::cUiManager()
 	: m_pHpBar(NULL)
@@ -36,7 +37,7 @@ void cUiManager::SetUp()
 	RECT rc_win; // 윈도우 렉트
 	GetClientRect(g_hWnd, &rc_win);
 	
-//================= HpBar ===============================================
+//================= HpBar =================================================================
 
 	cUIImage* pBackGround = new cUIImage;
 	D3DXMatrixIdentity(&matS);
@@ -47,7 +48,7 @@ void cUiManager::SetUp()
 	m_pHpBar = pBackGround;
 
 
-	cUIImage* Hp_C = new cUIImage; // 체력
+	cUIImage* Hp_C = new cUIImage; // 체력 구 (빨간색)
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
 	Hp_C->SetmatS(matS);
@@ -64,7 +65,7 @@ void cUiManager::SetUp()
 	Hp_bar->SetPosition(84,3, 0);
 	m_pHpBar->AddChild(Hp_bar);
 
-	cUIImage* Mp_C = new cUIImage; // 마나 
+	cUIImage* Mp_C = new cUIImage; // 마나 구 (파란색)
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
 	Mp_C->SetmatS(matS);
@@ -83,25 +84,15 @@ void cUiManager::SetUp()
 	m_pHpBar->AddChild(Mp_bar);
 
 	
-
-	//cUIImage* pBaba_skill_1 = new cUIImage;
-	//D3DXMatrixIdentity(&matS);
-	//D3DXMatrixScaling(&matS, 0.5f, 0.5f, 1);
-	//pBaba_skill_1->SetmatS(matS);
-	//Skill_FileName = "./Resources/UI/휠윈드대기.png";
-	//pBaba_skill_1->SetTexture(Skill_FileName);
-	//pBaba_skill_1->SetPosition(400, 54, 0);
-	//pBaba_skill_1->SetTag(cUIObject::Skill_1);
-	//m_pHpBar->AddChild(pBaba_skill_1);
-
-	cUIButton* pBaba_skill_1 = new cUIButton;
+//================================스킬 ============================================
+	pBaba_skill_1 = new cUISkill;
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixScaling(&matS, 0.5f, 0.5f, 1);
 	pBaba_skill_1->SetmatS(matS);
-	pBaba_skill_1->SetTexture("./Resources/UI/휠윈드대기.png","./Resources/UI/휠윈드대기.png","./Resources/UI/힐윈드선택.png" );
-	pBaba_skill_1->SetPosition(400, 54, 0);
+	pBaba_skill_1->SetSkillTexture("./Resources/UI/휠윈드대기.png","./Resources/UI/힐윈드선택.png" );
+	pBaba_skill_1->SetPosition(rc_win.right / 1.87, rc_win.bottom / 1.08, 0);
 	pBaba_skill_1->SetTag(cUIObject::Skill_1);
-	m_pHpBar->AddChild(pBaba_skill_1);
+	pBaba_skill_1->SetCoolTime(3.0f);
 
 	//Inven_Button->SetPosition(300, 0, 0);
 	//D3DXMatrixIdentity(&matS);
@@ -113,7 +104,7 @@ void cUiManager::SetUp()
 	//m_pInven->AddChild(Inven_Button);
 
 	
-//================= 인벤토리 창 ========================================================================
+//================= 인벤토리 창 ===================================================
 
 	cUIImage* pInventory = new cUIImage;
 	pInventory->SetPosition(rc_win.right-325, 0, 0);
@@ -207,13 +198,16 @@ void cUiManager::Update()
 		m_pInven->Update();
 
 	if (m_pHpBar)
-		m_pHpBar->Update();
+		m_pHpBar->Update(); // UI 틀
 	
 	if (HP_sphere)
-		HP_sphere->Update();
+		HP_sphere->Update(); // HP 구
 	
 	if (MP_sphere)
-		MP_sphere->Update();
+		MP_sphere->Update(); // HP 구
+
+	if (pBaba_skill_1)
+		pBaba_skill_1->Update();
 
 
 	if (g_pKeyManager->isOnceKeyDown('I')) // 키보드  i 로 열기 
@@ -247,17 +241,22 @@ void cUiManager::Update()
 void cUiManager::Render()
 {
 
-
 	if (m_pInven)
 		m_pInven->Render(m_pSprite);
 
 	if (m_pHpBar)
-		HP_sphere->Render(m_pSprite);
+		HP_sphere->Render(m_pSprite); // 
+
 	if (m_pHpBar)
 		MP_sphere->Render(m_pSprite);
+
 	if (m_pHpBar)
 		m_pHpBar->Render(m_pSprite);
 
+	if (pBaba_skill_1)
+		pBaba_skill_1->Render(m_pSprite);
+	
+	
 }
 //
 //void cUiManager::UITranslation(cUIObject* pRoot)
@@ -328,3 +327,5 @@ void cUiManager::OnClick(cUIButton * pSender)
 	}
 	
 }
+
+

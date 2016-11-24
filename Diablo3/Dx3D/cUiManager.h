@@ -1,6 +1,7 @@
 #pragma once
 
 class cPlayerManager;
+class cUISkill;
 
 class cUiManager : public iButtonDelegate
 {
@@ -9,7 +10,7 @@ private:
 	cUIObject*			m_pInven;
 	cUIObject*			HP_sphere;
 	cUIObject*			MP_sphere;
-
+	cUISkill*			pBaba_skill_1;
 	LPD3DXSPRITE		m_pSprite;
 	POINT				m_ptClickPoint;
 	cPlayerManager*		m_pPlayerManager;
