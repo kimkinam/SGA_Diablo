@@ -91,18 +91,8 @@ void cUiManager::SetUp()
 	pBaba_skill_1->SetmatS(matS);
 	pBaba_skill_1->SetSkillTexture("./Resources/UI/휠윈드대기.png","./Resources/UI/힐윈드선택.png" );
 	pBaba_skill_1->SetPosition(rc_win.right / 1.87, rc_win.bottom / 1.08, 0);
-	pBaba_skill_1->SetTag(cUIObject::Skill_1);
+	pBaba_skill_1->SetTag(cUIObject::Skill_1); // 스킬 테그 만들어 준다 
 	pBaba_skill_1->SetCoolTime(3.0f);
-
-	//Inven_Button->SetPosition(300, 0, 0);
-	//D3DXMatrixIdentity(&matS);
-	//D3DXMatrixScaling(&matS, 0.5f, 0.5f, 1);
-	//Inven_Button->SetmatS(matS);
-	//Inven_Button->SetTexture("./Resources/UI/버튼오프.png", "./Resources/UI/버튼오프.png", "./Resources/UI/버튼온.png");
-	//Inven_Button->SetDelegate(this);
-	//Inven_Button->SetTag(cUIObject::Button_1);
-	//m_pInven->AddChild(Inven_Button);
-
 	
 //================= 인벤토리 창 ===================================================
 
@@ -111,7 +101,7 @@ void cUiManager::SetUp()
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixScaling(&matS, 0.54f, 0.44f, 1);
 	pInventory->SetmatS(matS);
-	pInventory->SetTexture("./Resources/UI/인벤토리.png");
+	pInventory->SetTexture("./Resources/UI/빈인벤.png");
 	m_pInven = pInventory;
 
 	cUIButton* Inven_Button = new cUIButton; // 인벤토리 열고닫기 (엑스)
@@ -123,73 +113,100 @@ void cUiManager::SetUp()
 	Inven_Button->SetDelegate(this);
 	Inven_Button->SetTag(cUIObject::Button_1);
 	m_pInven->AddChild(Inven_Button);
-
 	m_pInven->SetDraw(false);
 
-	//cUIImage* Item = new cUIImage;
-	//Item->SetPosition(0, 0, 0);
-	//D3DXMatrixIdentity(&matS);
-	//D3DXMatrixScaling(&matS, 0.54f, 0.44f, 1);
-	//Item->SetmatS(matS);
-	//Item->SetTexture("./UI/활.png");
-	//m_pInven->AddChild(Item);
+		/*Inven_head,
+		Inven_shoulder,
+		Inven_chest,
+		Inven_boots,
+		Inven_pants,
+		Inven_belt,
+		Inven_arm,
+		Inven_wrist
+		Inven_sword*/
 
-	/*cUIImage* pTileBar = new cUIImage;
-	pTileBar->SetPosition(100, 50, 0);
-	D3DXMatrixScaling(&matS, 0.25f, 0.3f, 1);
-	pTileBar->SetmatS(matS);
-	pTileBar->SetTexture("./UI/title-bar.jpg");
-	m_pRoot = pTileBar;
 
-	cUIImage* pBackGround = new cUIImage;
-	pBackGround->SetPosition(0, 50, 0);
+//====================인벤토리, 상단 아이템 ===================================
+	Inven_head = new cUIImage;
+	Inven_head->SetPosition(194, 85, 0);
 	D3DXMatrixIdentity(&matS);
-	D3DXMatrixScaling(&matS, 0.25f, 0.2f, 1);
-	pBackGround->SetmatS(matS);
-	pBackGround->SetTexture("./UI/background.jpg");
-	m_pRoot->AddChild(pBackGround);
+	D3DXMatrixScaling(&matS, 0.54f, 0.44f, 1);
+	Inven_head->SetmatS(matS);
+	Inven_head->SetTexture("./Resources/UI/인벤머리.png");
+	Inven_head->SetTag(cUIObject::Inven_head);
+	m_pInven->AddChild(Inven_head);
 
-	cUIImage* pQuestBox = new cUIImage;
-	pQuestBox->SetPosition(
-		pBackGround->GetCollider().nWidth / 2 - 125,
-		pBackGround->GetCollider().nHeight / 2 - 110);
+	Inven_shoulder = new cUIImage;
+	Inven_shoulder->SetPosition(150, 95, 0);
 	D3DXMatrixIdentity(&matS);
-	D3DXMatrixScaling(&matS, 0.25f, 0.2f, 1);
-	pQuestBox->SetmatS(matS);
-	pQuestBox->SetTexture("./UI/writing-area.png");
-	m_pRoot->AddChild(pQuestBox);
+	D3DXMatrixScaling(&matS, 0.54f, 0.44f, 1);
+	Inven_shoulder->SetmatS(matS);
+	Inven_shoulder->SetTexture("./Resources/UI/인벤어깨.png");
+	Inven_shoulder->SetTag(cUIObject::Inven_shoulder);
+	m_pInven->AddChild(Inven_shoulder);
 
-	cUIText* pQuestBoxText = new cUIText;
-	pQuestBoxText->SetText("퀘스트를 수행하시겠습니까?");
-	pQuestBoxText->SetFont(g_pFontManger->GetFont(cFontManager::E_NORMAL));
-	pQuestBoxText->SetPosition(10, 100);
-	pQuestBoxText->SetDrawTextFormat(DT_CENTER | DT_VCENTER | DT_WORDBREAK);
-	pQuestBoxText->SetTextColor(D3DCOLOR_XRGB(0, 0, 0));
-	pQuestBoxText->SetTag(2);
-	m_pRoot->AddChild(pQuestBoxText);
-	SAFE_RELEASE(pQuestBoxText);
-
-	cUIButton* pButton1 = new cUIButton;
-	pButton1->SetPosition(20, 350);
+	Inven_chest = new cUIImage;
+	Inven_chest->SetPosition(190, 115, 0);
 	D3DXMatrixIdentity(&matS);
-	D3DXMatrixScaling(&matS, 0.2f, 0.2f, 1);
-	pButton1->SetmatS(matS);
-	pButton1->SetTexture("./UI/bt1_none.png", "./UI/bt1_hover.png", "./UI/bt1_pressed.png");
-	pButton1->SetDelegate(this);
-	pButton1->SetTag(3);
-	m_pRoot->AddChild(pButton1);
+	D3DXMatrixScaling(&matS, 0.54f, 0.44f, 1);
+	Inven_chest->SetmatS(matS);
+	Inven_chest->SetTexture("./Resources/UI/인벤갑옷.png");
+	Inven_chest->SetTag(cUIObject::Inven_chest);
+	m_pInven->AddChild(Inven_chest);
 
-	cUIButton* pButton2 = new cUIButton;
-	pButton2->SetPosition(160, 350);
+	Inven_boots = new cUIImage;
+	Inven_boots->SetPosition(194, 225, 0);
 	D3DXMatrixIdentity(&matS);
-	D3DXMatrixScaling(&matS, 0.2f, 0.2f, 1);
-	pButton2->SetmatS(matS);
-	pButton2->SetTexture("./UI/bt2_none.png", "./UI/bt2_hover.png", "./UI/bt2_pressed.png");
-	pButton2->SetDelegate(this);
-	pButton2->SetTag(4);
-	m_pRoot->AddChild(pButton2);*/
+	D3DXMatrixScaling(&matS, 0.54f, 0.44f, 1);
+	Inven_boots->SetmatS(matS);
+	Inven_boots->SetTexture("./Resources/UI/인벤부츠.png");
+	Inven_boots->SetTag(cUIObject::Inven_boots);
+	m_pInven->AddChild(Inven_boots);
 
-	
+	Inven_pants = new cUIImage;
+	Inven_pants->SetPosition(194, 184, 0);
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.54f, 0.44f, 1);
+	Inven_pants->SetmatS(matS);
+	Inven_pants->SetTexture("./Resources/UI/인벤바지.png");
+	Inven_pants->SetTag(cUIObject::Inven_pants);
+	m_pInven->AddChild(Inven_pants);
+
+	Inven_belt = new cUIImage;
+	Inven_belt->SetPosition(190, 167, 0);
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.54f, 0.44f, 1);
+	Inven_belt->SetmatS(matS);
+	Inven_belt->SetTexture("./Resources/UI/인벤벨트.png");
+	Inven_belt->SetTag(cUIObject::Inven_belt);
+	m_pInven->AddChild(Inven_belt);
+
+	Inven_arm = new cUIImage;
+	Inven_arm->SetPosition(136, 139, 0);
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.54f, 0.44f, 1);
+	Inven_arm->SetmatS(matS);
+	Inven_arm->SetTexture("./Resources/UI/인벤팔.png");
+	Inven_arm->SetTag(cUIObject::Inven_arm);
+	m_pInven->AddChild(Inven_arm);
+
+	Inven_wrist = new cUIImage;
+	Inven_wrist->SetPosition(253, 138, 0);
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.54f, 0.44f, 1);
+	Inven_wrist->SetmatS(matS);
+	Inven_wrist->SetTexture("./Resources/UI/인벤손목.png");
+	Inven_wrist->SetTag(cUIObject::Inven_wrist);
+	m_pInven->AddChild(Inven_wrist);
+
+	Inven_sword = new cUIImage;
+	Inven_sword->SetPosition(136, 207, 0);
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.54f, 0.44f, 1);
+	Inven_sword->SetmatS(matS);
+	Inven_sword->SetTexture("./Resources/UI/인벤칼.png");
+	Inven_sword->SetTag(cUIObject::Inven_sword);
+	m_pInven->AddChild(Inven_sword);
 }
 
 void cUiManager::Update()
@@ -314,7 +331,7 @@ bool cUiManager::InCollider(cUIObject * pUI)
 
 void cUiManager::OnClick(cUIButton * pSender)
 {
-	//cUIButton* pTextUI = (cUIButton*)m_pInven->FindChildByTag(cUIObject::Button_1);
+	cUIButton* pTextUI = (cUIButton*)m_pInven->FindChildByTag(cUIObject::Button_1);
 	
 	if (pSender->GetTag() == cUIObject::Button_1)
 	{
@@ -326,6 +343,11 @@ void cUiManager::OnClick(cUIButton * pSender)
 		Skill_FileName = "./Resources/UI/휠윈드선택.png";
 	}
 	
+}
+
+void cUiManager::Itemswap()
+{
+
 }
 
 

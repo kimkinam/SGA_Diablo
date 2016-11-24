@@ -213,6 +213,9 @@
     <ClInclude Include="cUISkill.h">
       <Filter>Scene\UI</Filter>
     </ClInclude>
+    <ClInclude Include="cUIInventory.h">
+      <Filter>Scene\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -339,6 +342,9 @@
       <Filter>Utility</Filter>
     </ClCompile>
     <ClCompile Include="cUISkill.cpp">
+      <Filter>Scene\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="cUIInventory.cpp">
       <Filter>Scene\UI</Filter>
     </ClCompile>
   </ItemGroup>

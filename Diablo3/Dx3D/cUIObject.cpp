@@ -6,7 +6,7 @@
 cUIObject::cUIObject()
 	: m_vPosition(0, 0, 0)
 	, m_pParent(NULL)
-	, m_bIsDrawBorder(false)
+	, m_bIsDrawBorder(true)
 	, m_bIsDraw(true)
 	, m_nTag(Normal)
 {

@@ -16,6 +16,28 @@ private:
 	cPlayerManager*		m_pPlayerManager;
 	SYNTHESIZE(bool,	m_IsClick, IsClick);
 
+	//==인벤 무기이미지==//
+	/*	Inven_shoulder,
+		Inven_chest,
+		Inven_boots,
+		Inven_pants,
+		Inven_belt,
+		Inven_arm,
+		Inven_wrist
+		Inven_sword */
+	cUIImage* Inven_head;
+	cUIImage* Inven_chest;
+	cUIImage* Inven_boots;
+	cUIImage* Inven_pants;
+	cUIImage* Inven_belt;
+	cUIImage* Inven_arm;
+	cUIImage* Inven_wrist;
+	cUIImage* Inven_sword;
+	cUIImage* Inven_shoulder;
+
+	//==================//
+
+
 
 	char* Skill_FileName;
 public:
@@ -37,5 +59,8 @@ public:
 	bool InCollider(cUIObject* pUI);
 
 	virtual void OnClick(cUIButton* pSender) override;
+
+	void Itemswap();
+	
 };
 
