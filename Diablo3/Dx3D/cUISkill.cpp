@@ -25,6 +25,16 @@ void cUISkill::SetSkillTexture(char* szNor, char* szCtm, char* szSel)
 	m_stCollider.nHeight = sImageinfo.Height;
 	m_SvecTextur[S_Clicked] = g_pTextureManager->GetTexture(szSel, &sImageinfo);
 	m_SvecTextur[S_CoolTime] = g_pTextureManager->GetTexture(szCtm, &sImageinfo);
+
+	m_stCollider.nWidth *= m_matS._11;
+	m_stCollider.nHeight *= m_matS._22;
+}
+
+void cUISkill::Update()
+{
+	POINT pt;
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
 }
 
 void cUISkill::OnClick(cUIButton * pSender)
