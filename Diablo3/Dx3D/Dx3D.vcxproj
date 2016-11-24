@@ -115,6 +115,7 @@
     <ClInclude Include="cTimeManager.h" />
     <ClInclude Include="cUIButton.h" />
     <ClInclude Include="cUIImage.h" />
+    <ClInclude Include="cUIInventory.h" />
     <ClInclude Include="cUiManager.h" />
     <ClInclude Include="cUIObject.h" />
     <ClInclude Include="cUISkill.h" />
@@ -125,6 +126,7 @@
     <ClInclude Include="iButtonDelegate.h" />
     <ClInclude Include="iMap.h" />
     <ClInclude Include="iScene.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -163,6 +165,7 @@
     <ClCompile Include="cTimeManager.cpp" />
     <ClCompile Include="cUIButton.cpp" />
     <ClCompile Include="cUIImage.cpp" />
+    <ClCompile Include="cUIInventory.cpp" />
     <ClCompile Include="cUiManager.cpp" />
     <ClCompile Include="cUIObject.cpp" />
     <ClCompile Include="cUISkill.cpp" />

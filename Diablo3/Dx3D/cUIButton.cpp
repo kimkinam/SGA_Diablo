@@ -105,6 +105,8 @@ void cUIButton::Render(LPD3DXSPRITE pSprite)
 		D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	pSprite->End();
+
+	cUIObject::Render(pSprite);
 }
 
 void cUIButton::OnClick(cUIButton * pSender)

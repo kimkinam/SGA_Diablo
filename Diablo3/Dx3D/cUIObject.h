@@ -11,21 +11,30 @@ public :
 	{
 		Normal,
 		Skill_1, // 힐윈드
-		Button_1 // 인벤토리 엑스와이
+		Button_1, // 인벤토리 엑스와이
+		Inven_head,
+		Inven_shoulder,
+		Inven_chest,
+		Inven_boots,
+		Inven_pants,
+		Inven_belt,
+		Inven_arm,
+		Inven_wrist,
+		Inven_sword
 	};
 protected:
 	std::vector<cUIObject*>	m_vecChild;
 	D3DXMATRIXA16			m_matW;
 
 	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vPosition, Position);
+	SYNTHESIZE_PASS_BY_REF(RECT, m_rcDraw, DrawRc); // 렉트 정보 
+	SYNTHESIZE_PASS_BY_REF(ST_COLLIDER, m_stCollider, Collider);
+	SYNTHESIZE(bool, m_bIsPicked, IsPicked);
 	SYNTHESIZE(cUIObject*, m_pParent, Parent);
 	SYNTHESIZE(bool, m_bIsDrawBorder, DrawBorder);
 	SYNTHESIZE(bool, m_bIsDraw, IsDraw);
 	SYNTHESIZE(Ui_Tag, m_nTag, Tag);
-	SYNTHESIZE_PASS_BY_REF(RECT, m_rcDraw, DrawRc);
 	SYNTHESIZE(D3DXMATRIX, m_matS, matS);
-	SYNTHESIZE_PASS_BY_REF(ST_CLICKED, m_stClickInfo, ClickInfo);
-	SYNTHESIZE_PASS_BY_REF(ST_COLLIDER, m_stCollider, Collider);
 
 	
 public:

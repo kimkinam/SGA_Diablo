@@ -181,17 +181,6 @@ struct ST_COLLIDER
 	}
 };
 
-struct ST_CLICKED
-{
-	bool bIsClicked;
-	POINT ptClickedPos;
-
-	ST_CLICKED() : bIsClicked(false)
-	{
-		ptClickedPos.x = 0;
-		ptClickedPos.y = 0;
-	};
-};
 
 struct ST_SPHERE
 {
@@ -233,3 +222,7 @@ enum PLAYER_STATE
 
 //전역 클래스
 #include "cRay.h"
+
+
+//전역 해더
+#include "Item.h"

@@ -14,7 +14,7 @@ private:
 	DWORD	m_dwFrameCount;
 	DWORD	m_dwPassedFPSTime;
 
-	double	m_TotalSec;
+	SYNTHESIZE(double	,m_TotalSec,TotalSec);
 
 public:
 	void Update();
