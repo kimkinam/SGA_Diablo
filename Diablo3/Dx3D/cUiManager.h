@@ -7,6 +7,8 @@ class cUiManager : public iButtonDelegate
 private:
 	cUIObject*			m_pHpBar;
 	cUIObject*			m_pInven;
+	cUIObject*			HP_sphere;
+	cUIObject*			MP_sphere;
 
 	LPD3DXSPRITE		m_pSprite;
 	POINT				m_ptClickPoint;

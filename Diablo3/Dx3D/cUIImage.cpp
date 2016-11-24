@@ -41,7 +41,7 @@ void cUIImage::Render(LPD3DXSPRITE pSprite)
 	pSprite->SetTransform(&m_matW);
 
 	RECT rc;
-	SetRect(&rc, 0, 0, m_rcDraw.right, m_rcDraw.bottom);
+	SetRect(&rc, 0,0, m_rcDraw.right, m_rcDraw.bottom);
 	pSprite->Draw(m_pTexture,
 		&rc,
 		&D3DXVECTOR3(0, 0, 0),
@@ -51,5 +51,10 @@ void cUIImage::Render(LPD3DXSPRITE pSprite)
 	pSprite->End();
 
 	cUIObject::Render(pSprite);
+}
+
+void cUIImage::Render()
+{
+
 }
 

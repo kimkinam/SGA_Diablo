@@ -52,8 +52,8 @@ void cUiManager::SetUp()
 	D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
 	Hp_C->SetmatS(matS);
 	Hp_C->SetTexture("./Resources/UI/HP_C.png");
-	Hp_C->SetPosition(84, 3, 0);
-	m_pHpBar->AddChild(Hp_C);
+	Hp_C->SetPosition(rc_win.right / 3.9, rc_win.bottom/1.2 ,0);
+	HP_sphere = Hp_C;
 
 
 	cUIImage* Hp_bar = new cUIImage; // 체력 글라스
@@ -69,8 +69,8 @@ void cUiManager::SetUp()
 	D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
 	Mp_C->SetmatS(matS);
 	Mp_C->SetTexture("./Resources/UI/MANA_C.png");
-	Mp_C->SetPosition(550, 3, 0);
-	m_pHpBar->AddChild(Mp_C);
+	Mp_C->SetPosition(rc_win.right / 1.5, rc_win.bottom / 1.2, 0);
+	MP_sphere = Mp_C;
 
 
 
@@ -208,6 +208,12 @@ void cUiManager::Update()
 
 	if (m_pHpBar)
 		m_pHpBar->Update();
+	
+	if (HP_sphere)
+		HP_sphere->Update();
+	
+	if (MP_sphere)
+		MP_sphere->Update();
 
 
 	if (g_pKeyManager->isOnceKeyDown('I')) // 키보드  i 로 열기 
@@ -245,6 +251,10 @@ void cUiManager::Render()
 	if (m_pInven)
 		m_pInven->Render(m_pSprite);
 
+	if (m_pHpBar)
+		HP_sphere->Render(m_pSprite);
+	if (m_pHpBar)
+		MP_sphere->Render(m_pSprite);
 	if (m_pHpBar)
 		m_pHpBar->Render(m_pSprite);
 
