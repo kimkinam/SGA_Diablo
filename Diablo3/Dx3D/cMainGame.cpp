@@ -63,7 +63,7 @@ void cMainGame::Render()
 		NULL,
 		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
 		//D3DCOLOR_XRGB(20, 20, 20),
-		D3DCOLOR_XRGB(200, 200, 200),
+		D3DCOLOR_XRGB(50, 50, 50),
 		1.0f, 0);
 
 	g_pD3DDevice->BeginScene();
