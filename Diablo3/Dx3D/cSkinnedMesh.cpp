@@ -154,7 +154,7 @@ void cSkinnedMesh::Render(ST_BONE* pBone /*= NULL*/)
 			// we're pretty much ignoring the materials we got from the x-file; just set
 			// the texture here
 
-			if (!pBoneMesh->vecTexture.empty())
+			//if (!pBoneMesh->vecTexture.empty())
 				m_pEffect->SetTexture( "g_txScene", pBoneMesh->vecTexture[ pBoneCombos[ dwAttrib ].AttribId ] );
 
 			// set the current number of bones; this tells the effect which shader to use

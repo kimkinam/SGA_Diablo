@@ -4,6 +4,7 @@ class cGrid;
 class cSkinnedMesh;
 class cObj;
 class cCube;
+class cGroup;
 
 class cTestScene : public iScene
 {
@@ -13,6 +14,7 @@ private:
 	cObj*					m_pSword;
 
 	cCube*					m_pCube;
+	std::vector<cGroup*>	m_vecGroup;
 public:
 	cTestScene();
 	~cTestScene();

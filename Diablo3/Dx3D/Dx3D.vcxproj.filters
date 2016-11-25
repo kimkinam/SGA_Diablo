@@ -229,7 +229,7 @@
       <Filter>Loader\OBJ</Filter>
     </ClInclude>
     <ClInclude Include="cSkinnedMeshManager.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -369,7 +369,7 @@
       <Filter>Loader\OBJ</Filter>
     </ClCompile>
     <ClCompile Include="cSkinnedMeshManager.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

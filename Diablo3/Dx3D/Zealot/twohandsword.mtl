@@ -32,5 +32,5 @@ newmtl 01___Default
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka twoHandedSword_norm_base_06_diff.dds
-	map_Kd twoHandedSword_norm_base_06_diff.dds
+	map_Ka C:\Users\000\Desktop\Test2\Textures\twoHandedSword_norm_base_06_diff.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\twoHandedSword_norm_base_06_diff.dds

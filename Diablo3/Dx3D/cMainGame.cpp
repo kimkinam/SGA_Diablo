@@ -30,7 +30,7 @@ void cMainGame::Setup()
 	m_pGamingScene = new cGamingScene;
 	m_pTestScene = new cTestScene;
 
-	m_pCurScene = m_pGamingScene;
+	m_pCurScene = m_pTestScene;
 	m_pCurScene->SetUp();
 
 	SetLight();
