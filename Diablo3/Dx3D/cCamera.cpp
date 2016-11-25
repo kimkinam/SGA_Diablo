@@ -70,6 +70,20 @@ void cCamera::Render()
 		&rc,
 		DT_LEFT,
 		D3DCOLOR_XRGB(255, 255, 255));
+
+	RECT rc_win;
+	GetClientRect(g_hWnd, &rc_win);
+	rc = { 0, 150, 250, 200 };
+	sprintf_s(temp, "WinPos : %d, %d", rc_win.right, rc_win.bottom);
+	font->DrawText(NULL,
+		temp,
+		128,
+		&rc,
+		DT_LEFT,
+		D3DCOLOR_XRGB(255, 255, 255));
+
+
+	
 }
 
 void cCamera::Update(D3DXVECTOR3* pTarget)
