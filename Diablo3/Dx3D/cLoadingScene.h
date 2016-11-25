@@ -1,19 +1,20 @@
 #pragma once
 
 
-class cLoadingScene : public iScene
+class cLoadingScene : public cSceneObject
 {
 private:
 
 public:
 	cLoadingScene();
-	~cLoadingScene();
+	virtual ~cLoadingScene();
 
 	
 	//iScene override
-	virtual void SetUp() override;
-	virtual void Update() override;
-	virtual void Render() override;
+	virtual HRESULT SetUp()	override;
+	virtual void Release()	override;
+	virtual void Update()	override;
+	virtual void Render()	override;
 	virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;
 };
 

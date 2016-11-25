@@ -6,33 +6,28 @@
 
 
 cMainGame::cMainGame(void)
-	: m_pCurScene(NULL)
-	, m_pGamingScene(NULL)
-	, m_pLoadingScene(NULL)
 {
 }
 
 cMainGame::~cMainGame(void)
 {
-	SAFE_DELETE(m_pGamingScene);
-	SAFE_DELETE(m_pLoadingScene);
-	SAFE_DELETE(m_pTestScene);
-	SAFE_DELETE(m_pCurScene);
 
 	g_pTextureManager->Destroy();
 	g_pFontManger->Destroy();
+	g_pSceneManager->Destroy();
+	g_pSkinnedMeshManager->Destroy();
 	g_pDeviceManager->Destroy();
 }
 
 void cMainGame::Setup()
 {
-	m_pLoadingScene = new cLoadingScene;
-	m_pGamingScene = new cGamingScene;
-	m_pTestScene = new cTestScene;
+	g_pSceneManager->addScene("GamingScene", new cGamingScene);
 
-	m_pCurScene = m_pTestScene;
-	m_pCurScene->SetUp();
+	g_pSceneManager->addScene("TestScene", new cTestScene);
+	g_pSceneManager->addScene("LoadingScene", new cLoadingScene);
 
+	g_pSceneManager->changeScene("GamingScene");
+	
 	SetLight();
 }
 
@@ -40,20 +35,15 @@ void cMainGame::Update()
 {
 	g_pTimeManager->Update();
 
-	if (g_pKeyManager->isOnceKeyDown('T'))
-	{
-		m_pCurScene = m_pTestScene;
-		m_pCurScene->SetUp();
-	}
-	if (g_pKeyManager->isOnceKeyDown('G'))
-	{
-		m_pCurScene = m_pGamingScene;
-		m_pCurScene->SetUp();
-	}
-		
+	if (g_pKeyManager->isOnceKeyDown(VK_F1))
+		g_pSceneManager->changeScene("LoadingScene");
+	if (g_pKeyManager->isOnceKeyDown(VK_F2))
+		g_pSceneManager->changeScene("TestScene");
+	if (g_pKeyManager->isOnceKeyDown(VK_F3))
+		g_pSceneManager->changeScene("GamingScene");
+	
+	g_pSceneManager->Update();
 
-	if (m_pCurScene)
-		m_pCurScene->Update();
 	
 }
 
@@ -69,11 +59,26 @@ void cMainGame::Render()
 	g_pD3DDevice->BeginScene();
 
 	// 그림을 그린다.
-
-	if (m_pCurScene)
-		m_pCurScene->Render();
+	g_pSceneManager->Render();
+	//if (m_pCurScene)
+	//	m_pCurScene->Render();
 
 	g_pTimeManager->Render();
+
+	LPD3DXFONT font;
+	font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
+
+	char temp[512];
+	sprintf_s(temp, "F1 : LoadingScene\nF2 : TestScene\nF3 : GamingScene",512);
+	
+	RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 40, DEBUG_STARTX + 250, DEBUG_STARTY + 130 };
+	font->DrawText(NULL,
+		temp,
+		128,
+		&rc,
+		DT_LEFT,
+		D3DCOLOR_XRGB(255, 255, 255));
+
 
 	g_pD3DDevice->EndScene();
 
@@ -82,10 +87,9 @@ void cMainGame::Render()
 
 void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
-
-	if(m_pCurScene)
-		m_pCurScene->WndProc(hWnd, message, wParam, lParam);
-
+	g_pSceneManager->GetCurScene()->WndProc(hWnd, message, wParam, lParam);
+	//if(m_pCurScene)
+	//	m_pCurScene->WndProc(hWnd, message, wParam, lParam);
 }
 
 void cMainGame::SetLight()

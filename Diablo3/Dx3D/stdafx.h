@@ -30,6 +30,15 @@
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
 
+#define WINSIZE_X	1280//g_recWinsize.right		//초기 윈도우 가로 크기
+#define WINSIZE_Y	800//g_recWinsize.bottom		//초기 윈도우 세로 크기
+#define WINPOS_X	0			//초기 윈도우 시작 위치 X
+#define WINPOS_Y	0			//초기 윈도우 시작 위치 Y
+#define WIN_CLASS	"Unknown - BoundTool"		//윈도우 클레스 이름
+#define WIN_TITLE	"Unknown - BoundTool"		//윈도우 타이틀 이름
+#define WIN_STYLE	WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN	//윈도우 형태
+#define WIN_STYLEEX NULL
+
 extern HWND	g_hWnd;
 extern POINT g_ptMouse;
 
@@ -203,7 +212,7 @@ enum PLAYER_STATE
 
 #define DEBUG_INTERVAL 5
 #define	DEBUG_STARTX 0
-#define DEBUG_STARTY 100
+#define DEBUG_STARTY 50
 
 
 #include "cDeviceManager.h"
@@ -211,6 +220,9 @@ enum PLAYER_STATE
 #include "cTextureManager.h"
 #include "cFontManager.h"
 #include "cKeyManager.h"
+#include "cLogManager.h"
+#include "cSceneManager.h"
+#include "cSkinnedMeshManager.h"
 
 //Interface
 #include "cObject.h"
@@ -218,7 +230,7 @@ enum PLAYER_STATE
 #include "iMap.h"
 #include "cGameObject.h"
 #include "iButtonDelegate.h"
-#include "iScene.h"
+#include "cSceneObject.h"
 
 //전역 클래스
 #include "cRay.h"

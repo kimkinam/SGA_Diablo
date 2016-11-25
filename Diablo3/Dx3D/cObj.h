@@ -29,6 +29,7 @@ private:
 	std::vector<ST_GROUP*>				m_vGroup;
 	SYNTHESIZE(D3DXMATRIX*, m_matWorld, WorldTM);
 	SYNTHESIZE(std::string, m_sObjName, ObjName);
+	string								m_sPath;
 
 public:
 	cObj();
@@ -38,6 +39,7 @@ public:
 	void LoadFile(const char* fileName, const char* path);
 	void LoadMtrlFile(const char* fileName, const char* path);
 	bool StartsWith(char* str, char* beginStr);
+	string ExtractFileName(string sFullPath);
 
 };
 

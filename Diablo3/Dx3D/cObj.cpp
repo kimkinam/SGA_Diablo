@@ -5,7 +5,7 @@
 cObj::cObj()
 	: m_matWorld(NULL)
 {
-
+	m_sPath = "";
 }
 
 
@@ -19,6 +19,8 @@ cObj::~cObj()
 
 void cObj::Render()
 {
+	g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
+
 	if (m_matWorld)
 	{
 		D3DXMATRIX matR;
@@ -54,13 +56,13 @@ void cObj::LoadFile(const char * fileName, const char* path)
 	char p[1024];
 	memset(p, '\0', sizeof(path));
 
-	sprintf_s(p, "%s/%s", path, fileName);
+	sprintf_s(p, "%s%s", path, fileName);
 
 	fopen_s(&fp, p, "r");
 
-	if (fp == NULL) return;
+	assert(fp != NULL && "파일이 열리지 않았습니다.");
 
-
+	m_sPath = path;
 
 	while (!feof(fp))
 	{
@@ -199,10 +201,11 @@ void cObj::LoadMtrlFile(const char * fileName, const char* path)
 			char szTextureName[1024];
 			sscanf_s(szBuf, "%*s  %s", szTextureName, sizeof(szTextureName));
 
-			char path[1024];
-			sprintf_s(path, "%s", szTextureName);
+			// 파일의 절대경로에서 이름만 가지고 온다.
+			// 상대경로를 계산한다.
+			string relPath = m_sPath + ExtractFileName(string(szTextureName));
 
-			D3DXCreateTextureFromFile(g_pD3DDevice, path, &m_Tex);
+			D3DXCreateTextureFromFile(g_pD3DDevice, relPath.c_str(), &m_Tex);
 
 			if (!m_mMtl[szMtlName].Tex && m_Tex)
 			{
@@ -239,4 +242,27 @@ bool cObj::StartsWith(char * str, char * beginStr)
 		return true;
 
 	return false;
+}
+
+string cObj::ExtractFileName(string sFullPath)
+{
+	int lastPathIndex = 0;
+
+	// 파일 절대 경로에서 파일명만 추출한다.
+
+	//뒤에서부터 검사해서 마지막 '/'를 찾는다 / 못찾으면 -1
+	lastPathIndex = sFullPath.find_last_of('/');
+
+	//못찾았지만 혹 경로가 \\형식으로 나오게 될 경우
+	if (lastPathIndex == -1)
+		lastPathIndex = sFullPath.find_last_of('\\');
+
+	//경로가 잘못 된 경우
+	assert(lastPathIndex != -1 && "경로가 잘못 돼었습니다.");
+
+	//경로를 찾은 경우 파일명만 추출한다.
+	string path = sFullPath.substr(0, lastPathIndex + 1);
+	string fileName = sFullPath.substr(lastPathIndex + 1, sFullPath.length());
+
+	return fileName;
 }

@@ -58,11 +58,11 @@
     <Filter Include="Scene\UI">
       <UniqueIdentifier>{3a1ddccb-0d8e-4840-b306-d4875a3a2fa0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Manager">
-      <UniqueIdentifier>{04b6c5aa-4557-4a16-ad5f-b3d94eeb9409}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene\TestScene">
       <UniqueIdentifier>{17ecfc80-9c8e-4aef-b6cc-50678891ef9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\GameManagers">
+      <UniqueIdentifier>{04b6c5aa-4557-4a16-ad5f-b3d94eeb9409}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -189,9 +189,6 @@
     <ClInclude Include="cAllocateHierarchy.h">
       <Filter>Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="iScene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="cGamingScene.h">
       <Filter>Scene\GamingScene</Filter>
     </ClInclude>
@@ -199,16 +196,16 @@
       <Filter>Scene\LoadingScene</Filter>
     </ClInclude>
     <ClInclude Include="cMonsterManager.h">
-      <Filter>Scene\Manager</Filter>
+      <Filter>Scene\GameManagers</Filter>
     </ClInclude>
     <ClInclude Include="cGameManager.h">
-      <Filter>Scene\Manager</Filter>
+      <Filter>Scene\GameManagers</Filter>
     </ClInclude>
     <ClInclude Include="cUiManager.h">
-      <Filter>Scene\Manager</Filter>
+      <Filter>Scene\GameManagers</Filter>
     </ClInclude>
     <ClInclude Include="cPlayerManager.h">
-      <Filter>Scene\Manager</Filter>
+      <Filter>Scene\GameManagers</Filter>
     </ClInclude>
     <ClInclude Include="cUtility.h">
       <Filter>Utility</Filter>
@@ -230,6 +227,18 @@
     </ClInclude>
     <ClInclude Include="cSkinnedMeshManager.h">
       <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="MyUtil.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cSceneManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="cLogManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="cSceneObject.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -332,9 +341,6 @@
     <ClCompile Include="cAllocateHierarchy.cpp">
       <Filter>Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="iScene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="cGamingScene.cpp">
       <Filter>Scene\GamingScene</Filter>
     </ClCompile>
@@ -342,16 +348,16 @@
       <Filter>Scene\LoadingScene</Filter>
     </ClCompile>
     <ClCompile Include="cMonsterManager.cpp">
-      <Filter>Scene\Manager</Filter>
+      <Filter>Scene\GameManagers</Filter>
     </ClCompile>
     <ClCompile Include="cGameManager.cpp">
-      <Filter>Scene\Manager</Filter>
+      <Filter>Scene\GameManagers</Filter>
     </ClCompile>
     <ClCompile Include="cUiManager.cpp">
-      <Filter>Scene\Manager</Filter>
+      <Filter>Scene\GameManagers</Filter>
     </ClCompile>
     <ClCompile Include="cPlayerManager.cpp">
-      <Filter>Scene\Manager</Filter>
+      <Filter>Scene\GameManagers</Filter>
     </ClCompile>
     <ClCompile Include="cUtility.cpp">
       <Filter>Utility</Filter>
@@ -370,6 +376,18 @@
     </ClCompile>
     <ClCompile Include="cSkinnedMeshManager.cpp">
       <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="MyUtil.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cSceneManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="cLogManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="cSceneObject.cpp">
+      <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

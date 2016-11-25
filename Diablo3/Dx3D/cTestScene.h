@@ -4,22 +4,22 @@ class cGrid;
 class cSkinnedMesh;
 class cObj;
 class cCube;
-class cGroup;
+class cCamera;
 
-class cTestScene : public iScene
+class cTestScene : public cSceneObject
 {
 private:
 	cGrid*					m_pGrid;
 	cSkinnedMesh*			m_pMesh;
 	cObj*					m_pSword;
-
+	cCamera*				m_pCamera;
 	cCube*					m_pCube;
-	std::vector<cGroup*>	m_vecGroup;
 public:
 	cTestScene();
-	~cTestScene();
+	virtual ~cTestScene();
 
-	virtual void SetUp()	override;
+	virtual HRESULT SetUp()	override;
+	virtual void Release()	override;
 	virtual void Update()	override;
 	virtual void Render()	override;
 	virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;

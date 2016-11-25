@@ -36,7 +36,11 @@ void cUIImage::Render(LPD3DXSPRITE pSprite)
 {
 	if (!m_bIsDraw) return;
 
+	assert(pSprite != NULL && "");
+	assert(m_pTexture != NULL && "");
+
 	pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
+
 	m_matW = m_matS * m_matW;
 	pSprite->SetTransform(&m_matW);
 

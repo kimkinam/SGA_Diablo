@@ -100,6 +100,7 @@
     <ClInclude Include="cGroup.h" />
     <ClInclude Include="cKeyManager.h" />
     <ClInclude Include="cLoadingScene.h" />
+    <ClInclude Include="cLogManager.h" />
     <ClInclude Include="cMainGame.h" />
     <ClInclude Include="cMonsterManager.h" />
     <ClInclude Include="cMtlTex.h" />
@@ -111,6 +112,8 @@
     <ClInclude Include="cPlayerManager.h" />
     <ClInclude Include="cPyramid.h" />
     <ClInclude Include="cRay.h" />
+    <ClInclude Include="cSceneManager.h" />
+    <ClInclude Include="cSceneObject.h" />
     <ClInclude Include="cSkinnedMesh.h" />
     <ClInclude Include="cSkinnedMeshManager.h" />
     <ClInclude Include="cTestScene.h" />
@@ -128,8 +131,8 @@
     <ClInclude Include="iActionDelegate.h" />
     <ClInclude Include="iButtonDelegate.h" />
     <ClInclude Include="iMap.h" />
-    <ClInclude Include="iScene.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="MyUtil.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -153,6 +156,7 @@
     <ClCompile Include="cGroup.cpp" />
     <ClCompile Include="cKeyManager.cpp" />
     <ClCompile Include="cLoadingScene.cpp" />
+    <ClCompile Include="cLogManager.cpp" />
     <ClCompile Include="cMainGame.cpp" />
     <ClCompile Include="cMonsterManager.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
@@ -164,6 +168,8 @@
     <ClCompile Include="cPlayerManager.cpp" />
     <ClCompile Include="cPyramid.cpp" />
     <ClCompile Include="cRay.cpp" />
+    <ClCompile Include="cSceneManager.cpp" />
+    <ClCompile Include="cSceneObject.cpp" />
     <ClCompile Include="cSkinnedMesh.cpp" />
     <ClCompile Include="cSkinnedMeshManager.cpp" />
     <ClCompile Include="cTestScene.cpp" />
@@ -179,7 +185,7 @@
     <ClCompile Include="cUtility.cpp" />
     <ClCompile Include="Dx3D.cpp" />
     <ClCompile Include="iMap.cpp" />
-    <ClCompile Include="iScene.cpp" />
+    <ClCompile Include="MyUtil.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

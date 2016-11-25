@@ -13,9 +13,28 @@
 cTestScene::cTestScene()
 	: m_pGrid(NULL)
 	, m_pMesh(NULL)
-	, m_pSword(NULL)
+	//, m_pSword(NULL)
 	, m_pCube(NULL)
+	, m_pCamera(NULL)
 {
+	m_pCamera = new cCamera;
+	m_pCamera->Setup();
+
+	m_pGrid = new cGrid;
+	m_pGrid->Setup(30);
+
+	m_pMesh = new cSkinnedMesh("./Resources/Player/", "Bab2.X");
+	m_pMesh->SetAnimationIndex(5);
+
+	m_pSword = new cObj;
+	m_pSword->LoadFile("twohandsword.objobj", "./Resources/Obj/");
+
+	m_pSword->SetWorldTM(m_pMesh->AttachItem("right_weapon"));
+
+	//g_pLogManager->Init(LOG_WINDOW | LOG_FILE, g_hWnd, "Dump");
+
+	m_pCube = new cCube;
+	m_pCube->Setup(NULL);
 }
 
 
@@ -27,28 +46,21 @@ cTestScene::~cTestScene()
 	SAFE_DELETE(m_pMesh);
 	SAFE_DELETE(m_pSword);
 	SAFE_DELETE(m_pCube);
+
+	m_nRefCount--;
 }
 
-void cTestScene::SetUp()
+
+HRESULT cTestScene::SetUp()
 {
-	m_pGrid = new cGrid;
-	m_pGrid->Setup(30);
+	this->AddRef();
 
-	m_pMesh = new cSkinnedMesh("Zealot/", "Bab2.X");
-	m_pMesh->SetAnimationIndex(5);
+	return S_OK;
+}
 
-	m_pSword = new cObj;
-	m_pSword->LoadFile("twohandsword.obj", "Zealot");
-
-	//cObjLoader l;
-	//l.Load("./Zealot/Sword.obj", m_vecGroup);
-
-	m_pSword->SetWorldTM(m_pMesh->AttachItem("right_weapon"));
-
-	
-
-	//m_pCube = new cCube;
-	//m_pCube->Setup(NULL);
+void cTestScene::Release()
+{
+	m_nRefCount--;
 }
 
 void cTestScene::Update()
@@ -89,36 +101,43 @@ void cTestScene::Render()
 	if (m_pCamera)
 		m_pCamera->Render();
 
-
 	if (m_pMesh)
 	{
 		m_pMesh->UpdateAndRender();
 	}
 
-	g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
-
 	if (m_pSword)
 		m_pSword->Render();
-
-	
-
-	//D3DXMATRIX matT;
-	//D3DXMatrixTranslation(&matT, 1, 1, 0);
-	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matT);
-	//for each(auto p in m_vecGroup)
-	//{
-	//	p->Render();
-	//}
-
-	if (m_pCube)
-		m_pCube->Render();
-
-
 
 }
 
 void cTestScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	switch (message)
+	{
+	case WM_KEYDOWN:
+		switch (wParam)
+		{
+		case VK_ESCAPE:
+			PostMessage(hWnd, WM_DESTROY, NULL, NULL);
+			break;
+		case VK_LEFT:
+
+			break;
+		case VK_RIGHT:
+
+			break;
+		case VK_UP:
+			
+			break;
+		case VK_DOWN:
+
+			break;
+		}
+		break;
+	case WM_DESTROY:
+		PostQuitMessage(0);
+	}
 	if (m_pCamera)
 		m_pCamera->WndProc(hWnd, message, wParam, lParam);
 }

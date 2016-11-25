@@ -3,7 +3,7 @@
 class cObject
 {
 private:
-	ULONG m_nRefCount;
+	SYNTHESIZE(ULONG, m_nRefCount, RefCount);
 
 public:
 	cObject(void);

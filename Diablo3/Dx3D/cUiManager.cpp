@@ -25,6 +25,16 @@ cUiManager::~cUiManager()
 	if (m_pInven)
 		m_pInven->Destroy();
 
+	//if (HP_sphere)
+	//	HP_sphere->Destroy();
+	//
+	//if (MP_sphere)
+	//	MP_sphere->Destroy();
+
+	if (pBaba_skill_1)
+		pBaba_skill_1->Destroy();
+
+
 	//SAFE_DELETE(m_pPlayerManager);
 	SAFE_RELEASE(m_pSprite);
 }
@@ -59,6 +69,7 @@ void cUiManager::SetUp()
 	D3DXMatrixScaling(&matS, 0.54f, 0.44f, 1);
 	pInventory->SetmatS(matS);
 	pInventory->SetTexture("./Resources/UI/ºóÀÎº¥.png");
+	pInventory->AddRef();
 	m_pInven = pInventory;
 
 	cUIButton* Inven_Button = new cUIButton; // ÀÎº¥Åä¸® ¿­°í´Ý±â (¿¢½º)
@@ -178,6 +189,7 @@ void cUiManager::SetUp()
 	Inven_sword->SetTag(cUIObject::Inven_sword);
 	m_pInven->AddChild(Inven_sword);
 	Image_vec.push_back(Inven_sword);
+
 }
 
 void cUiManager::Update()
@@ -210,11 +222,6 @@ void cUiManager::Update()
 		else m_pInven->SetDraw(false);
 	}
 
-
-
-
-
-	
 	//if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
 	//{
 	//	cUIButton* skillBtn = (cUIButton*)m_pHpBar->FindChildByTag(cUIObject::Skill_1);
@@ -242,15 +249,15 @@ void cUiManager::Render()
 	if (m_pInven)
 		m_pInven->Render(m_pSprite);
 
-	if (m_pHpBar)
+	if (HP_sphere)
 		HP_sphere->Render(m_pSprite); // 
-
-	if (m_pHpBar)
+	
+	if (MP_sphere)
 		MP_sphere->Render(m_pSprite);
-
+	
 	if (m_pHpBar)
 		m_pHpBar->Render(m_pSprite);
-
+	
 	if (pBaba_skill_1)
 		pBaba_skill_1->Render(m_pSprite);
 	
