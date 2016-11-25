@@ -26,14 +26,6 @@ void cObj::Render()
 		*m_matWorld = matR * (*m_matWorld);
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, m_matWorld);
 	}
-
-	else
-	{
-		D3DXMATRIX mat;
-		D3DXMatrixIdentity(&mat);
-		D3DXMatrixTranslation(&mat, 1, 1, 0);
-		g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
-	}
 	for (size_t i = 0; i < m_vGroup.size(); ++i)
 	{
 		g_pD3DDevice->SetMaterial(&m_mMtl[m_vGroup[i]->mtlName].Mtl);
@@ -79,7 +71,6 @@ void cObj::LoadFile(const char * fileName, const char* path)
 
 			LoadMtrlFile(szMtlFileName, path);
 
-			int a = 0;
 		}
 		else if (StartsWith(szBuf, "v "))
 		{
@@ -97,7 +88,7 @@ void cObj::LoadFile(const char * fileName, const char* path)
 		{
 			float u, v;
 			sscanf_s(szBuf, "%*s %f %f %*f", &u, &v);
-			m_vecFileTexture.push_back(D3DXVECTOR2(u, 1 - v));
+			m_vecFileTexture.push_back(D3DXVECTOR2(u, 1- v));
 		}
 
 		else if (StartsWith(szBuf, "usemtl"))
@@ -200,7 +191,7 @@ void cObj::LoadMtrlFile(const char * fileName, const char* path)
 			sscanf_s(szBuf, "%*s  %s", szTextureName, sizeof(szTextureName));
 
 			char path[1024];
-			sprintf_s(path, "%s", szTextureName);
+			sprintf_s(path, "Zealot/%s", szTextureName);
 
 			D3DXCreateTextureFromFile(g_pD3DDevice, path, &m_Tex);
 
@@ -211,23 +202,23 @@ void cObj::LoadMtrlFile(const char * fileName, const char* path)
 			}
 			SAFE_RELEASE(m_Tex);
 		}
-		else if (StartsWith(szBuf, "\tmap_Ks"))
-		{
-			char szTextureName[1024];
-			sscanf_s(szBuf, "%*s  %s", szTextureName, sizeof(szTextureName));
-
-			char path[1024];
-			sprintf_s(path, "%s", szTextureName);
-
-			D3DXCreateTextureFromFile(g_pD3DDevice, path, &m_Tex);
-
-			if (!m_mMtl[szMtlName].Tex && m_Tex)
-			{
-				m_mMtl[szMtlName].Tex = m_Tex;
-				m_mMtl[szMtlName].Tex->AddRef();
-			}
-			SAFE_RELEASE(m_Tex);
-		}
+		//else if (StartsWith(szBuf, "\tmap_Ks"))
+		//{
+		//	char szTextureName[1024];
+		//	sscanf_s(szBuf, "%*s  %s", szTextureName, sizeof(szTextureName));
+		//
+		//	char path[1024];
+		//	sprintf_s(path, "%s", szTextureName);
+		//
+		//	D3DXCreateTextureFromFile(g_pD3DDevice, path, &m_Tex);
+		//
+		//	if (!m_mMtl[szMtlName].Tex && m_Tex)
+		//	{
+		//		m_mMtl[szMtlName].Tex = m_Tex;
+		//		m_mMtl[szMtlName].Tex->AddRef();
+		//	}
+		//	SAFE_RELEASE(m_Tex);
+		//}
 	}
 	fclose(fp);
 }

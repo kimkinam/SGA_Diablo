@@ -3,6 +3,7 @@
 #include "cGrid.h"
 #include "cCamera.h"
 #include "cSkinnedMesh.h"
+#include "cSkinnedMeshManager.h"
 #include "cObj.h"
 #include "cCube.h"
 
@@ -31,17 +32,18 @@ void cTestScene::SetUp()
 	m_pGrid = new cGrid;
 	m_pGrid->Setup(30);
 
-	m_pMesh = new cSkinnedMesh;
-	m_pMesh->SetIsPlaying(true);
-
-	m_pMesh->Load("Zealot", "Bab2.X");
+	m_pMesh = new cSkinnedMesh("Zealot/", "Bab2.X");
+	m_pMesh->SetAnimationIndex(4);
 
 	m_pSword = new cObj;
-	m_pSword->LoadFile("twohandsword.objobj", "Zealot");
+	m_pSword->LoadFile("Sword.obj", "Zealot");
 
-	m_pSword->SetWorldTM(m_pMesh->FindWithName("right_weapon"));
+	m_pSword->SetWorldTM(m_pMesh->AttachItem("right_weapon"));
 
+	
 
+	//m_pCube = new cCube;
+	//m_pCube->Setup(NULL);
 }
 
 void cTestScene::Update()
@@ -53,28 +55,25 @@ void cTestScene::Update()
 
 	if (g_pKeyManager->isOnceKeyDown('1'))
 	{
-		m_pMesh->FindFrame("Barb_M_MED_Gloves", "./Zealot/Barb_M_MED_Norm_Base_B_diff.dds");
+		m_pMesh->ChangeItem("Barb_M_MED_Gloves", "./Zealot/Barb_M_MED_Norm_Base_B_diff.dds");
 	}
 	if (g_pKeyManager->isOnceKeyDown('2'))
 	{
-		m_pMesh->FindFrame("Barb_M_MED_Pants", "./Zealot/Barb_M_MED_Norm_Base_B_diff.dds");
+		m_pMesh->ChangeItem("Barb_M_MED_Pants", "./Zealot/Barb_M_MED_Norm_Base_B_diff.dds");
 	}
 	if (g_pKeyManager->isOnceKeyDown('3'))
 	{
-		m_pMesh->FindFrame("Barb_M_MED_Cloth", "./Zealot/Barb_M_MED_Norm_Base_B_diff.dds");
+		m_pMesh->ChangeItem("Barb_M_MED_Cloth", "./Zealot/Barb_M_MED_Norm_Base_B_diff.dds");
 	}
 	if (g_pKeyManager->isOnceKeyDown('4'))
 	{
-		m_pMesh->FindFrame("Barb_M_MED_Armor", "./Zealot/Barb_M_MED_Norm_Base_B_diff.dds");
+		m_pMesh->ChangeItem("Barb_M_MED_Armor", "./Zealot/Barb_M_MED_Norm_Base_B_diff.dds");
 	}
 	if (g_pKeyManager->isOnceKeyDown('5'))
 	{
-		m_pMesh->FindFrame("Barb_M_MED_Boots", "./Zealot/Barb_M_MED_Norm_Base_B_diff.dds");
+		m_pMesh->ChangeItem("Barb_M_MED_Boots", "./Zealot/Barb_M_MED_Norm_Base_B_diff.dds");
 	}
-	if (m_pMesh)
-	{
-		m_pMesh->Update();
-	}
+	
 }
 
 void cTestScene::Render()
@@ -85,9 +84,16 @@ void cTestScene::Render()
 	if (m_pCamera)
 		m_pCamera->Render();
 
-	if (m_pMesh)
-		m_pMesh->Render();
 
+	if (m_pMesh)
+	{
+		m_pMesh->UpdateAndRender();
+	}
+
+	if (m_pCube)
+		m_pCube->Render();
+
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	m_pSword->Render();
 
 }
