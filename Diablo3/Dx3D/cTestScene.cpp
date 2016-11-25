@@ -4,12 +4,14 @@
 #include "cCamera.h"
 #include "cSkinnedMesh.h"
 #include "cObj.h"
+#include "cCube.h"
 
 
 cTestScene::cTestScene()
 	: m_pGrid(NULL)
 	, m_pMesh(NULL)
 	, m_pSword(NULL)
+	, m_pCube(NULL)
 {
 }
 
@@ -21,6 +23,7 @@ cTestScene::~cTestScene()
 
 	SAFE_DELETE(m_pMesh);
 	SAFE_DELETE(m_pSword);
+	SAFE_DELETE(m_pCube);
 }
 
 void cTestScene::SetUp()
@@ -38,7 +41,6 @@ void cTestScene::SetUp()
 
 	m_pSword->SetWorldTM(m_pMesh->FindWithName("right_weapon"));
 
-	int a = 0;
 
 }
 

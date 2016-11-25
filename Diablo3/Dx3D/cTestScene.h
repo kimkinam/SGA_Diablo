@@ -3,6 +3,7 @@
 class cGrid;
 class cSkinnedMesh;
 class cObj;
+class cCube;
 
 class cTestScene : public iScene
 {
@@ -11,6 +12,7 @@ private:
 	cSkinnedMesh*			m_pMesh;
 	cObj*					m_pSword;
 
+	cCube*					m_pCube;
 public:
 	cTestScene();
 	~cTestScene();

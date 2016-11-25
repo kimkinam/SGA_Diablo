@@ -48,6 +48,7 @@ void cGamingScene::SetUp()
 }
 
 
+
 void cGamingScene::Update()
 {
 	if (m_pUIManager)

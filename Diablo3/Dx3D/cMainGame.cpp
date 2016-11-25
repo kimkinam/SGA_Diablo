@@ -17,6 +17,7 @@ cMainGame::~cMainGame(void)
 	SAFE_DELETE(m_pGamingScene);
 	SAFE_DELETE(m_pLoadingScene);
 	SAFE_DELETE(m_pTestScene);
+	SAFE_DELETE(m_pCurScene);
 
 	g_pTextureManager->Destroy();
 	g_pFontManger->Destroy();
@@ -26,13 +27,11 @@ cMainGame::~cMainGame(void)
 void cMainGame::Setup()
 {
 	m_pLoadingScene = new cLoadingScene;
-	m_pLoadingScene->SetUp();
 	m_pGamingScene = new cGamingScene;
-	m_pGamingScene->SetUp();
 	m_pTestScene = new cTestScene;
-	m_pTestScene->SetUp();
 
-	m_pCurScene = m_pTestScene;
+	m_pCurScene = m_pGamingScene;
+	m_pCurScene->SetUp();
 
 	SetLight();
 }
@@ -41,15 +40,15 @@ void cMainGame::Update()
 {
 	g_pTimeManager->Update();
 
-	if (g_pKeyManager->isOnceKeyDown('1'))
+	if (g_pKeyManager->isOnceKeyDown('T'))
 	{
 		m_pCurScene = m_pTestScene;
-		//m_pCurScene->SetUp();
+		m_pCurScene->SetUp();
 	}
-	if (g_pKeyManager->isOnceKeyDown('2'))
+	if (g_pKeyManager->isOnceKeyDown('G'))
 	{
 		m_pCurScene = m_pGamingScene;
-		//m_pCurScene->SetUp();
+		m_pCurScene->SetUp();
 	}
 		
 
