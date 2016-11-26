@@ -147,9 +147,6 @@
     <ClInclude Include="cAction.h">
       <Filter>Scene\GamingScene\Action</Filter>
     </ClInclude>
-    <ClInclude Include="cObjMap.h">
-      <Filter>Loader\Map</Filter>
-    </ClInclude>
     <ClInclude Include="iMap.h">
       <Filter>Loader\Map</Filter>
     </ClInclude>
@@ -301,9 +298,6 @@
     </ClCompile>
     <ClCompile Include="cAction.cpp">
       <Filter>Scene\GamingScene\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="cObjMap.cpp">
-      <Filter>Loader\Map</Filter>
     </ClCompile>
     <ClCompile Include="iMap.cpp">
       <Filter>Loader\Map</Filter>

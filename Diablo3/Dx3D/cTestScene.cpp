@@ -8,13 +8,13 @@
 #include "cObjLoader.h"
 #include "cCube.h"
 #include "cGroup.h"
+#include "cMtlTex.h"
 
 
 cTestScene::cTestScene()
 	: m_pGrid(NULL)
 	, m_pMesh(NULL)
-	//, m_pSword(NULL)
-	, m_pCube(NULL)
+	, m_pSword(NULL)
 	, m_pCamera(NULL)
 {
 	m_pCamera = new cCamera;
@@ -23,18 +23,19 @@ cTestScene::cTestScene()
 	m_pGrid = new cGrid;
 	m_pGrid->Setup(30);
 
+	//¹Ù¹Ù
 	m_pMesh = new cSkinnedMesh("./Resources/Player/", "Bab2.X");
 	m_pMesh->SetAnimationIndex(5);
 
+	//Ä®
 	m_pSword = new cObj;
-	m_pSword->LoadFile("twohandsword.objobj", "./Resources/Obj/");
+	m_pSword->SetUp("twohandsword.objobj", "./Resources/Obj/");
 
 	m_pSword->SetWorldTM(m_pMesh->AttachItem("right_weapon"));
 
-	//g_pLogManager->Init(LOG_WINDOW | LOG_FILE, g_hWnd, "Dump");
-
-	m_pCube = new cCube;
-	m_pCube->Setup(NULL);
+	//¸Ê
+	m_pMap = new cObj;
+	m_pMap->SetUp("a1dun_01.objobj", "./Resources/Obj/");
 }
 
 
@@ -45,7 +46,7 @@ cTestScene::~cTestScene()
 
 	SAFE_DELETE(m_pMesh);
 	SAFE_DELETE(m_pSword);
-	SAFE_DELETE(m_pCube);
+	SAFE_DELETE(m_pMap);
 
 	m_nRefCount--;
 }
@@ -72,7 +73,7 @@ void cTestScene::Update()
 
 	//if (g_pKeyManager->isOnceKeyDown('1'))
 	//{
-	//	m_pMesh->ChangeItem("Barb_M_MED_Gloves", "./Zealot/Barb_M_MED_Norm_Base_B_diff.dds");
+	//	m_pMesh->ChangeItem("Barb_M_MED_Gloves", "./Resources/Player/Barb_M_MED_Norm_Base_B_diff.dds");
 	//}
 	//if (g_pKeyManager->isOnceKeyDown('2'))
 	//{
@@ -105,9 +106,16 @@ void cTestScene::Render()
 	{
 		m_pMesh->UpdateAndRender();
 	}
-
+	
 	if (m_pSword)
 		m_pSword->Render();
+
+	D3DXMATRIX mat;
+	D3DXMatrixScaling(&mat, 0.1f, 0.1f, 0.1f);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
+	if (m_pMap)
+		m_pMap->Render();
+
 
 }
 

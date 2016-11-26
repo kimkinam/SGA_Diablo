@@ -3,8 +3,8 @@
 class cGrid;
 class cSkinnedMesh;
 class cObj;
-class cCube;
 class cCamera;
+class cMtlTex;
 
 class cTestScene : public cSceneObject
 {
@@ -12,8 +12,8 @@ private:
 	cGrid*					m_pGrid;
 	cSkinnedMesh*			m_pMesh;
 	cObj*					m_pSword;
+	cObj*					m_pMap;
 	cCamera*				m_pCamera;
-	cCube*					m_pCube;
 public:
 	cTestScene();
 	virtual ~cTestScene();

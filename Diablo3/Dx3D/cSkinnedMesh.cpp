@@ -326,7 +326,7 @@ D3DXMATRIX * cSkinnedMesh::AttachItem(char * szFileName)
 
 void cSkinnedMesh::ChangeItem(char * szName, char * szFileName)
 {
-	ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)D3DXFrameFind(m_pRootFrame, szFileName)->pMeshContainer;
+	ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)D3DXFrameFind(m_pRootFrame, szName)->pMeshContainer;
 	pBoneMesh->vecTexture[pBoneMesh->vecTexture.size() - 1] = g_pTextureManager->GetTexture(szFileName);
 }
 
