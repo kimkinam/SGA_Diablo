@@ -19,6 +19,8 @@ struct ST_BONE_MESH : public D3DXMESHCONTAINER
 	DWORD					dwMaxNumFaceInfls;
 	DWORD					dwNumAttrGroups;
 	LPD3DXBUFFER			pBufBoneCombos;
+
+	ST_ITEM					ItemType;
 };
 
 class cAllocateHierarchy : public ID3DXAllocateHierarchy

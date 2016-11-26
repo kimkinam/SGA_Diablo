@@ -24,7 +24,7 @@ cTestScene::cTestScene()
 	m_pGrid->Setup(30);
 
 	//¹Ù¹Ù
-	m_pMesh = new cSkinnedMesh("./Resources/Player/", "Bab2.X");
+	m_pMesh = new cSkinnedMesh("./Resources/Player/", "Bab1.X");
 	m_pMesh->SetAnimationIndex(5);
 
 	//Ä®
@@ -71,26 +71,26 @@ void cTestScene::Update()
 		m_pCamera->Update(NULL);
 	}
 
-	//if (g_pKeyManager->isOnceKeyDown('1'))
-	//{
-	//	m_pMesh->ChangeItem("Barb_M_MED_Gloves", "./Resources/Player/Barb_M_MED_Norm_Base_B_diff.dds");
-	//}
-	//if (g_pKeyManager->isOnceKeyDown('2'))
-	//{
-	//	m_pMesh->ChangeItem("Barb_M_MED_Pants", "./Zealot/Barb_M_MED_Norm_Base_B_diff.dds");
-	//}
-	//if (g_pKeyManager->isOnceKeyDown('3'))
-	//{
-	//	m_pMesh->ChangeItem("Barb_M_MED_Cloth", "./Zealot/Barb_M_MED_Norm_Base_B_diff.dds");
-	//}
-	//if (g_pKeyManager->isOnceKeyDown('4'))
-	//{
-	//	m_pMesh->ChangeItem("Barb_M_MED_Armor", "./Zealot/Barb_M_MED_Norm_Base_B_diff.dds");
-	//}
-	//if (g_pKeyManager->isOnceKeyDown('5'))
-	//{
-	//	m_pMesh->ChangeItem("Barb_M_MED_Boots", "./Zealot/Barb_M_MED_Norm_Base_B_diff.dds");
-	//}
+	if (g_pKeyManager->isOnceKeyDown('1'))
+	{
+		m_pMesh->ChangeItem("Barb_M_MED_Gloves", "./Resources/Player/Barb_M_MED_Norm_Base_B_diff.dds");
+	}
+	if (g_pKeyManager->isOnceKeyDown('2'))
+	{
+		m_pMesh->ChangeItem("Barb_M_MED_Pants", "./Resources/Player/Barb_M_MED_Norm_Base_B_diff.dds");
+	}
+	if (g_pKeyManager->isOnceKeyDown('3'))
+	{
+		m_pMesh->ChangeItem("Barb_M_MED_Cloth", "./Resources/Player/Barb_M_MED_Norm_Base_B_diff.dds");
+	}
+	if (g_pKeyManager->isOnceKeyDown('4'))
+	{
+		m_pMesh->ChangeItem("Barb_M_MED_Armor", "./Resources/Player/Barb_M_MED_Norm_Base_B_diff.dds");
+	}
+	if (g_pKeyManager->isOnceKeyDown('5'))
+	{
+		m_pMesh->ChangeItem("Barb_M_MED_Boots", "./Resources/Player/Barb_M_MED_Norm_Base_B_diff.dds");
+	}
 	
 }
 
