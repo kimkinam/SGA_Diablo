@@ -21,6 +21,8 @@ private:
 
 	//오브젝트 벡터
 	std::vector<cObj*>			m_vecObj;
+	std::vector<cObj*>			m_vecMap;
+	
 
 	//맵 위치 정할 타일
 	std::vector<ST_PC_VERTEX>	m_vecTiles;
@@ -28,6 +30,7 @@ private:
 
 	//UI
 	LPD3DXSPRITE				m_pSprite;
+	std::vector<cUIObject*>		m_vecObjUI;
 	cUIObject*					m_pUIRoot;
 public:
 	cTestScene();
@@ -42,6 +45,9 @@ public:
 
 	//iButtonDelegate override
 	virtual void OnClick(cUIButton* pSender) override;
+
+	bool InCollider(cUIObject * pUI);
+	
 
 };
 
