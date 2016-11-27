@@ -121,6 +121,7 @@
     <ClInclude Include="cUIButton.h" />
     <ClInclude Include="cUIImage.h" />
     <ClInclude Include="cUIInventory.h" />
+    <ClInclude Include="cUIItem.h" />
     <ClInclude Include="cUiManager.h" />
     <ClInclude Include="cUIObject.h" />
     <ClInclude Include="cUISkill.h" />
@@ -176,6 +177,7 @@
     <ClCompile Include="cUIButton.cpp" />
     <ClCompile Include="cUIImage.cpp" />
     <ClCompile Include="cUIInventory.cpp" />
+    <ClCompile Include="cUIItem.cpp" />
     <ClCompile Include="cUiManager.cpp" />
     <ClCompile Include="cUIObject.cpp" />
     <ClCompile Include="cUISkill.cpp" />

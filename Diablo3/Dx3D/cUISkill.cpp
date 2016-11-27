@@ -21,7 +21,7 @@ cUISkill::~cUISkill()
 
 void cUISkill::SetSkillTexture(char* szNor,char* szSel)
 {
-	m_SvecTextur.resize(3);
+	m_SvecTextur.resize(2);
 	D3DXIMAGE_INFO sImageinfo;
 	m_SvecTextur[S_normal] = g_pTextureManager->GetTexture(szNor, &sImageinfo);
 	m_stCollider.nWidth = sImageinfo.Width;
