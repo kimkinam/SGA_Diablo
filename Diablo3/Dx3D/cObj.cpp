@@ -7,6 +7,7 @@
 cObj::cObj()
 	: m_matWorld(NULL)
 	, m_pMesh(NULL)
+	, m_vPosition(0, 0, 0)
 {
 }
 
@@ -37,10 +38,22 @@ void cObj::Render()
 	{
 		D3DXMATRIX matR;
 		D3DXMatrixRotationX(&matR, D3DXToRadian(180));
+		
 		*m_matWorld = matR * (*m_matWorld);
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, m_matWorld);
 	}
+	else
+	{
+		D3DXMATRIX matS, matR, matT, matW;
+		D3DXMatrixScaling(&matS, 0.5f, 0.5f, 0.5f);
+		D3DXMatrixRotationY(&matR, D3DXToRadian(90));
+		D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+		matW = matS * matR * matT;
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matW);
 
+		
+		//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matT);
+	}
 		
 
 	if (m_pMesh)
