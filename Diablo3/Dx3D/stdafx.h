@@ -210,6 +210,8 @@ enum PLAYER_STATE
 };
 
 
+
+
 #define DEBUG_INTERVAL 5
 #define	DEBUG_STARTX 0
 #define DEBUG_STARTY 50

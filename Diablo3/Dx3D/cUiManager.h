@@ -3,10 +3,12 @@
 class cPlayerManager;
 class cUISkill;
 class cUIImage;
+class cInventory;
 
 class cUiManager : public iButtonDelegate
 {
 private:
+	cInventory*			Inventory;
 	cUIObject*			m_pHpBar;
 	cUIObject*			m_pInven;
 	cUIObject*			HP_sphere;

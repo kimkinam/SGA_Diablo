@@ -30,6 +30,7 @@ void cUIImage::SetTexture(char * szFileName)
 	m_stCollider.nWidth *= m_matS._11;
 	m_stCollider.nHeight *= m_matS._22;
 
+	int a = 0;
 }
 
 void cUIImage::Render(LPD3DXSPRITE pSprite)
@@ -56,8 +57,5 @@ void cUIImage::Render(LPD3DXSPRITE pSprite)
 	cUIObject::Render(pSprite);
 }
 
-void cUIImage::Render()
-{
 
-}
 

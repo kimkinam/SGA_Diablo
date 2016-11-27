@@ -30,6 +30,7 @@ protected:
 	SYNTHESIZE_PASS_BY_REF(RECT, m_rcDraw, DrawRc); // 렉트 정보 
 	SYNTHESIZE_PASS_BY_REF(ST_COLLIDER, m_stCollider, Collider);
 	SYNTHESIZE(bool, m_bIsPicked, IsPicked);
+	SYNTHESIZE(bool, m_Isempty, IsEmpty);
 	SYNTHESIZE(cUIObject*, m_pParent, Parent);
 	SYNTHESIZE(bool, m_bIsDrawBorder, DrawBorder);
 	SYNTHESIZE(bool, m_bIsDraw, IsDraw);
