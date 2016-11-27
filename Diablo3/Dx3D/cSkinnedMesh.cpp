@@ -108,7 +108,8 @@ void cSkinnedMesh::Render(ST_BONE* pBone /*= NULL*/)
 	if (pBone->pMeshContainer)
 	{
 		ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)pBone->pMeshContainer;
-
+		
+		
 		// get bone combinations
 		LPD3DXBONECOMBINATION pBoneCombos =
 			(LPD3DXBONECOMBINATION)(pBoneMesh->pBufBoneCombos->GetBufferPointer());
@@ -165,15 +166,19 @@ void cSkinnedMesh::Render(ST_BONE* pBone /*= NULL*/)
 
 			UINT uiPasses, uiPass;
 
-			// run through each pass and draw
-			m_pEffect->Begin(&uiPasses, 0);
-			for (uiPass = 0; uiPass < uiPasses; ++uiPass)
+			if (!pBoneMesh->vecTexture.empty())
 			{
-				m_pEffect->BeginPass(uiPass);
-				pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
-				m_pEffect->EndPass();
+				// run through each pass and draw
+				m_pEffect->Begin(&uiPasses, 0);
+				for (uiPass = 0; uiPass < uiPasses; ++uiPass)
+				{
+					m_pEffect->BeginPass(uiPass);
+					pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
+					m_pEffect->EndPass();
+				}
+				m_pEffect->End();
 			}
-			m_pEffect->End();
+			
 		}
 	}
 
@@ -326,8 +331,9 @@ D3DXMATRIX * cSkinnedMesh::AttachItem(char * szFileName)
 
 void cSkinnedMesh::ChangeItem(char * szName, char * szFileName)
 {
-	ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)D3DXFrameFind(m_pRootFrame, szFileName)->pMeshContainer;
-	pBoneMesh->vecTexture[pBoneMesh->vecTexture.size() - 1] = g_pTextureManager->GetTexture(szFileName);
+	ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)D3DXFrameFind(m_pRootFrame, szName)->pMeshContainer;
+	pBoneMesh->vecTexture.resize(pBoneMesh->vecTexture.size() + 1);
+	pBoneMesh->vecTexture[pBoneMesh->vecTexture.size()-1] = g_pTextureManager->GetTexture(szFileName);
 }
 
 void cSkinnedMesh::Destroy()

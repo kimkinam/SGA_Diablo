@@ -12,7 +12,7 @@ private:
 	cUIObject*			HP_sphere;
 	cUIObject*			MP_sphere;
 	cUISkill*			pBaba_skill_1;
-	LPD3DXSPRITE		m_pSprite;
+	SYNTHESIZE(LPD3DXSPRITE, m_pSprite, Sprite);
 	POINT				m_ptClickPoint;
 	cPlayerManager*		m_pPlayerManager;
 	SYNTHESIZE(bool,	m_IsClick, IsClick);

@@ -14,22 +14,11 @@ cGamingScene::cGamingScene()
 	, m_pUIManager(NULL)
 	, m_pMonsterManager(NULL)
 	, m_pPlayerManager(NULL)
+	, m_pCamera(NULL)
 {
-}
+	m_pCamera = new cCamera;
+	m_pCamera->Setup();
 
-
-cGamingScene::~cGamingScene()
-{
-	SAFE_DELETE(m_pCamera);
-	SAFE_DELETE(m_pGrid);
-	SAFE_DELETE(m_pMap);
-	SAFE_DELETE(m_pUIManager);
-	SAFE_DELETE(m_pPlayerManager);
-	SAFE_DELETE(m_pMonsterManager);
-}
-
-void cGamingScene::SetUp()
-{
 	m_pGrid = new cGrid;
 	m_pGrid->Setup(30);
 
@@ -48,6 +37,32 @@ void cGamingScene::SetUp()
 }
 
 
+cGamingScene::~cGamingScene()
+{
+	SAFE_DELETE(m_pCamera);
+	SAFE_DELETE(m_pGrid);
+	SAFE_DELETE(m_pMap);
+	SAFE_DELETE(m_pUIManager);
+	SAFE_DELETE(m_pPlayerManager);
+
+	m_nRefCount--;
+}
+
+HRESULT cGamingScene::SetUp()
+{
+	
+	this->AddRef();
+
+
+	return S_OK;
+}
+
+void cGamingScene::Release()
+{
+	m_nRefCount--;
+
+	//cObject::Release();
+}
 
 void cGamingScene::Update()
 {
