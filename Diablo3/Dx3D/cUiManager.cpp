@@ -121,9 +121,9 @@ void cUiManager::SetUp()
 
 
 	Inven_chest = new cUIImage;
-	Inven_chest->SetPosition(190, 115, 0);
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixScaling(&matS, 0.54f, 0.44f, 1);
+	Inven_chest->SetPosition(190, 115, 0);
 	Inven_chest->SetmatS(matS);
 	Inven_chest->SetTexture("./Resources/UI/ÀÎº¥°©¿Ê.png");
 	Inven_chest->SetTag(cUIObject::Inven_chest);
@@ -189,6 +189,11 @@ void cUiManager::SetUp()
 	Inven_sword->SetTag(cUIObject::Inven_sword);
 	m_pInven->AddChild(Inven_sword);
 	Image_vec.push_back(Inven_sword);
+
+	ST_PLAYET_STAT plusStat(1, 1, 1, 1);
+	ST_ITEM temp(E_ITEM::ITEM_ACCESS, "111", plusStat);
+
+	int a = 0;
 
 }
 
@@ -378,10 +383,10 @@ void cUiManager::SetUpHpBar(RECT rc)
 
 	cUIImage* Hp_C = new cUIImage; // Ã¼·Â ±¸ (»¡°£»ö)
 	D3DXMatrixIdentity(&matS);
-	D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
+	D3DXMatrixScaling(&matS, 0.485f, 0.485f, 1);
 	Hp_C->SetmatS(matS);
 	Hp_C->SetTexture("./Resources/UI/HP_C.png");
-	Hp_C->SetPosition(rc.right / 3.9, rc.bottom / 1.2, 0);
+	Hp_C->SetPosition(rc.right / 3.94, rc.bottom / 1.2, 0);
 	HP_sphere = Hp_C;
 
 
