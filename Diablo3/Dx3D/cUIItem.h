@@ -18,7 +18,7 @@ public:
 private:
 	RECT				rc_item;
 	Item_state			item_state;
-	ST_PLAYET_STAT      ST_player_stat;
+	ST_PLUS_STAT      ST_player_stat;
 	LPDIRECT3DTEXTURE9 Item_img;
 	D3DXIMAGE_INFO Item_img_info;
 

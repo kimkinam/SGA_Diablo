@@ -190,10 +190,7 @@ void cUiManager::SetUp()
 	m_pInven->AddChild(Inven_sword);
 	Image_vec.push_back(Inven_sword);
 
-	ST_PLAYET_STAT plusStat(1, 1, 1, 1);
-	ST_ITEM temp(E_ITEM::ITEM_ACCESS, "111", plusStat);
 
-	int a = 0;
 
 }
 

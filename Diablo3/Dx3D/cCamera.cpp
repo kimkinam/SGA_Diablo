@@ -104,11 +104,11 @@ void cCamera::Update(D3DXVECTOR3* pTarget)
 	if (g_pKeyManager->isStayKeyDown('S'))
 		m_vEye -= m_vUp * 20.0f * g_pTimeManager->GetDeltaTime();
 
-	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
+	if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
 	{
 		m_ptPrevMouse = g_ptMouse;
 	}
-	if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
+	if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
 	{
 		MouseRotate();
 	}

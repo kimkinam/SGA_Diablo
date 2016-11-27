@@ -98,6 +98,8 @@
     <ClInclude Include="cGamingScene.h" />
     <ClInclude Include="cGrid.h" />
     <ClInclude Include="cGroup.h" />
+    <ClInclude Include="cInventory.h" />
+    <ClInclude Include="cItem.h" />
     <ClInclude Include="cKeyManager.h" />
     <ClInclude Include="cLoadingScene.h" />
     <ClInclude Include="cLogManager.h" />
@@ -154,6 +156,8 @@
     <ClCompile Include="cGamingScene.cpp" />
     <ClCompile Include="cGrid.cpp" />
     <ClCompile Include="cGroup.cpp" />
+    <ClCompile Include="cInventory.cpp" />
+    <ClCompile Include="cItem.cpp" />
     <ClCompile Include="cKeyManager.cpp" />
     <ClCompile Include="cLoadingScene.cpp" />
     <ClCompile Include="cLogManager.cpp" />
