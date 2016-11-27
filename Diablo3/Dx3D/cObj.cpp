@@ -9,6 +9,7 @@ cObj::cObj()
 	, m_pMesh(NULL)
 	, m_vPosition(0, 0, 0)
 {
+	m_sSumNailName = "";
 }
 
 
@@ -26,13 +27,14 @@ void cObj::SetUp(char * szFileName, char* szFolderName)
 {
 	cObjLoader loader;
 	m_pMesh = loader.Load(szFileName, szFolderName, m_vecMtl, NULL);
+	
 }
 
 void cObj::Render()
 {
 	g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
-	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	if (m_matWorld)
 	{

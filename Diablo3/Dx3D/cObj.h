@@ -9,6 +9,7 @@ private:
 	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vPosition, Position);
 	SYNTHESIZE(LPD3DXMESH, m_pMesh, Mesh);
 	SYNTHESIZE_PASS_BY_REF(std::vector<cMtlTex*>, m_vecMtl, Mtl);
+	SYNTHESIZE(string, m_sSumNailName, SumNailName);
 public:
 	cObj();
 	~cObj();

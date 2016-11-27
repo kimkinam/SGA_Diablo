@@ -25,7 +25,7 @@ void cMainGame::Setup()
 	g_pSceneManager->addScene("TestScene", new cTestScene);
 	g_pSceneManager->addScene("LoadingScene", new cLoadingScene);
 
-	g_pSceneManager->changeScene("GamingScene");
+	g_pSceneManager->changeScene("TestScene");
 	
 	SetLight();
 }

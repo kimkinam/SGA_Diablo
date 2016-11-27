@@ -38,8 +38,23 @@ cTestScene::cTestScene()
 	m_pSword->SetWorldTM(m_pMesh->AttachItem("right_weapon"));
 
 	//¸Ê
-	m_pMap = new cObj;
-	m_pMap->SetUp("a1dun_01.objobj", "./Resources/Object/");
+	m_vecObj.reserve(sizeof(cObj) * 3);
+
+	cObj* obj1 = new cObj;
+	obj1->SetUp("a1dun_01.objobj", "./Resources/Object/");
+	obj1->SetSumNailName("a1Dun_01.jpg");
+	m_vecObj.push_back(obj1);
+
+	cObj* obj2 = new cObj;
+	obj2->SetUp("a1dun_02.objobj", "./Resources/Object/");
+	obj2->SetSumNailName("a1Dun_02.jpg");
+	m_vecObj.push_back(obj2);
+
+	cObj* obj3 = new cObj;
+	obj3->SetUp("a1dun_03.objobj", "./Resources/Object/");
+	obj3->SetSumNailName("a1dun_03.jpg");
+	m_vecObj.push_back(obj3);
+	
 
 	ST_PC_VERTEX v;
 	D3DXCOLOR c;
@@ -65,9 +80,7 @@ cTestScene::cTestScene()
 	pTitleBar->SetmatS(matS);
 	pTitleBar->SetTexture("./Resources/MapTool/tool-box.png");
 	pTitleBar->SetPosition(rcWin.right - pTitleBar->GetCollider().nWidth - 5, rcWin.top + 5, 0);
-	pTitleBar->AddRef();
 	m_pUIRoot = pTitleBar;
-
 
 	cUIButton* pLightArrow = new cUIButton;
 	D3DXMatrixScaling(&matS, 0.5f, 0.5f, 1.f);
@@ -75,6 +88,8 @@ cTestScene::cTestScene()
 	pLightArrow->SetTexture("./Resources/MapTool/right_Arrow_Normal.png",
 		"./Resources/MapTool/right_Arrow_Normal.png", "./Resources/MapTool/right_Arrow_Pressed.png");
 	pLightArrow->SetPosition(D3DXVECTOR3(m_pUIRoot->GetCollider().nWidth - pLightArrow->GetCollider().nWidth, 6, 0));
+	pLightArrow->SetDelegate(this);
+	pLightArrow->SetTag((cUIObject::Ui_Tag)2);
 	m_pUIRoot->AddChild(pLightArrow);
 
 	cUIButton* pLeftArrow = new cUIButton;
@@ -83,8 +98,23 @@ cTestScene::cTestScene()
 	pLeftArrow->SetTexture("./Resources/MapTool/left_Arrow_Normal.png",
 		"./Resources/MapTool/left_Arrow_Normal.png", "./Resources/MapTool/left_Arrow_Pressed.png");
 	pLeftArrow->SetPosition(D3DXVECTOR3(2, 6, 0));
+	pLightArrow->SetDelegate(this);
+	pLeftArrow->SetTag((cUIObject::Ui_Tag)1);
 	m_pUIRoot->AddChild(pLeftArrow);
 
+	for (size_t i = 0; i < m_vecObj.size() * 2 + 1; ++i)
+	{
+		cUIImage* sumNail = new cUIImage;
+		D3DXMatrixScaling(&matS, 0.08f, 0.08f, 0.08f);
+		sumNail->SetmatS(matS);
+		string sPath = "./Resources/MapTool/" + m_vecObj[i % 3]->GetSumNailName();
+		sumNail->SetTexture(StringToChar(sPath));
+		sumNail->SetPosition(39 + i * 45, 5, 0);
+		sumNail->SetTag((cUIObject::Ui_Tag)3);
+		m_pUIRoot->AddChild(sumNail);
+	}
+
+	
 }
 
 
@@ -95,12 +125,16 @@ cTestScene::~cTestScene()
 
 	SAFE_DELETE(m_pMesh);
 	SAFE_DELETE(m_pSword);
-	SAFE_DELETE(m_pMap);
 
 	SAFE_RELEASE(m_pSprite);
 
 	if (m_pUIRoot)
 		m_pUIRoot->Destroy();
+
+	for each(auto c in m_vecObj)
+	{
+		SAFE_DELETE(c);
+	}
 
 	m_nRefCount--;
 }
@@ -133,31 +167,31 @@ void cTestScene::Update()
 	//	m_pMap->SetPosition(m_pMap->GetPosition() + D3DXVECTOR3(0, 0, 20));
 	//if (g_pKeyManager->isOnceKeyDown(VK_DOWN))
 	//	m_pMap->SetPosition(m_pMap->GetPosition() + D3DXVECTOR3(0, 0, -20));
-	/*if (g_pKeyManager->isOnceKeyDown('1'))
-	{
-		m_pMesh->ChangeItem("Barb_M_MED_Gloves", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
-	}
-	if (g_pKeyManager->isOnceKeyDown('2'))
-	{
-		m_pMesh->ChangeItem("Barb_M_MED_Pants", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
-	}
-	if (g_pKeyManager->isOnceKeyDown('3'))
-	{
-		m_pMesh->ChangeItem("Barb_M_MED_Cloth", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
-	}
-	if (g_pKeyManager->isOnceKeyDown('4'))
-	{
-		m_pMesh->ChangeItem("Barb_M_MED_Armor", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
-	}
-	if (g_pKeyManager->isOnceKeyDown('5'))
-	{
-		m_pMesh->ChangeItem("Barb_M_MED_Boots", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
-	}*/
+	//if (g_pKeyManager->isOnceKeyDown('1'))
+	//{
+	//	m_pMesh->ChangeItem("Barb_M_MED_Gloves", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
+	//}
+	//if (g_pKeyManager->isOnceKeyDown('2'))
+	//{
+	//	m_pMesh->ChangeItem("Barb_M_MED_Pants", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
+	//}
+	//if (g_pKeyManager->isOnceKeyDown('3'))
+	//{
+	//	m_pMesh->ChangeItem("Barb_M_MED_Cloth", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
+	//}
+	//if (g_pKeyManager->isOnceKeyDown('4'))
+	//{
+	//	m_pMesh->ChangeItem("Barb_M_MED_Armor", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
+	//}
+	//if (g_pKeyManager->isOnceKeyDown('5'))
+	//{
+	//	m_pMesh->ChangeItem("Barb_M_MED_Boots", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
+	//}
 
 	if (m_pUIRoot)
 		m_pUIRoot->Update();
 
-	if (g_pKeyManager->isToggleKey(VK_TAB) && !m_bIsSetMap)
+	/*if (g_pKeyManager->isToggleKey(VK_TAB) && !m_bIsSetMap)
 	{
 		if (m_pMap)
 		{
@@ -183,7 +217,7 @@ void cTestScene::Update()
 				}
 			}
 		}
-	}
+	}*/
 	
 	
 }
@@ -200,13 +234,18 @@ void cTestScene::Render()
 	{
 		m_pMesh->UpdateAndRender();
 	}
-	
+	//
 	if (m_pSword)
 		m_pSword->Render();
 
-	
-	if (m_pMap)
-		m_pMap->Render();
+	//for each (auto c in m_vecObj)
+	//{
+	//	c->Render();
+	//}
+	//if (m_pMap)
+	//	m_pMap->Render();
+
+	g_pD3DDevice->SetTexture(0, NULL);
 
 	if (m_pUIRoot)
 		m_pUIRoot->Render(m_pSprite);
@@ -242,4 +281,16 @@ void cTestScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	if (m_pCamera)
 		m_pCamera->WndProc(hWnd, message, wParam, lParam);
+}
+
+void cTestScene::OnClick(cUIButton * pSender)
+{
+	if (pSender->GetTag() == (cUIObject::Ui_Tag)1) // ¿ÞÂÊ
+	{
+		//m_pUIRoot->FindChildByTag((cUIObject::Ui_Tag)3);
+	}
+	if (pSender->GetTag() == (cUIObject::Ui_Tag)2) // ¿À¸¥ÂÊ
+	{
+		int a = 0;
+	}
 }

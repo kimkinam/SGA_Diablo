@@ -14,5 +14,6 @@ namespace MyUtil
 	float Clamp01(float value);						//value 값 0 ~ 1 사일로 맞춤
 	float ClampMinusOnePlusOne(float value);
 
+	char* StringToChar(string str);
 
 }

@@ -61,4 +61,14 @@ namespace MyUtil
 		return value;
 	}
 
+	char * StringToChar(string str)
+	{
+		
+		char* c = new char[str.size() + 1];
+		std::copy(str.begin(), str.end(), c);
+		c[str.size()] = '\0';
+
+		return c;
+	}
+
 }

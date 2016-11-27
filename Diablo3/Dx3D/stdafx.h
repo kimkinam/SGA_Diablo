@@ -238,3 +238,5 @@ enum PLAYER_STATE
 
 //전역 해더
 #include "Item.h"
+#include "MyUtil.h"
+using namespace MyUtil;
