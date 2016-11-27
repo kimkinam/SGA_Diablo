@@ -33,13 +33,13 @@ cTestScene::cTestScene()
 
 	//Ä®
 	m_pSword = new cObj;
-	m_pSword->SetUp("twohandsword.objobj", "./Resources/Obj/");
+	m_pSword->SetUp("twohandsword.objobj", "./Resources/Object/");
 
 	m_pSword->SetWorldTM(m_pMesh->AttachItem("right_weapon"));
 
 	//¸Ê
 	m_pMap = new cObj;
-	m_pMap->SetUp("a1dun_01.objobj", "./Resources/Obj/");
+	m_pMap->SetUp("a1dun_01.objobj", "./Resources/Object/");
 
 	ST_PC_VERTEX v;
 	D3DXCOLOR c;
