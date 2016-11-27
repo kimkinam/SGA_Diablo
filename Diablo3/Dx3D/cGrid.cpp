@@ -29,8 +29,8 @@ void cGrid::Setup(int nLine)
 	m_vecVertex.reserve(nHalf * 4 * 2 + 4);
 	for (int i = 1; i <= nHalf; ++i)
 	{
-		c = D3DCOLOR_XRGB(128, 128, 128);
-		if (i % 5 == 0)
+		c = D3DCOLOR_XRGB(0, 0, 0);
+		if (i % 20 == 0)
 		{
 			c = D3DCOLOR_XRGB(255, 255, 255);
 		}

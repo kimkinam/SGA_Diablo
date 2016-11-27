@@ -81,25 +81,25 @@ void cCamera::Update(D3DXVECTOR3* pTarget)
 	//	m_vEye -= m_vForward * 5.0f * g_pTimeManager->GetDeltaTime();
 
 	if (g_pKeyManager->isStayKeyDown('D'))
-		m_vEye += m_vRight * 5.0f * g_pTimeManager->GetDeltaTime();
+		m_vEye += m_vRight * 20.0f * g_pTimeManager->GetDeltaTime();
 	if (g_pKeyManager->isStayKeyDown('A'))
-		m_vEye -= m_vRight * 5.0f * g_pTimeManager->GetDeltaTime();
+		m_vEye -= m_vRight * 20.0f * g_pTimeManager->GetDeltaTime();
 
 	if (g_pKeyManager->isStayKeyDown('W'))
-		m_vEye.y += 2.0f * g_pTimeManager->GetDeltaTime();
+		m_vEye += m_vUp * 20.0f * g_pTimeManager->GetDeltaTime();
 	if (g_pKeyManager->isStayKeyDown('S'))
-		m_vEye.y -= 2.0f * g_pTimeManager->GetDeltaTime();
+		m_vEye -= m_vUp * 20.0f * g_pTimeManager->GetDeltaTime();
 
-	if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
+	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
 	{
 		m_ptPrevMouse = g_ptMouse;
 	}
-	if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
+	if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
 	{
 		MouseRotate();
 	}
 
-	m_vLookAt = m_vEye + m_vForward *10.0;
+	m_vLookAt = m_vEye + m_vForward *30.0;
 
 	D3DXMATRIXA16 matView;
 	D3DXMatrixLookAtLH(&matView, &m_vEye, &m_vLookAt, &m_vUp);
@@ -170,7 +170,7 @@ void cCamera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		//m_fDistance -= GET_WHEEL_DELTA_WPARAM(wParam) / 1000.f;
 		//MoveForward(GET_WHEEL_DELTA_WPARAM(wParam) / 1000.f, 1.f);
 
-		m_vEye += m_vForward * GET_WHEEL_DELTA_WPARAM(wParam) / 10.f * g_pTimeManager->GetDeltaTime();
+		m_vEye += m_vForward * GET_WHEEL_DELTA_WPARAM(wParam) * g_pTimeManager->GetDeltaTime();
 	}
 
 	break;
