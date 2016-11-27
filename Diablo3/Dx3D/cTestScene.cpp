@@ -33,13 +33,13 @@ cTestScene::cTestScene()
 
 	//Ä®
 	m_pSword = new cObj;
-	m_pSword->SetUp("twohandsword.objobj", "./Resources/Obj/");
+	m_pSword->SetUp("twohandsword.objobj", "./Resources/Object/");
 
 	m_pSword->SetWorldTM(m_pMesh->AttachItem("right_weapon"));
 
 	//¸Ê
 	m_pMap = new cObj;
-	m_pMap->SetUp("a1dun_01.objobj", "./Resources/Obj/");
+	m_pMap->SetUp("a1dun_01.objobj", "./Resources/Object/");
 
 	ST_PC_VERTEX v;
 	D3DXCOLOR c;
@@ -73,9 +73,17 @@ cTestScene::cTestScene()
 	D3DXMatrixScaling(&matS, 0.5f, 0.5f, 1.f);
 	pLightArrow->SetmatS(matS);
 	pLightArrow->SetTexture("./Resources/MapTool/right_Arrow_Normal.png",
-		"./Resources/MapTool/right_Arrow_Normal.png", "./Resources/MapTool/right_Arrow_Presed.png");
+		"./Resources/MapTool/right_Arrow_Normal.png", "./Resources/MapTool/right_Arrow_Pressed.png");
 	pLightArrow->SetPosition(D3DXVECTOR3(m_pUIRoot->GetCollider().nWidth - pLightArrow->GetCollider().nWidth, 6, 0));
 	m_pUIRoot->AddChild(pLightArrow);
+
+	cUIButton* pLeftArrow = new cUIButton;
+	D3DXMatrixScaling(&matS, 0.5f, 0.5f, 1.f);
+	pLeftArrow->SetmatS(matS);
+	pLeftArrow->SetTexture("./Resources/MapTool/left_Arrow_Normal.png",
+		"./Resources/MapTool/left_Arrow_Normal.png", "./Resources/MapTool/left_Arrow_Pressed.png");
+	pLeftArrow->SetPosition(D3DXVECTOR3(2, 6, 0));
+	m_pUIRoot->AddChild(pLeftArrow);
 
 }
 
