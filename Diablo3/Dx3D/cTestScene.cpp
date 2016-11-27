@@ -19,7 +19,7 @@ cTestScene::cTestScene()
 	, m_pCamera(NULL)
 	, m_bIsSetMap(false)
 	, m_pSprite(NULL)
-	, m_pUIRoot(NULL)
+	, m_pCurObj(NULL)
 {
 	m_pCamera = new cCamera;
 	m_pCamera->Setup();
@@ -112,8 +112,10 @@ cTestScene::cTestScene()
 		sumNail->SetPosition(39 + i * 45, 5, 0);
 		sumNail->SetTag((cUIObject::Ui_Tag)3);
 		m_pUIRoot->AddChild(sumNail);
+		m_vecObjUI.push_back(sumNail);
 	}
 
+	m_pCurObj = new cObj;
 	
 }
 
@@ -124,18 +126,32 @@ cTestScene::~cTestScene()
 	SAFE_DELETE(m_pGrid);
 
 	SAFE_DELETE(m_pMesh);
-	SAFE_DELETE(m_pSword);
+	SAFE_RELEASE(m_pCurObj);
+	SAFE_RELEASE(m_pSword);
 
 	SAFE_RELEASE(m_pSprite);
 
-	if (m_pUIRoot)
-		m_pUIRoot->Destroy();
 
 	for each(auto c in m_vecObj)
 	{
-		SAFE_DELETE(c);
+		SAFE_RELEASE(c);
+	}
+	
+	for each(auto c in m_vecMap)
+	{
+		SAFE_RELEASE(c);
 	}
 
+	if(m_pUIRoot)
+		m_pUIRoot->Destroy();
+
+	for each(auto c in m_vecObjUI)
+	{
+		SAFE_RELEASE(c);
+	}
+
+	
+	
 	m_nRefCount--;
 }
 
@@ -154,9 +170,66 @@ void cTestScene::Release()
 
 void cTestScene::Update()
 {
-	if (m_pCamera)
+	if (m_pCamera && !InCollider(m_pUIRoot))
 	{
 		m_pCamera->Update(NULL);
+	}
+
+	if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON) && !m_bIsSetMap)
+	{
+		for (size_t i = 0; i < m_vecObjUI.size(); ++i)
+		{
+			if (InCollider(m_vecObjUI[i]))
+			{
+				m_pCurObj = m_vecObj[i];
+
+				m_bIsSetMap = true;
+			}
+		}
+	}
+
+	if (m_pCurObj && m_bIsSetMap)
+	{
+		cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
+		D3DXVECTOR3 pickPos;
+		for (size_t i = 0; i < m_vecTiles.size(); i += 3)
+		{
+			if (r.IntersectTri(m_vecTiles[i].p,
+				m_vecTiles[i + 1].p,
+				m_vecTiles[i + 2].p,
+				pickPos))
+			{
+
+				if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
+				{
+					if (pickPos.x < 0 && pickPos.z > 0)
+						m_pCurObj->SetPosition(D3DXVECTOR3(-10, 0, 10));
+					if (pickPos.x < 0 && pickPos.z < 0)
+						m_pCurObj->SetPosition(D3DXVECTOR3(-10, 0, -10));
+					if (pickPos.x > 0 && pickPos.z > 0)
+						m_pCurObj->SetPosition(D3DXVECTOR3(10, 0, 10));
+					if (pickPos.x > 0 && pickPos.z < 0)
+						m_pCurObj->SetPosition(D3DXVECTOR3(10, 0, -10));
+					m_bIsSetMap = false;
+
+					cObj* obj = new cObj;
+					obj->SetMtl(m_pCurObj->GetMtl());
+					obj->SetObjName(m_pCurObj->GetObjName());
+					obj->SetSumNailName(m_pCurObj->GetSumNailName());
+					obj->SetPosition(m_pCurObj->GetPosition());
+					m_pCurObj->GetMesh()->CloneMeshFVF(
+						m_pCurObj->GetMesh()->GetOptions(),
+						m_pCurObj->GetMesh()->GetFVF(),
+						g_pD3DDevice,
+						&obj->GetMesh());
+					m_vecMap.push_back(obj);
+
+				}
+				else
+					m_pCurObj->SetPosition(pickPos);
+
+			}
+		}
 	}
 
 	//if (g_pKeyManager->isOnceKeyDown(VK_LEFT))
@@ -188,9 +261,12 @@ void cTestScene::Update()
 	//	m_pMesh->ChangeItem("Barb_M_MED_Boots", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
 	//}
 
+	
+
 	if (m_pUIRoot)
 		m_pUIRoot->Update();
 
+	
 	/*if (g_pKeyManager->isToggleKey(VK_TAB) && !m_bIsSetMap)
 	{
 		if (m_pMap)
@@ -245,6 +321,12 @@ void cTestScene::Render()
 	//if (m_pMap)
 	//	m_pMap->Render();
 
+	for (size_t i = 0; i < m_vecMap.size(); ++i)
+		m_vecMap[i]->Render();
+
+	if (m_pCurObj)
+		m_pCurObj->Render();
+
 	g_pD3DDevice->SetTexture(0, NULL);
 
 	if (m_pUIRoot)
@@ -287,10 +369,40 @@ void cTestScene::OnClick(cUIButton * pSender)
 {
 	if (pSender->GetTag() == (cUIObject::Ui_Tag)1) // ¿ÞÂÊ
 	{
-		//m_pUIRoot->FindChildByTag((cUIObject::Ui_Tag)3);
+		m_pUIRoot->FindChildByTag((cUIObject::Ui_Tag)3);
 	}
 	if (pSender->GetTag() == (cUIObject::Ui_Tag)2) // ¿À¸¥ÂÊ
 	{
 		int a = 0;
 	}
+}
+
+bool cTestScene::InCollider(cUIObject * pUI)
+{
+	RECT rc;
+	float deltaX = pUI->GetPosition().x;
+	float deltaY = pUI->GetPosition().y;
+
+	if (pUI->GetParent())
+	{
+		SetRect(&rc,  pUI->GetParent()->GetPosition().x + pUI->GetCollider().nStartX + deltaX
+					, pUI->GetParent()->GetPosition().y + pUI->GetCollider().nStartY + deltaY
+					, pUI->GetParent()->GetPosition().x + pUI->GetCollider().nWidth + deltaX
+					, pUI->GetParent()->GetPosition().y + pUI->GetCollider().nHeight + deltaY);
+	}
+	else
+	{
+		SetRect(&rc,  pUI->GetCollider().nStartX + deltaX
+					, pUI->GetCollider().nStartY + deltaY
+					, pUI->GetCollider().nWidth + deltaX
+					, pUI->GetCollider().nHeight + deltaY);
+
+		int a = 0;
+	}
+	
+
+	if (PtInRect(&rc, g_ptMouse))
+		return true;
+
+	return false;
 }

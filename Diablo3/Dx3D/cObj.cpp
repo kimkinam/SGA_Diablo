@@ -9,7 +9,8 @@ cObj::cObj()
 	, m_pMesh(NULL)
 	, m_vPosition(0, 0, 0)
 {
-	m_sSumNailName = "";
+	m_sSumNailName = m_sObjName = "";
+
 }
 
 
@@ -26,6 +27,7 @@ cObj::~cObj()
 void cObj::SetUp(char * szFileName, char* szFolderName)
 {
 	cObjLoader loader;
+	m_sObjName = szFileName;
 	m_pMesh = loader.Load(szFileName, szFolderName, m_vecMtl, NULL);
 	
 }
