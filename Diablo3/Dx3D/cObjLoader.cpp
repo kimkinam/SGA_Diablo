@@ -398,7 +398,7 @@ string cObjLoader::ExtractFileName(string sFullPath)
 	assert(lastPathIndex != -1 && "경로가 잘못 돼었습니다.");
 
 	//경로를 찾은 경우 파일명만 추출한다.
-	m_sPath = sFullPath.substr(0, lastPathIndex + 1);
+	//m_sPath = sFullPath.substr(0, lastPathIndex + 1);
 	string fileName = sFullPath.substr(lastPathIndex + 1, sFullPath.length());
 
 	return fileName;
