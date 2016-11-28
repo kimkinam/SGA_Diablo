@@ -2,11 +2,17 @@
 
 struct ST_BONE;
 
+#define MOVE_TRANSITION_TIME 1.0f
+
 class cSkinnedMesh
 {
 	friend class cSkinnedMeshManager;
 
 private:
+	float						m_fBlendTime;
+	float						m_fPassedBlendTime;
+	bool						m_isAnimBlend;
+
 	//하나만 생성
 	ST_BONE*					m_pRootFrame;
 	DWORD						m_dwWorkingPaletteSize;
@@ -22,7 +28,7 @@ public:
 	cSkinnedMesh(char* szFolder, char* szFilename);
 	~cSkinnedMesh(void);
 
-	void UpdateAndRender();
+	void UpdateAndRender(D3DXMATRIX* pMat = NULL);
 	void SetAnimationIndex(int nIndex);
 
 	D3DXMATRIX* AttachItem(char* szFileName);

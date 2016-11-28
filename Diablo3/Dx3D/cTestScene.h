@@ -4,7 +4,7 @@ class cGrid;
 class cSkinnedMesh;
 class cObj;
 class cCamera;
-class cMtlTex;
+class cPlayer;
 
 class cTestScene : public cSceneObject, public iButtonDelegate
 {
@@ -12,9 +12,7 @@ private:
 	cGrid*						m_pGrid;
 	cCamera*					m_pCamera;
 	
-	//플레이어
-	cSkinnedMesh*				m_pMesh;
-	cObj*						m_pSword;
+	cPlayer*					m_pPlayer;
 
 	//현재 오브젝트
 	cObj*						m_pCurObj;

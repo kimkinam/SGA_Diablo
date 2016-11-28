@@ -9,13 +9,13 @@
 #include "cMtlTex.h"
 #include "cUIImage.h"
 #include "cUIButton.h"
-#include "cUIText.h"
+#include "cPlayer.h"	
+#include "cActionMove.h"
 
 
 cTestScene::cTestScene()
 	: m_pGrid(NULL)
-	, m_pMesh(NULL)
-	, m_pSword(NULL)
+	, m_pPlayer(NULL)
 	, m_pCamera(NULL)
 	, m_bIsSetMap(false)
 	, m_pSprite(NULL)
@@ -27,16 +27,10 @@ cTestScene::cTestScene()
 	m_pGrid = new cGrid;
 	m_pGrid->Setup(120);
 
-	//¹Ù¹Ù
-	m_pMesh = new cSkinnedMesh("./Resources/Player/", "Bab1.X");
-	m_pMesh->SetAnimationIndex(5);
-
-	//Ä®
-	m_pSword = new cObj;
-	m_pSword->SetUp("twohandsword.objobj", "./Resources/Object/");
-
-	m_pSword->SetWorldTM(m_pMesh->AttachItem("right_weapon"));
-
+	//ÇÃ·¹ÀÌ¾î
+	m_pPlayer = new cPlayer;
+	m_pPlayer->SetUp();
+	
 	//¸Ê
 	m_vecObj.reserve(sizeof(cObj) * 3);
 
@@ -60,12 +54,12 @@ cTestScene::cTestScene()
 	D3DXCOLOR c;
 	c = D3DCOLOR_XRGB(255, 255, 255);
 	m_vecTiles.reserve(sizeof(ST_PC_VERTEX) * 6);
-	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-20, 0, 20), c));
-	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3( 20, 0, 20), c));
-	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3( 20, 0, -20), c));
-	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(20, 0, -20), c));
-	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-20, 0, -20), c));
-	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-20, 0, 20), c));
+	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0,	120), c));
+	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3( 120, 0,	120), c));
+	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3( 120, 0, -120), c));
+	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3( 120, 0, -120), c));
+	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, -120), c));
+	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0,	120), c));
 	
 
 	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
@@ -115,8 +109,6 @@ cTestScene::cTestScene()
 		m_vecObjUI.push_back(sumNail);
 	}
 
-	m_pCurObj = new cObj;
-	
 }
 
 
@@ -124,10 +116,9 @@ cTestScene::~cTestScene()
 {
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
+	SAFE_DELETE(m_pPlayer);
 
-	SAFE_DELETE(m_pMesh);
 	SAFE_RELEASE(m_pCurObj);
-	SAFE_RELEASE(m_pSword);
 
 	SAFE_RELEASE(m_pSprite);
 
@@ -149,8 +140,6 @@ cTestScene::~cTestScene()
 	{
 		SAFE_RELEASE(c);
 	}
-
-	
 	
 	m_nRefCount--;
 }
@@ -175,20 +164,22 @@ void cTestScene::Update()
 		m_pCamera->Update(NULL);
 	}
 
-	if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON) && !m_bIsSetMap)
+	
+	for (size_t i = 0; i < m_vecObjUI.size(); ++i)
 	{
-		for (size_t i = 0; i < m_vecObjUI.size(); ++i)
+		if (InCollider(m_vecObjUI[i]))
 		{
-			if (InCollider(m_vecObjUI[i]))
+			
+			if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
 			{
 				m_pCurObj = m_vecObj[i];
 
-				m_bIsSetMap = true;
+				m_bIsSetMap = false;
 			}
 		}
 	}
 
-	if (m_pCurObj && m_bIsSetMap)
+	if (m_pCurObj)
 	{
 		cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
 		D3DXVECTOR3 pickPos;
@@ -214,9 +205,13 @@ void cTestScene::Update()
 
 					cObj* obj = new cObj;
 					obj->SetMtl(m_pCurObj->GetMtl());
+					obj->SetHiddenMtl(m_pCurObj->GetHiddenMtl());
+					obj->SetHiddenObj(m_pCurObj->GetHiddenObj());
 					obj->SetObjName(m_pCurObj->GetObjName());
 					obj->SetSumNailName(m_pCurObj->GetSumNailName());
+
 					obj->SetPosition(m_pCurObj->GetPosition());
+
 					m_pCurObj->GetMesh()->CloneMeshFVF(
 						m_pCurObj->GetMesh()->GetOptions(),
 						m_pCurObj->GetMesh()->GetFVF(),
@@ -224,6 +219,7 @@ void cTestScene::Update()
 						&obj->GetMesh());
 					m_vecMap.push_back(obj);
 
+					m_pCurObj = NULL;
 				}
 				else
 					m_pCurObj->SetPosition(pickPos);
@@ -232,69 +228,68 @@ void cTestScene::Update()
 		}
 	}
 
-	//if (g_pKeyManager->isOnceKeyDown(VK_LEFT))
-	//	m_pMap->SetPosition(m_pMap->GetPosition() + D3DXVECTOR3(-20, 0, 0));
-	//if (g_pKeyManager->isOnceKeyDown(VK_RIGHT))
-	//	m_pMap->SetPosition(m_pMap->GetPosition() + D3DXVECTOR3(20, 0, 0));
-	//if (g_pKeyManager->isOnceKeyDown(VK_UP))
-	//	m_pMap->SetPosition(m_pMap->GetPosition() + D3DXVECTOR3(0, 0, 20));
-	//if (g_pKeyManager->isOnceKeyDown(VK_DOWN))
-	//	m_pMap->SetPosition(m_pMap->GetPosition() + D3DXVECTOR3(0, 0, -20));
+	if (!m_pCurObj && g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
+	{
+		cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
+		D3DXVECTOR3 pickPos;
+		for (size_t i = 0; i < m_vecTiles.size(); i += 3)
+		{
+			if (r.IntersectTri(m_vecTiles[i].p,
+				m_vecTiles[i + 1].p,
+				m_vecTiles[i + 2].p,
+				pickPos))
+			{
+				cActionMove* pAction = new cActionMove;
+
+				pAction->SetTo(pickPos);
+				pAction->SetFrom(m_pPlayer->GetPosition());
+				pAction->SetTarget(m_pPlayer);
+				pAction->SetDelegate(m_pPlayer);
+				pAction->Start();
+				m_pPlayer->SetAction(pAction);
+				m_pPlayer->GetMesh()->SetAnimationIndex(4);
+
+				m_bIsSetMap = true;
+			}
+		}
+	}
+
 	//if (g_pKeyManager->isOnceKeyDown('1'))
 	//{
-	//	m_pMesh->ChangeItem("Barb_M_MED_Gloves", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
+	//	m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Gloves", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
 	//}
 	//if (g_pKeyManager->isOnceKeyDown('2'))
 	//{
-	//	m_pMesh->ChangeItem("Barb_M_MED_Pants", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
+	//	m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Pants", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
 	//}
 	//if (g_pKeyManager->isOnceKeyDown('3'))
 	//{
-	//	m_pMesh->ChangeItem("Barb_M_MED_Cloth", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
+	//	m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Cloth", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
 	//}
 	//if (g_pKeyManager->isOnceKeyDown('4'))
 	//{
-	//	m_pMesh->ChangeItem("Barb_M_MED_Armor", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
+	//	m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Armor", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
 	//}
 	//if (g_pKeyManager->isOnceKeyDown('5'))
 	//{
-	//	m_pMesh->ChangeItem("Barb_M_MED_Boots", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
+	//	m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Boots", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
 	//}
 
-	
 
+	//if (m_bIsSetMap)
+	//{
+	//
+	//}
+
+
+
+	if (m_pPlayer)
+		m_pPlayer->Update();
+	
 	if (m_pUIRoot)
 		m_pUIRoot->Update();
 
-	
-	/*if (g_pKeyManager->isToggleKey(VK_TAB) && !m_bIsSetMap)
-	{
-		if (m_pMap)
-		{
-			cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
-			D3DXVECTOR3 pickPos;
-			for (size_t i = 0; i < m_vecTiles.size(); i += 3)
-			{
-				if (r.IntersectTri(m_vecTiles[i].p,
-					m_vecTiles[i + 1].p,
-					m_vecTiles[i + 2].p,
-					pickPos))
-				{
-					
-					if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
-					{
-						if (pickPos.x < 0 && pickPos.z > 0)
-							m_pMap->SetPosition(D3DXVECTOR3(-10, 0, 10));
-						m_bIsSetMap = true;
-					}
-					else
-						m_pMap->SetPosition(pickPos);
-					
-				}
-			}
-		}
-	}*/
-	
+
 	
 }
 
@@ -306,13 +301,9 @@ void cTestScene::Render()
 	if (m_pCamera)
 		m_pCamera->Render();
 
-	if (m_pMesh)
-	{
-		m_pMesh->UpdateAndRender();
-	}
 	//
-	if (m_pSword)
-		m_pSword->Render();
+	if (m_pPlayer)
+		m_pPlayer->Render();
 
 	//for each (auto c in m_vecObj)
 	//{
@@ -331,6 +322,23 @@ void cTestScene::Render()
 
 	if (m_pUIRoot)
 		m_pUIRoot->Render(m_pSprite);
+
+	LPD3DXFONT font;
+	font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
+
+	char temp[128];
+	sprintf_s(temp, "PlayerPos : %.2f, %.2f, %.2f", 
+		m_pPlayer->GetPosition().x,
+		m_pPlayer->GetPosition().y,
+		m_pPlayer->GetPosition().z,
+		128);
+	RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 150, DEBUG_STARTX + 250, DEBUG_STARTY + 165 };
+	font->DrawText(NULL,
+		temp,
+		128,
+		&rc,
+		DT_LEFT,
+		D3DCOLOR_XRGB(255, 255, 255));
 
 }
 

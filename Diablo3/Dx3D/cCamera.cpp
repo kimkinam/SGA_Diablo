@@ -74,7 +74,7 @@ void cCamera::Render()
 	RECT rc_win;
 	GetClientRect(g_hWnd, &rc_win);
 	rc = { 0, 150, 250, 200 };
-	sprintf_s(temp, "WinPos : %d, %d", rc_win.right, rc_win.bottom);
+	sprintf_s(temp, "WinRect : %d, %d", rc_win.right, rc_win.bottom);
 	font->DrawText(NULL,
 		temp,
 		128,

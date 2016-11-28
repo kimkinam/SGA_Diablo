@@ -10,6 +10,9 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 	, m_pmWorkingPalette(NULL)
 	, m_pEffect(NULL)
 	, m_vPosition(0, 0, 0)
+	, m_fBlendTime(0.1f)
+	, m_fPassedBlendTime(0.0f)
+	, m_isAnimBlend(false)
 {
 	cSkinnedMesh* pSkinnedMesh = g_pSkinnedMeshManager->GetSkinnedMesh(szFolder, szFilename);
 
@@ -82,10 +85,27 @@ void cSkinnedMesh::Load(char* szDirectory, char* szFilename)
 		SetupBoneMatrixPtrs(m_pRootFrame);
 }
 
-void cSkinnedMesh::UpdateAndRender()
+void cSkinnedMesh::UpdateAndRender(D3DXMATRIX* pMat)
 {
 	if (m_pAnimController)
 	{
+		if (m_isAnimBlend)
+		{
+			m_fPassedBlendTime += g_pTimeManager->GetDeltaTime();
+			if (m_fPassedBlendTime >= m_fBlendTime)
+			{
+				m_isAnimBlend = false;
+				m_pAnimController->SetTrackWeight(0, 1.0f);
+				m_pAnimController->SetTrackEnable(1, false);
+			}
+			else
+			{
+				float fWeight = m_fPassedBlendTime / m_fBlendTime;
+				m_pAnimController->SetTrackWeight(0, fWeight);
+				m_pAnimController->SetTrackWeight(1, 1.f - fWeight);
+			}
+		}
+
 		m_pAnimController->AdvanceTime(g_pTimeManager->GetDeltaTime(), NULL);
 	}
 
@@ -93,6 +113,8 @@ void cSkinnedMesh::UpdateAndRender()
 	{
 		D3DXMATRIXA16 mat;
 		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+		if(pMat)
+			mat = (*pMat) * mat;
 
 		Update(m_pRootFrame, &mat);
 		Render(m_pRootFrame);
@@ -312,15 +334,29 @@ void cSkinnedMesh::SetupBoneMatrixPtrs(ST_BONE* pBone)
 
 void cSkinnedMesh::SetAnimationIndex(int nIndex)
 {
-	if (!m_pAnimController)
-		return;
+	m_isAnimBlend = true;
+	m_fPassedBlendTime = 0.0f;
 
-//	assert(nIndex < m_pAnimController->GetMaxNumAnimationSets());
+	LPD3DXANIMATIONSET pPrevAnimSet = NULL;
+	LPD3DXANIMATIONSET pNextAnimSet = NULL;
 
-	LPD3DXANIMATIONSET pAnimSet = NULL;
-	m_pAnimController->GetAnimationSet(nIndex, &pAnimSet);
-	m_pAnimController->SetTrackAnimationSet(0, pAnimSet);
-	SAFE_RELEASE(pAnimSet);
+	D3DXTRACK_DESC stTrackDesc;
+	m_pAnimController->GetTrackDesc(0, &stTrackDesc);
+
+	m_pAnimController->GetTrackAnimationSet(0, &pPrevAnimSet);
+	m_pAnimController->SetTrackAnimationSet(1, pPrevAnimSet);
+
+	m_pAnimController->GetAnimationSet(nIndex, &pNextAnimSet);
+	m_pAnimController->SetTrackAnimationSet(0, pNextAnimSet);
+	m_pAnimController->SetTrackPosition(0, 0.0f);
+
+	m_pAnimController->SetTrackDesc(1, &stTrackDesc);
+
+	m_pAnimController->SetTrackWeight(0, 0.0f);
+	m_pAnimController->SetTrackWeight(1, 1.0f);
+
+	SAFE_RELEASE(pPrevAnimSet);
+	SAFE_RELEASE(pNextAnimSet);
 }
 
 D3DXMATRIX * cSkinnedMesh::AttachItem(char * szFileName)

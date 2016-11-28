@@ -64,6 +64,9 @@
     <Filter Include="Scene\GameManagers">
       <UniqueIdentifier>{04b6c5aa-4557-4a16-ad5f-b3d94eeb9409}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\GamingScene\Player">
+      <UniqueIdentifier>{74b0ad92-3e31-4262-9990-7b797a91a32e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -243,6 +246,9 @@
     <ClInclude Include="cItem.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="cPlayer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -393,6 +399,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cItem.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

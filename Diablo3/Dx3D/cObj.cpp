@@ -22,14 +22,28 @@ cObj::~cObj()
 	{
 		SAFE_RELEASE(c);
 	}
+
+	for each(auto c in m_vecHiddenMtl)
+	{
+		SAFE_RELEASE(c);
+	}
+
+	for each(auto c in m_vecHiddenObj)
+	{
+		SAFE_RELEASE(c);
+	}
 }
 
 void cObj::SetUp(char * szFileName, char* szFolderName)
 {
 	cObjLoader loader;
 	m_sObjName = szFileName;
-	m_pMesh = loader.Load(szFileName, szFolderName, m_vecMtl, NULL);
-	
+	//m_pMesh = loader.Load(szFileName, szFolderName, m_vecMtl, NULL);
+	loader.Load(szFileName, szFolderName, NULL,
+		m_vecMtl, m_pMesh, m_vecHiddenMtl, m_vecHiddenObj);
+
+	int a = 0;
+
 }
 
 void cObj::Render()
@@ -60,13 +74,26 @@ void cObj::Render()
 	}
 		
 
-	if (m_pMesh)
-	{
+	//if (m_pMesh)
+	//{
 		for (size_t i = 0; i < m_vecMtl.size(); ++i)
 		{
+			//if (m_vecMtl[i]->GetIsHiddenObj()) continue;
 			g_pD3DDevice->SetMaterial(&m_vecMtl[i]->GetMtl());
 			g_pD3DDevice->SetTexture(0, m_vecMtl[i]->GetTexture());
 			m_pMesh->DrawSubset(i);
 		}
-	}
+		for (size_t j = 0; j < m_vecHiddenObj.size(); ++j)
+		{
+			for (size_t i = 0; i < m_vecHiddenMtl.size(); ++i)
+			{
+				g_pD3DDevice->SetMaterial(&m_vecHiddenMtl[i]->GetMtl());
+				g_pD3DDevice->SetTexture(0, m_vecHiddenMtl[i]->GetTexture());
+
+				m_vecHiddenObj[j]->DrawSubset(i);
+			}
+			
+		}
+	//}
+
 }
