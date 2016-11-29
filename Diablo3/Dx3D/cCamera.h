@@ -3,11 +3,13 @@
 class cCamera
 {
 private:
-	D3DXVECTOR3		m_vEye;
-	D3DXVECTOR3		m_vForward;
-	D3DXVECTOR3		m_vRight;
-	D3DXVECTOR3		m_vLookAt;
-	D3DXVECTOR3		m_vUp;
+	SYNTHESIZE(D3DXVECTOR3, m_vEye,		Eye);
+	SYNTHESIZE(D3DXVECTOR3, m_vForward, Forward);
+	SYNTHESIZE(D3DXVECTOR3, m_vRight,	Rright);
+	SYNTHESIZE(D3DXVECTOR3, m_vLookAt,	LookAt);
+	SYNTHESIZE(D3DXVECTOR3, m_vUp,		Up);
+private:
+
 	D3DXMATRIX		m_matView;
 	D3DXMATRIX		m_matProj;
 

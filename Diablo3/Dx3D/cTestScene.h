@@ -27,6 +27,7 @@ private:
 	//맵 위치 정할 타일
 	std::vector<ST_PC_VERTEX>	m_vecTiles;
 	bool						m_bIsSetMap;
+	D3DXVECTOR3					m_vpickPos;
 
 	//UI
 	LPD3DXSPRITE				m_pSprite;

@@ -1,0 +1,184 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 29.11.2016 17:57:12
+
+newmtl 15___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leor_Arch_Stone_A_01.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leor_Arch_Stone_A_01.dds
+
+newmtl Hidden_01
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leor_Arch_Stone_A_01.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leor_Arch_Stone_A_01.dds
+
+newmtl 07___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leor_Arch_Stone_A_01.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leor_Arch_Stone_A_01.dds
+
+newmtl 05___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leor_Walls_A_01.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leor_Walls_A_01.dds
+
+newmtl Hidden_03
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leor_Walls_A_01.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leor_Walls_A_01.dds
+
+newmtl 11___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leoric_Cage_Metal_A_01.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leoric_Cage_Metal_A_01.dds
+
+newmtl 12___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leoric_Cage_Metal_A_03.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leoric_Cage_Metal_A_03.dds
+
+newmtl 22___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leoric_Pillar_A_01.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leoric_Pillar_A_01.dds
+
+newmtl Hidden_02
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leoric_Pillar_A_01.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leoric_Pillar_A_01.dds
+
+newmtl 07___default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leor_Door_A.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leor_Door_A.dds
+
+newmtl 01___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leor_Chains_A_01.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leor_Chains_A_01.dds
+
+newmtl 02___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leor_Floor_Stone_A_01.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leor_Floor_Stone_A_01.dds
+
+newmtl Hidden_04
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leoric_Cage_Metal_A_01.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a1dun\a1dun_Leoric_Cage_Metal_A_01.dds
