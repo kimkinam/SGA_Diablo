@@ -1,59 +1,6 @@
-﻿빌드 시작: 2016-11-29 오후 2:40:56
+﻿빌드 시작: 2016-11-29 오후 8:25:52
      1>2 노드의 "C:\Users\myungjin\Desktop\팀포폴\SGA_Diablo\Diablo3\Dx3D\Dx3D.vcxproj" 프로젝트(Build 대상)입니다.
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Dx3D.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt cAseLoader.cpp cCamera.cpp cGamingScene.cpp cGroup.cpp cMainGame.cpp cMtlTex.cpp cNode.cpp cObj.cpp cObjLoader.cpp cPlayer.cpp cSkinnedMesh.cpp cSkinnedMeshManager.cpp cTestScene.cpp
-         cTestScene.cpp
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\ctestscene.cpp(72): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\ctestscene.cpp(76): warning C4244: '인수' : 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\ctestscene.cpp(79): warning C4316: 'cUIButton': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\ctestscene.cpp(84): warning C4244: '인수' : 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\ctestscene.cpp(89): warning C4316: 'cUIButton': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\ctestscene.cpp(101): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\ctestscene.cpp(106): warning C4244: '인수' : 'size_t'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\ctestscene.cpp(399): warning C4244: '인수' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\ctestscene.cpp(406): warning C4244: '인수' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-         cSkinnedMesh.cpp
-         cPlayer.cpp
-         cObjLoader.cpp
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\cobjloader.cpp(238): warning C4018: '<' : signed 또는 unsigned가 일치하지 않습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\cobjloader.cpp(317): warning C4018: '<' : signed 또는 unsigned가 일치하지 않습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\cobjloader.cpp(436): warning C4018: '<' : signed 또는 unsigned가 일치하지 않습니다.
-         cObj.cpp
-         cMtlTex.cpp
-         cCamera.cpp
-         코드를 생성하고 있습니다...
-         컴파일하고 있습니다...
-         cSkinnedMeshManager.cpp
-         cNode.cpp
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\cnode.cpp(32): warning C4244: '=' : 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\cnode.cpp(121): warning C4244: '=' : 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-         cMainGame.cpp
-         cGroup.cpp
-         cGamingScene.cpp
-         cAseLoader.cpp
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\caseloader.cpp(158): warning C4316: 'cNode': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\caseloader.cpp(206): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\caseloader.cpp(207): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\caseloader.cpp(208): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\caseloader.cpp(213): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\caseloader.cpp(214): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\caseloader.cpp(215): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\caseloader.cpp(220): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\caseloader.cpp(221): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\caseloader.cpp(222): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\caseloader.cpp(227): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\caseloader.cpp(228): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\caseloader.cpp(229): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\caseloader.cpp(399): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\caseloader.cpp(400): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\caseloader.cpp(401): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\caseloader.cpp(448): warning C4244: '=' : 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\caseloader.cpp(449): warning C4244: '=' : 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\caseloader.cpp(503): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\caseloader.cpp(504): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\caseloader.cpp(505): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-         코드를 생성하고 있습니다...
-       Link:
+     1>Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\myungjin\Desktop\팀포폴\SGA_Diablo\Diablo3\Debug\Dx3D.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\myungjin\Desktop\팀포폴\SGA_Diablo\Diablo3\Debug\Dx3D.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\myungjin\Desktop\팀포폴\SGA_Diablo\Diablo3\Debug\Dx3D.lib" /MACHINE:X86 Debug\Dx3D.res
          Debug\cAction.obj
          Debug\cActionFalling.obj
@@ -77,6 +24,7 @@
          Debug\cLoadingScene.obj
          Debug\cLogManager.obj
          Debug\cMainGame.obj
+         Debug\cMonster.obj
          Debug\cMonsterManager.obj
          Debug\cMtlTex.obj
          Debug\cNode.obj
@@ -111,4 +59,4 @@
 
 빌드했습니다.
 
-경과 시간: 00:00:05.74
+경과 시간: 00:00:01.34
