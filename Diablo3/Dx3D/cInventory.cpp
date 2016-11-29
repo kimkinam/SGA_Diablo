@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "cInventory.h"
 #include "cUIImage.h"
-#include "cUIItem.h"
 #include "cUIButton.h"
 #include "cUIText.h"
 #include "cItem.h"
+
 
 
 cInventory::cInventory()
@@ -12,7 +12,13 @@ cInventory::cInventory()
 	, m_pInvenItem(NULL)
 	, m_pInvenStat(NULL)
 	, m_pSprite(NULL)
+	, test_item(NULL)
+	, m_pCurItem(NULL)
+	, Creat_item(true)
+	, m_isClick(false)
 {
+	m_ptClickPoint.x = 0;
+	m_ptClickPoint.y = 0;
 }
 
 
@@ -27,16 +33,27 @@ cInventory::~cInventory()
 	if (m_pInvenStat)
 		m_pInvenStat->Destroy();
 
-	SAFE_DELETE(m_pCurItem);
-	SAFE_RELEASE(Inven_head);
-	SAFE_RELEASE(Inven_chest);
-	SAFE_RELEASE(Inven_boots);
-	SAFE_RELEASE(Inven_pants);
-	SAFE_RELEASE(Inven_belt);
-	SAFE_RELEASE(Inven_arm);
-	SAFE_RELEASE(Inven_wrist);
-	SAFE_RELEASE(Inven_sword);
-	SAFE_RELEASE(Inven_shoulder);
+	SAFE_RELEASE(m_pCurItem);
+	SAFE_RELEASE(m_pSprite);
+	SAFE_RELEASE(test_item);
+	SAFE_RELEASE(test_item_1);
+
+	for (int i = 0; i < m_vecItem.size(); i++)
+	{
+		SAFE_DELETE(m_vecItem[i]);
+	}
+
+	for (size_t i = 0; i < rc_inven[i].size(); ++i)
+	{
+		for (size_t j = 0; j < rc_inven[j].size(); ++j)
+		{
+			SAFE_DELETE(rc_inven[i][j]);
+		}
+	}
+	for (size_t i = 0; i < m_Itemimg.size(); i++)
+	{
+		SAFE_DELETE(m_Itemimg[i]);
+	}
 }	
 
 void cInventory::Setup()
@@ -46,6 +63,9 @@ void cInventory::Setup()
 	SetupInven_Item();
 	SetupInven_Info();
 	SetupInven_Stat();
+
+	m_Itemimg.resize(2);
+
 }
 
 void cInventory::Update()
@@ -58,36 +78,85 @@ void cInventory::Update()
 		if (!m_pInvenInfo->GetIsDraw()) m_pInvenInfo->SetDraw(true);
 		else m_pInvenInfo->SetDraw(false);
 	}
+
+	for (size_t i = 0; i < m_Itemimg.size(); i++)
+	{
+		m_Itemimg[i]->Update();
+	}
+
+//	test_item->Update();
+//	test_item_1->Update();
+	m_pCurItem->Update();
+
+	if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
+	{	
+		for (size_t i = 0; i < m_Itemimg.size(); i++)
+		{
+			if (isPicked(m_Itemimg[i]))
+			{
+			m_ptClickPoint = g_ptMouse;
+			m_isClick = true;
+			}
+				
+		}
+	}
+	else
+	{
+		m_isClick = false;
+	}
+
+	//if (m_isClick)
+	//{
+	//	int deltaX = g_ptMouse.x - m_ptClickPoint.x;
+	//	int deltaY = g_ptMouse.y - m_ptClickPoint.y;
+	//	m_ptClickPoint = g_ptMouse;
+	//	m_Itemimg[i]->SetPosition(m_Itemimg[i]->GetPosition().x += deltaX, m_Itemimg[i]->GetPosition().y += deltaY, 0);
+	//}
+	
+	
+
+	//invenPicked(test_item_1);
+
+
 }
 
 void cInventory::Render()
 {
 	if (m_pInvenInfo)
 		m_pInvenInfo->Render(m_pSprite);
+	for (int i = 0; i < m_vecItem.size(); i++)
+	{
+		m_vecItem[i]->Render(m_pSprite);
+	}
+
+	for (int i = 0; i < m_Itemimg.size(); i++)
+	{
+		m_Itemimg[i]->Render(m_pSprite);
+	}
+	//test_item->Render(m_pSprite);
+	//test_item_1->Render(m_pSprite);
 }
 
 void cInventory::SetupInven_Item() // 인벤토리 격자 공간 
 {
 	RECT rc_win; // 윈도우 렉트
-	
-	D3DXMATRIXA16 matS;
-
 	GetClientRect(g_hWnd, &rc_win);
+	D3DXMATRIXA16 matS;
+	
 	cUIImage* pInventory = new cUIImage;
-	pInventory->SetPosition(rc_win.right - 325, 0, 0);
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixScaling(&matS, 0.54f, 0.44f, 1);
 	pInventory->SetmatS(matS);
 	pInventory->SetTexture("./Resources/UI/빈인벤.png");
-	pInventory->AddRef();
+	pInventory->SetPosition(rc_win.right - 325, 0, 0);
 	m_pInvenInfo = pInventory;
 
 	cUIButton* Inven_Button = new cUIButton; // 인벤토리 열고닫기 (엑스)
-	Inven_Button->SetPosition(300, 0, 0);
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixScaling(&matS, 0.5f, 0.5f, 1);
 	Inven_Button->SetmatS(matS);
 	Inven_Button->SetTexture("./Resources/UI/버튼오프.png", "./Resources/UI/버튼오프.png", "./Resources/UI/버튼온.png");
+	Inven_Button->SetPosition(300, 0, 0);
 	Inven_Button->SetDelegate(this);
 	Inven_Button->SetTag(cUIObject::Button_1);
 	m_pInvenInfo->AddChild(Inven_Button);
@@ -114,7 +183,7 @@ void cInventory::SetupInven_Item() // 인벤토리 격자 공간
 			rc_inven[i][j] = rc_Inven;
 		}
 	}
-}
+}  //인벤토리 격자공간
 
 void cInventory::SetupInven_Info()
 {
@@ -200,19 +269,74 @@ void cInventory::SetupInven_Info()
 	Inven_sword = new cUIImage;
 	Inven_sword->SetPosition(136, 207, 0);
 	D3DXMatrixIdentity(&matS);
-	D3DXMatrixScaling(&matS, 0.54f, 0.44f, 1);
+	D3DXMatrixScaling(&matS, 0.54f, 0+.44f, 1);
 	Inven_sword->SetmatS(matS);
 	Inven_sword->SetTexture("./Resources/UI/인벤칼.png");
 	Inven_sword->SetTag(cUIObject::Inven_sword);
 	m_pInvenInfo->AddChild(Inven_sword);
-	
-}
+
+
+	test_item = new cUIImage;
+	test_item->SetPosition(500, 100, 0);
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.53f, 0.48f, 1);
+	test_item->SetmatS(matS);
+	test_item->SetTexture("./Resources/UI/활.png");
+	m_Itemimg.push_back(test_item);
+
+	test_item_1 = new cUIImage;
+	test_item_1->SetPosition(600, 100, 0);
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.57f, 0.7f, 1);
+	test_item_1->SetmatS(matS);
+	test_item_1->SetTexture("./Resources/UI/바지1.png");
+	m_Itemimg.push_back(test_item_1);
+
+
+} // 
 
 
 
 
 void cInventory::SetupInven_Stat()
 {
+	if (Creat_item == true)
+	{
+		m_pCurItem = new cItem;
+		D3DXMATRIXA16 matS;
+		
+		m_pCurItem->SetItemType(ITEM_SWORD);
+		switch (m_pCurItem->GetItemType())
+		{
+		case  ITEM_HEAD :
+			
+			break;
+		case ITEM_ARM :
+			break;
+		case ITEM_CHEST :
+			break;
+		case ITEM_PANTS :
+			break;
+		case ITEM_BOOTS :
+			break;
+		case ITEM_SHOULDER :
+			break;
+		case ITEM_SWORD :
+			D3DXMatrixIdentity(&matS);
+			D3DXMatrixScaling(&matS, 0.3f, 0.3f, 1);
+			m_pCurItem->SetmatS(matS);
+			m_pCurItem->SetPosition(0, 0, 0);
+			m_pCurItem->Setup("./Resources/UI/활.png", NULL, 100, 100, 100, 100, ITEM_SWORD);		
+			m_vecItem.push_back(m_pCurItem);
+			Creat_item = false;
+			break;
+		case ITEM_ACCESS :
+			break;
+		default:
+			break;
+		}
+	}
+
 }
 
 
@@ -223,5 +347,50 @@ void cInventory::OnClick(cUIButton * pSender)
 	if (pSender->GetTag() == cUIObject::Button_1)
 	{
 		m_pInvenInfo->SetDraw(false);
+	}
+}
+
+
+
+bool cInventory::isPicked(cUIImage* item)
+{
+	RECT rc;
+	float deltaX = item->GetPosition().x;
+	float deltaY = item->GetPosition().y;
+
+	SetRect(&rc, item->GetCollider().nStartX + deltaX,
+		item->GetCollider().nStartY + deltaY,
+		item->GetCollider().nWidth + deltaX,
+		item->GetCollider().nHeight + deltaY);
+
+	if (PtInRect(&rc, g_ptMouse))
+	{
+		return true;
+	}
+		return false;
+}
+
+
+void cInventory::invenPicked(cUIImage* item)
+{
+	RECT temp;
+	RECT rc[8][5];
+	if ((g_pKeyManager->isOnceKeyUp(VK_LBUTTON)))
+	{
+		for (size_t i = 0; i < rc_inven[i].size(); i++)
+		{
+			for (size_t j = 0; i < rc_inven[j].size(); j++)
+			{
+					if (rc_inven[i][j]->GetIsPicked())
+					{
+
+					}
+					else
+					{
+						rc_inven[i][j]->SetIsPicked(true);
+						test_item_1->SetPosition(rc_inven[i][j]->GetCollider().nStartX, rc_inven[i][j]->GetCollider().nStartY, 0);
+					}				
+			}
+		}
 	}
 }

@@ -21,7 +21,7 @@ cUiManager::cUiManager()
 
 cUiManager::~cUiManager()
 {
-	SAFE_DELETE(Inventory);
+	SAFE_RELEASE(Inventory);
 
 	if (m_pHpBar)
 		m_pHpBar->Destroy();
@@ -96,34 +96,11 @@ void cUiManager::Update()
 	{
 		
 	}
-
-	//if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
-	//{
-	//	cUIButton* skillBtn = (cUIButton*)m_pHpBar->FindChildByTag(cUIObject::Skill_1);
-	//	skillBtn->SetIsClick(true);
-	//	m_bIsClick = true;
-	//	if (m_emButtonState == E_OVER)
-	//		m_emButtonState = E_CLICKED;
-	//}
-	//else
-	//{
-	//	m_bIsClick = false;
-	//	if (m_emButtonState == E_CLICKED)
-	//	{
-	//		if (m_pDelegate)
-	//			m_pDelegate->OnClick(this);
-	//	}
-	//	m_emButtonState = E_OVER;
-	//}
 	
 }
 
 void cUiManager::Render()
 {
-
-	/*if (m_pInven)
-		m_pInven->Render(m_pSprite);*/
-
 	if (Inventory)
 		Inventory->Render();
 
@@ -137,47 +114,8 @@ void cUiManager::Render()
 		m_pHpBar->Render(m_pSprite);
 	
 	if (pBaba_skill_1)
-		pBaba_skill_1->Render(m_pSprite);
-
-	
-	
+		pBaba_skill_1->Render(m_pSprite);	
 }
-//
-//void cUiManager::UITranslation(cUIObject* pRoot)
-//{
-//	if (g_pKeyManager->isOnceKeyDown('I') && !m_pRoot->GetIsDraw())
-//	{
-//		cUIText* pTextUI = (cUIText*)m_pRoot->FindChildByTag(2);
-//		pTextUI->SetText("퀘스트를 수행하시겠습니까?");
-//		m_pRoot->SetDraw(true);
-//	}
-//
-//	if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
-//	{
-//		if (InCollider(m_pRoot))
-//		{
-//			m_IsClick = true;
-//			m_ptClickPoint = g_ptMouse;
-//		}
-//
-//	}
-//
-//	if (g_pKeyManager->isOnceKeyUp(VK_LBUTTON))
-//	{
-//		m_IsClick = false;
-//	}
-//
-//	if (m_IsClick)
-//	{
-//		int deltaX = g_ptMouse.x - m_ptClickPoint.x;
-//		int deltaY = g_ptMouse.y - m_ptClickPoint.y;
-//		
-//		m_pRoot->GetPosition().x += deltaX;
-//		m_pRoot->GetPosition().y += deltaY;
-//
-//		m_ptClickPoint = g_ptMouse;
-//	}
-//}
 
 bool cUiManager::InCollider(cUIObject * pUI)
 {
@@ -205,36 +143,6 @@ void cUiManager::OnClick(cUIButton * pSender)
 		Skill_FileName = "./Resources/UI/휠윈드선택.png";
 	}
 	
-}
-
-void cUiManager::Itemswap(cUIImage* Findimage)
-{
-
-	switch (Findimage->GetTag())
-	{
-	case cUIObject::Inven_arm:
-		//Findimage->SetTexture();
-		break;
-	case cUIObject::Inven_head:
-		break;
-	case cUIObject::Inven_chest:
-		break;
-	case cUIObject::Inven_boots:
-		break;
-	case cUIObject::Inven_pants:
-		break;
-	case cUIObject::Inven_belt:
-		break;
-	case cUIObject::Inven_wrist:
-		break;
-	case cUIObject::Inven_sword:
-		break;
-	case cUIObject::Inven_shoulder:
-		break;
-	default:
-		break;
-	}
-
 }
 
 void cUiManager::SetUpHpBar(RECT rc)
