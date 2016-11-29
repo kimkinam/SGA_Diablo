@@ -16,4 +16,9 @@ namespace MyUtil
 
 	char* StringToChar(string str);
 
+	void GetBoundMinMax(LPD3DXMESH pMesh, D3DXVECTOR3& vMin, D3DXVECTOR3& vMax);
+
+	void GetBoundSphere(LPD3DXMESH pMesh, ST_SPHERE& pSphere);
+
+	void MakeBoundBox(D3DXVECTOR3 vMin, D3DXVECTOR3 vMax, std::vector<ST_PC_VERTEX>& vecVertex);
 }

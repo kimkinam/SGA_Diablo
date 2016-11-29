@@ -11,6 +11,7 @@ cPlayer::cPlayer()
 	, m_dAttackStartTime(0.0f)
 	, m_dAttackTermTime(0.0f)
 	, m_pSword(NULL)
+	, m_nCurMap(0)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	
@@ -28,8 +29,8 @@ cPlayer::~cPlayer()
 void cPlayer::SetUp()
 {
 	//바바
-	m_pMesh = new cSkinnedMesh("./Resources/Player/", "Bab1.X");
-	m_pMesh->SetAnimationIndex(5);
+	m_pMesh = new cSkinnedMesh("./Resources/Player/", "Bab3.X");
+	m_pMesh->SetAnimationIndex(1);
 
 	//칼
 	m_pSword = new cObj;
@@ -45,6 +46,16 @@ void cPlayer::Update()
 		m_pAction->Update();
 
 	AniControl();
+
+
+	if (m_vPosition.x < 0 && m_vPosition.z < 0)	//왼쪽아래
+		m_nCurMap = 0;
+	if (m_vPosition.x < 0 && m_vPosition.z > 0)	//왼쪽위
+		m_nCurMap = 1;
+	if (m_vPosition.x > 0 && m_vPosition.z > 0)	//오른쪽위
+		m_nCurMap = 2;
+	if (m_vPosition.x > 0 && m_vPosition.z < 0)	//오른쪽아래
+		m_nCurMap = 3;
 
 	
 }
@@ -76,5 +87,5 @@ void cPlayer::OnActionFinish(cAction * pSender)
 {
 	m_pAction = NULL;
 
-	m_pMesh->SetAnimationIndex(5);
+	m_pMesh->SetAnimationIndex(1);
 }

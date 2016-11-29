@@ -20,6 +20,7 @@ cTestScene::cTestScene()
 	, m_bIsSetMap(false)
 	, m_pSprite(NULL)
 	, m_pCurObj(NULL)
+	, m_vpickPos(0, 0, 0)
 {
 	m_pCamera = new cCamera;
 	m_pCamera->Setup();
@@ -35,17 +36,17 @@ cTestScene::cTestScene()
 	m_vecObj.reserve(sizeof(cObj) * 3);
 
 	cObj* obj1 = new cObj;
-	obj1->SetUp("a1dun_01.objobj", "./Resources/Object/");
+	obj1->SetUp("a1dun_01_test.objobj", "./Resources/Object/");
 	obj1->SetSumNailName("a1Dun_01.jpg");
 	m_vecObj.push_back(obj1);
-
+	
 	cObj* obj2 = new cObj;
-	obj2->SetUp("a1dun_02.objobj", "./Resources/Object/");
+	obj2->SetUp("a1dun_02_test.objobj", "./Resources/Object/");
 	obj2->SetSumNailName("a1Dun_02.jpg");
 	m_vecObj.push_back(obj2);
-
+	
 	cObj* obj3 = new cObj;
-	obj3->SetUp("a1dun_03.objobj", "./Resources/Object/");
+	obj3->SetUp("a1dun_03_test.objobj", "./Resources/Object/");
 	obj3->SetSumNailName("a1dun_03.jpg");
 	m_vecObj.push_back(obj3);
 	
@@ -96,18 +97,22 @@ cTestScene::cTestScene()
 	pLeftArrow->SetTag((cUIObject::Ui_Tag)1);
 	m_pUIRoot->AddChild(pLeftArrow);
 
-	for (size_t i = 0; i < m_vecObj.size() * 2 + 1; ++i)
+	if (!m_vecObj.empty())
 	{
-		cUIImage* sumNail = new cUIImage;
-		D3DXMatrixScaling(&matS, 0.08f, 0.08f, 0.08f);
-		sumNail->SetmatS(matS);
-		string sPath = "./Resources/MapTool/" + m_vecObj[i % 3]->GetSumNailName();
-		sumNail->SetTexture(StringToChar(sPath));
-		sumNail->SetPosition(39 + i * 45, 5, 0);
-		sumNail->SetTag((cUIObject::Ui_Tag)3);
-		m_pUIRoot->AddChild(sumNail);
-		m_vecObjUI.push_back(sumNail);
+		for (size_t i = 0; i < m_vecObj.size() * 2 + 1; ++i)
+		{
+			cUIImage* sumNail = new cUIImage;
+			D3DXMatrixScaling(&matS, 0.08f, 0.08f, 0.08f);
+			sumNail->SetmatS(matS);
+			string sPath = "./Resources/MapTool/" + m_vecObj[i % 3]->GetSumNailName();
+			sumNail->SetTexture(StringToChar(sPath));
+			sumNail->SetPosition(39 + i * 45, 5, 0);
+			sumNail->SetTag((cUIObject::Ui_Tag)3);
+			m_pUIRoot->AddChild(sumNail);
+			m_vecObjUI.push_back(sumNail);
+		}
 	}
+	
 
 }
 
@@ -209,16 +214,17 @@ void cTestScene::Update()
 					obj->SetHiddenObj(m_pCurObj->GetHiddenObj());
 					obj->SetObjName(m_pCurObj->GetObjName());
 					obj->SetSumNailName(m_pCurObj->GetSumNailName());
-
+					obj->SetBoundBox(m_pCurObj->GetBoundBox());
 					obj->SetPosition(m_pCurObj->GetPosition());
-
+					obj->SetHiddenDraw(m_pCurObj->GetHiddenDraw());
+					
 					m_pCurObj->GetMesh()->CloneMeshFVF(
 						m_pCurObj->GetMesh()->GetOptions(),
 						m_pCurObj->GetMesh()->GetFVF(),
 						g_pD3DDevice,
 						&obj->GetMesh());
 					m_vecMap.push_back(obj);
-
+					
 					m_pCurObj = NULL;
 				}
 				else
@@ -247,40 +253,90 @@ void cTestScene::Update()
 				pAction->SetDelegate(m_pPlayer);
 				pAction->Start();
 				m_pPlayer->SetAction(pAction);
-				m_pPlayer->GetMesh()->SetAnimationIndex(4);
+				m_pPlayer->GetMesh()->SetAnimationIndex(0);
 
 				m_bIsSetMap = true;
 			}
 		}
 	}
 
-	//if (g_pKeyManager->isOnceKeyDown('1'))
-	//{
-	//	m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Gloves", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
-	//}
-	//if (g_pKeyManager->isOnceKeyDown('2'))
-	//{
-	//	m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Pants", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
-	//}
-	//if (g_pKeyManager->isOnceKeyDown('3'))
-	//{
-	//	m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Cloth", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
-	//}
-	//if (g_pKeyManager->isOnceKeyDown('4'))
-	//{
-	//	m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Armor", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
-	//}
-	//if (g_pKeyManager->isOnceKeyDown('5'))
-	//{
-	//	m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Boots", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
-	//}
+	if (g_pKeyManager->isOnceKeyDown('1'))
+	{
+		m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Gloves", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
+	}
+	if (g_pKeyManager->isOnceKeyDown('2'))
+	{
+		m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Pants", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
+	}
+	if (g_pKeyManager->isOnceKeyDown('3'))
+	{
+		m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Cloth", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
+	}
+	if (g_pKeyManager->isOnceKeyDown('4'))
+	{
+		m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Armor", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
+	}
+	if (g_pKeyManager->isOnceKeyDown('5'))
+	{
+		m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Boots", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
+	}
+
+	if (m_bIsSetMap && !m_vecMap.empty())
+	{
+		m_pCamera->Update(&m_pPlayer->GetPosition());
+			//for (size_t i = 0; i < m_vecMap.size(); ++i)
+			//{
+			for (size_t i = 0; i < m_vecMap[0]->GetHiddenObj().size(); ++i)
+			{
+				for (size_t j = 0; j < m_vecMap[0]->GetBoundBox()[i].size(); j += 3)
+				{
+					float u, v, length;
+					D3DXVECTOR3 dir = m_pPlayer->GetPosition() - m_pCamera->GetEye();
+					D3DXVec3Normalize(&dir, &dir);
+	
+					if (D3DXIntersectTri(&m_vecMap[0]->GetBoundBox()[i][j].p,
+						&m_vecMap[0]->GetBoundBox()[i][j + 1].p,
+						&m_vecMap[0]->GetBoundBox()[i][j + 2].p,
+						&m_pCamera->GetEye(),
+						&dir,
+						&u, &v, &length))
+					{
+	
+						D3DXVECTOR3 d = m_pPlayer->GetPosition() - m_pCamera->GetEye();
+						float dis = D3DXVec3Length(&d);
+						if (length < dis)
+						{
+							m_vecMap[0]->GetHiddenDraw()[i] = true;
+							break;
+						}
+							
+					}
+					else
+					{
+						m_vecMap[0]->GetHiddenDraw()[i] = false;
+					}
+	
+				}
+	
+			}
+					
+		
+	}
 
 
-	//if (m_bIsSetMap)
-	//{
-	//
-	//}
-
+	/*if (D3DXIntersectTri(&m_vecMap[0]->GetBoundBox()[i][j].p,
+		&m_vecMap[0]->GetBoundBox()[i][j + 1].p,
+		&m_vecMap[0]->GetBoundBox()[i][j + 2].p,
+		&m_pCamera->GetEye(),
+		&(m_pPlayer->GetPosition() - m_pCamera->GetEye()),
+		&u, &v, &length))
+	{
+		float d = D3DXVec3Length(&(m_pPlayer->GetPosition() - m_pCamera->GetEye()));
+		if (length < d)
+		{
+			m_vecMap[0]->GetHiddenDraw()[i] = true;
+		}
+	}*/
 
 
 	if (m_pPlayer)
@@ -326,13 +382,14 @@ void cTestScene::Render()
 	LPD3DXFONT font;
 	font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
 
-	char temp[128];
-	sprintf_s(temp, "PlayerPos : %.2f, %.2f, %.2f", 
+	char temp[512];
+	sprintf_s(temp, "PlayerPos : %.2f, %.2f, %.2f // Pick : %.2f, %.2f, %.2f", 
 		m_pPlayer->GetPosition().x,
 		m_pPlayer->GetPosition().y,
 		m_pPlayer->GetPosition().z,
-		128);
-	RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 150, DEBUG_STARTX + 250, DEBUG_STARTY + 165 };
+		m_vpickPos.x, m_vpickPos.y, m_vpickPos.z,
+		512);
+	RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 150, DEBUG_STARTX + 600, DEBUG_STARTY + 165 };
 	font->DrawText(NULL,
 		temp,
 		128,

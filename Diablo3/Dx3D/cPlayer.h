@@ -15,6 +15,7 @@ private:
 	SYNTHESIZE(bool, m_bIsAtk, IsAtk);
 	SYNTHESIZE(cSkinnedMesh*, m_pMesh, Mesh);
 	SYNTHESIZE(PLAYER_STATE, m_emState, State);
+	SYNTHESIZE(int, m_nCurMap, CurMap);
 
 
 public:
