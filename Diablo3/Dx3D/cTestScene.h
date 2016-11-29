@@ -5,6 +5,7 @@ class cSkinnedMesh;
 class cObj;
 class cCamera;
 class cPlayer;
+class cMonster;
 
 class cTestScene : public cSceneObject, public iButtonDelegate
 {
@@ -13,6 +14,7 @@ private:
 	cCamera*					m_pCamera;
 	
 	cPlayer*					m_pPlayer;
+	cMonster*					m_pMonster;
 
 	//현재 오브젝트
 	cObj*						m_pCurObj;

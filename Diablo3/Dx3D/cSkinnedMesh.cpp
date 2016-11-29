@@ -334,6 +334,7 @@ void cSkinnedMesh::SetupBoneMatrixPtrs(ST_BONE* pBone)
 
 void cSkinnedMesh::SetAnimationIndex(int nIndex)
 {
+	assert(nIndex <= m_pAnimController->GetMaxNumAnimationSets() && "애니메이션 인덱스를 벗어났습니다");
 	m_isAnimBlend = true;
 	m_fPassedBlendTime = 0.0f;
 
@@ -347,6 +348,37 @@ void cSkinnedMesh::SetAnimationIndex(int nIndex)
 	m_pAnimController->SetTrackAnimationSet(1, pPrevAnimSet);
 
 	m_pAnimController->GetAnimationSet(nIndex, &pNextAnimSet);
+	m_pAnimController->SetTrackAnimationSet(0, pNextAnimSet);
+	m_pAnimController->SetTrackPosition(0, 0.0f);
+
+	m_pAnimController->SetTrackDesc(1, &stTrackDesc);
+
+	m_pAnimController->SetTrackWeight(0, 0.0f);
+	m_pAnimController->SetTrackWeight(1, 1.0f);
+
+	SAFE_RELEASE(pPrevAnimSet);
+	SAFE_RELEASE(pNextAnimSet);
+}
+
+void cSkinnedMesh::SetAnimationIndex(char* szStateName)
+{
+	
+	m_isAnimBlend = true;
+	m_fPassedBlendTime = 0.0f;
+
+	LPD3DXANIMATIONSET pPrevAnimSet = NULL;
+	LPD3DXANIMATIONSET pNextAnimSet = NULL;
+
+	D3DXTRACK_DESC stTrackDesc;
+	m_pAnimController->GetTrackDesc(0, &stTrackDesc);
+
+	m_pAnimController->GetTrackAnimationSet(0, &pPrevAnimSet);
+	m_pAnimController->SetTrackAnimationSet(1, pPrevAnimSet);
+
+	m_pAnimController->GetAnimationSetByName(szStateName, &pNextAnimSet);
+
+	assert(pNextAnimSet != NULL && "애니메이션이름이 없습니다");
+
 	m_pAnimController->SetTrackAnimationSet(0, pNextAnimSet);
 	m_pAnimController->SetTrackPosition(0, 0.0f);
 
@@ -383,4 +415,16 @@ void cSkinnedMesh::Destroy()
 void cSkinnedMesh::SetRandomTrackPosition()
 {
 	m_pAnimController->SetTrackPosition(0, (rand() % 100) / 10.0f);
+}
+
+
+string cSkinnedMesh::GetCurAnimationName()
+{
+	LPD3DXANIMATIONSET pCurAS = NULL;
+
+	m_pAnimController->GetTrackAnimationSet(0, &pCurAS);
+	
+	string name = pCurAS->GetName();
+	return name;
+
 }
