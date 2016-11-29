@@ -30,6 +30,7 @@ public:
 
 	void UpdateAndRender(D3DXMATRIX* pMat = NULL);
 	void SetAnimationIndex(int nIndex);
+	void SetAnimationIndex(char* szStateName);
 
 	D3DXMATRIX* AttachItem(char* szFileName);
 	void ChangeItem(char* szName, char* szFileName);
@@ -44,6 +45,8 @@ public:
 	{
 		return &m_stBoundingSphere;
 	}
+
+	string GetCurAnimationName();
 private:
 	cSkinnedMesh();
 	void Load(char* szFolder, char* szFilename);
@@ -52,5 +55,7 @@ private:
 	void Render(ST_BONE* pBone = NULL);
 	void SetupBoneMatrixPtrs(ST_BONE* pBone);
 	void Destroy();
+
+	
 };
 
