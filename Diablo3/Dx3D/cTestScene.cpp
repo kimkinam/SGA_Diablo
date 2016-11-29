@@ -11,7 +11,7 @@
 #include "cUIButton.h"
 #include "cPlayer.h"	
 #include "cActionMove.h"
-
+#include "cMonster.h"
 
 cTestScene::cTestScene()
 	: m_pGrid(NULL)
@@ -20,7 +20,11 @@ cTestScene::cTestScene()
 	, m_bIsSetMap(false)
 	, m_pSprite(NULL)
 	, m_pCurObj(NULL)
+<<<<<<< HEAD
 	, m_vpickPos(0, 0, 0)
+=======
+	, m_pMonster(NULL)
+>>>>>>> ab42a1c438ccd29fcc79e091a9d26cd8131571c4
 {
 	m_pCamera = new cCamera;
 	m_pCamera->Setup();
@@ -31,6 +35,10 @@ cTestScene::cTestScene()
 	//플레이어
 	m_pPlayer = new cPlayer;
 	m_pPlayer->SetUp();
+
+	//몬스터
+	m_pMonster = new cMonster;
+	m_pMonster->Setup("Skeleton");
 	
 	//맵
 	m_vecObj.reserve(sizeof(cObj) * 3);
@@ -122,6 +130,7 @@ cTestScene::~cTestScene()
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pPlayer);
+	SAFE_DELETE(m_pMonster);
 
 	SAFE_RELEASE(m_pCurObj);
 
@@ -342,11 +351,12 @@ void cTestScene::Update()
 	if (m_pPlayer)
 		m_pPlayer->Update();
 	
+	if (m_pMonster)
+		m_pMonster->Update();
+
 	if (m_pUIRoot)
 		m_pUIRoot->Update();
 
-
-	
 }
 
 void cTestScene::Render()
@@ -360,6 +370,9 @@ void cTestScene::Render()
 	//
 	if (m_pPlayer)
 		m_pPlayer->Render();
+
+	if (m_pMonster)
+		m_pMonster->Render();
 
 	//for each (auto c in m_vecObj)
 	//{

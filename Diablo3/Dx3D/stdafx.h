@@ -200,17 +200,6 @@ struct ST_SPHERE
 	ST_SPHERE() : fRadius(0.0f), vCenter(0, 0, 0) {}
 };
 
-enum PLAYER_STATE
-{
-	PLAYER_IDLE,
-	PLAYER_MOVE,
-	PLAYER_ATTACK1,
-	PLAYER_ATTACT2,
-	PLAYER_STATE_COUNT
-};
-
-
-
 
 #define DEBUG_INTERVAL 5
 #define	DEBUG_STARTX 0
@@ -241,4 +230,6 @@ enum PLAYER_STATE
 //전역 해더
 #include "Item.h"
 #include "MyUtil.h"
+#include "player.h"
+#include "Monster.h"
 using namespace MyUtil;
