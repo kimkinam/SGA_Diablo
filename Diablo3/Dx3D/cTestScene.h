@@ -49,6 +49,9 @@ public:
 	virtual void OnClick(cUIButton* pSender) override;
 
 	bool InCollider(cUIObject * pUI);
+
+	void SetMap();
+	void PlayerMoveTest();
 	
 
 };

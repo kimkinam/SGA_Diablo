@@ -46,15 +46,15 @@ cTestScene::cTestScene()
 	obj1->SetSumNailName("a1Dun_01.jpg");
 	m_vecObj.push_back(obj1);
 	
-	cMap* obj2 = new cMap;
-	obj2->Setup("a1dun_02_test.objobj", "./Resources/Object/");
-	obj2->SetSumNailName("a1Dun_02.jpg");
-	m_vecObj.push_back(obj2);
-	
-	cMap* obj3 = new cMap;
-	obj3->Setup("a1dun_03_test.objobj", "./Resources/Object/");
-	obj3->SetSumNailName("a1dun_03.jpg");
-	m_vecObj.push_back(obj3);
+	//cMap* obj2 = new cMap;
+	//obj2->Setup("a1dun_02_test.objobj", "./Resources/Object/");
+	//obj2->SetSumNailName("a1Dun_02.jpg");
+	//m_vecObj.push_back(obj2);
+	//
+	//cMap* obj3 = new cMap;
+	//obj3->Setup("a1dun_03_test.objobj", "./Resources/Object/");
+	//obj3->SetSumNailName("a1dun_03.jpg");
+	//m_vecObj.push_back(obj3);
 	
 
 	ST_PC_VERTEX v;
@@ -105,7 +105,7 @@ cTestScene::cTestScene()
 
 	if (!m_vecObj.empty())
 	{
-		for (size_t i = 0; i < m_vecObj.size() * 2 + 1; ++i)
+		for (size_t i = 0; i < m_vecObj.size(); ++i)
 		{
 			cUIImage* sumNail = new cUIImage;
 			D3DXMatrixScaling(&matS, 0.08f, 0.08f, 0.08f);
@@ -176,176 +176,12 @@ void cTestScene::Update()
 		m_pCamera->Update(NULL);
 	}
 
+	SetMap();
+
+	PlayerMoveTest();
 	
-	for (size_t i = 0; i < m_vecObjUI.size(); ++i)
-	{
-		if (InCollider(m_vecObjUI[i]))
-		{
-			
-			if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
-			{
-				m_pCurObj = m_vecObj[i];
 
-				m_bIsSetMap = false;
-			}
-		}
-	}
-
-	if (m_pCurObj)
-	{
-		cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
-		D3DXVECTOR3 pickPos;
-		for (size_t i = 0; i < m_vecTiles.size(); i += 3)
-		{
-			if (r.IntersectTri(m_vecTiles[i].p,
-				m_vecTiles[i + 1].p,
-				m_vecTiles[i + 2].p,
-				pickPos))
-			{
-
-				if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
-				{
-					if (pickPos.x < 0 && pickPos.z > 0)
-						m_pCurObj->SetPosition(D3DXVECTOR3(-10, 0, 10));
-					if (pickPos.x < 0 && pickPos.z < 0)
-						m_pCurObj->SetPosition(D3DXVECTOR3(-10, 0, -10));
-					if (pickPos.x > 0 && pickPos.z > 0)
-						m_pCurObj->SetPosition(D3DXVECTOR3(10, 0, 10));
-					if (pickPos.x > 0 && pickPos.z < 0)
-						m_pCurObj->SetPosition(D3DXVECTOR3(10, 0, -10));
-					m_bIsSetMap = false;
-
-					cMap* obj = new cMap;
-					obj = m_pCurObj;
-
-					//obj->SetMtl(m_pCurObj->GetMtl());
-					//obj->SetHiddenMtl(m_pCurObj->GetHiddenMtl());
-					//obj->SetHiddenObj(m_pCurObj->GetHiddenObj());
-					//obj->SetObjName(m_pCurObj->GetObjName());
-					//obj->SetSumNailName(m_pCurObj->GetSumNailName());
-					//obj->SetBoundBox(m_pCurObj->GetBoundBox());
-					//obj->SetPosition(m_pCurObj->GetPosition());
-					//obj->SetHiddenDraw(m_pCurObj->GetHiddenDraw());
-					
-					//m_pCurObj->GetMesh()->CloneMeshFVF(
-					//	m_pCurObj->GetMesh()->GetOptions(),
-					//	m_pCurObj->GetMesh()->GetFVF(),
-					//	g_pD3DDevice,
-					//	&obj->GetMesh());
-					m_vecMap.push_back(obj);
-					
-					m_pCurObj = NULL;
-				}
-				else
-					m_pCurObj->SetPosition(pickPos);
-
-			}
-		}
-	}
-
-	if (!m_pCurObj && g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
-	{
-		cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
-		D3DXVECTOR3 pickPos;
-		for (size_t i = 0; i < m_vecTiles.size(); i += 3)
-		{
-			if (r.IntersectTri(m_vecTiles[i].p,
-				m_vecTiles[i + 1].p,
-				m_vecTiles[i + 2].p,
-				pickPos))
-			{
-				cActionMove* pAction = new cActionMove;
-
-				pAction->SetTo(pickPos);
-				pAction->SetFrom(m_pPlayer->GetPosition());
-				pAction->SetTarget(m_pPlayer);
-				pAction->SetDelegate(m_pPlayer);
-				pAction->Start();
-				m_pPlayer->SetAction(pAction);
-				m_pPlayer->GetMesh()->SetAnimationIndex(0);
-
-				m_bIsSetMap = true;
-			}
-		}
-	}
-
-	if (g_pKeyManager->isOnceKeyDown('1'))
-	{
-		m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Gloves", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
-	}
-	if (g_pKeyManager->isOnceKeyDown('2'))
-	{
-		m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Pants", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
-	}
-	if (g_pKeyManager->isOnceKeyDown('3'))
-	{
-		m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Cloth", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
-	}
-	if (g_pKeyManager->isOnceKeyDown('4'))
-	{
-		m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Armor", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
-	}
-	if (g_pKeyManager->isOnceKeyDown('5'))
-	{
-		m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Boots", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
-	}
-
-	if (m_bIsSetMap && !m_vecMap.empty())
-	{
-		m_pCamera->Update(&m_pPlayer->GetPosition());
-			//for (size_t i = 0; i < m_vecMap.size(); ++i)
-			//{
-			for (size_t i = 0; i < m_vecMap[0]->GetHiddenObj().size(); ++i)
-			{
-				for (size_t j = 0; j < m_vecMap[0]->GetBoundBox()[i].size(); j += 3)
-				{
-					float u, v, length;
-					D3DXVECTOR3 dir = m_pPlayer->GetPosition() - m_pCamera->GetEye();
-					D3DXVec3Normalize(&dir, &dir);
 	
-					if (D3DXIntersectTri(&(m_vecMap[0]->GetBoundBox()[i][j].p + m_vecMap[0]->GetPosition()),
-						&(m_vecMap[0]->GetBoundBox()[i][j+1].p + m_vecMap[0]->GetPosition()),
-						&(m_vecMap[0]->GetBoundBox()[i][j+2].p + m_vecMap[0]->GetPosition()),
-						&m_pCamera->GetEye(),
-						&dir,
-						&u, &v, &length))
-					{
-	
-						D3DXVECTOR3 d = m_pPlayer->GetPosition() - m_pCamera->GetEye();
-						float dis = D3DXVec3Length(&d);
-						if (length < dis)
-						{
-							m_vecMap[0]->GetHiddenDraw()[i] = true;
-							break;
-						}
-							
-					}
-					else
-					{
-						m_vecMap[0]->GetHiddenDraw()[i] = false;
-					}
-	
-				}
-	
-			}
-					
-		
-	}
-
-
-	/*if (D3DXIntersectTri(&m_vecMap[0]->GetBoundBox()[i][j].p,
-		&m_vecMap[0]->GetBoundBox()[i][j + 1].p,
-		&m_vecMap[0]->GetBoundBox()[i][j + 2].p,
-		&m_pCamera->GetEye(),
-		&(m_pPlayer->GetPosition() - m_pCamera->GetEye()),
-		&u, &v, &length))
-	{
-		float d = D3DXVec3Length(&(m_pPlayer->GetPosition() - m_pCamera->GetEye()));
-		if (length < d)
-		{
-			m_vecMap[0]->GetHiddenDraw()[i] = true;
-		}
-	}*/
 
 
 	if (m_pPlayer)
@@ -356,6 +192,21 @@ void cTestScene::Update()
 
 	if (m_pUIRoot)
 		m_pUIRoot->Update();
+
+	if (g_pKeyManager->isToggleKey(VK_TAB))
+	{
+		for (size_t i = 0; i < m_vecMap.size(); ++i)
+		{
+			m_vecMap[i]->SetIsDrawBound(false);
+		}
+	}
+	else
+	{
+		for (size_t i = 0; i < m_vecMap.size(); ++i)
+		{
+			m_vecMap[i]->SetIsDrawBound(true);
+		}
+	}
 
 }
 
@@ -374,12 +225,6 @@ void cTestScene::Render()
 	if (m_pMonster)
 		m_pMonster->Render();
 
-	//for each (auto c in m_vecObj)
-	//{
-	//	c->Render();
-	//}
-	//if (m_pMap)
-	//	m_pMap->Render();
 
 	for (size_t i = 0; i < m_vecMap.size(); ++i)
 		m_vecMap[i]->Render();
@@ -396,11 +241,11 @@ void cTestScene::Render()
 	font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
 
 	char temp[512];
-	sprintf_s(temp, "PlayerPos : %.2f, %.2f, %.2f // Pick : %.2f, %.2f, %.2f", 
+	sprintf_s(temp, "PlayerPos : %.2f, %.2f, %.2f // CurMap : %d", 
 		m_pPlayer->GetPosition().x,
 		m_pPlayer->GetPosition().y,
 		m_pPlayer->GetPosition().z,
-		m_vpickPos.x, m_vpickPos.y, m_vpickPos.z,
+		m_pPlayer->GetCurMap(),
 		512);
 	RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 150, DEBUG_STARTX + 600, DEBUG_STARTY + 165 };
 	font->DrawText(NULL,
@@ -483,4 +328,199 @@ bool cTestScene::InCollider(cUIObject * pUI)
 		return true;
 
 	return false;
+}
+
+void cTestScene::SetMap()
+{
+	for (size_t i = 0; i < m_vecObjUI.size(); ++i)
+	{
+		if (InCollider(m_vecObjUI[i]))
+		{
+			if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
+			{
+				//m_pCurObj = m_vecObj[i];
+
+				m_pCurObj = new cMap;
+
+				m_pCurObj->SetMtl(m_vecObj[i]->GetMtl());
+				m_pCurObj->SetHiddenMtl(m_vecObj[i]->GetHiddenMtl());
+				m_pCurObj->SetHiddenObj(m_vecObj[i]->GetHiddenObj());
+				m_pCurObj->SetObjName(m_vecObj[i]->GetObjName());
+				m_pCurObj->SetSumNailName(m_vecObj[i]->GetSumNailName());
+				m_pCurObj->SetBoundBox(m_vecObj[i]->GetBoundBox());
+				m_pCurObj->SetPosition(m_vecObj[i]->GetPosition());
+				m_pCurObj->SetHiddenDraw(m_vecObj[i]->GetHiddenDraw());
+
+				m_vecObj[i]->GetMesh()->CloneMeshFVF(
+					m_vecObj[i]->GetMesh()->GetOptions(),
+					m_vecObj[i]->GetMesh()->GetFVF(),
+					g_pD3DDevice,
+					&m_pCurObj->GetMesh());
+
+				m_bIsSetMap = false;
+			}
+		}
+	}
+
+	if (m_pCurObj)
+	{
+		cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
+		D3DXVECTOR3 pickPos;
+		for (size_t i = 0; i < m_vecTiles.size(); i += 3)
+		{
+			if (r.IntersectTri(m_vecTiles[i].p,
+				m_vecTiles[i + 1].p,
+				m_vecTiles[i + 2].p,
+				pickPos))
+			{
+
+				if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
+				{
+					if (pickPos.x < 0 && pickPos.z > 0)
+						m_pCurObj->SetPosition(D3DXVECTOR3(-10, 0, 10));
+					if (pickPos.x < 0 && pickPos.z < 0)
+						m_pCurObj->SetPosition(D3DXVECTOR3(-10, 0, -10));
+					if (pickPos.x > 0 && pickPos.z > 0)
+						m_pCurObj->SetPosition(D3DXVECTOR3(10, 0, 10));
+					if (pickPos.x > 0 && pickPos.z < 0)
+						m_pCurObj->SetPosition(D3DXVECTOR3(10, 0, -10));
+					m_bIsSetMap = false;
+
+					cMap* obj = new cMap;
+					obj = m_pCurObj;
+					m_vecMap.push_back(obj);
+
+					m_pCurObj = NULL;
+				}
+				else
+					m_pCurObj->SetPosition(pickPos);
+
+			}
+		}
+	}
+}
+
+void cTestScene::PlayerMoveTest()
+{
+	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
+	{
+		cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
+		D3DXVECTOR3 pickPos;
+		for (size_t i = 0; i < m_vecTiles.size(); i += 3)
+		{
+			if (r.IntersectTri(m_vecTiles[i].p,
+				m_vecTiles[i + 1].p,
+				m_vecTiles[i + 2].p,
+				pickPos))
+			{
+				cActionMove* pAction = new cActionMove;
+
+				pAction->SetTo(pickPos);
+				pAction->SetFrom(m_pPlayer->GetPosition());
+				pAction->SetTarget(m_pPlayer);
+				pAction->SetDelegate(m_pPlayer);
+				pAction->Start();
+				m_pPlayer->SetAction(pAction);
+				m_pPlayer->GetMesh()->SetAnimationIndex(0);
+
+				m_bIsSetMap = true;
+			}
+		}
+	}
+
+	//if (g_pKeyManager->isOnceKeyDown('1'))
+	//{
+	//	m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Gloves", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
+	//}
+	//if (g_pKeyManager->isOnceKeyDown('2'))
+	//{
+	//	m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Pants", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
+	//}
+	//if (g_pKeyManager->isOnceKeyDown('3'))
+	//{
+	//	m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Cloth", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
+	//}
+	//if (g_pKeyManager->isOnceKeyDown('4'))
+	//{
+	//	m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Armor", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
+	//}
+	//if (g_pKeyManager->isOnceKeyDown('5'))
+	//{
+	//	m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Boots", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
+	//}
+
+	if (m_bIsSetMap && !m_vecMap.empty())
+	{
+		int nCurMap = m_pPlayer->GetCurMap();
+
+		for (size_t i = 0; i < m_vecMap[nCurMap]->GetHiddenObj().size(); ++i)
+		{
+			for (size_t j = 0; j < m_vecMap[nCurMap]->GetBoundBox()[i].size(); j += 3)
+			{
+				float u, v, length;
+				D3DXVECTOR3 dir = m_pPlayer->GetPosition() - m_pCamera->GetEye();
+				D3DXVec3Normalize(&dir, &dir);
+
+				if (D3DXIntersectTri(&(m_vecMap[nCurMap]->GetBoundBox()[i][j].p + m_vecMap[nCurMap]->GetPosition()),
+					&(m_vecMap[nCurMap]->GetBoundBox()[i][j + 1].p + m_vecMap[nCurMap]->GetPosition()),
+					&(m_vecMap[nCurMap]->GetBoundBox()[i][j + 2].p + m_vecMap[nCurMap]->GetPosition()),
+					&m_pCamera->GetEye(),
+					&dir,
+					&u, &v, &length))
+				{
+
+					D3DXVECTOR3 d = m_pPlayer->GetPosition() - m_pCamera->GetEye();
+					float dis = D3DXVec3Length(&d);
+					if (length < dis)
+					{
+						m_vecMap[nCurMap]->GetHiddenDraw()[i] = true;
+						break;
+					}
+
+				}
+				else
+				{
+					m_vecMap[nCurMap]->GetHiddenDraw()[i] = false;
+				}
+
+			}
+
+		}
+
+
+		/*for (size_t i = 0; i < m_vecMap[nCurMap]->GetHiddenObj().size(); ++i)
+		{
+		for (size_t j = 0; j < m_vecMap[nCurMap]->GetBoundBox()[i].size(); j += 3)
+		{
+		float u, v, length;
+		D3DXVECTOR3 dir = m_pPlayer->GetPosition() - m_pCamera->GetEye();
+		D3DXVec3Normalize(&dir, &dir);
+
+		if (D3DXIntersectTri(&(m_vecMap[nCurMap]->GetBoundBox()[i][j].p + m_vecMap[nCurMap]->GetPosition()),
+		&(m_vecMap[nCurMap]->GetBoundBox()[i][j+1].p + m_vecMap[nCurMap]->GetPosition()),
+		&(m_vecMap[nCurMap]->GetBoundBox()[i][j+2].p + m_vecMap[nCurMap]->GetPosition()),
+		&m_pCamera->GetEye(),
+		&dir,
+		&u, &v, &length))
+		{
+
+		D3DXVECTOR3 d = m_pPlayer->GetPosition() - m_pCamera->GetEye();
+		float dis = D3DXVec3Length(&d);
+		if (length < dis)
+		{
+		m_vecMap[nCurMap]->GetHiddenDraw()[i] = true;
+		break;
+		}
+
+		}
+		else
+		{
+		m_vecMap[nCurMap]->GetHiddenDraw()[i] = false;
+		}
+
+		}
+
+		}*/
+	}
+
 }

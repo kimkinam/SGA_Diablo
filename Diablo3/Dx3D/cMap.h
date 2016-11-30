@@ -18,10 +18,13 @@ private:
 	
 	//바운드 박스
 	SYNTHESIZE_PASS_BY_REF(std::vector<vector<ST_PC_VERTEX>>, m_vecBound, BoundBox);
+	SYNTHESIZE(bool, m_bIsDrawBound, IsDrawBound);
 
 	SYNTHESIZE(D3DXMATRIX, m_matWorld, WorldTM);
 	SYNTHESIZE(string, m_sSumNailName, SumNailName);
 	SYNTHESIZE(string, m_sObjName, ObjName);
+
+
 
 public:
 	cMap();
@@ -29,6 +32,7 @@ public:
 
 	void Setup(char* szFileName, char* szForlderName);
 	void Render();
+	void RenderBoundBox();
 	
 };
 
