@@ -6,6 +6,7 @@
 cMap::cMap()
 	: m_pMesh(NULL)
 	, m_vPosition(0, 0, 0)
+	, m_bIsDrawBound(false)
 {
 	m_sSumNailName = m_sObjName = "";
 
@@ -74,27 +75,10 @@ void cMap::Render()
 	
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 
-	for (size_t i = 0; i < m_vecBound.size(); ++i)
-	{
-		for (size_t j = 0; j < m_vecBound[i].size(); ++j)
-		{
-			D3DMATERIAL9 mtl;
-			ZeroMemory(&mtl, sizeof(D3DMATERIAL9));
-			g_pD3DDevice->SetMaterial(&mtl);
-			g_pD3DDevice->SetTexture(0, NULL);
-			g_pD3DDevice->SetFVF(ST_PC_VERTEX::FVF);
-			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-			g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
-				m_vecBound[i].size() / 3,
-				&m_vecBound[i][0],
-				sizeof(ST_PC_VERTEX));
-		}
-		//	g_pD3DDevice->SetMaterial(&m_stMtl);
-		//	g_pD3DDevice->SetTransform(D3DTS_WORLD &m_matWorld);
-		//	g_pD3DDevice->SetTexture(0, m_pTexture);
-
-	}
-
+	if (m_bIsDrawBound)
+		RenderBoundBox();
+	
+	
 	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
 	for (size_t i = 0; i < m_vecMtl.size(); ++i)
@@ -122,3 +106,25 @@ void cMap::Render()
 
 	//}
 }
+
+void cMap::RenderBoundBox()
+{
+	for (size_t i = 0; i < m_vecBound.size(); ++i)
+	{
+		for (size_t j = 0; j < m_vecBound[i].size(); ++j)
+		{
+			D3DMATERIAL9 mtl;
+			ZeroMemory(&mtl, sizeof(D3DMATERIAL9));
+			g_pD3DDevice->SetMaterial(&mtl);
+			g_pD3DDevice->SetTexture(0, NULL);
+			g_pD3DDevice->SetFVF(ST_PC_VERTEX::FVF);
+			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+			g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
+				m_vecBound[i].size() / 3,
+				&m_vecBound[i][0],
+				sizeof(ST_PC_VERTEX));
+		}
+
+	}
+}
+
