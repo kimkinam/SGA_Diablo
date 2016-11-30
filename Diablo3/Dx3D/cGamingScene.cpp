@@ -6,6 +6,7 @@
 #include "cMonsterManager.h"
 #include "cPlayerManager.h"
 #include "cSkinnedMesh.h"
+#include "cBoss.h"
 
 
 cGamingScene::cGamingScene()
@@ -15,6 +16,7 @@ cGamingScene::cGamingScene()
 	, m_pMonsterManager(NULL)
 	, m_pPlayerManager(NULL)
 	, m_pCamera(NULL)
+	, Boss_diablo(NULL)
 {
 	m_pCamera = new cCamera;
 	m_pCamera->Setup();
@@ -26,6 +28,7 @@ cGamingScene::cGamingScene()
 	m_pUIManager = new cUiManager;
 	m_pPlayerManager = new cPlayerManager;
 	m_pMonsterManager = new cMonsterManager;
+
 
 	m_pUIManager->SetAddressLink(m_pPlayerManager);
 	m_pPlayerManager->SetAddressLink(m_pMonsterManager);
@@ -44,6 +47,7 @@ cGamingScene::~cGamingScene()
 	SAFE_DELETE(m_pMap);
 	SAFE_DELETE(m_pUIManager);
 	SAFE_DELETE(m_pPlayerManager);
+	SAFE_DELETE(Boss_diablo)
 
 	m_nRefCount--;
 }
@@ -52,6 +56,10 @@ HRESULT cGamingScene::SetUp()
 {
 	
 	this->AddRef();
+
+	Boss_diablo = new cBoss;
+	Boss_diablo->Setup();
+
 
 
 	return S_OK;
@@ -75,6 +83,9 @@ void cGamingScene::Update()
 	if (m_pMonsterManager)
 		m_pMonsterManager->Update();
 
+	if (Boss_diablo)
+		Boss_diablo->Update();
+
 	if (m_pCamera)
 	{
 		m_pCamera->Update(NULL);
@@ -97,6 +108,9 @@ void cGamingScene::Render()
 
 	if (m_pCamera)
 		m_pCamera->Render();
+
+	if (Boss_diablo)
+		Boss_diablo->Render();
 }
 
 void cGamingScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

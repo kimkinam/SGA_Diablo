@@ -25,7 +25,7 @@ void cMonster::Setup(char* szMonsterName)
 	string MonsterName = string(szMonsterName);
 	string fileName = MonsterName + ".x";
 	m_pMesh = new cSkinnedMesh("./Resources/Monster/", StringToChar(fileName));
-	m_pMesh->SetAnimationIndex("attack");
+	m_pMesh->SetAnimationIndex("idle");
 }
 
 void cMonster::Update()

@@ -9,19 +9,21 @@ cBoss::cBoss()
 
 cBoss::~cBoss()
 {
+	SAFE_DELETE(Boss);
 }
 
-void Setup()
+void cBoss::Setup()
 {
-
+	Boss = new cMonster;
+	Boss->Setup("diablo");
 }
-void Update()
+void cBoss::Update()
 {
-
+	Boss->Update();
 }
-void Render()
+void cBoss::Render()
 {
-
+	Boss->Update();
 }
 
 

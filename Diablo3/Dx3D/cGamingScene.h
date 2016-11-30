@@ -6,6 +6,7 @@ class cUiManager;
 class cMonsterManager;
 class cPlayerManager;
 class cCamera;
+class cBoss;
 
 class cGamingScene : public cSceneObject
 {
@@ -16,6 +17,8 @@ private:
 	cUiManager*				m_pUIManager;
 	cMonsterManager*		m_pMonsterManager;
 	cPlayerManager*			m_pPlayerManager;
+
+	cBoss*					Boss_diablo;
 
 public:
 	cGamingScene();
