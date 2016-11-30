@@ -148,7 +148,7 @@ void cInventory::SetupInven_Item() // 인벤토리 격자 공간
 	D3DXMatrixScaling(&matS, 0.54f, 0.44f, 1);
 	pInventory->SetmatS(matS);
 	pInventory->SetTexture("./Resources/UI/빈인벤.png");
-	pInventory->SetPosition(rc_win.right - 325, 0, 0);
+	pInventory->SetPosition(rc_win.right - pInventory->GetCollider().nWidth, 0, 0);
 	m_pInvenInfo = pInventory;
 
 	cUIButton* Inven_Button = new cUIButton; // 인벤토리 열고닫기 (엑스)

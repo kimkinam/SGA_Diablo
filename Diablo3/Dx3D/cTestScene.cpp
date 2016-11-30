@@ -20,11 +20,8 @@ cTestScene::cTestScene()
 	, m_bIsSetMap(false)
 	, m_pSprite(NULL)
 	, m_pCurObj(NULL)
-<<<<<<< HEAD
 	, m_vpickPos(0, 0, 0)
-=======
 	, m_pMonster(NULL)
->>>>>>> ab42a1c438ccd29fcc79e091a9d26cd8131571c4
 {
 	m_pCamera = new cCamera;
 	m_pCamera->Setup();

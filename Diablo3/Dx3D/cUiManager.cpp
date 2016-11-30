@@ -61,7 +61,7 @@ void cUiManager::SetUp()
 	D3DXMatrixScaling(&matS, 0.5f, 0.5f, 1);
 	pBaba_skill_1->SetmatS(matS);
 	pBaba_skill_1->SetSkillTexture("./Resources/UI/휠윈드대기.png","./Resources/UI/힐윈드선택.png" );
-	pBaba_skill_1->SetPosition(rc_win.right / 1.87, rc_win.bottom / 1.08, 0);
+	pBaba_skill_1->SetPosition(rc_win.right / 1.85, rc_win.bottom / 1.08, 0);
 	pBaba_skill_1->SetTag(cUIObject::Skill_1); // 스킬 테그 만들어 준다 
 	pBaba_skill_1->SetCoolTime(3.0f);
 	
@@ -154,17 +154,9 @@ void cUiManager::SetUpHpBar(RECT rc)
 	D3DXMatrixScaling(&matS, 0.5f, 0.5f, 1);
 	pBackGround->SetmatS(matS);
 	pBackGround->SetTexture("./Resources/UI/유아이바.png");
-	pBackGround->SetPosition(rc.right / 5.5, rc.bottom - pBackGround->GetCollider().nHeight, 0);
+	pBackGround->SetPosition(rc.right / 2 - pBackGround->GetCollider().nWidth/2, rc.bottom - pBackGround->GetCollider().nHeight, 0);
 	m_pHpBar = pBackGround;
 
-
-	cUIImage* Hp_C = new cUIImage; // 체력 구 (빨간색)
-	D3DXMatrixIdentity(&matS);
-	D3DXMatrixScaling(&matS, 0.485f, 0.485f, 1);
-	Hp_C->SetmatS(matS);
-	Hp_C->SetTexture("./Resources/UI/HP_C.png");
-	Hp_C->SetPosition(rc.right / 3.94, rc.bottom / 1.2, 0);
-	HP_sphere = Hp_C;
 
 
 	cUIImage* Hp_bar = new cUIImage; // 체력 글라스
@@ -175,15 +167,17 @@ void cUiManager::SetUpHpBar(RECT rc)
 	Hp_bar->SetPosition(84, 3, 0);
 	m_pHpBar->AddChild(Hp_bar);
 
-	cUIImage* Mp_C = new cUIImage; // 마나 구 (파란색)
+	cUIImage* Hp_C = new cUIImage; // 체력 구 (빨간색)
 	D3DXMatrixIdentity(&matS);
-	D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
-	Mp_C->SetmatS(matS);
-	Mp_C->SetTexture("./Resources/UI/MANA_C.png");
-	Mp_C->SetPosition(rc.right / 1.5, rc.bottom / 1.2, 0);
-	MP_sphere = Mp_C;
-
-
+	D3DXMatrixScaling(&matS, 0.485f, 0.485f, 1);
+	Hp_C->SetmatS(matS);
+	Hp_C->SetTexture("./Resources/UI/HP_C.png");
+	D3DXVECTOR3* HPSpear_Position;
+	D3DXVECTOR3* back;
+	back = &pBackGround->GetPosition();
+	HPSpear_Position = &Hp_bar->GetPosition();
+	Hp_C->SetPosition(*HPSpear_Position + *back);
+	HP_sphere = Hp_C;
 
 	cUIImage* Mp_bar = new cUIImage; // 마나 글라스
 	D3DXMatrixIdentity(&matS);
@@ -192,6 +186,16 @@ void cUiManager::SetUpHpBar(RECT rc)
 	Mp_bar->SetTexture("./Resources/UI/MANA_G.png");
 	Mp_bar->SetPosition(550, 3, 0);
 	m_pHpBar->AddChild(Mp_bar);
+
+	cUIImage* Mp_C = new cUIImage; // 마나 구 (파란색)
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
+	Mp_C->SetmatS(matS);
+	Mp_C->SetTexture("./Resources/UI/MANA_C.png");
+	D3DXVECTOR3* MPSpear_Position;
+	MPSpear_Position = &Mp_bar->GetPosition();
+	Mp_C->SetPosition(*MPSpear_Position+*back);
+	MP_sphere = Mp_C;
 
 }
 

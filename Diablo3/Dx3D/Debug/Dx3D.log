@@ -1,6 +1,20 @@
-﻿빌드 시작: 2016-11-29 오후 8:25:52
+﻿빌드 시작: 2016-11-30 오후 2:51:25
      1>2 노드의 "C:\Users\myungjin\Desktop\팀포폴\SGA_Diablo\Diablo3\Dx3D\Dx3D.vcxproj" 프로젝트(Build 대상)입니다.
-     1>Link:
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Dx3D.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt cUiManager.cpp
+         cUiManager.cpp
+     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\cuimanager.cpp(59): warning C4316: 'cUISkill': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\cuimanager.cpp(64): warning C4244: '인수' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\cuimanager.cpp(70): warning C4316: 'cInventory': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\cuimanager.cpp(95): warning C4018: '<' : signed 또는 unsigned가 일치하지 않습니다.
+     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\cuimanager.cpp(129): warning C4244: '인수' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\cuimanager.cpp(152): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\cuimanager.cpp(157): warning C4244: '인수' : 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\cuimanager.cpp(162): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\cuimanager.cpp(170): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\cuimanager.cpp(182): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\myungjin\desktop\팀포폴\sga_diablo\diablo3\dx3d\cuimanager.cpp(190): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+       Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\myungjin\Desktop\팀포폴\SGA_Diablo\Diablo3\Debug\Dx3D.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\myungjin\Desktop\팀포폴\SGA_Diablo\Diablo3\Debug\Dx3D.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\myungjin\Desktop\팀포폴\SGA_Diablo\Diablo3\Debug\Dx3D.lib" /MACHINE:X86 Debug\Dx3D.res
          Debug\cAction.obj
          Debug\cActionFalling.obj
@@ -59,4 +73,4 @@
 
 빌드했습니다.
 
-경과 시간: 00:00:01.34
+경과 시간: 00:00:00.89
