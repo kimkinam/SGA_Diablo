@@ -3,6 +3,7 @@
 class cGrid;
 class cSkinnedMesh;
 class cObj;
+class cMap;
 class cCamera;
 class cPlayer;
 class cMonster;
@@ -17,11 +18,11 @@ private:
 	cMonster*					m_pMonster;
 
 	//현재 오브젝트
-	cObj*						m_pCurObj;
+	cMap*						m_pCurObj;
 
 	//오브젝트 벡터
-	std::vector<cObj*>			m_vecObj;
-	std::vector<cObj*>			m_vecMap;
+	std::vector<cMap*>			m_vecObj;
+	std::vector<cMap*>			m_vecMap;
 	
 
 	//맵 위치 정할 타일

@@ -4,6 +4,7 @@
 #include "cCamera.h"
 #include "cSkinnedMesh.h"
 #include "cObj.h"
+#include "cMap.h"
 #include "cObjLoader.h"
 #include "cGroup.h"
 #include "cMtlTex.h"
@@ -40,18 +41,18 @@ cTestScene::cTestScene()
 	//¸Ê
 	m_vecObj.reserve(sizeof(cObj) * 3);
 
-	cObj* obj1 = new cObj;
-	obj1->SetUp("a1dun_01_test.objobj", "./Resources/Object/");
+	cMap* obj1 = new cMap;
+	obj1->Setup("a1dun_01_test.objobj", "./Resources/Object/");
 	obj1->SetSumNailName("a1Dun_01.jpg");
 	m_vecObj.push_back(obj1);
 	
-	cObj* obj2 = new cObj;
-	obj2->SetUp("a1dun_02_test.objobj", "./Resources/Object/");
+	cMap* obj2 = new cMap;
+	obj2->Setup("a1dun_02_test.objobj", "./Resources/Object/");
 	obj2->SetSumNailName("a1Dun_02.jpg");
 	m_vecObj.push_back(obj2);
 	
-	cObj* obj3 = new cObj;
-	obj3->SetUp("a1dun_03_test.objobj", "./Resources/Object/");
+	cMap* obj3 = new cMap;
+	obj3->Setup("a1dun_03_test.objobj", "./Resources/Object/");
 	obj3->SetSumNailName("a1dun_03.jpg");
 	m_vecObj.push_back(obj3);
 	
@@ -109,7 +110,7 @@ cTestScene::cTestScene()
 			cUIImage* sumNail = new cUIImage;
 			D3DXMatrixScaling(&matS, 0.08f, 0.08f, 0.08f);
 			sumNail->SetmatS(matS);
-			string sPath = "./Resources/MapTool/" + m_vecObj[i % 3]->GetSumNailName();
+			string sPath = "./Resources/MapTool/" + m_vecObj[0]->GetSumNailName();
 			sumNail->SetTexture(StringToChar(sPath));
 			sumNail->SetPosition(39 + i * 45, 5, 0);
 			sumNail->SetTag((cUIObject::Ui_Tag)3);
@@ -214,21 +215,23 @@ void cTestScene::Update()
 						m_pCurObj->SetPosition(D3DXVECTOR3(10, 0, -10));
 					m_bIsSetMap = false;
 
-					cObj* obj = new cObj;
-					obj->SetMtl(m_pCurObj->GetMtl());
-					obj->SetHiddenMtl(m_pCurObj->GetHiddenMtl());
-					obj->SetHiddenObj(m_pCurObj->GetHiddenObj());
-					obj->SetObjName(m_pCurObj->GetObjName());
-					obj->SetSumNailName(m_pCurObj->GetSumNailName());
-					obj->SetBoundBox(m_pCurObj->GetBoundBox());
-					obj->SetPosition(m_pCurObj->GetPosition());
-					obj->SetHiddenDraw(m_pCurObj->GetHiddenDraw());
+					cMap* obj = new cMap;
+					obj = m_pCurObj;
+
+					//obj->SetMtl(m_pCurObj->GetMtl());
+					//obj->SetHiddenMtl(m_pCurObj->GetHiddenMtl());
+					//obj->SetHiddenObj(m_pCurObj->GetHiddenObj());
+					//obj->SetObjName(m_pCurObj->GetObjName());
+					//obj->SetSumNailName(m_pCurObj->GetSumNailName());
+					//obj->SetBoundBox(m_pCurObj->GetBoundBox());
+					//obj->SetPosition(m_pCurObj->GetPosition());
+					//obj->SetHiddenDraw(m_pCurObj->GetHiddenDraw());
 					
-					m_pCurObj->GetMesh()->CloneMeshFVF(
-						m_pCurObj->GetMesh()->GetOptions(),
-						m_pCurObj->GetMesh()->GetFVF(),
-						g_pD3DDevice,
-						&obj->GetMesh());
+					//m_pCurObj->GetMesh()->CloneMeshFVF(
+					//	m_pCurObj->GetMesh()->GetOptions(),
+					//	m_pCurObj->GetMesh()->GetFVF(),
+					//	g_pD3DDevice,
+					//	&obj->GetMesh());
 					m_vecMap.push_back(obj);
 					
 					m_pCurObj = NULL;
@@ -300,9 +303,9 @@ void cTestScene::Update()
 					D3DXVECTOR3 dir = m_pPlayer->GetPosition() - m_pCamera->GetEye();
 					D3DXVec3Normalize(&dir, &dir);
 	
-					if (D3DXIntersectTri(&m_vecMap[0]->GetBoundBox()[i][j].p,
-						&m_vecMap[0]->GetBoundBox()[i][j + 1].p,
-						&m_vecMap[0]->GetBoundBox()[i][j + 2].p,
+					if (D3DXIntersectTri(&(m_vecMap[0]->GetBoundBox()[i][j].p + m_vecMap[0]->GetPosition()),
+						&(m_vecMap[0]->GetBoundBox()[i][j+1].p + m_vecMap[0]->GetPosition()),
+						&(m_vecMap[0]->GetBoundBox()[i][j+2].p + m_vecMap[0]->GetPosition()),
 						&m_pCamera->GetEye(),
 						&dir,
 						&u, &v, &length))
