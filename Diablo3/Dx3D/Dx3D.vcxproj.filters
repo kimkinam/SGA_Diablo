@@ -67,6 +67,9 @@
     <Filter Include="Scene\GamingScene\Player">
       <UniqueIdentifier>{74b0ad92-3e31-4262-9990-7b797a91a32e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\BossScene">
+      <UniqueIdentifier>{5658f148-2e88-4bec-9ada-e6d8f4073598}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -261,6 +264,9 @@
     <ClInclude Include="cMap.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="cBoss.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -420,6 +426,9 @@
       <Filter>Scene\GamingScene\Monster</Filter>
     </ClCompile>
     <ClCompile Include="cMap.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cBoss.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

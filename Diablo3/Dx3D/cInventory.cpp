@@ -156,7 +156,7 @@ void cInventory::SetupInven_Item() // 인벤토리 격자 공간
 	D3DXMatrixScaling(&matS, 0.5f, 0.5f, 1);
 	Inven_Button->SetmatS(matS);
 	Inven_Button->SetTexture("./Resources/UI/버튼오프.png", "./Resources/UI/버튼오프.png", "./Resources/UI/버튼온.png");
-	Inven_Button->SetPosition(300, 0, 0);
+	Inven_Button->SetPosition(pInventory->GetCollider().nWidth-Inven_Button->GetCollider().nWidth, 0, 0);
 	Inven_Button->SetDelegate(this);
 	Inven_Button->SetTag(cUIObject::Button_1);
 	m_pInvenInfo->AddChild(Inven_Button);
