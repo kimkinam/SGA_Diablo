@@ -9,7 +9,7 @@ cBoss::cBoss()
 
 cBoss::~cBoss()
 {
-	SAFE_DELETE(Boss);
+	SAFE_RELEASE(Boss);
 }
 
 void cBoss::Setup()

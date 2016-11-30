@@ -30,6 +30,9 @@ cGamingScene::cGamingScene()
 	m_pMonsterManager = new cMonsterManager;
 
 
+	Boss_diablo = new cBoss;
+	Boss_diablo->Setup();
+
 	m_pUIManager->SetAddressLink(m_pPlayerManager);
 	m_pPlayerManager->SetAddressLink(m_pMonsterManager);
 	m_pMonsterManager->SetAddressLink(m_pPlayerManager);
@@ -57,8 +60,6 @@ HRESULT cGamingScene::SetUp()
 	
 	this->AddRef();
 
-	Boss_diablo = new cBoss;
-	Boss_diablo->Setup();
 
 
 
