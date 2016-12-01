@@ -2,7 +2,7 @@
 
 class cUIImage;
 
-class cItem : public cObject
+class cItem : public cUIObject
 {
 private:
 
@@ -11,18 +11,21 @@ private:
 	SYNTHESIZE(float, fPlusMp, PlusMp);				// 방어구가 증가
 	SYNTHESIZE(float, fPlusAtk, PlusAtk);			// 무기가 증가
 	SYNTHESIZE(float, fPlusSpeed, PlusSpeed);		// 부츠가 증가
-	
+
+	SYNTHESIZE(ST_ITEM, St_item, st_item);
+	SYNTHESIZE(POINT, m_ptArea, item_position);
 private:
 	char*		m_ImageName;
 	char*		m_SumNailName;
-	cUIImage*	m_pSumNail;
-	cUIImage*	m_pImage;
-	POINT		m_ptArea;
+	LPDIRECT3DTEXTURE9	m_pSumNail;
+	LPDIRECT3DTEXTURE9	m_pImage;
 
 public:
 	cItem();
-	~cItem();
+	virtual ~cItem();
 
-	void Setup(char* szFolder, char* szImageName, char* sumNailName);
+	void Setup(char* szImageName, char* sumNailName, float fhp, float fmp, float fAtk, float fSpeed, E_ITEM Item_type);
+	void Update();
+	void Render(LPD3DXSPRITE pSprite);
 };
 

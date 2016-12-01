@@ -19,7 +19,6 @@ cUIImage::~cUIImage()
 void cUIImage::SetTexture(char * szFileName)
 {
 	D3DXIMAGE_INFO stImageInfo;
-
 	m_pTexture = g_pTextureManager->GetTexture(szFileName, &stImageInfo);
 
 	m_stCollider.nWidth = stImageInfo.Width;
@@ -30,7 +29,7 @@ void cUIImage::SetTexture(char * szFileName)
 	m_stCollider.nWidth *= m_matS._11;
 	m_stCollider.nHeight *= m_matS._22;
 
-	int a = 0;
+	SetRect(&rc_image, m_stCollider.nStartX, m_stCollider.nStartY, m_stCollider.nWidth, m_stCollider.nHeight);
 }
 
 void cUIImage::Render(LPD3DXSPRITE pSprite)

@@ -16,7 +16,7 @@ cMonster::cMonster()
 
 cMonster::~cMonster()
 {
-	SAFE_DELETE(m_pAction);
+	SAFE_RELEASE(m_pAction);
 	SAFE_DELETE(m_pMesh);
 }
 
@@ -25,16 +25,21 @@ void cMonster::Setup(char* szMonsterName)
 	string MonsterName = string(szMonsterName);
 	string fileName = MonsterName + ".x";
 	m_pMesh = new cSkinnedMesh("./Resources/Monster/", StringToChar(fileName));
-	m_pMesh->SetAnimationIndex("attack");
+	m_pMesh->SetAnimationIndex("idle");
 }
 
 void cMonster::Update()
 {
 	
+	//몬스터가 기본적으로 해야할 짓들
 }
 
 void cMonster::Render()
 {
+	//몬스터 렌더
+	//기본적으로 그냥 몸뚱아리는 이거 쓸거고
+	//이펙트, 파티클같은것들은 각자 몬스터 랜더에서 처리
+
 	D3DXMATRIXA16 matR, matT;
 	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 	D3DXMatrixRotationY(&matR, m_fAngle);

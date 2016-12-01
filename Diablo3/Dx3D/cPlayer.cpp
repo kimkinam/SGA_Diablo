@@ -20,10 +20,10 @@ cPlayer::cPlayer()
 
 cPlayer::~cPlayer()
 {
-	SAFE_DELETE(m_pAction);
+	SAFE_RELEASE(m_pAction);
 	SAFE_DELETE(m_pMesh);
 
-	SAFE_DELETE(m_pSword);
+	SAFE_RELEASE(m_pSword);
 }
 
 void cPlayer::SetUp()

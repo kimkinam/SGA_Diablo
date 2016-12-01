@@ -10,10 +10,7 @@ private:
 	std::map<std::string, cMtlTex*>		m_mapHiddenMtlTex;
 
 	string								m_sPath;
-
-	std::map<int, LPD3DXMESH>			m_mapHiddenObj;
-	std::vector<LPD3DXMESH>				m_vecHiddenObj;
-	int									m_nHiddenObjCnt;
+	
 public:
 	cObjLoader(void);
 	~cObjLoader(void);

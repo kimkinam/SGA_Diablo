@@ -6,7 +6,6 @@
 cObjLoader::cObjLoader(void)
 {
 	m_sPath = "";
-	m_nHiddenObjCnt = 0;
 }
 
 cObjLoader::~cObjLoader(void)
@@ -265,8 +264,8 @@ void cObjLoader::Load(IN char * szFilename, IN char * szFolderName, IN D3DXMATRI
 	OUT std::vector<cMtlTex*>& vecMtlTex, OUT LPD3DXMESH& mesh, 
 	OUT std::vector<cMtlTex*>& vecHiddenMtlTex, OUT std::vector<LPD3DXMESH>& vecHiddenMesh)
 {
-	m_mapMtlTex.clear();
-	m_mapHiddenMtlTex.clear();
+	//m_mapMtlTex.clear();
+	//m_mapHiddenMtlTex.clear();
 
 	m_sPath = szFolderName;
 

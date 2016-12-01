@@ -225,6 +225,7 @@ struct ST_SPHERE
 
 //전역 클래스
 #include "cRay.h"
+#include "cBoundBox.h"
 
 
 //전역 해더

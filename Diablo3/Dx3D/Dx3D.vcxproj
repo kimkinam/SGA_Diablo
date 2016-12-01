@@ -20,7 +20,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -88,6 +88,9 @@
     <ClInclude Include="cActionMove.h" />
     <ClInclude Include="cAllocateHierarchy.h" />
     <ClInclude Include="cAseLoader.h" />
+    <ClInclude Include="cBoss.h" />
+    <ClInclude Include="cBossScene.h" />
+    <ClInclude Include="cBoundBox.h" />
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="cCharController.h" />
     <ClInclude Include="cCube.h" />
@@ -104,6 +107,7 @@
     <ClInclude Include="cLoadingScene.h" />
     <ClInclude Include="cLogManager.h" />
     <ClInclude Include="cMainGame.h" />
+    <ClInclude Include="cMap.h" />
     <ClInclude Include="cMonster.h" />
     <ClInclude Include="cMonsterManager.h" />
     <ClInclude Include="cMtlTex.h" />
@@ -149,6 +153,9 @@
     <ClCompile Include="cActionMove.cpp" />
     <ClCompile Include="cAllocateHierarchy.cpp" />
     <ClCompile Include="cAseLoader.cpp" />
+    <ClCompile Include="cBoss.cpp" />
+    <ClCompile Include="cBossScene.cpp" />
+    <ClCompile Include="cBoundBox.cpp" />
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="cCharController.cpp" />
     <ClCompile Include="cCube.cpp" />
@@ -165,6 +172,7 @@
     <ClCompile Include="cLoadingScene.cpp" />
     <ClCompile Include="cLogManager.cpp" />
     <ClCompile Include="cMainGame.cpp" />
+    <ClCompile Include="cMap.cpp" />
     <ClCompile Include="cMonster.cpp" />
     <ClCompile Include="cMonsterManager.cpp" />
     <ClCompile Include="cMtlTex.cpp" />

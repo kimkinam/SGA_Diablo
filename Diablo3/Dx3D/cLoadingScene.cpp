@@ -9,20 +9,22 @@ cLoadingScene::cLoadingScene()
 
 cLoadingScene::~cLoadingScene()
 {
-	m_nRefCount--;
+
 }
 
 HRESULT cLoadingScene::SetUp()
 {
-	this->AddRef();
+	if (m_bIsLoad)
+	{
+		Reset();
+
+		return S_OK;
+	}
+	cSceneObject::SetUp();
 
 	return S_OK;
 }
 
-void cLoadingScene::Release()
-{
-	m_nRefCount--;
-}
 
 void cLoadingScene::Update()
 {
