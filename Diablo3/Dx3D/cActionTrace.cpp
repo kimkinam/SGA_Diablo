@@ -14,6 +14,11 @@ cActionTrace::~cActionTrace()
 {
 }
 
+cAction * cActionTrace::Create()
+{
+	return nullptr;
+}
+
 void cActionTrace::Start()
 {
 	m_fPassedTime = 0;
@@ -49,8 +54,9 @@ void cActionTrace::Update()
 	}
 
 	D3DXVECTOR3 dir1 = m_pTarget->GetPosition() - (*m_tTo);
-	D3DXVECTOR3 dir2 = (*m_tFrom) - (*m_tTo);
 
+	D3DXVECTOR3 dir2 = (*m_tFrom) - (*m_tTo);
+	
 	if (D3DXVec3Dot(&dir1, &dir2) <= 0)
 	{
 		m_pTarget->SetPosition(*m_tTo);

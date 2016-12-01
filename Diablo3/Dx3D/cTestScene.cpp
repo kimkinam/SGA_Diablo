@@ -277,8 +277,8 @@ void cTestScene::Render()
 		DT_LEFT,
 		D3DCOLOR_XRGB(255, 255, 255));
 
-	sprintf_s(temp, "BoundBoxCount : %d",
-		m_vecBoundBox.size(),
+	sprintf_s(temp, "BoundBoxCount : %d // IsBound : %d",
+		m_vecBoundBox.size(), m_bIsBound,
 		512);
 	rc = { DEBUG_STARTX, DEBUG_STARTY + 200, DEBUG_STARTX + 600, DEBUG_STARTY + 215 };
 	font->DrawText(NULL,
@@ -548,38 +548,47 @@ void cTestScene::SetBoundBox()
 
 			if (!m_bIsBound)
 			{
-				vRayPos = r.GetOrg() - m_vecMap[0]->GetPosition();
-				D3DXVec3Normalize(&vRayDir, &r.GetDir());
-
-				LPD3DXMESH mesh = m_vecMap[0]->GetComMesh();
-				D3DXIntersect(mesh, &vRayPos, &vRayDir
-				, &bHit, &dwFace, &fBary1, &fBary2, &fDist, NULL, NULL);
-
-				if (bHit)
+				for (size_t i = 0; i < m_vecMap.size(); ++i)
 				{
-					m_vMin = vRayPos + fDist*vRayDir + m_vecMap[0]->GetPosition();
-					m_bIsBound = true;
-				}
-			}
-			else
-			{
-				vRayPos = r.GetOrg() - m_vecMap[0]->GetPosition();
-				D3DXVec3Normalize(&vRayDir, &r.GetDir());
+					vRayPos = r.GetOrg() - m_vecMap[i]->GetPosition();
+					D3DXVec3Normalize(&vRayDir, &r.GetDir());
 
-				LPD3DXMESH mesh = m_vecMap[0]->GetComMesh();
+					LPD3DXMESH mesh = m_vecMap[i]->GetComMesh();
 					D3DXIntersect(mesh, &vRayPos, &vRayDir
 						, &bHit, &dwFace, &fBary1, &fBary2, &fDist, NULL, NULL);
 
 					if (bHit)
 					{
-						m_vMax = vRayPos + fDist*vRayDir + m_vecMap[0]->GetPosition();
+						m_vMin = vRayPos + fDist*vRayDir + m_vecMap[i]->GetPosition();
+						m_bIsBound = true;
+						break;
+					}
+				}
+			}
+			else
+			{
+
+				for (size_t i = 0; i < m_vecMap.size(); ++i)
+				{
+					vRayPos = r.GetOrg() - m_vecMap[i]->GetPosition();
+					D3DXVec3Normalize(&vRayDir, &r.GetDir());
+
+					LPD3DXMESH mesh = m_vecMap[i]->GetComMesh();
+					D3DXIntersect(mesh, &vRayPos, &vRayDir
+						, &bHit, &dwFace, &fBary1, &fBary2, &fDist, NULL, NULL);
+
+					if (bHit)
+					{
+						m_vMax = vRayPos + fDist*vRayDir + m_vecMap[i]->GetPosition();
 
 						cBoundBox* box = new cBoundBox;
 						box->Setup(m_vMin, m_vMax, NULL);
 						box->SetIsDraw(true);
 						m_vecBoundBox.push_back(box);
 						m_bIsBound = false;
+						break;
 					}
+				}
 			}
 			
 		}
@@ -591,6 +600,7 @@ void cTestScene::SetBoundBox()
 				m_bIsBound = false;
 				m_vMin = D3DXVECTOR3(0, 0, 0);
 				m_vMax = D3DXVECTOR3(0, 0, 0);
+				return;
 			}
 			m_vecBoundBox.pop_back();
 		}

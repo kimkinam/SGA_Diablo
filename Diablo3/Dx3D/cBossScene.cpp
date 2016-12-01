@@ -57,6 +57,9 @@ HRESULT cBossScene::SetUp()
 
 	Boss_diablo = new cBoss;
 	Boss_diablo->Setup();
+	Boss_diablo->SetPosition(D3DXVECTOR3(0, 0, 10));
+
+	BossMoveTest();
 
 	m_bIsLoad = true;
 }
@@ -77,7 +80,7 @@ void cBossScene::Update()
 
 	PlayerMove();
 
-	BossMoveTest();
+	
 
 	if (m_pPlayer)
 		m_pPlayer->Update();
@@ -116,17 +119,15 @@ void cBossScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 void cBossScene::BossMoveTest()
 {
+	cActionTrace* pAction = new cActionTrace;
 
-	
-		cActionTrace* pAction = new cActionTrace;
-
-		pAction->SetTo(m_pPlayer->GetPtPosition());
-		pAction->SetFrom(Boss_diablo->GetPtPosition());
-		pAction->SetTarget(Boss_diablo);
-		pAction->SetDelegate(Boss_diablo);
-		pAction->Start();
-		Boss_diablo->SetAction(pAction);
-		Boss_diablo->GetMesh()->SetAnimationIndex("run");
+	pAction->SetTo(m_pPlayer->GetPtPosition());
+	pAction->SetFrom(Boss_diablo->GetPtPosition());
+	pAction->SetTarget(Boss_diablo);
+	pAction->SetDelegate(Boss_diablo);
+	pAction->Start();
+	Boss_diablo->SetAction(pAction);
+	Boss_diablo->GetMesh()->SetAnimationIndex("run");
 
 
 		m_bIsSetMap = true;
