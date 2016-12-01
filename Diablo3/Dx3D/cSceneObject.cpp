@@ -12,7 +12,7 @@ cSceneObject::cSceneObject()
 
 cSceneObject::~cSceneObject()
 {
-
+	SAFE_DELETE(m_pCamera);
 }
 
 HRESULT cSceneObject::SetUp()

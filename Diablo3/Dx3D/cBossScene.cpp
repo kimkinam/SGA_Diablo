@@ -5,14 +5,16 @@
 #include "cCamera.h"
 
 cBossScene::cBossScene()
-	: Boss_diablo(NULL)
+	: m_pGrid(NULL)
+	//: Boss_diablo(NULL)
 {
 }
 
 
 cBossScene::~cBossScene()
 {
-	SAFE_RELEASE(Boss_diablo)
+	SAFE_DELETE(m_pGrid);
+	//SAFE_RELEASE(Boss_diablo)
 }
 
 HRESULT cBossScene::SetUp()
@@ -30,8 +32,8 @@ HRESULT cBossScene::SetUp()
 	m_pGrid = new cGrid;
 	m_pGrid->Setup(30);
 
-	Boss_diablo = new cBoss;
-	Boss_diablo->Setup();
+	//Boss_diablo = new cBoss;
+	//Boss_diablo->Setup();
 
 	m_bIsLoad = true;
 }
@@ -49,8 +51,8 @@ HRESULT cBossScene::Reset()
 
 void cBossScene::Update()
 {
-	if (Boss_diablo)
-		Boss_diablo->Update();
+	//if (Boss_diablo)
+	//	Boss_diablo->Update();
 
 	if (m_pCamera)
 		m_pCamera->Update();
@@ -62,8 +64,8 @@ void cBossScene::Render()
 	if (m_pGrid)
 		m_pGrid->Render();
 
-	if (Boss_diablo)
-		Boss_diablo->Render();
+	//if (Boss_diablo)
+	//	Boss_diablo->Render();
 
 	if (m_pCamera)
 		m_pCamera->Render();

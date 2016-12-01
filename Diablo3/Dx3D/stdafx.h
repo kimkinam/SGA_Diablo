@@ -211,7 +211,6 @@ struct ST_SPHERE
 #include "cTextureManager.h"
 #include "cFontManager.h"
 #include "cKeyManager.h"
-#include "cLogManager.h"
 #include "cSceneManager.h"
 #include "cSkinnedMeshManager.h"
 
@@ -233,4 +232,5 @@ struct ST_SPHERE
 #include "MyUtil.h"
 #include "player.h"
 #include "Monster.h"
+
 using namespace MyUtil;

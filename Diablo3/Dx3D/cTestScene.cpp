@@ -358,7 +358,7 @@ void cTestScene::SetMap()
 					m_pCurObj->SetLocalBoundBox();
 					//cMap* obj = new cMap;
 					//obj = m_pCurObj;
-					m_pCurObj->AddRef();
+					//m_pCurObj->AddRef();
 					m_vecMap.push_back(m_pCurObj);
 
 					m_pCurObj = NULL;
