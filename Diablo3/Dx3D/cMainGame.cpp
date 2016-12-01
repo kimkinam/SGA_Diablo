@@ -7,12 +7,12 @@
 
 
 cMainGame::cMainGame(void)
+	: m_pScene(NULL)
 {
 }
 
 cMainGame::~cMainGame(void)
 {
-	//SAFE_DELETE(m_pTest);
 
 	g_pSceneManager->Destroy();
 	g_pTextureManager->Destroy();
@@ -29,7 +29,10 @@ void cMainGame::Setup()
 	g_pSceneManager->addScene("LoadingScene", new cLoadingScene);
 	g_pSceneManager->addScene("BossScene", new cBossScene);
 
-	g_pSceneManager->changeScene("BossScene");
+	//m_pScene = new cBossScene;
+	//m_pScene->SetUp();
+
+	g_pSceneManager->changeScene("TestScene");
 	
 	SetLight();
 }
@@ -49,6 +52,8 @@ void cMainGame::Update()
 	
 	g_pSceneManager->Update();
 
+	if (m_pScene)
+		m_pScene->Update();
 	
 }
 
@@ -68,6 +73,9 @@ void cMainGame::Render()
 	//if (m_pCurScene)
 	//	m_pCurScene->Render();
 
+	if (m_pScene)
+		m_pScene->Render();
+
 	g_pTimeManager->Render();
 
 
@@ -84,7 +92,6 @@ void cMainGame::Render()
 		&rc,
 		DT_LEFT,
 		D3DCOLOR_XRGB(255, 255, 255));
-
 
 	g_pD3DDevice->EndScene();
 
@@ -106,7 +113,9 @@ void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 	case WM_DESTROY:
 		PostQuitMessage(0);
 	}
-	g_pSceneManager->GetCurScene()->WndProc(hWnd, message, wParam, lParam);
+
+	if (g_pSceneManager->GetCurScene())
+		g_pSceneManager->GetCurScene()->WndProc(hWnd, message, wParam, lParam);
 	//if(m_pCurScene)
 	//	m_pCurScene->WndProc(hWnd, message, wParam, lParam);
 }

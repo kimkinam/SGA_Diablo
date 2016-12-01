@@ -70,4 +70,5 @@ void cTextureManager::Destroy()
 	{
 		SAFE_RELEASE(it.second);
 	}
+
 }

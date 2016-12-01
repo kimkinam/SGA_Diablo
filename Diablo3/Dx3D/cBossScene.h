@@ -8,7 +8,7 @@ class cBossScene :
 {
 private:
 	cGrid*		m_pGrid;
-	cBoss*		Boss_diablo;
+	//cBoss*		Boss_diablo;
 public:
 	cBossScene();
 	virtual ~cBossScene();

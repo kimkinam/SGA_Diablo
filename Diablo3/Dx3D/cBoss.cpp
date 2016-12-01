@@ -9,7 +9,6 @@ cBoss::cBoss()
 
 cBoss::~cBoss()
 {
-	int a = 0;
 }
 
 void cBoss::Setup()
