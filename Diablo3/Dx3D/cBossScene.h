@@ -1,17 +1,20 @@
 #pragma once
 
+class cGrid;
+class cBoss;
 
-class cLoadingScene : public cSceneObject
+class cBossScene :
+	public cSceneObject
 {
 private:
-
+	cGrid*		m_pGrid;
+	cBoss*		Boss_diablo;
 public:
-	cLoadingScene();
-	virtual ~cLoadingScene();
+	cBossScene();
+	virtual ~cBossScene();
 
-	
-	//iScene override
 	virtual HRESULT SetUp()	override;
+	virtual HRESULT Reset()	override;
 	virtual void Update()	override;
 	virtual void Render()	override;
 	virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;

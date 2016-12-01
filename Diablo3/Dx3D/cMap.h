@@ -14,11 +14,10 @@ private:
 	//맵 사라질 수 있는 매쉬
 	SYNTHESIZE_PASS_BY_REF(std::vector<LPD3DXMESH>, m_vecHiddenObj, HiddenObj);
 	SYNTHESIZE_PASS_BY_REF(std::vector<cMtlTex*>, m_vecHiddenMtl, HiddenMtl);
-	SYNTHESIZE_PASS_BY_REF(std::vector<bool>, m_vecHiddenDraw, HiddenDraw);
-	
+
 	//바운드 박스
-	SYNTHESIZE_PASS_BY_REF(std::vector<vector<ST_PC_VERTEX>>, m_vecBound, BoundBox);
-	SYNTHESIZE(bool, m_bIsDrawBound, IsDrawBound);
+	SYNTHESIZE_PASS_BY_REF(std::vector<cBoundBox*>, m_vecBoundBox, BoundBox);
+	SYNTHESIZE_PASS_BY_REF(std::vector<bool>, m_vecHiddenDraw, HiddenDraw);
 
 	SYNTHESIZE(D3DXMATRIX, m_matWorld, WorldTM);
 	SYNTHESIZE(string, m_sSumNailName, SumNailName);
@@ -28,11 +27,12 @@ private:
 
 public:
 	cMap();
-	~cMap();
+	virtual ~cMap();
 
 	void Setup(char* szFileName, char* szForlderName);
 	void Render();
 	void RenderBoundBox();
-	
+	void SetLocalBoundBox();
+
 };
 

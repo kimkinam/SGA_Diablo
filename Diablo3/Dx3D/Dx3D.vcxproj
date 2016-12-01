@@ -20,7 +20,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -89,6 +89,8 @@
     <ClInclude Include="cAllocateHierarchy.h" />
     <ClInclude Include="cAseLoader.h" />
     <ClInclude Include="cBoss.h" />
+    <ClInclude Include="cBossScene.h" />
+    <ClInclude Include="cBoundBox.h" />
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="cCharController.h" />
     <ClInclude Include="cCube.h" />
@@ -152,6 +154,8 @@
     <ClCompile Include="cAllocateHierarchy.cpp" />
     <ClCompile Include="cAseLoader.cpp" />
     <ClCompile Include="cBoss.cpp" />
+    <ClCompile Include="cBossScene.cpp" />
+    <ClCompile Include="cBoundBox.cpp" />
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="cCharController.cpp" />
     <ClCompile Include="cCube.cpp" />

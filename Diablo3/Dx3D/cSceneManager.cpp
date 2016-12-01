@@ -49,7 +49,7 @@ void cSceneManager::Destroy()
 		{
 			//miSceneList->second->Release();
 
-			if (miSceneList->second == _currentScene) miSceneList->second->Release();
+			/*if (miSceneList->second == _currentScene) *///miSceneList->second->Release();
 			SAFE_DELETE(miSceneList->second);
 			miSceneList = _mSceneList.erase(miSceneList);
 		}
@@ -109,7 +109,7 @@ HRESULT cSceneManager::changeScene(string sceneName)
 	if (SUCCEEDED(find->second->SetUp()))
 	{
 		//있던 씬 날려주고
-		if (_currentScene) _currentScene->Release();
+		//if (_currentScene) _currentScene->SetRefCount(_currentScene->GetRefCount()-1);
 		// 현재씬은 교체될 씬으로
 		_currentScene = find->second;
 		return S_OK;

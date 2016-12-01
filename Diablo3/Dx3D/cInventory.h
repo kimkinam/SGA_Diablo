@@ -3,19 +3,19 @@
 class cItem;
 class cUIImage;
 
-class cInventory : public iButtonDelegate,public cUIObject
+class cInventory : public iButtonDelegate, public cUIObject
 {
 private:
 	cUIObject*			m_pInvenItem;	//격자 아이템 공간
 	cUIObject*			m_pInvenInfo;	//캐릭터 아이템 장착 공간
 	cUIObject*			m_pInvenStat;	//캐릭터 스텟 표시 공간
 
-	std::vector<cItem*>	m_vecItem; // 아이템 벡터 지금 사용 안함
-	std::vector<cUIImage*> m_Itemimg; // 아이템 이미지 벡터
-	cItem*				m_pCurItem;
+	std::vector<cItem*>		m_vecItem; // 아이템 벡터 지금 사용 안함
+	std::vector<cUIImage*>	m_Itemimg; // 아이템 이미지 벡터
+	cItem*					m_pCurItem;
 	cUIImage*				test_item; // 활
 	cUIImage*				test_item_1; // 바지
-	LPD3DXSPRITE		m_pSprite;
+	LPD3DXSPRITE			m_pSprite;
 
 	cUIImage* Inven_head;
 	cUIImage* Inven_chest;

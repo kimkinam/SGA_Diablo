@@ -3,9 +3,8 @@
 class cBoss :
 	public cMonster
 {
-
 private:
-	cMonster*		Boss;
+
 public:
 	cBoss();
 	~cBoss();

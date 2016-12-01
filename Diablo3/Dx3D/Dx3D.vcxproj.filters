@@ -243,12 +243,6 @@
     <ClInclude Include="cUIItem.h">
       <Filter>Scene\UI</Filter>
     </ClInclude>
-    <ClInclude Include="cInventory.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cItem.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="cPlayer.h">
       <Filter>Scene\GamingScene\Player</Filter>
     </ClInclude>
@@ -261,11 +255,23 @@
     <ClInclude Include="Monster.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cMap.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="cBoss.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Scene\GamingScene\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="cBoundBox.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="cMap.h">
+      <Filter>Loader\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="cInventory.h">
+      <Filter>Scene\GamingScene</Filter>
+    </ClInclude>
+    <ClInclude Include="cItem.h">
+      <Filter>Scene\GamingScene</Filter>
+    </ClInclude>
+    <ClInclude Include="cBossScene.h">
+      <Filter>Scene\BossScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -413,23 +419,29 @@
     <ClCompile Include="cUIItem.cpp">
       <Filter>Scene\UI</Filter>
     </ClCompile>
-    <ClCompile Include="cInventory.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cItem.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="cPlayer.cpp">
       <Filter>Scene\GamingScene\Player</Filter>
     </ClCompile>
     <ClCompile Include="cMonster.cpp">
       <Filter>Scene\GamingScene\Monster</Filter>
     </ClCompile>
-    <ClCompile Include="cMap.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="cBoss.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Scene\GamingScene\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="cBoundBox.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="cMap.cpp">
+      <Filter>Loader\OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="cInventory.cpp">
+      <Filter>Scene\GamingScene</Filter>
+    </ClCompile>
+    <ClCompile Include="cItem.cpp">
+      <Filter>Scene\GamingScene</Filter>
+    </ClCompile>
+    <ClCompile Include="cBossScene.cpp">
+      <Filter>Scene\BossScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

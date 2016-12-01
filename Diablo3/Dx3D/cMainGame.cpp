@@ -3,7 +3,7 @@
 #include "cLoadingScene.h"
 #include "cGamingScene.h"
 #include "cTestScene.h"
-//#include "cBossScene.h"
+#include "cBossScene.h"
 
 
 cMainGame::cMainGame(void)
@@ -12,12 +12,14 @@ cMainGame::cMainGame(void)
 
 cMainGame::~cMainGame(void)
 {
+	//SAFE_DELETE(m_pTest);
 
+	g_pSceneManager->Destroy();
 	g_pTextureManager->Destroy();
 	g_pFontManger->Destroy();
-	g_pSceneManager->Destroy();
 	g_pSkinnedMeshManager->Destroy();
 	g_pDeviceManager->Destroy();
+
 }
 
 void cMainGame::Setup()
@@ -25,9 +27,9 @@ void cMainGame::Setup()
 	g_pSceneManager->addScene("GamingScene", new cGamingScene);
 	g_pSceneManager->addScene("TestScene", new cTestScene);
 	g_pSceneManager->addScene("LoadingScene", new cLoadingScene);
-	//g_pSceneManager->addScene("BossScene", new cBossScene);
+	g_pSceneManager->addScene("BossScene", new cBossScene);
 
-	g_pSceneManager->changeScene("TestScene");
+	g_pSceneManager->changeScene("BossScene");
 	
 	SetLight();
 }
@@ -42,8 +44,8 @@ void cMainGame::Update()
 		g_pSceneManager->changeScene("TestScene");
 	if (g_pKeyManager->isOnceKeyDown(VK_F3))
 		g_pSceneManager->changeScene("GamingScene");
-	/*if (g_pKeyManager->isOnceKeyDown(VK_F4))
-		g_pSceneManager->changeScene("BossScene");*/
+	if (g_pKeyManager->isOnceKeyDown(VK_F4))
+		g_pSceneManager->changeScene("BossScene");
 	
 	g_pSceneManager->Update();
 
@@ -68,6 +70,7 @@ void cMainGame::Render()
 
 	g_pTimeManager->Render();
 
+
 	LPD3DXFONT font;
 	font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
 
@@ -90,6 +93,19 @@ void cMainGame::Render()
 
 void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
+	switch (message)
+	{
+	case WM_KEYDOWN:
+		switch (wParam)
+		{
+		case VK_ESCAPE:
+			PostMessage(hWnd, WM_DESTROY, NULL, NULL);
+			break;
+		}
+		break;
+	case WM_DESTROY:
+		PostQuitMessage(0);
+	}
 	g_pSceneManager->GetCurScene()->WndProc(hWnd, message, wParam, lParam);
 	//if(m_pCurScene)
 	//	m_pCurScene->WndProc(hWnd, message, wParam, lParam);

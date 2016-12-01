@@ -22,7 +22,7 @@ private:
 
 public:
 	cItem();
-	~cItem();
+	virtual ~cItem();
 
 	void Setup(char* szImageName, char* sumNailName, float fhp, float fmp, float fAtk, float fSpeed, E_ITEM Item_type);
 	void Update();

@@ -9,21 +9,21 @@ cBoss::cBoss()
 
 cBoss::~cBoss()
 {
-	SAFE_RELEASE(Boss);
+	int a = 0;
 }
 
 void cBoss::Setup()
 {
-	Boss = new cMonster;
-	Boss->Setup("diablo");
+	cMonster::Setup("diablo");
 }
 void cBoss::Update()
 {
-	Boss->Update();
+	cMonster::Update();
+
 }
 void cBoss::Render()
 {
-	Boss->Update();
+	cMonster::Render();
 }
 
 

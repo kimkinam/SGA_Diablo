@@ -15,11 +15,32 @@ cGamingScene::cGamingScene()
 	, m_pUIManager(NULL)
 	, m_pMonsterManager(NULL)
 	, m_pPlayerManager(NULL)
-	, m_pCamera(NULL)
 	, Boss_diablo(NULL)
 {
-	m_pCamera = new cCamera;
-	m_pCamera->Setup();
+	
+}
+
+
+cGamingScene::~cGamingScene()
+{
+	SAFE_DELETE(m_pCamera);
+	SAFE_DELETE(m_pGrid);
+	SAFE_DELETE(m_pMap);
+	SAFE_DELETE(m_pUIManager);
+	SAFE_DELETE(m_pPlayerManager);
+	SAFE_RELEASE(Boss_diablo)
+
+}
+
+HRESULT cGamingScene::SetUp()
+{
+	if (m_bIsLoad)
+	{
+		Reset();
+
+		return S_OK;
+	}
+	cSceneObject::SetUp();
 
 	m_pGrid = new cGrid;
 	m_pGrid->Setup(30);
@@ -40,37 +61,10 @@ cGamingScene::cGamingScene()
 	m_pUIManager->SetUp();
 	m_pPlayerManager->Setup();
 	m_pMonsterManager->Setup();
-}
 
-
-cGamingScene::~cGamingScene()
-{
-	SAFE_DELETE(m_pCamera);
-	SAFE_DELETE(m_pGrid);
-	SAFE_DELETE(m_pMap);
-	SAFE_DELETE(m_pUIManager);
-	SAFE_DELETE(m_pPlayerManager);
-	SAFE_DELETE(Boss_diablo)
-
-	m_nRefCount--;
-}
-
-HRESULT cGamingScene::SetUp()
-{
-	
-	this->AddRef();
-
-
-
+	m_bIsLoad = true;
 
 	return S_OK;
-}
-
-void cGamingScene::Release()
-{
-	m_nRefCount--;
-
-	//cObject::Release();
 }
 
 void cGamingScene::Update()
@@ -116,6 +110,7 @@ void cGamingScene::Render()
 
 void cGamingScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	int a = 0;
 	if (m_pCamera)
 		m_pCamera->WndProc(hWnd, message, wParam, lParam);
 }

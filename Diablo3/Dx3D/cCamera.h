@@ -26,6 +26,7 @@ public:
 	~cCamera(void);
 
 	void Setup();
+	void Reset();
 	void Render();
 	void Update(D3DXVECTOR3* pTarget = NULL);
 

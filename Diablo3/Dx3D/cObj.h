@@ -22,7 +22,7 @@ private:
 
 public:
 	cObj();
-	~cObj();
+	virtual ~cObj();
 
 	void SetUp(char* szFileName, char* szFolderName);
 	void Render();

@@ -17,15 +17,60 @@
 cTestScene::cTestScene()
 	: m_pGrid(NULL)
 	, m_pPlayer(NULL)
-	, m_pCamera(NULL)
 	, m_bIsSetMap(false)
 	, m_pSprite(NULL)
 	, m_pCurObj(NULL)
 	, m_vpickPos(0, 0, 0)
 	, m_pMonster(NULL)
+	, m_pUIRoot(NULL)
 {
-	m_pCamera = new cCamera;
-	m_pCamera->Setup();
+	
+}
+
+
+cTestScene::~cTestScene()
+{
+	//ULONG ul = g_pD3DDevice->Release();
+	SAFE_DELETE(m_pCamera);
+	SAFE_DELETE(m_pGrid);
+	SAFE_RELEASE(m_pPlayer);
+	SAFE_RELEASE(m_pMonster);
+
+	SAFE_RELEASE(m_pCurObj);
+
+	SAFE_RELEASE(m_pSprite);
+
+	for each(auto c in m_vecObj)
+	{
+		SAFE_RELEASE(c);
+	}
+
+	for each(auto c in m_vecMap)
+	{
+		SAFE_RELEASE(c);
+	}
+
+	if (m_pUIRoot)
+		m_pUIRoot->Destroy();
+
+	for each(auto c in m_vecObjUI)
+	{
+		SAFE_RELEASE(c);
+	}
+
+}
+
+
+HRESULT cTestScene::SetUp()
+{
+	if (m_bIsLoad)
+	{
+		Reset();
+
+		return S_OK;
+	}
+	cSceneObject::SetUp();
+
 
 	m_pGrid = new cGrid;
 	m_pGrid->Setup(120);
@@ -37,15 +82,14 @@ cTestScene::cTestScene()
 	//몬스터
 	m_pMonster = new cMonster;
 	m_pMonster->Setup("Skeleton");
-	
+
 	//맵
-	m_vecObj.reserve(sizeof(cObj) * 3);
 
 	cMap* obj1 = new cMap;
 	obj1->Setup("a1dun_01_test.objobj", "./Resources/Object/");
 	obj1->SetSumNailName("a1Dun_01.jpg");
 	m_vecObj.push_back(obj1);
-	
+
 	//cMap* obj2 = new cMap;
 	//obj2->Setup("a1dun_02_test.objobj", "./Resources/Object/");
 	//obj2->SetSumNailName("a1Dun_02.jpg");
@@ -55,19 +99,19 @@ cTestScene::cTestScene()
 	//obj3->Setup("a1dun_03_test.objobj", "./Resources/Object/");
 	//obj3->SetSumNailName("a1dun_03.jpg");
 	//m_vecObj.push_back(obj3);
-	
+
 
 	ST_PC_VERTEX v;
 	D3DXCOLOR c;
 	c = D3DCOLOR_XRGB(255, 255, 255);
 	m_vecTiles.reserve(sizeof(ST_PC_VERTEX) * 6);
-	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0,	120), c));
-	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3( 120, 0,	120), c));
-	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3( 120, 0, -120), c));
-	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3( 120, 0, -120), c));
+	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, 120), c));
+	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(120, 0, 120), c));
+	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(120, 0, -120), c));
+	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(120, 0, -120), c));
 	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, -120), c));
-	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0,	120), c));
-	
+	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, 120), c));
+
 
 	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
 
@@ -118,56 +162,20 @@ cTestScene::cTestScene()
 			m_vecObjUI.push_back(sumNail);
 		}
 	}
-	
 
+	m_bIsLoad = true;
+	return S_OK;
 }
 
-
-cTestScene::~cTestScene()
+HRESULT cTestScene::Reset()
 {
-	SAFE_DELETE(m_pCamera);
-	SAFE_DELETE(m_pGrid);
-	SAFE_DELETE(m_pPlayer);
-	SAFE_DELETE(m_pMonster);
+	cSceneObject::Reset();
 
-	SAFE_RELEASE(m_pCurObj);
-
-	SAFE_RELEASE(m_pSprite);
-
-
-	for each(auto c in m_vecObj)
-	{
-		SAFE_RELEASE(c);
-	}
-	
-	for each(auto c in m_vecMap)
-	{
-		SAFE_RELEASE(c);
-	}
-
-	if(m_pUIRoot)
-		m_pUIRoot->Destroy();
-
-	for each(auto c in m_vecObjUI)
-	{
-		SAFE_RELEASE(c);
-	}
-	
-	m_nRefCount--;
-}
-
-
-HRESULT cTestScene::SetUp()
-{
-	this->AddRef();
+	m_vecMap.clear();
 
 	return S_OK;
 }
 
-void cTestScene::Release()
-{
-	m_nRefCount--;
-}
 
 void cTestScene::Update()
 {
@@ -179,34 +187,17 @@ void cTestScene::Update()
 	SetMap();
 
 	PlayerMoveTest();
-	
-
-	
 
 
 	if (m_pPlayer)
 		m_pPlayer->Update();
-	
+
 	if (m_pMonster)
 		m_pMonster->Update();
 
 	if (m_pUIRoot)
 		m_pUIRoot->Update();
 
-	if (g_pKeyManager->isToggleKey(VK_TAB))
-	{
-		for (size_t i = 0; i < m_vecMap.size(); ++i)
-		{
-			m_vecMap[i]->SetIsDrawBound(false);
-		}
-	}
-	else
-	{
-		for (size_t i = 0; i < m_vecMap.size(); ++i)
-		{
-			m_vecMap[i]->SetIsDrawBound(true);
-		}
-	}
 
 }
 
@@ -214,7 +205,7 @@ void cTestScene::Render()
 {
 	if (m_pGrid)
 		m_pGrid->Render();
-	
+
 	if (m_pCamera)
 		m_pCamera->Render();
 
@@ -241,7 +232,7 @@ void cTestScene::Render()
 	font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
 
 	char temp[512];
-	sprintf_s(temp, "PlayerPos : %.2f, %.2f, %.2f // CurMap : %d", 
+	sprintf_s(temp, "PlayerPos : %.2f, %.2f, %.2f // CurMap : %d",
 		m_pPlayer->GetPosition().x,
 		m_pPlayer->GetPosition().y,
 		m_pPlayer->GetPosition().z,
@@ -259,31 +250,8 @@ void cTestScene::Render()
 
 void cTestScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch (message)
-	{
-	case WM_KEYDOWN:
-		switch (wParam)
-		{
-		case VK_ESCAPE:
-			PostMessage(hWnd, WM_DESTROY, NULL, NULL);
-			break;
-		case VK_LEFT:
+	
 
-			break;
-		case VK_RIGHT:
-
-			break;
-		case VK_UP:
-			
-			break;
-		case VK_DOWN:
-
-			break;
-		}
-		break;
-	case WM_DESTROY:
-		PostQuitMessage(0);
-	}
 	if (m_pCamera)
 		m_pCamera->WndProc(hWnd, message, wParam, lParam);
 }
@@ -302,27 +270,28 @@ void cTestScene::OnClick(cUIButton * pSender)
 
 bool cTestScene::InCollider(cUIObject * pUI)
 {
+	if (!pUI) return false;
 	RECT rc;
 	float deltaX = pUI->GetPosition().x;
 	float deltaY = pUI->GetPosition().y;
 
 	if (pUI->GetParent())
 	{
-		SetRect(&rc,  pUI->GetParent()->GetPosition().x + pUI->GetCollider().nStartX + deltaX
-					, pUI->GetParent()->GetPosition().y + pUI->GetCollider().nStartY + deltaY
-					, pUI->GetParent()->GetPosition().x + pUI->GetCollider().nWidth + deltaX
-					, pUI->GetParent()->GetPosition().y + pUI->GetCollider().nHeight + deltaY);
+		SetRect(&rc, pUI->GetParent()->GetPosition().x + pUI->GetCollider().nStartX + deltaX
+			, pUI->GetParent()->GetPosition().y + pUI->GetCollider().nStartY + deltaY
+			, pUI->GetParent()->GetPosition().x + pUI->GetCollider().nWidth + deltaX
+			, pUI->GetParent()->GetPosition().y + pUI->GetCollider().nHeight + deltaY);
 	}
 	else
 	{
-		SetRect(&rc,  pUI->GetCollider().nStartX + deltaX
-					, pUI->GetCollider().nStartY + deltaY
-					, pUI->GetCollider().nWidth + deltaX
-					, pUI->GetCollider().nHeight + deltaY);
+		SetRect(&rc, pUI->GetCollider().nStartX + deltaX
+			, pUI->GetCollider().nStartY + deltaY
+			, pUI->GetCollider().nWidth + deltaX
+			, pUI->GetCollider().nHeight + deltaY);
 
 		int a = 0;
 	}
-	
+
 
 	if (PtInRect(&rc, g_ptMouse))
 		return true;
@@ -334,11 +303,11 @@ void cTestScene::SetMap()
 {
 	for (size_t i = 0; i < m_vecObjUI.size(); ++i)
 	{
+		//유아이를 선택 했다면
 		if (InCollider(m_vecObjUI[i]))
 		{
 			if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
 			{
-				//m_pCurObj = m_vecObj[i];
 
 				m_pCurObj = new cMap;
 
@@ -386,9 +355,11 @@ void cTestScene::SetMap()
 						m_pCurObj->SetPosition(D3DXVECTOR3(10, 0, -10));
 					m_bIsSetMap = false;
 
-					cMap* obj = new cMap;
-					obj = m_pCurObj;
-					m_vecMap.push_back(obj);
+					m_pCurObj->SetLocalBoundBox();
+					//cMap* obj = new cMap;
+					//obj = m_pCurObj;
+					m_pCurObj->AddRef();
+					m_vecMap.push_back(m_pCurObj);
 
 					m_pCurObj = NULL;
 				}
@@ -398,10 +369,28 @@ void cTestScene::SetMap()
 			}
 		}
 	}
+
+	if (g_pKeyManager->isToggleKey(VK_TAB))
+	{
+		for (size_t i = 0; i < m_vecMap.size(); ++i)
+		{
+			for (size_t j = 0; j < m_vecMap[i]->GetBoundBox().size(); ++j)
+				m_vecMap[i]->GetBoundBox()[j]->SetIsDraw(false);
+		}
+	}
+	else
+	{
+		for (size_t i = 0; i < m_vecMap.size(); ++i)
+		{
+			for (size_t j = 0; j < m_vecMap[i]->GetBoundBox().size(); ++j)
+				m_vecMap[i]->GetBoundBox()[j]->SetIsDraw(true);
+		}
+	}
 }
 
 void cTestScene::PlayerMoveTest()
 {
+	//플레이어 피킹
 	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
 	{
 		cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
@@ -428,6 +417,8 @@ void cTestScene::PlayerMoveTest()
 		}
 	}
 
+	//플레이어 아이템 변화 테스트
+
 	//if (g_pKeyManager->isOnceKeyDown('1'))
 	//{
 	//	m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Gloves", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
@@ -449,78 +440,41 @@ void cTestScene::PlayerMoveTest()
 	//	m_pPlayer->GetMesh()->ChangeItem("Barb_M_MED_Boots", "./Resources/Player/Barb_M_MED_Norm_Base_A_diff.dds");
 	//}
 
+	//사라지는 오브젝트 테스트
 	if (m_bIsSetMap && !m_vecMap.empty())
 	{
+		//현재 플레이어의 맵
 		int nCurMap = m_pPlayer->GetCurMap();
 
-		for (size_t i = 0; i < m_vecMap[nCurMap]->GetHiddenObj().size(); ++i)
-		{
-			for (size_t j = 0; j < m_vecMap[nCurMap]->GetBoundBox()[i].size(); j += 3)
-			{
-				float u, v, length;
-				D3DXVECTOR3 dir = m_pPlayer->GetPosition() - m_pCamera->GetEye();
-				D3DXVec3Normalize(&dir, &dir);
-
-				if (D3DXIntersectTri(&(m_vecMap[nCurMap]->GetBoundBox()[i][j].p + m_vecMap[nCurMap]->GetPosition()),
-					&(m_vecMap[nCurMap]->GetBoundBox()[i][j + 1].p + m_vecMap[nCurMap]->GetPosition()),
-					&(m_vecMap[nCurMap]->GetBoundBox()[i][j + 2].p + m_vecMap[nCurMap]->GetPosition()),
-					&m_pCamera->GetEye(),
-					&dir,
-					&u, &v, &length))
-				{
-
-					D3DXVECTOR3 d = m_pPlayer->GetPosition() - m_pCamera->GetEye();
-					float dis = D3DXVec3Length(&d);
-					if (length < dis)
-					{
-						m_vecMap[nCurMap]->GetHiddenDraw()[i] = true;
-						break;
-					}
-
-				}
-				else
-				{
-					m_vecMap[nCurMap]->GetHiddenDraw()[i] = false;
-				}
-
-			}
-
-		}
-
-
-		/*for (size_t i = 0; i < m_vecMap[nCurMap]->GetHiddenObj().size(); ++i)
-		{
-		for (size_t j = 0; j < m_vecMap[nCurMap]->GetBoundBox()[i].size(); j += 3)
-		{
-		float u, v, length;
+		//플레이어를 바라보는 카메라 방향
 		D3DXVECTOR3 dir = m_pPlayer->GetPosition() - m_pCamera->GetEye();
-		D3DXVec3Normalize(&dir, &dir);
 
-		if (D3DXIntersectTri(&(m_vecMap[nCurMap]->GetBoundBox()[i][j].p + m_vecMap[nCurMap]->GetPosition()),
-		&(m_vecMap[nCurMap]->GetBoundBox()[i][j+1].p + m_vecMap[nCurMap]->GetPosition()),
-		&(m_vecMap[nCurMap]->GetBoundBox()[i][j+2].p + m_vecMap[nCurMap]->GetPosition()),
-		&m_pCamera->GetEye(),
-		&dir,
-		&u, &v, &length))
+		//플레이어와 카메라의 거리
+		float disToPlayer = D3DXVec3Length(&dir);
+
+		//사라질 오브젝트와 카메라의 거리
+		float disToHidden = 0.0f;
+
+		//현재 맵에서 사라질수있는 오브젝트의 바운드박스를 검사
+		for (size_t i = 0; i < m_vecMap[nCurMap]->GetBoundBox().size(); ++i)
 		{
-
-		D3DXVECTOR3 d = m_pPlayer->GetPosition() - m_pCamera->GetEye();
-		float dis = D3DXVec3Length(&d);
-		if (length < dis)
-		{
-		m_vecMap[nCurMap]->GetHiddenDraw()[i] = true;
-		break;
+			//사라질 오브젝트의 바운드박스가 카메라에서의 ray에 걸렸으면 distance를 반환
+			if (m_vecMap[nCurMap]->GetBoundBox()[i]->GetRayDistance(
+				m_pCamera->GetEye(), dir, disToHidden))
+			{
+				//사라질 오브젝트가 플레이어보다 가깝게 있으면
+				if (disToHidden < disToPlayer)
+				{
+					//그 오브젝트를 그리지 않는다.
+					m_vecMap[nCurMap]->GetHiddenDraw()[i] = true;
+					break;
+				}
+			}
+			//사라질 오브젝트의 바운드 박스가 카메라에서의 ray에 걸리지 않았으면
+			else
+				//그 오브젝트는 그린다.
+				m_vecMap[nCurMap]->GetHiddenDraw()[i] = false;
 		}
-
-		}
-		else
-		{
-		m_vecMap[nCurMap]->GetHiddenDraw()[i] = false;
-		}
-
-		}
-
-		}*/
 	}
 
 }

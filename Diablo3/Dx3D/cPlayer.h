@@ -20,7 +20,7 @@ private:
 
 public:
 	cPlayer();
-	~cPlayer();
+	virtual ~cPlayer();
 
 	void SetUp();
 	void Update();

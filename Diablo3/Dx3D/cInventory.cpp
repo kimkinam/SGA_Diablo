@@ -40,20 +40,31 @@ cInventory::~cInventory()
 
 	for (int i = 0; i < m_vecItem.size(); i++)
 	{
-		SAFE_DELETE(m_vecItem[i]);
+		SAFE_RELEASE(m_vecItem[i]);
 	}
 
 	for (size_t i = 0; i < rc_inven[i].size(); ++i)
 	{
 		for (size_t j = 0; j < rc_inven[j].size(); ++j)
 		{
-			SAFE_DELETE(rc_inven[i][j]);
+			SAFE_RELEASE(rc_inven[i][j]);
 		}
 	}
 	for (size_t i = 0; i < m_Itemimg.size(); i++)
 	{
-		SAFE_DELETE(m_Itemimg[i]);
+		SAFE_RELEASE(m_Itemimg[i]);
 	}
+
+	SAFE_RELEASE(Inven_head		);
+	SAFE_RELEASE(Inven_chest	);
+	SAFE_RELEASE(Inven_boots	);
+	SAFE_RELEASE(Inven_pants	);
+	SAFE_RELEASE(Inven_belt		);
+	SAFE_RELEASE(Inven_arm		);
+	SAFE_RELEASE(Inven_wrist	);
+	SAFE_RELEASE(Inven_sword	);
+	SAFE_RELEASE(Inven_shoulder	);
+
 }	
 
 void cInventory::Setup()
@@ -64,7 +75,7 @@ void cInventory::Setup()
 	SetupInven_Info();
 	SetupInven_Stat();
 
-	m_Itemimg.resize(2);
+	//m_Itemimg.resize(2);
 
 }
 
@@ -282,6 +293,7 @@ void cInventory::SetupInven_Info()
 	D3DXMatrixScaling(&matS, 0.53f, 0.48f, 1);
 	test_item->SetmatS(matS);
 	test_item->SetTexture("./Resources/UI/활.png");
+	SAFE_ADDREF(test_item);
 	m_Itemimg.push_back(test_item);
 
 	test_item_1 = new cUIImage;
@@ -290,6 +302,7 @@ void cInventory::SetupInven_Info()
 	D3DXMatrixScaling(&matS, 0.57f, 0.7f, 1);
 	test_item_1->SetmatS(matS);
 	test_item_1->SetTexture("./Resources/UI/바지1.png");
+	SAFE_ADDREF(test_item_1);
 	m_Itemimg.push_back(test_item_1);
 
 
@@ -322,13 +335,13 @@ void cInventory::SetupInven_Stat()
 		case ITEM_SHOULDER :
 			break;
 		case ITEM_SWORD :
-			D3DXMatrixIdentity(&matS);
-			D3DXMatrixScaling(&matS, 0.3f, 0.3f, 1);
-			m_pCurItem->SetmatS(matS);
-			m_pCurItem->SetPosition(0, 0, 0);
-			m_pCurItem->Setup("./Resources/UI/활.png", NULL, 100, 100, 100, 100, ITEM_SWORD);		
-			m_vecItem.push_back(m_pCurItem);
-			Creat_item = false;
+			//D3DXMatrixIdentity(&matS);
+			//D3DXMatrixScaling(&matS, 0.3f, 0.3f, 1);
+			//m_pCurItem->SetmatS(matS);
+			//m_pCurItem->SetPosition(0, 0, 0);
+			//m_pCurItem->Setup("./Resources/UI/활.png", NULL, 100, 100, 100, 100, ITEM_SWORD);		
+			//m_vecItem.push_back(m_pCurItem);
+			//Creat_item = false;
 			break;
 		case ITEM_ACCESS :
 			break;

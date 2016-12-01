@@ -70,6 +70,7 @@ void cUiManager::SetUp()
 Inventory = new cInventory;
 Inventory->Setup();
 
+
 }
 
 void cUiManager::Update()

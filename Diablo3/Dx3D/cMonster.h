@@ -14,7 +14,7 @@ private:
 
 public:
 	cMonster();
-	~cMonster();
+	virtual ~cMonster();
 
 	void Setup(char* szMonsterName);
 	void Update();

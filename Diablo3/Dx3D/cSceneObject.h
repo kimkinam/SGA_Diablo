@@ -1,15 +1,22 @@
 #pragma once
 
-class cSceneObject : public cObject
+class cCamera;
+
+class cSceneObject
 {
+private:
+	SYNTHESIZE(bool, m_bIsLoad, IsLoad);
+	cCamera*	m_pCamera;
+
 public:
 	cSceneObject();
 	virtual ~cSceneObject();
 
-	virtual HRESULT SetUp() = 0;
-	virtual void Release() = 0;
-	virtual void Update() = 0;
-	virtual void Render() = 0;
+	virtual HRESULT SetUp();
+	virtual HRESULT Reset();
+	virtual void Release();
+	virtual void Update();
+	virtual void Render();
 	virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) = 0;
 
 };

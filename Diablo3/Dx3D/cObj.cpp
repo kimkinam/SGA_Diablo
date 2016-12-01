@@ -32,6 +32,10 @@ cObj::~cObj()
 	{
 		SAFE_RELEASE(c);
 	}
+
+
+	int a = 0;
+
 }
 
 void cObj::SetUp(char * szFileName, char* szFolderName)

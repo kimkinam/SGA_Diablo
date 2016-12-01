@@ -44,6 +44,11 @@ void cCamera::Setup()
 
 }
 
+void cCamera::Reset()
+{
+	
+}
+
 void cCamera::Render()
 {
 	LPD3DXFONT font;
