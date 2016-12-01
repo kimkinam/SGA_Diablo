@@ -1,7 +1,54 @@
-﻿빌드 시작: 2016-12-01 오후 12:28:57
+﻿빌드 시작: 2016-12-01 오후 1:14:08
      1>2 노드의 "C:\Users\Minky\Desktop\TEAM_GIT\SGA_Diablo\Diablo3\Dx3D\Dx3D.vcxproj" 프로젝트(Build 대상)입니다.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Dx3D.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt cTestScene.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\Dx3D.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Dx3D.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt cAction.cpp cActionFalling.cpp cActionJump.cpp cActionMove.cpp cAllocateHierarchy.cpp cAseLoader.cpp cBoss.cpp cBossScene.cpp cBoundBox.cpp cCamera.cpp cCharController.cpp cCube.cpp cDeviceManager.cpp cFontManager.cpp cGameManager.cpp cGameObject.cpp cGamingScene.cpp cGrid.cpp cGroup.cpp cInventory.cpp cItem.cpp cKeyManager.cpp cLoadingScene.cpp cLogManager.cpp cMainGame.cpp cMap.cpp cMonster.cpp cMonsterManager.cpp cMtlTex.cpp cNode.cpp cObj.cpp cObject.cpp cObjLoader.cpp cPlayer.cpp cPlayerManager.cpp cPyramid.cpp cRay.cpp cSceneManager.cpp cSceneObject.cpp cSkinnedMesh.cpp cSkinnedMeshManager.cpp cTestScene.cpp cTextureManager.cpp cTimeManager.cpp cUIButton.cpp cUIImage.cpp cUIItem.cpp cUiManager.cpp cUIObject.cpp cUISkill.cpp cUIText.cpp cUtility.cpp Dx3D.cpp iMap.cpp MyUtil.cpp
+         MyUtil.cpp
+     1>c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2132): warning C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2113) : 'std::_Copy_impl' 선언을 참조하십시오.
+                 c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\myutil.cpp(68) : 컴파일 중인 함수 템플릿 인스턴스화 '_OutIt std::copy<std::_String_iterator<std::_String_val<std::_Simple_types<char>>>,char*>(_InIt,_InIt,_OutIt)'에 대한 참조를 확인하십시오.
+                 with
+                 [
+                     _OutIt=char *
+         ,            _InIt=std::_String_iterator<std::_String_val<std::_Simple_types<char>>>
+                 ]
+         iMap.cpp
+         Dx3D.cpp
+         cUtility.cpp
+         cUIText.cpp
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuitext.cpp(29): warning C4244: '인수' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+         cUISkill.cpp
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuiskill.cpp(34): warning C4244: '*=' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuiskill.cpp(35): warning C4244: '*=' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuiskill.cpp(51): warning C4244: '인수' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuiskill.cpp(57): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuiskill.cpp(66): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+         cUIObject.cpp
+         cUiManager.cpp
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuimanager.cpp(59): warning C4316: 'cUISkill': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuimanager.cpp(64): warning C4244: '인수' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuimanager.cpp(70): warning C4316: 'cInventory': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuimanager.cpp(96): warning C4018: '<' : signed 또는 unsigned가 일치하지 않습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuimanager.cpp(130): warning C4244: '인수' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuimanager.cpp(153): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuimanager.cpp(158): warning C4244: '인수' : 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuimanager.cpp(163): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuimanager.cpp(171): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuimanager.cpp(183): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuimanager.cpp(191): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+         cUIItem.cpp
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuiitem.cpp(28): warning C4244: '*=' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuiitem.cpp(29): warning C4244: '*=' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+         cUIImage.cpp
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuiimage.cpp(29): warning C4244: '*=' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuiimage.cpp(30): warning C4244: '*=' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+         cUIButton.cpp
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuibutton.cpp(38): warning C4244: '*=' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuibutton.cpp(39): warning C4244: '*=' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cuibutton.cpp(55): warning C4244: '인수' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+         cTimeManager.cpp
+         cTextureManager.cpp
          cTestScene.cpp
      1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(123): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
      1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(127): warning C4244: '인수' : 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
@@ -12,6 +59,114 @@
      1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(159): warning C4244: '인수' : 'size_t'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
      1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(283): warning C4244: '인수' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
      1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(290): warning C4244: '인수' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+         cSkinnedMeshManager.cpp
+         cSkinnedMesh.cpp
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cskinnedmesh.cpp(337): warning C4018: '<=' : signed 또는 unsigned가 일치하지 않습니다.
+         cSceneObject.cpp
+         cSceneManager.cpp
+         cRay.cpp
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cray.cpp(26): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cray.cpp(27): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cray.cpp(62): warning C4800: 'BOOL' : 'true' 또는 'false'로 bool 값을 강제하고 있습니다(성능 경고).
+         cPyramid.cpp
+         코드를 생성하고 있습니다...
+         컴파일하고 있습니다...
+         cPlayerManager.cpp
+         cPlayer.cpp
+         cObjLoader.cpp
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cobjloader.cpp(237): warning C4018: '<' : signed 또는 unsigned가 일치하지 않습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cobjloader.cpp(316): warning C4018: '<' : signed 또는 unsigned가 일치하지 않습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cobjloader.cpp(435): warning C4018: '<' : signed 또는 unsigned가 일치하지 않습니다.
+         cObject.cpp
+         cObj.cpp
+         cNode.cpp
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cnode.cpp(32): warning C4244: '=' : 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cnode.cpp(121): warning C4244: '=' : 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+         cMtlTex.cpp
+         cMonsterManager.cpp
+         cMonster.cpp
+         cMap.cpp
+         cMainGame.cpp
+         cLogManager.cpp
+         cLoadingScene.cpp
+         cKeyManager.cpp
+         cItem.cpp
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\citem.cpp(39): warning C4244: '*=' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\citem.cpp(40): warning C4244: '*=' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+         cInventory.cpp
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(41): warning C4018: '<' : signed 또는 unsigned가 일치하지 않습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(138): warning C4018: '<' : signed 또는 unsigned가 일치하지 않습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(143): warning C4018: '<' : signed 또는 unsigned가 일치하지 않습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(157): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(162): warning C4244: '인수' : 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(165): warning C4316: 'cUIButton': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(170): warning C4244: '인수' : 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(187): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(192): warning C4244: '인수' : 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(203): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(212): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(221): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(230): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(240): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(250): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(260): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(270): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(280): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(290): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(299): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(318): warning C4316: 'cItem': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(377): warning C4244: '인수' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(404): warning C4244: '인수' : 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(390): warning C4101: 'rc' :참조되지 않은 지역 변수입니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cinventory.cpp(389): warning C4101: 'temp' :참조되지 않은 지역 변수입니다.
+         cGroup.cpp
+         cGrid.cpp
+         cGamingScene.cpp
+         cGameObject.cpp
+         코드를 생성하고 있습니다...
+         컴파일하고 있습니다...
+         cGameManager.cpp
+         cFontManager.cpp
+         cDeviceManager.cpp
+         cCube.cpp
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ccube.cpp(107): warning C4101: 'c' :참조되지 않은 지역 변수입니다.
+         cCharController.cpp
+         cCamera.cpp
+         cBoundBox.cpp
+         cBossScene.cpp
+         cBoss.cpp
+         cAseLoader.cpp
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\caseloader.cpp(158): warning C4316: 'cNode': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\caseloader.cpp(206): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\caseloader.cpp(207): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\caseloader.cpp(208): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\caseloader.cpp(213): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\caseloader.cpp(214): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\caseloader.cpp(215): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\caseloader.cpp(220): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\caseloader.cpp(221): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\caseloader.cpp(222): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\caseloader.cpp(227): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\caseloader.cpp(228): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\caseloader.cpp(229): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\caseloader.cpp(399): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\caseloader.cpp(400): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\caseloader.cpp(401): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\caseloader.cpp(448): warning C4244: '=' : 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\caseloader.cpp(449): warning C4244: '=' : 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\caseloader.cpp(503): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\caseloader.cpp(504): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\caseloader.cpp(505): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+         cAllocateHierarchy.cpp
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\callocatehierarchy.cpp(21): warning C4316: 'ST_BONE': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\callocatehierarchy.cpp(28): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h(112) : 'strcpy' 선언을 참조하십시오.
+         cActionMove.cpp
+         cActionJump.cpp
+         cActionFalling.cpp
+         cAction.cpp
+         코드를 생성하고 있습니다...
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\cbossscene.cpp(39): warning C4715: 'cBossScene::SetUp' : 모든 제어 경로에서 값을 반환하지는 않습니다.
        ResourceCompile:
          C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /l"0x0409" /nologo /fo"Debug\Dx3D.res" Dx3D.rc 
        Link:
@@ -77,4 +232,4 @@
 
 빌드했습니다.
 
-경과 시간: 00:00:01.63
+경과 시간: 00:00:09.30
