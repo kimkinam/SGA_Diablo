@@ -32,6 +32,7 @@ public:
 	SYNTHESIZE(std::string, m_sDirectory, Directory);
 	SYNTHESIZE(D3DXVECTOR3, m_vMin, Min);
 	SYNTHESIZE(D3DXVECTOR3, m_vMax, Max);
+	SYNTHESIZE(ST_SPHERE, m_stSphere, BoundingSphere);
 	SYNTHESIZE(DWORD, m_dwDefaultPaletteSize, DefaultPaletteSize);
 	SYNTHESIZE(DWORD, m_dwMaxPaletteSize, MaxPaletteSize);
 

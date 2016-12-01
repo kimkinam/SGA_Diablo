@@ -113,6 +113,7 @@
     <ClInclude Include="cMonsterManager.h" />
     <ClInclude Include="cMtlTex.h" />
     <ClInclude Include="cNode.h" />
+    <ClInclude Include="cOBB.h" />
     <ClInclude Include="cObj.h" />
     <ClInclude Include="cObject.h" />
     <ClInclude Include="cObjLoader.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="cMonsterManager.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
     <ClCompile Include="cNode.cpp" />
+    <ClCompile Include="cOBB.cpp" />
     <ClCompile Include="cObj.cpp" />
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="cObjLoader.cpp" />

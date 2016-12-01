@@ -186,13 +186,15 @@ void cMap::SetRefMtl(cMap* map)
 	
 }
 
-void cMap::SetRefHiddenMtl(std::vector<cMtlTex*> vecHidenMtl)
+void cMap::SetRefObj(cMap * map)
 {
-	for (size_t i = 0; i < vecHidenMtl.size(); ++i)
+	for (size_t i = 0; i < map->GetHiddenObj().size(); ++i)
 	{
-		vecHidenMtl[i]->AddRef();
+		map->GetHiddenObj()[i]->AddRef();
 	}
 
-	m_vecHiddenMtl = vecHidenMtl;
+	m_vecHiddenObj = map->GetHiddenObj();
 }
+
+
 

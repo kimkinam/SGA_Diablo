@@ -26,6 +26,7 @@ cTestScene::cTestScene()
 	, m_bIsBound(false)
 	, m_vMin(0, 0, 0)
 	, m_vMax(0, 0, 0)
+	, m_bIsDone(false)
 {
 	
 }
@@ -93,7 +94,7 @@ HRESULT cTestScene::SetUp()
 
 	//완전한 맵
 	cMap* obj1 = new cMap;
-	obj1->Setup("a1dun_01.objobj", "./Resources/Object/");
+	obj1->Setup("a1dun_01_test.objobj", "./Resources/Object/");
 	obj1->SetSumNailName("a1Dun_01.jpg");
 	m_vecObj.push_back(obj1);
 
@@ -203,12 +204,16 @@ void cTestScene::Update()
 		m_pCamera->Update(NULL);
 	}
 
-	SetMap();
+	if (!m_bIsDone)
+	{
+		SetMap();
+		SetBoundBox();
+	}
+	else
+		
 
-	PlayerMoveTest();
 
-
-	SetBoundBox();
+		PlayerMoveTest();
 
 	if (m_pPlayer)
 		m_pPlayer->Update();
@@ -239,7 +244,13 @@ void cTestScene::Render()
 
 
 	for (size_t i = 0; i < m_vecMap.size(); ++i)
-		m_vecMap[i]->RenerComplete();
+	{
+		if (m_bIsDone)
+			m_vecMap[i]->Render();
+		else
+			m_vecMap[i]->RenerComplete();
+	}
+		
 
 	if (m_pCurObj)
 		m_pCurObj->RenerComplete();
@@ -357,7 +368,7 @@ void cTestScene::SetMap()
 
 				//m_pCurObj->SetRefHiddenMtl(m_vecObj[i]->GetHiddenMtl());
 
-				//m_pCurObj->SetHiddenObj(m_vecObj[i]->GetHiddenObj());
+				m_pCurObj->SetRefObj(m_vecObj[i]);
 				m_pCurObj->SetObjName(m_vecObj[i]->GetObjName());
 				m_pCurObj->SetSumNailName(m_vecObj[i]->GetSumNailName());
 				m_pCurObj->SetBoundBox(m_vecObj[i]->GetBoundBox());
@@ -442,7 +453,7 @@ void cTestScene::SetMap()
 void cTestScene::PlayerMoveTest()
 {
 	//플레이어 피킹
-	/*if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
+	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
 	{
 		cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
 		D3DXVECTOR3 pickPos;
@@ -466,7 +477,7 @@ void cTestScene::PlayerMoveTest()
 				m_bIsSetMap = true;
 			}
 		}
-	}*/
+	}
 
 	//플레이어 아이템 변화 테스트
 
@@ -603,6 +614,11 @@ void cTestScene::SetBoundBox()
 				return;
 			}
 			m_vecBoundBox.pop_back();
+		}
+
+		if (g_pKeyManager->isOnceKeyDown(VK_SPACE))
+		{
+			m_bIsDone = true;
 		}
 	}
 }

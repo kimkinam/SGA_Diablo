@@ -31,6 +31,7 @@ private:
 	std::vector<ST_PC_VERTEX>	m_vecTiles;
 	bool						m_bIsSetMap;
 	bool						m_bIsBound;
+	bool						m_bIsDone;
 	D3DXVECTOR3					m_vpickPos;
 
 	//UI

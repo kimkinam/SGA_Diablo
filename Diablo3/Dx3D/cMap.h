@@ -40,7 +40,7 @@ public:
 	void SetLocalBoundBox();
 
 	void SetRefMtl(cMap* map);
-	void SetRefHiddenMtl(std::vector<cMtlTex*> vecHidenMtl);
+	void SetRefObj(cMap* map);
 	
 
 };
