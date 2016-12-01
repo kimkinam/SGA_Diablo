@@ -5,7 +5,6 @@ class cSceneObject;
 class cMainGame
 {
 private:
-	cSceneObject* m_pScene;
 
 public:
 	cMainGame(void);

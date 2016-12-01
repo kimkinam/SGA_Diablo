@@ -23,6 +23,9 @@ cTestScene::cTestScene()
 	, m_vpickPos(0, 0, 0)
 	, m_pMonster(NULL)
 	, m_pUIRoot(NULL)
+	, m_bIsBound(false)
+	, m_vMin(0, 0, 0)
+	, m_vMax(0, 0, 0)
 {
 	
 }
@@ -48,6 +51,11 @@ cTestScene::~cTestScene()
 	for each(auto c in m_vecMap)
 	{
 		SAFE_RELEASE(c);
+	}
+
+	for each(auto c in m_vecBoundBox)
+	{
+		SAFE_DELETE(c);
 	}
 
 	if (m_pUIRoot)
@@ -83,13 +91,23 @@ HRESULT cTestScene::SetUp()
 	m_pMonster = new cMonster;
 	m_pMonster->Setup("Skeleton");
 
-	//맵
-
+	//완전한 맵
 	cMap* obj1 = new cMap;
-	obj1->Setup("a1dun_01_test.objobj", "./Resources/Object/");
+	obj1->Setup("a1dun_01.objobj", "./Resources/Object/");
 	obj1->SetSumNailName("a1Dun_01.jpg");
 	m_vecObj.push_back(obj1);
 
+	//cMap* obj2 = new cMap;
+	//obj2->Setup("a1dun_02.objobj", "./Resources/Object/");
+	//obj2->SetSumNailName("a1Dun_01.jpg");
+	//m_vecObj.push_back(obj2);
+	//
+	//cMap* obj3 = new cMap;
+	//obj3->Setup("a1dun_03.objobj", "./Resources/Object/");
+	//obj3->SetSumNailName("a1Dun_01.jpg");
+	//m_vecObj.push_back(obj3);
+
+	//히든오브젝트 포함 맵
 	//cMap* obj2 = new cMap;
 	//obj2->Setup("a1dun_02_test.objobj", "./Resources/Object/");
 	//obj2->SetSumNailName("a1Dun_02.jpg");
@@ -163,6 +181,7 @@ HRESULT cTestScene::SetUp()
 		}
 	}
 
+
 	m_bIsLoad = true;
 	return S_OK;
 }
@@ -188,6 +207,8 @@ void cTestScene::Update()
 
 	PlayerMoveTest();
 
+
+	SetBoundBox();
 
 	if (m_pPlayer)
 		m_pPlayer->Update();
@@ -218,10 +239,19 @@ void cTestScene::Render()
 
 
 	for (size_t i = 0; i < m_vecMap.size(); ++i)
-		m_vecMap[i]->Render();
+		m_vecMap[i]->RenerComplete();
 
 	if (m_pCurObj)
-		m_pCurObj->Render();
+		m_pCurObj->RenerComplete();
+
+	D3DXMATRIX mat;
+	D3DXMatrixIdentity(&mat);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
+	
+	for (size_t i = 0; i < m_vecBoundBox.size(); ++i)
+	{
+		m_vecBoundBox[i]->Render();
+	}
 
 	g_pD3DDevice->SetTexture(0, NULL);
 
@@ -232,13 +262,25 @@ void cTestScene::Render()
 	font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
 
 	char temp[512];
-	sprintf_s(temp, "PlayerPos : %.2f, %.2f, %.2f // CurMap : %d",
+	sprintf_s(temp, "PlayerPos : %.2f, %.2f, %.2f",
 		m_pPlayer->GetPosition().x,
 		m_pPlayer->GetPosition().y,
 		m_pPlayer->GetPosition().z,
-		m_pPlayer->GetCurMap(),
+		//m_pPlayer->GetCurMap(),
+		m_bIsSetMap,
 		512);
 	RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 150, DEBUG_STARTX + 600, DEBUG_STARTY + 165 };
+	font->DrawText(NULL,
+		temp,
+		128,
+		&rc,
+		DT_LEFT,
+		D3DCOLOR_XRGB(255, 255, 255));
+
+	sprintf_s(temp, "BoundBoxCount : %d",
+		m_vecBoundBox.size(),
+		512);
+	rc = { DEBUG_STARTX, DEBUG_STARTY + 200, DEBUG_STARTX + 600, DEBUG_STARTY + 215 };
 	font->DrawText(NULL,
 		temp,
 		128,
@@ -311,9 +353,11 @@ void cTestScene::SetMap()
 
 				m_pCurObj = new cMap;
 
-				m_pCurObj->SetMtl(m_vecObj[i]->GetMtl());
-				m_pCurObj->SetHiddenMtl(m_vecObj[i]->GetHiddenMtl());
-				m_pCurObj->SetHiddenObj(m_vecObj[i]->GetHiddenObj());
+				m_pCurObj->SetRefMtl(m_vecObj[i]);
+
+				//m_pCurObj->SetRefHiddenMtl(m_vecObj[i]->GetHiddenMtl());
+
+				//m_pCurObj->SetHiddenObj(m_vecObj[i]->GetHiddenObj());
 				m_pCurObj->SetObjName(m_vecObj[i]->GetObjName());
 				m_pCurObj->SetSumNailName(m_vecObj[i]->GetSumNailName());
 				m_pCurObj->SetBoundBox(m_vecObj[i]->GetBoundBox());
@@ -325,6 +369,12 @@ void cTestScene::SetMap()
 					m_vecObj[i]->GetMesh()->GetFVF(),
 					g_pD3DDevice,
 					&m_pCurObj->GetMesh());
+
+				m_vecObj[i]->GetComMesh()->CloneMeshFVF(
+					m_vecObj[i]->GetComMesh()->GetOptions(),
+					m_vecObj[i]->GetComMesh()->GetFVF(),
+					g_pD3DDevice,
+					&m_pCurObj->GetComMesh());
 
 				m_bIsSetMap = false;
 			}
@@ -353,9 +403,10 @@ void cTestScene::SetMap()
 						m_pCurObj->SetPosition(D3DXVECTOR3(10, 0, 10));
 					if (pickPos.x > 0 && pickPos.z < 0)
 						m_pCurObj->SetPosition(D3DXVECTOR3(10, 0, -10));
-					m_bIsSetMap = false;
+					m_bIsSetMap = true;
 
 					m_pCurObj->SetLocalBoundBox();
+					
 					//cMap* obj = new cMap;
 					//obj = m_pCurObj;
 					//m_pCurObj->AddRef();
@@ -391,7 +442,7 @@ void cTestScene::SetMap()
 void cTestScene::PlayerMoveTest()
 {
 	//플레이어 피킹
-	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
+	/*if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
 	{
 		cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
 		D3DXVECTOR3 pickPos;
@@ -415,7 +466,7 @@ void cTestScene::PlayerMoveTest()
 				m_bIsSetMap = true;
 			}
 		}
-	}
+	}*/
 
 	//플레이어 아이템 변화 테스트
 
@@ -477,4 +528,71 @@ void cTestScene::PlayerMoveTest()
 		}
 	}
 
+}
+
+void cTestScene::SetBoundBox()
+{
+	BOOL bHit = FALSE;
+	DWORD dwFace = 0;
+	D3DXVECTOR3 vRayPos;
+	D3DXVECTOR3 vRayDir;
+	FLOAT fBary1 = -1.0f;
+	FLOAT fBary2 = -1.0f;
+	FLOAT fDist = -1.0f;
+
+	if (m_bIsSetMap)
+	{
+		if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
+		{
+			cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
+
+			if (!m_bIsBound)
+			{
+				vRayPos = r.GetOrg() - m_vecMap[0]->GetPosition();
+				D3DXVec3Normalize(&vRayDir, &r.GetDir());
+
+				LPD3DXMESH mesh = m_vecMap[0]->GetComMesh();
+				D3DXIntersect(mesh, &vRayPos, &vRayDir
+				, &bHit, &dwFace, &fBary1, &fBary2, &fDist, NULL, NULL);
+
+				if (bHit)
+				{
+					m_vMin = vRayPos + fDist*vRayDir + m_vecMap[0]->GetPosition();
+					m_bIsBound = true;
+				}
+			}
+			else
+			{
+				vRayPos = r.GetOrg() - m_vecMap[0]->GetPosition();
+				D3DXVec3Normalize(&vRayDir, &r.GetDir());
+
+				LPD3DXMESH mesh = m_vecMap[0]->GetComMesh();
+					D3DXIntersect(mesh, &vRayPos, &vRayDir
+						, &bHit, &dwFace, &fBary1, &fBary2, &fDist, NULL, NULL);
+
+					if (bHit)
+					{
+						m_vMax = vRayPos + fDist*vRayDir + m_vecMap[0]->GetPosition();
+
+						cBoundBox* box = new cBoundBox;
+						box->Setup(m_vMin, m_vMax, NULL);
+						box->SetIsDraw(true);
+						m_vecBoundBox.push_back(box);
+						m_bIsBound = false;
+					}
+			}
+			
+		}
+
+		if (g_pKeyManager->isToggleKey(VK_CONTROL) && g_pKeyManager->isOnceKeyDown('Z'))
+		{
+			if (m_bIsBound) 
+			{
+				m_bIsBound = false;
+				m_vMin = D3DXVECTOR3(0, 0, 0);
+				m_vMax = D3DXVECTOR3(0, 0, 0);
+			}
+			m_vecBoundBox.pop_back();
+		}
+	}
 }

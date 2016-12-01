@@ -80,6 +80,7 @@ public: virtual void Set##funName(varType var){\
 	}\
 }
 
+
 // 1. Position 정점의 좌표 x,y,z(float)			: D3DFVF_XYZ
 // 2. RHW (float)                               : D3DFVF_XYZRHW (D3DFVF_XYZ 또는 D3DFVF_NORMAL과 같이 사용불가)
 // 3. Blending Weight Data 결합 가중치 (float)	: D3DFVF_XYZB1 ~ D3DFVF_XYZB5

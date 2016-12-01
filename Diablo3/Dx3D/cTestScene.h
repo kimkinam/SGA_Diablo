@@ -6,6 +6,7 @@ class cObj;
 class cMap;
 class cPlayer;
 class cMonster;
+class cBoundBox;
 
 class cTestScene : public cSceneObject, public iButtonDelegate
 {
@@ -22,16 +23,25 @@ private:
 	std::vector<cMap*>			m_vecObj;
 	std::vector<cMap*>			m_vecMap;
 
+	//바운드 박스
+	std::vector<cBoundBox*>		m_vecBoundBox;
+
 
 	//맵 위치 정할 타일
 	std::vector<ST_PC_VERTEX>	m_vecTiles;
 	bool						m_bIsSetMap;
+	bool						m_bIsBound;
 	D3DXVECTOR3					m_vpickPos;
 
 	//UI
 	LPD3DXSPRITE				m_pSprite;
 	std::vector<cUIObject*>		m_vecObjUI;
 	cUIObject*					m_pUIRoot;
+
+
+	D3DXVECTOR3					m_vMin;
+	D3DXVECTOR3					m_vMax;
+
 public:
 	cTestScene();
 	virtual ~cTestScene();
@@ -50,6 +60,7 @@ public:
 
 	void SetMap();
 	void PlayerMoveTest();
+	void SetBoundBox();
 
 
 };

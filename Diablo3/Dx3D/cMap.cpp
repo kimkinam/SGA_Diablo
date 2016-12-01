@@ -5,6 +5,7 @@
 
 cMap::cMap()
 	: m_pMesh(NULL)
+	, m_pComMesh(NULL)
 	, m_vPosition(0, 0, 0)
 	//, m_bIsDrawBound(false)
 {
@@ -18,9 +19,15 @@ cMap::~cMap()
 {
 	//통제 매쉬 해제
 	SAFE_RELEASE(m_pMesh);
+	SAFE_RELEASE(m_pComMesh);
 
 	//통짜 mtl 해제
 	for each(auto c in m_vecMtl)
+	{
+		SAFE_RELEASE(c);
+	}
+
+	for each(auto c in m_vecComMtl)
 	{
 		SAFE_RELEASE(c);
 	}
@@ -55,12 +62,22 @@ void cMap::Setup(char * szFileName, char * szForlderName)
 	D3DXMatrixScaling(&matS, 0.5f, 0.5f, 0.5f);
 	D3DXMatrixRotationY(&matR, D3DXToRadian(90));
 	matW = matS * matR;
-	loader.Load(szFileName, szForlderName, &matW,
-		m_vecMtl, m_pMesh, m_vecHiddenMtl, m_vecHiddenObj);
+	//loader.Load(szFileName, szForlderName, &matW,
+	//	m_vecMtl, m_pMesh, m_vecHiddenMtl, m_vecHiddenObj);
+
+
+	loader.Load(szFileName, szForlderName, &matW, 
+		m_vecMtl, m_pMesh,
+		m_vecHiddenMtl, m_vecHiddenObj);
+
+	cObjLoader loader2;
+	m_pComMesh = loader2.Load(szFileName, szForlderName, m_vecComMtl, &matW);
 
 	m_vecHiddenDraw.resize(m_vecHiddenObj.size());
 	for (size_t i = 0; i < m_vecHiddenObj.size(); ++i)
 		m_vecHiddenDraw[i] = (false);
+
+	int a = 0;
 }
 
 void cMap::Render()
@@ -89,14 +106,33 @@ void cMap::Render()
 			{
 				g_pD3DDevice->SetMaterial(&m_vecHiddenMtl[i]->GetMtl());
 				g_pD3DDevice->SetTexture(0, m_vecHiddenMtl[i]->GetTexture());
-
+	
 				m_vecHiddenObj[j]->DrawSubset(i);
 			}
-
+	
 		}
 	}
 
 	RenderBoundBox();
+}
+
+void cMap::RenerComplete()
+{
+	g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	D3DXMatrixTranslation(&m_matWorld, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+
+	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+	for (size_t i = 0; i < m_vecComMtl.size(); ++i)
+	{
+		g_pD3DDevice->SetMaterial(&m_vecComMtl[i]->GetMtl());
+		g_pD3DDevice->SetTexture(0, m_vecComMtl[i]->GetTexture());
+		m_pComMesh->DrawSubset(i);
+	}
 }
 
 void cMap::RenderBoundBox()
@@ -122,5 +158,41 @@ void cMap::SetLocalBoundBox()
 		m_vecBoundBox[i] = new cBoundBox;
 		m_vecBoundBox[i]->Setup(vMin, vMax, &matT);
 	}
+}
+
+void cMap::SetRefMtl(cMap* map)
+{
+	for (size_t i = 0; i < map->GetMtl().size(); ++i)
+	{
+		map->GetMtl()[i]->AddRef();
+	}
+
+	m_vecMtl = map->GetMtl();
+	
+	for (size_t i = 0; i < map->GetHiddenMtl().size(); ++i)
+	{
+		map->GetHiddenMtl()[i]->AddRef();
+	}
+
+	m_vecHiddenMtl = map->GetHiddenMtl();
+	
+	for (size_t i = 0; i < map->GetComMtl().size(); ++i)
+	{
+		map->GetComMtl()[i]->AddRef();
+	}
+
+	m_vecComMtl = map->GetComMtl();
+	
+	
+}
+
+void cMap::SetRefHiddenMtl(std::vector<cMtlTex*> vecHidenMtl)
+{
+	for (size_t i = 0; i < vecHidenMtl.size(); ++i)
+	{
+		vecHidenMtl[i]->AddRef();
+	}
+
+	m_vecHiddenMtl = vecHidenMtl;
 }
 
