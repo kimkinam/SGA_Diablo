@@ -1,30 +1,19 @@
-<<<<<<< HEAD
-﻿빌드 시작: 2016-11-29 오후 8:32:16
+﻿빌드 시작: 2016-12-01 오후 12:28:57
      1>2 노드의 "C:\Users\Minky\Desktop\TEAM_GIT\SGA_Diablo\Diablo3\Dx3D\Dx3D.vcxproj" 프로젝트(Build 대상)입니다.
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Dx3D.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt cTestScene.cpp
          cTestScene.cpp
-     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(78): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
-     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(82): warning C4244: '인수' : 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(85): warning C4316: 'cUIButton': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
-     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(90): warning C4244: '인수' : 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(95): warning C4316: 'cUIButton': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
-     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(109): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
-     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(114): warning C4244: '인수' : 'size_t'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(466): warning C4244: '인수' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(473): warning C4244: '인수' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-=======
-﻿빌드 시작: 2016-11-30 오후 10:37:11
-     1>2 노드의 "C:\Users\myungjin\Desktop\팀포폴\SGA_Diablo\Diablo3\Dx3D\Dx3D.vcxproj" 프로젝트(Build 대상)입니다.
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Dx3D.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt cBoss.cpp cMainGame.cpp cMonster.cpp cTestScene.cpp
-         cMonster.cpp
-         cMainGame.cpp
-         cBoss.cpp
-         코드를 생성하고 있습니다...
-         건너뛰고 있습니다... (관련된 변경 내용 없음)
-         cTestScene.cpp
->>>>>>> 78e5322bef11eecc2a6e678622184223ce177bf8
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(123): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(127): warning C4244: '인수' : 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(130): warning C4316: 'cUIButton': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(135): warning C4244: '인수' : 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(140): warning C4316: 'cUIButton': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(154): warning C4316: 'cUIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(159): warning C4244: '인수' : 'size_t'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(283): warning C4244: '인수' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\minky\desktop\team_git\sga_diablo\diablo3\dx3d\ctestscene.cpp(290): warning C4244: '인수' : 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /l"0x0409" /nologo /fo"Debug\Dx3D.res" Dx3D.rc 
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Minky\Desktop\TEAM_GIT\SGA_Diablo\Diablo3\Debug\Dx3D.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Minky\Desktop\TEAM_GIT\SGA_Diablo\Diablo3\Debug\Dx3D.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Minky\Desktop\TEAM_GIT\SGA_Diablo\Diablo3\Debug\Dx3D.lib" /MACHINE:X86 Debug\Dx3D.res
          Debug\cAction.obj
@@ -34,6 +23,8 @@
          Debug\cAllocateHierarchy.obj
          Debug\cAseLoader.obj
          Debug\cBoss.obj
+         Debug\cBossScene.obj
+         Debug\cBoundBox.obj
          Debug\cCamera.obj
          Debug\cCharController.obj
          Debug\cCube.obj
@@ -50,10 +41,7 @@
          Debug\cLoadingScene.obj
          Debug\cLogManager.obj
          Debug\cMainGame.obj
-<<<<<<< HEAD
-=======
          Debug\cMap.obj
->>>>>>> 78e5322bef11eecc2a6e678622184223ce177bf8
          Debug\cMonster.obj
          Debug\cMonsterManager.obj
          Debug\cMtlTex.obj
@@ -89,8 +77,4 @@
 
 빌드했습니다.
 
-<<<<<<< HEAD
-경과 시간: 00:00:02.97
-=======
-경과 시간: 00:00:01.49
->>>>>>> 78e5322bef11eecc2a6e678622184223ce177bf8
+경과 시간: 00:00:01.63

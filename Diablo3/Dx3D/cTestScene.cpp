@@ -22,10 +22,7 @@ cTestScene::cTestScene()
 	, m_pCurObj(NULL)
 	, m_vpickPos(0, 0, 0)
 	, m_pMonster(NULL)
-<<<<<<< HEAD
-=======
 	, m_pUIRoot(NULL)
->>>>>>> 78e5322bef11eecc2a6e678622184223ce177bf8
 {
 	
 }
