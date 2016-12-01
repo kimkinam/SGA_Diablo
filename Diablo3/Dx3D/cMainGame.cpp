@@ -7,7 +7,6 @@
 
 
 cMainGame::cMainGame(void)
-	: m_pScene(NULL)
 {
 }
 
@@ -52,8 +51,6 @@ void cMainGame::Update()
 	
 	g_pSceneManager->Update();
 
-	if (m_pScene)
-		m_pScene->Update();
 	
 }
 
@@ -73,8 +70,6 @@ void cMainGame::Render()
 	//if (m_pCurScene)
 	//	m_pCurScene->Render();
 
-	if (m_pScene)
-		m_pScene->Render();
 
 	g_pTimeManager->Render();
 

@@ -118,7 +118,7 @@ void cObjLoader::Load(IN char* szFilename, IN char* szFolderName,OUT std::vector
 
 LPD3DXMESH cObjLoader::Load(IN char* szFilename, IN char* szFolderName,OUT std::vector<cMtlTex*>& vecMtlTex, IN D3DXMATRIXA16* pmat /*= NULL*/)
 {
-	m_mapMtlTex.clear();
+	//m_mapMtlTex.clear();
 
 	m_sPath = szFolderName;
 
@@ -204,16 +204,10 @@ LPD3DXMESH cObjLoader::Load(IN char* szFilename, IN char* szFolderName,OUT std::
 					D3DXVec3TransformNormal(&v.n, &vecVN[aIndex[i][2] - 1], pmat);
 					D3DXVec3TransformCoord(&v.p, &vecV[aIndex[i][0] - 1], pmat);
 				}
-				if(m_mapMtlTex[sMtlName]->GetIsHiddenObj())
-					vecHiddenVertex.push_back(v);
-				else
-					vecVertex.push_back(v);
+				vecVertex.push_back(v);
 			}
 
-			if (m_mapMtlTex[sMtlName]->GetIsHiddenObj())
-				vecHiddenAttr.push_back(m_mapMtlTex[sMtlName]->GetAttrID());
-			else
-				vecAttr.push_back(m_mapMtlTex[sMtlName]->GetAttrID());
+			vecAttr.push_back(m_mapMtlTex[sMtlName]->GetAttrID());
 		}
 
 	}
@@ -272,12 +266,15 @@ void cObjLoader::Load(IN char * szFilename, IN char * szFolderName, IN D3DXMATRI
 	std::vector<D3DXVECTOR3>	vecV;
 	std::vector<D3DXVECTOR3>	vecVN;
 	std::vector<D3DXVECTOR2>	vecVT;
+
+	std::string					sMtlName;
+
 	std::vector<ST_PNT_VERTEX>	vecVertex;
 	std::vector<DWORD>			vecAttr;
-	std::string					sMtlName;
 
 	std::vector<ST_PNT_VERTEX>	vecHiddenVertex;
 	std::vector<DWORD>			vecHiddenAttr;
+
 
 	FILE* fp = NULL;
 	string sFullpath = m_sPath + szFilename;
@@ -403,16 +400,21 @@ void cObjLoader::Load(IN char * szFilename, IN char * szFolderName, IN D3DXMATRI
 					D3DXVec3TransformNormal(&v.n, &vecVN[aIndex[i][2] - 1], pMat);
 					D3DXVec3TransformCoord(&v.p, &vecV[aIndex[i][0] - 1], pMat);
 				}
+
+
 				if (StartsWith(StringToChar(sMtlName), "Hidden"))
 					vecHiddenVertex.push_back(v);
 				else
 					vecVertex.push_back(v);
+
+				
 			}
 
 			if (StartsWith(StringToChar(sMtlName), "Hidden"))
 				vecHiddenAttr.push_back(m_mapHiddenMtlTex[sMtlName]->GetAttrID());
 			else
 				vecAttr.push_back(m_mapMtlTex[sMtlName]->GetAttrID());
+			
 		}
 
 	}
@@ -454,8 +456,6 @@ void cObjLoader::Load(IN char * szFilename, IN char * szFolderName, IN D3DXMATRI
 		NULL,
 		NULL,
 		NULL);
-
-	int a = 0;
 
 }
 

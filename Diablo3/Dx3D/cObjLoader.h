@@ -8,7 +8,7 @@ class cObjLoader
 private:
 	std::map<std::string, cMtlTex*>		m_mapMtlTex;
 	std::map<std::string, cMtlTex*>		m_mapHiddenMtlTex;
-
+	std::map<std::string, cMtlTex*>		m_mapComMtlTex;
 	string								m_sPath;
 	
 public:
@@ -17,6 +17,7 @@ public:
 
 	void Load(IN char* szFilename, IN char* szFolderName, OUT std::vector<cGroup*>& vecGroup, IN D3DXMATRIXA16* pmat = NULL);
 	LPD3DXMESH Load(IN char* szFilename, IN char* szFolderName, OUT std::vector<cMtlTex*>& vecMtlTex, IN D3DXMATRIXA16* pmat = NULL);
+	
 	void Load(IN char* szFilename, IN char* szFolderName, IN D3DXMATRIXA16* pMat,
 		OUT std::vector<cMtlTex*>& vecMtlTex, OUT LPD3DXMESH& mesh,
 		OUT std::vector<cMtlTex*>& vecHiddenMtlTex, OUT std::vector<LPD3DXMESH>& vecHiddenMesh);

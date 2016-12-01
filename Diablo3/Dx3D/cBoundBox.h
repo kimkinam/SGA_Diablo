@@ -12,6 +12,7 @@ public:
 	~cBoundBox();
 
 	void Setup(D3DXVECTOR3 vMin, D3DXVECTOR3 vMax, D3DXMATRIX* pMat);
+	void Setup(D3DXVECTOR3* vMin, D3DXVECTOR3* vMax, D3DXMATRIX* pMat);
 	void Render();
 	bool GetRayDistance(D3DXVECTOR3 vRayPosition, D3DXVECTOR3 vDirection, float& distance);
 };

@@ -8,6 +8,10 @@ private:
 	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vPosition, Position);
 
 	//맵 통짜 매쉬
+	SYNTHESIZE_PASS_BY_REF(LPD3DXMESH, m_pComMesh, ComMesh);
+	SYNTHESIZE_PASS_BY_REF(std::vector<cMtlTex*>, m_vecComMtl, ComMtl);
+
+	//사라지고 난 매쉬
 	SYNTHESIZE_PASS_BY_REF(LPD3DXMESH, m_pMesh, Mesh);
 	SYNTHESIZE_PASS_BY_REF(std::vector<cMtlTex*>, m_vecMtl, Mtl);
 
@@ -31,8 +35,13 @@ public:
 
 	void Setup(char* szFileName, char* szForlderName);
 	void Render();
+	void RenerComplete();
 	void RenderBoundBox();
 	void SetLocalBoundBox();
+
+	void SetRefMtl(cMap* map);
+	void SetRefHiddenMtl(std::vector<cMtlTex*> vecHidenMtl);
+	
 
 };
 
