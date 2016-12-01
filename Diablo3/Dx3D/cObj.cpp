@@ -23,7 +23,7 @@ cObj::~cObj()
 		SAFE_RELEASE(c);
 	}
 
-	for each(auto c in m_vecHiddenMtl)
+	/*for each(auto c in m_vecHiddenMtl)
 	{
 		SAFE_RELEASE(c);
 	}
@@ -31,7 +31,7 @@ cObj::~cObj()
 	for each(auto c in m_vecHiddenObj)
 	{
 		SAFE_RELEASE(c);
-	}
+	}*/
 
 
 	int a = 0;
@@ -42,11 +42,12 @@ void cObj::SetUp(char * szFileName, char* szFolderName)
 {
 	cObjLoader loader;
 	m_sObjName = szFileName;
-	//m_pMesh = loader.Load(szFileName, szFolderName, m_vecMtl, NULL);
-	loader.Load(szFileName, szFolderName, NULL,
-		m_vecMtl, m_pMesh, m_vecHiddenMtl, m_vecHiddenObj);
+	m_pMesh = loader.Load(szFileName, szFolderName, m_vecMtl, NULL);
 
-	D3DXVECTOR3 vMin, vMax;
+	//loader.Load(szFileName, szFolderName, NULL,
+	//	m_vecMtl, m_pMesh, m_vecHiddenMtl, m_vecHiddenObj);
+
+	/*D3DXVECTOR3 vMin, vMax;
 
 	m_vecBound.resize(m_vecHiddenObj.size());
 	for (size_t i = 0; i < m_vecBound.size(); ++i)
@@ -66,7 +67,7 @@ void cObj::SetUp(char * szFileName, char* szFolderName)
 		GetBoundMinMax(m_pMesh, vMin, vMax);
 		MakeBoundBox(vMin, vMax, m_vecBound[0]);
 		
-	}
+	}*/
 	
 	
 }
