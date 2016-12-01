@@ -89,3 +89,9 @@ void cPlayer::OnActionFinish(cAction * pSender)
 
 	m_pMesh->SetAnimationIndex(1);
 }
+
+void cPlayer::PlayerPosition()
+{
+	m_pPosition = &cGameObject::GetPosition();
+}
+

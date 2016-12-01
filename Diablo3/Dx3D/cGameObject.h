@@ -17,5 +17,8 @@ public:
 	virtual ~cGameObject();
 	
 	virtual void OnActionFinish(cAction* pSender) override;
+
+	D3DXVECTOR3* GetPtPosition(){ return &m_vPosition; }
+	
 };
 
