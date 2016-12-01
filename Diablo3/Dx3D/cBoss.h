@@ -12,5 +12,6 @@ public:
 	void Setup();
 	void Update();
 	void Render();
+	virtual void OnActionFinish(cAction* pSender) override;
 };
 

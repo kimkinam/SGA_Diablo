@@ -2,13 +2,20 @@
 
 class cGrid;
 class cBoss;
+class cPlayer;
 
 class cBossScene :
 	public cSceneObject
 {
 private:
 	cGrid*		m_pGrid;
-	//cBoss*		Boss_diablo;
+	cBoss*		Boss_diablo; // º¸½º
+	cPlayer*	m_pPlayer;
+
+	std::vector<ST_PC_VERTEX>	m_vecTiles;
+	bool						m_bIsSetMap;
+	D3DXVECTOR3					m_vpickPos;
+
 public:
 	cBossScene();
 	virtual ~cBossScene();
@@ -18,5 +25,9 @@ public:
 	virtual void Update()	override;
 	virtual void Render()	override;
 	virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;
+
+
+	void BossMoveTest();
+	void PlayerMove();
 };
 

@@ -273,6 +273,9 @@
     <ClInclude Include="cBossScene.h">
       <Filter>Scene\BossScene</Filter>
     </ClInclude>
+    <ClInclude Include="cActionTrace.h">
+      <Filter>Scene\GamingScene\Action</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -442,6 +445,9 @@
     </ClCompile>
     <ClCompile Include="cBossScene.cpp">
       <Filter>Scene\BossScene</Filter>
+    </ClCompile>
+    <ClCompile Include="cActionTrace.cpp">
+      <Filter>Scene\GamingScene\Action</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

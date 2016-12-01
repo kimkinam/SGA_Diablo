@@ -16,6 +16,9 @@ private:
 	SYNTHESIZE(cSkinnedMesh*, m_pMesh, Mesh);
 	SYNTHESIZE(PLAYER_STATE, m_emState, State);
 	SYNTHESIZE(int, m_nCurMap, CurMap);
+	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3*, m_pPosition, m_pPos);
+
+
 
 
 public:
@@ -27,6 +30,7 @@ public:
 	void Render();
 	void AniControl();
 	void Picking();
+	void PlayerPosition();
 
 	virtual void OnActionFinish(cAction* pSender) override;
 };
