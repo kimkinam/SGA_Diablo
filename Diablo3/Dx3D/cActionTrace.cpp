@@ -84,7 +84,6 @@ void cActionTrace::Update()
 	{
 		m_pTarget->SetPosition(*this->GetPosition());
 		m_pDelegate->OnActionFinish(this);
-		int a = 0;
 	}
 	else if (m_fPassedTime > m_fTraceTime)
 	{
