@@ -5,7 +5,7 @@
 cActionTrace::cActionTrace()
 	: m_tFrom(NULL)
 	, m_tTo(NULL)
-	
+	, m_vPosition(NULL)
 {
 }
 
@@ -43,7 +43,8 @@ void cActionTrace::Update()
 		D3DXVECTOR3 position = m_pTarget->GetPosition();
 
 		position = position - m_pTarget->GetDirection() * 0.05f;
-		m_pTarget->SetPosition(position);
+		m_vPosition = &position;
+		m_pTarget->SetPosition(*m_vPosition);
 		m_pTarget->SetAngle(angle);
 
 	}
@@ -51,9 +52,18 @@ void cActionTrace::Update()
 	D3DXVECTOR3 dir1 = m_pTarget->GetPosition() - (*m_tTo);
 	D3DXVECTOR3 dir2 = (*m_tFrom) - (*m_tTo);
 
-	if (D3DXVec3Dot(&dir1, &dir2) <= 0)
-	{
-		m_pTarget->SetPosition(*m_tTo);
-		m_pDelegate->OnActionFinish(this);
-	}
+	//if (D3DXVec3Dot(&dir1, &dir2) <= 0)
+	//{
+	//	m_pTarget->SetPosition(*m_tTo);
+	//	m_pDelegate->OnActionFinish(this);
+	//}
+}
+
+bool cActionTrace::Distance()
+{
+	D3DXVECTOR3	v3 = (*m_tFrom) - (*m_tTo);
+	float distance = D3DXVec3Length(&v3);
+	
+	if (distance < 1.0f)
+		return true;
 }

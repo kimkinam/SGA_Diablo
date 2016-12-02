@@ -4,6 +4,7 @@ class cActionTrace : public cAction
 private:
 	SYNTHESIZE(D3DXVECTOR3*, m_tFrom, From);
 	SYNTHESIZE(D3DXVECTOR3*, m_tTo, To);
+	SYNTHESIZE(D3DXVECTOR3*, m_vPosition, Position);
 
 public:
 	cActionTrace();
@@ -13,6 +14,7 @@ public:
 	
 	virtual void Start() override;
 	virtual void Update() override;
+	bool Distance();
 
 };
 
