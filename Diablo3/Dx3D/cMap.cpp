@@ -7,6 +7,7 @@ cMap::cMap()
 	: m_pMesh(NULL)
 	, m_pComMesh(NULL)
 	, m_vPosition(0, 0, 0)
+	, m_pEffect(NULL)
 	//, m_bIsDrawBound(false)
 {
 	m_sSumNailName = m_sObjName = "";
@@ -51,6 +52,8 @@ cMap::~cMap()
 		SAFE_DELETE(c);
 	}
 
+	SAFE_RELEASE(m_pEffect);
+
 }
 
 void cMap::Setup(char * szFileName, char * szForlderName)
@@ -77,7 +80,7 @@ void cMap::Setup(char * szFileName, char * szForlderName)
 	for (size_t i = 0; i < m_vecHiddenObj.size(); ++i)
 		m_vecHiddenDraw[i] = (false);
 
-	int a = 0;
+	m_pEffect = LoadEffect("shader_map.fx");
 }
 
 void cMap::Render()
@@ -88,14 +91,45 @@ void cMap::Render()
 
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 
-	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	//g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
+	//D3DXMATRIXA16 matView, matProjection, matViewProjection;
+	//g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+	//g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
+	//
+	//matViewProjection = matView * matProjection;
+	//
+	//D3DXMATRIXA16 mView, mInvView;
+	//g_pD3DDevice->GetTransform(D3DTS_VIEW, &mView);
+	//D3DXMatrixInverse(&mInvView, 0, &mView);
+	//D3DXVECTOR3 vEye = D3DXVECTOR3(0, 0, 0);
+	//D3DXVec3TransformCoord(&vEye, &vEye, &mInvView);
+	//
+	//// 쉐이더 전역변수들을 설정
+	//m_pEffect->SetMatrix("matWorld", &m_matWorld);
+	//m_pEffect->SetMatrix("matViewProjection", &matViewProjection);
+	//m_pEffect->SetVector("gLightColor", &D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f));
+	//m_pEffect->SetVector("vViewPosition", &D3DXVECTOR4(vEye, 1.0f));
+	//m_pEffect->SetVector("vLightPosition", &D3DXVECTOR4(500.0f, 500.0f, 500.0f, 1.0f));
+	//
+	//UINT numPasses = 0;
+	//m_pEffect->Begin(&numPasses, NULL);
 
 	for (size_t i = 0; i < m_vecMtl.size(); ++i)
 	{
 		g_pD3DDevice->SetMaterial(&m_vecMtl[i]->GetMtl());
 		g_pD3DDevice->SetTexture(0, m_vecMtl[i]->GetTexture());
-		m_pMesh->DrawSubset(i);
+
+		//for (UINT j = 0; j < numPasses; ++j)
+		//{
+			//m_pEffect->BeginPass(j);
+			m_pMesh->DrawSubset(i);
+			//m_pEffect->EndPass();
+		//}
+		
 	}
+
+
 
 	if (!m_vecHiddenObj.empty())
 	{
@@ -109,11 +143,14 @@ void cMap::Render()
 	
 				m_vecHiddenObj[j]->DrawSubset(i);
 			}
-	
 		}
 	}
 
-	RenderBoundBox();
+	m_pEffect->End();
+
+	
+
+	//RenderBoundBox();
 }
 
 void cMap::RenerComplete()

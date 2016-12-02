@@ -7,6 +7,7 @@ cGameObject::cGameObject()
 	, m_vDirection(0, 0, 0)
 	, m_pAction(NULL)
 	, m_fAngle(0.0f)
+	, m_bIsMove(true)
 {
 
 }

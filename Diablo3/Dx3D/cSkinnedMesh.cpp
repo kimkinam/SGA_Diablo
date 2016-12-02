@@ -91,6 +91,8 @@ void cSkinnedMesh::Load(char* szDirectory, char* szFilename)
 			20,
 			&pBoundingSphereMesh,
 			NULL);
+
+		
 	}
 
 	if (m_pmWorkingPalette)
@@ -105,6 +107,90 @@ void cSkinnedMesh::Load(char* szDirectory, char* szFilename)
 
 	if (m_pRootFrame)
 		SetupBoneMatrixPtrs(m_pRootFrame);
+}
+
+void cSkinnedMesh::LoadMultiTexture(char * szFolder, char * szFileName)
+{
+	std::string sFullPath(szFolder);
+	sFullPath += std::string(szFileName);
+
+	/* ============ X파일에서 메쉬 데이터 로드 ============= */
+
+	LPD3DXBUFFER		pAdjacency;		//인접 버퍼
+	LPD3DXBUFFER		pMaterial;		//재질 버퍼
+
+	HRESULT hr = D3DXLoadMeshFromX(
+		sFullPath.c_str(),
+		D3DXMESH_MANAGED,
+		g_pD3DDevice,
+		&pAdjacency,
+		&pMaterial,
+		NULL,
+		&m_dwMatNum,
+		&m_pMesh);
+	
+	assert(!FAILED(hr) && "멀티 택스쳐 매쉬 로드 실패");
+
+	// ============ 마테리얼과 텍스쳐를 로드 =============
+
+	LPD3DXMATERIAL	pMaterials = (LPD3DXMATERIAL)pMaterial->GetBufferPointer();
+	LPDIRECT3DTEXTURE9 tex;
+
+	for (int i = 0; i < m_dwMatNum; i++)
+	{
+		D3DMATERIAL9 mtrl = pMaterials[i].MatD3D;
+
+		mtrl.Ambient = mtrl.Diffuse;
+
+		m_vecMat.push_back(mtrl);
+
+		if (pMaterials[i].pTextureFilename != NULL)
+		{
+			string texFilePath = string(szFolder) + pMaterials[i].pTextureFilename;
+			tex = g_pTextureManager->GetTexture(texFilePath);
+			m_vecTex.push_back(tex);
+
+
+			// 텍스쳐 파일명을 파일명과 화장자로 분리
+			string textureFileName = pMaterials[i].pTextureFilename;
+
+			int dotIndex = textureFileName.find_last_of("_D");
+
+			dotIndex -= 1;
+
+			string texFile = textureFileName.substr(0, dotIndex);
+			string texExp = textureFileName.substr(dotIndex + 3, textureFileName.length());	//%%
+
+																							// 노말맵
+			texFilePath = string(szFolder) + (texFile + "_N." + texExp);
+			tex = g_pTextureManager->GetTexture(texFilePath);
+			m_vecNorm.push_back(tex);
+
+			// 스펙큘러
+			texFilePath = string(szFolder) + (texFile + "_S." + texExp);
+			tex = g_pTextureManager->GetTexture(texFilePath);
+			m_vecSpec.push_back(tex);
+
+			// 이미션
+			texFilePath = string(szFolder) + (texFile + "_E." + texExp);
+			tex = g_pTextureManager->GetTexture(texFilePath);
+			m_vecEmi.push_back(tex);
+		}
+	}
+
+	SAFE_RELEASE(pMaterial);
+
+	m_pMesh->OptimizeInplace(
+		D3DXMESHOPT_ATTRSORT |		//메쉬 서브셋순서대로 정렬 ( DrawSubset 효율을 높인다 )
+		D3DXMESHOPT_COMPACT |		//메쉬에서 사용되지 않는 정점과 인덱스 해제
+		D3DXMESHOPT_VERTEXCACHE,	//정점 Cache 히트율 높힌다.
+		(DWORD*)pAdjacency->GetBufferPointer(),		//인접버퍼 넘겨야 한다.
+		NULL,			//최적화를 마지고 결과로 얻는 인접정보 ( 더이상 필요없으면 NULL )
+		NULL,			//최적화된 인덱스 정보
+		NULL			//최적화된 정점 버퍼 정보
+	);
+	SAFE_RELEASE(pAdjacency);
+
 }
 
 void cSkinnedMesh::UpdateAndRender(D3DXMATRIX* pMat)
@@ -221,7 +307,7 @@ void cSkinnedMesh::Render(ST_BONE* pBone /*= NULL*/)
 			// the texture here
 
 			if (!pBoneMesh->vecTexture.empty())
-				m_pEffect->SetTexture( "g_txScene", pBoneMesh->vecTexture[ pBoneCombos[ dwAttrib ].AttribId ] );
+				m_pEffect->SetTexture( "Diffuse_Tex", pBoneMesh->vecTexture[ pBoneCombos[ dwAttrib ].AttribId ] );
 
 			// set the current number of bones; this tells the effect which shader to use
 			m_pEffect->SetInt("CurNumBones", pBoneMesh->dwMaxNumFaceInfls - 1);

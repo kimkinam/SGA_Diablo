@@ -90,7 +90,7 @@ HRESULT cTestScene::SetUp()
 
 	//몬스터
 	m_pMonster = new cMonster;
-	m_pMonster->Setup("Skeleton");
+	m_pMonster->Setup("diablo");
 
 	//완전한 맵
 	cMap* obj1 = new cMap;
@@ -210,9 +210,6 @@ void cTestScene::Update()
 		SetBoundBox();
 	}
 	else
-		
-
-
 		PlayerMoveTest();
 
 	if (m_pPlayer)
@@ -220,6 +217,11 @@ void cTestScene::Update()
 
 	if (m_pMonster)
 		m_pMonster->Update();
+
+	for (size_t i = 0; i < m_vecBoundBox.size(); ++i)
+	{
+		m_vecBoundBox[i]->Update(NULL);
+	}
 
 	if (m_pUIRoot)
 		m_pUIRoot->Update();
@@ -261,7 +263,7 @@ void cTestScene::Render()
 	
 	for (size_t i = 0; i < m_vecBoundBox.size(); ++i)
 	{
-		m_vecBoundBox[i]->Render();
+		m_vecBoundBox[i]->DebugRender(D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
 	}
 
 	g_pD3DDevice->SetTexture(0, NULL);
@@ -367,7 +369,7 @@ void cTestScene::SetMap()
 				m_pCurObj->SetRefMtl(m_vecObj[i]);
 
 				//m_pCurObj->SetRefHiddenMtl(m_vecObj[i]->GetHiddenMtl());
-
+				m_pCurObj->SetEffect(m_vecObj[i]->GetEffect());
 				m_pCurObj->SetRefObj(m_vecObj[i]);
 				m_pCurObj->SetObjName(m_vecObj[i]->GetObjName());
 				m_pCurObj->SetSumNailName(m_vecObj[i]->GetSumNailName());
@@ -452,6 +454,8 @@ void cTestScene::SetMap()
 
 void cTestScene::PlayerMoveTest()
 {
+	CollisionTest();
+
 	//플레이어 피킹
 	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
 	{
@@ -537,6 +541,15 @@ void cTestScene::PlayerMoveTest()
 				//그 오브젝트는 그린다.
 				m_vecMap[nCurMap]->GetHiddenDraw()[i] = false;
 		}
+
+		for (size_t i = 0; i < m_vecMap.size(); ++i)
+		{
+			for (size_t j = 0; j < m_vecMap[i]->GetBoundBox().size(); ++j)
+			{
+				if (i == nCurMap) continue;
+				m_vecMap[i]->GetHiddenDraw()[j] = false;
+			}
+		}
 	}
 
 }
@@ -592,9 +605,13 @@ void cTestScene::SetBoundBox()
 					{
 						m_vMax = vRayPos + fDist*vRayDir + m_vecMap[i]->GetPosition();
 
-						cBoundBox* box = new cBoundBox;
-						box->Setup(m_vMin, m_vMax, NULL);
-						box->SetIsDraw(true);
+						//cBoundBox* box = new cBoundBox;
+						//box->Setup(m_vMin, m_vMax, NULL);
+						//box->SetIsDraw(true);
+						//m_vecBoundBox.push_back(box);
+
+						cOBB* box = new cOBB;
+						box->Setup(m_vMin, m_vMax);
 						m_vecBoundBox.push_back(box);
 						m_bIsBound = false;
 						break;
@@ -619,6 +636,25 @@ void cTestScene::SetBoundBox()
 		if (g_pKeyManager->isOnceKeyDown(VK_SPACE))
 		{
 			m_bIsDone = true;
+		}
+	}
+}
+
+void cTestScene::CollisionTest()
+{
+
+	for (size_t i = 0; i < m_vecBoundBox.size(); ++i)
+	{
+		if (cOBB::IsCollision(m_pPlayer->GetOBB(), m_vecBoundBox[i]))
+		{
+			m_pPlayer->SetIsMove(false);
+			m_pPlayer->SetPosition(m_pPlayer->GetPosition() + m_pPlayer->GetDirection() * 0.1f);
+			m_pPlayer->OnActionFinish(m_pPlayer->GetAction());
+			break;
+		}
+		else
+		{
+			m_pPlayer->SetIsMove(true);
 		}
 	}
 }

@@ -26,6 +26,8 @@ void cMonster::Setup(char* szMonsterName)
 	string fileName = MonsterName + ".x";
 	m_pMesh = new cSkinnedMesh("./Resources/Monster/", StringToChar(fileName));
 	m_pMesh->SetAnimationIndex("idle");
+
+	//m_pEffect = LoadEffect("BorderShader.fx");
 }
 
 void cMonster::Update()
@@ -49,6 +51,14 @@ void cMonster::Render()
 	if (m_pMesh)
 		m_pMesh->UpdateAndRender(&m_matWorld);
 
+	//D3DXMATRIXA16 matView, matProjection;
+	//g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+	//g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
+	//
+	//D3DXMATRIXA16 matViewProjection = matView * matProjection;
+	//m_pEffect->SetMatrix("matWorld", &m_matWorld);
+	//m_pEffect->SetMatrix("matViewProjection", &matViewProjection);
+	//m_pEffect->SetVector("vLightPos", (D3DXVECTOR4*))
 
 	LPD3DXFONT font;
 	font = g_pFontManger->GetFont(cFontManager::E_NORMAL);

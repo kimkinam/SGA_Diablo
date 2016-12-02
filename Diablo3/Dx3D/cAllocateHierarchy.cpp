@@ -37,6 +37,8 @@ STDMETHODIMP cAllocateHierarchy::CreateFrame(THIS_ LPCSTR Name, LPD3DXFRAME *ppN
 
 	*ppNewFrame = pBone;
 
+	pBone = NULL;
+
 	return S_OK;
 }
 
@@ -53,6 +55,7 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer(THIS_ LPCSTR Name,
 
 	// 메쉬 컨테이너 생성
 	ST_BONE_MESH* pBoneMesh = new ST_BONE_MESH;
+	ZeroMemory(pBoneMesh, sizeof(ST_BONE_MESH));
 
 	// 이름 무시
 	if (Name)

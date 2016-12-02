@@ -1,0 +1,161 @@
+//**************************************************************//
+//  Effect File exported by RenderMonkey 1.6
+//
+//  - Although many improvements were made to RenderMonkey FX  
+//    file export, there are still situations that may cause   
+//    compilation problems once the file is exported, such as  
+//    occasional naming conflicts for methods, since FX format 
+//    does not support any notions of name spaces. You need to 
+//    try to create workspaces in such a way as to minimize    
+//    potential naming conflicts on export.                    
+//    
+//  - Note that to minimize resulting name collisions in the FX 
+//    file, RenderMonkey will mangle names for passes, shaders  
+//    and function names as necessary to reduce name conflicts. 
+//**************************************************************//
+
+//--------------------------------------------------------------//
+// Default_DirectX_Effect
+//--------------------------------------------------------------//
+//--------------------------------------------------------------//
+// Pass 0
+//--------------------------------------------------------------//
+string Default_DirectX_Effect_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files (x86)\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Disc2.3ds";
+
+float4x4 matWorld : World;
+float4x4 matViewProjection : ViewProjection;
+
+struct VS_INPUT 
+{
+   float4 Position : POSITION0;
+   float3 Normal : NORMAL;
+};
+
+struct VS_OUTPUT 
+{
+   float4 Position : POSITION0;
+   
+};
+
+VS_OUTPUT Default_DirectX_Effect_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
+{
+   VS_OUTPUT Output;
+
+   Output.Position = mul( Input.Position, matWorld );
+   Output.Position = mul( Output.Position, matViewProjection );
+   
+   
+   float3 vProjNor = mul(Input.Normal, matWorld);
+   vProjNor = mul(vProjNor, matViewProjection);
+   
+   vProjNor = normalize(vProjNor);
+   Output.Position.xy += vProjNor.xy * 5.0f;
+   
+   return( Output );
+   
+}
+
+
+
+
+float4 Default_DirectX_Effect_Pass_0_Pixel_Shader_ps_main() : COLOR0
+{   
+   return( float4( 1.0f, 0.0f, 0.0f, 1.0f ) );
+   
+}
+
+
+
+
+//--------------------------------------------------------------//
+// Pass 1
+//--------------------------------------------------------------//
+string Default_DirectX_Effect_Pass_1_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files (x86)\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Disc2.3ds";
+
+float4x4 Default_DirectX_Effect_Pass_1_Vertex_Shader_matWorld : World;
+float4x4 Default_DirectX_Effect_Pass_1_Vertex_Shader_matViewProjection : ViewProjection;
+float4   vLightPos
+<
+   string UIName = "vLightPos";
+   string UIWidget = "Direction";
+   bool UIVisible =  false;
+   float4 UIMin = float4( -10.00, -10.00, -10.00, -10.00 );
+   float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
+   bool Normalize =  false;
+> = float4( 500.00, 500.00, 500.00, 1.00 );
+
+struct Default_DirectX_Effect_Pass_1_Vertex_Shader_VS_INPUT 
+{
+   float4 Position : POSITION0;
+   float3 Normal : NORMAL;
+};
+
+struct Default_DirectX_Effect_Pass_1_Vertex_Shader_VS_OUTPUT 
+{
+   float4 Position : POSITION0;
+   float3 Diffuse : TEXCOORD1;
+};
+
+Default_DirectX_Effect_Pass_1_Vertex_Shader_VS_OUTPUT Default_DirectX_Effect_Pass_1_Vertex_Shader_vs_main( Default_DirectX_Effect_Pass_1_Vertex_Shader_VS_INPUT Input )
+{
+   Default_DirectX_Effect_Pass_1_Vertex_Shader_VS_OUTPUT Output;
+
+   Output.Position = mul( Input.Position, Default_DirectX_Effect_Pass_1_Vertex_Shader_matWorld );
+   
+   float3 vLightDir = Output.Position.xyz - vLightPos.xyz;
+   vLightDir = normalize(vLightDir);
+   
+   float3 vWorldNormal = mul(Input.Normal, Default_DirectX_Effect_Pass_1_Vertex_Shader_matWorld);
+   vWorldNormal = normalize(vWorldNormal);
+   
+   Output.Diffuse = dot(vWorldNormal, -vLightDir);
+   Output.Position = mul(Output.Position, Default_DirectX_Effect_Pass_1_Vertex_Shader_matViewProjection);
+   
+   return( Output );
+   
+}
+
+
+
+
+struct PS_INPUT
+{
+   float3 Diffuse : TEXCOORD1;
+};
+
+float4 Default_DirectX_Effect_Pass_1_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR0
+{   
+   float3 c = ceil(Input.Diffuse * 5) / 5.0f;
+   
+   return( float4(c, 1.0f ) );
+   
+}
+
+
+
+
+//--------------------------------------------------------------//
+// Technique Section for Default_DirectX_Effect
+//--------------------------------------------------------------//
+technique Default_DirectX_Effect
+{
+   pass Pass_0
+   {
+      CULLMODE = CW;
+      ZWRITEENABLE = FALSE;
+
+      VertexShader = compile vs_2_0 Default_DirectX_Effect_Pass_0_Vertex_Shader_vs_main();
+      PixelShader = compile ps_2_0 Default_DirectX_Effect_Pass_0_Pixel_Shader_ps_main();
+   }
+
+   pass Pass_1
+   {
+      CULLMODE = CCW;
+      ZWRITEENABLE = TRUE;
+
+      VertexShader = compile vs_2_0 Default_DirectX_Effect_Pass_1_Vertex_Shader_vs_main();
+      PixelShader = compile ps_2_0 Default_DirectX_Effect_Pass_1_Pixel_Shader_ps_main();
+   }
+
+}
+

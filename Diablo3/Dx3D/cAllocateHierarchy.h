@@ -8,6 +8,7 @@ struct ST_BONE : public D3DXFRAME
 struct ST_BONE_MESH : public D3DXMESHCONTAINER
 {
 	std::vector<LPDIRECT3DTEXTURE9> vecTexture;
+	std::map<string, LPDIRECT3DTEXTURE9> mapTexture;
 	std::vector<D3DMATERIAL9>		vecMaterial;
 
 	LPD3DXMESH				pWorkingMesh;			// 작업메쉬

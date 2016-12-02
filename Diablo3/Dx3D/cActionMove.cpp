@@ -26,7 +26,7 @@ void cActionMove::Start()
 
 void cActionMove::Update()
 {
-	if (m_pTarget)
+	if (m_pTarget && m_pTarget->GetIsMove())
 	{
 		float angle;
 		D3DXVECTOR3	v3 = m_vFrom - m_vTo;
@@ -40,6 +40,7 @@ void cActionMove::Update()
 		D3DXVECTOR3 position = m_pTarget->GetPosition();
 		
 		position = position - m_pTarget->GetDirection() * 0.1f;
+
 		m_pTarget->SetPosition(position);
 		m_pTarget->SetAngle(angle);
 

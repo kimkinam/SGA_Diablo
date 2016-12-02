@@ -24,8 +24,8 @@ private:
 	std::vector<cMap*>			m_vecMap;
 
 	//바운드 박스
-	std::vector<cBoundBox*>		m_vecBoundBox;
-
+	//std::vector<cBoundBox*>		m_vecBoundBox;
+	std::vector<cOBB*>			m_vecBoundBox;
 
 	//맵 위치 정할 타일
 	std::vector<ST_PC_VERTEX>	m_vecTiles;
@@ -62,6 +62,8 @@ public:
 	void SetMap();
 	void PlayerMoveTest();
 	void SetBoundBox();
+
+	void CollisionTest();
 
 
 };

@@ -38,7 +38,16 @@ void cPlayer::SetUp()
 	m_pMesh->GetBoundingSphere()->vCenter.y = 0.5f;
 
 	m_pOBB = new cOBB;
-	m_pOBB->Setup(m_pMesh);
+	D3DXVECTOR3 vMin, vMax;
+	
+	vMin = m_pMesh->GetMin();
+	vMax = m_pMesh->GetMax();
+	
+	vMin.x += 0.6f;
+	vMax.x -= 0.6f;
+	vMax.y -= 0.2f;
+
+	m_pOBB->Setup(vMin, vMax);
 
 	//칼
 	m_pSword = new cObj;
@@ -65,8 +74,7 @@ void cPlayer::Update()
 	if (m_vPosition.x > 0 && m_vPosition.z < 0)	//오른쪽아래
 		m_nCurMap = 3;
 
-	if (m_pOBB)
-		m_pOBB->Update(&m_matWorld);
+	
 	
 }
 
@@ -84,6 +92,9 @@ void cPlayer::Render()
 	if (m_pSword)
 		m_pSword->Render();
 	
+	if (m_pOBB)
+		m_pOBB->Update(&m_matWorld);
+
 	if (m_pOBB)
 		m_pOBB->DebugRender(D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
 }

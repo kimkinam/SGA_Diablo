@@ -27,7 +27,7 @@ private:
 	SYNTHESIZE(string, m_sSumNailName, SumNailName);
 	SYNTHESIZE(string, m_sObjName, ObjName);
 
-
+	SYNTHESIZE(LPD3DXEFFECT, m_pEffect, Effect);
 
 public:
 	cMap();

@@ -20,6 +20,16 @@ private:
 	LPD3DXEFFECT				m_pEffect;
 	ST_SPHERE					m_stBoundingSphere;
 
+	/* =======메쉬 로드 관련 변수들========*/
+	LPD3DXMESH							m_pMesh;
+	DWORD								m_dwMatNum;			//로딩된 매쉬의 재질 갯수
+	std::vector<LPDIRECT3DTEXTURE9>		m_vecTex;			//로딩된 메쉬에서 사용하는 Texture
+	std::vector<LPDIRECT3DTEXTURE9>		m_vecNorm;			//로딩된 메쉬에서 사용하는 Texture
+	std::vector<LPDIRECT3DTEXTURE9>		m_vecSpec;			//로딩된 메쉬에서 사용하는 Texture
+	std::vector<LPDIRECT3DTEXTURE9>		m_vecEmi;			//로딩된 메쉬에서 사용하는 Texture
+	std::vector<D3DMATERIAL9>			m_vecMat;			//로딩된 메쉬에서 사용하는 매터리얼...
+
+
 	// 객체마다 생성
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 	D3DXVECTOR3					m_vPosition;
@@ -52,6 +62,7 @@ public:
 private:
 	cSkinnedMesh();
 	void Load(char* szFolder, char* szFilename);
+	void LoadMultiTexture(char* szFolder, char*szFileName);
 	LPD3DXEFFECT LoadEffect(char* szFilename);
 	void Update(ST_BONE* pCurrent, D3DXMATRIXA16* pmatParent);
 	void Render(ST_BONE* pBone = NULL);

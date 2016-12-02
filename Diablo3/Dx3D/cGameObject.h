@@ -10,6 +10,7 @@ protected:
 	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vDirection, Direction);
 	SYNTHESIZE_ADD_REF(cAction*, m_pAction, Action);
 	SYNTHESIZE(float, m_fAngle, Angle);
+	SYNTHESIZE(bool, m_bIsMove, IsMove);
 
 
 public:

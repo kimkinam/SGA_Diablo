@@ -64,7 +64,7 @@ BORDERCOLOR = 0xFFFFFFFF;
 sampler g_samScene =
 	sampler_state
 {
-	Texture = <g_txScene>;
+	Texture = <Diffuse_Tex>;
 	MinFilter = Linear;
 	MagFilter = Linear;
 	MipFilter = Point;
