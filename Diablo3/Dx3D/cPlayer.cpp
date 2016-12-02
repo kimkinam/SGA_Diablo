@@ -3,6 +3,7 @@
 #include "cSkinnedMesh.h"
 #include "cObj.h"
 #include "cAction.h"
+#include "cOBB.h"
 
 cPlayer::cPlayer()
 	: m_emState(PLAYER_IDLE)
@@ -12,6 +13,7 @@ cPlayer::cPlayer()
 	, m_dAttackTermTime(0.0f)
 	, m_pSword(NULL)
 	, m_nCurMap(0)
+	, m_pOBB(NULL)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	
@@ -22,6 +24,7 @@ cPlayer::~cPlayer()
 {
 	SAFE_RELEASE(m_pAction);
 	SAFE_DELETE(m_pMesh);
+	SAFE_DELETE(m_pOBB);
 
 	SAFE_RELEASE(m_pSword);
 }
@@ -31,6 +34,11 @@ void cPlayer::SetUp()
 	//바바
 	m_pMesh = new cSkinnedMesh("./Resources/Player/", "Bab3.X");
 	m_pMesh->SetAnimationIndex(1);
+
+	m_pMesh->GetBoundingSphere()->vCenter.y = 0.5f;
+
+	m_pOBB = new cOBB;
+	m_pOBB->Setup(m_pMesh);
 
 	//칼
 	m_pSword = new cObj;
@@ -57,6 +65,8 @@ void cPlayer::Update()
 	if (m_vPosition.x > 0 && m_vPosition.z < 0)	//오른쪽아래
 		m_nCurMap = 3;
 
+	if (m_pOBB)
+		m_pOBB->Update(&m_matWorld);
 	
 }
 
@@ -73,6 +83,9 @@ void cPlayer::Render()
 
 	if (m_pSword)
 		m_pSword->Render();
+	
+	if (m_pOBB)
+		m_pOBB->DebugRender(D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
 }
 
 void cPlayer::AniControl()

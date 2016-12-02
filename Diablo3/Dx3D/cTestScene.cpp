@@ -26,6 +26,7 @@ cTestScene::cTestScene()
 	, m_bIsBound(false)
 	, m_vMin(0, 0, 0)
 	, m_vMax(0, 0, 0)
+	, m_bIsDone(false)
 {
 	
 }
@@ -93,7 +94,7 @@ HRESULT cTestScene::SetUp()
 
 	//완전한 맵
 	cMap* obj1 = new cMap;
-	obj1->Setup("a1dun_01.objobj", "./Resources/Object/");
+	obj1->Setup("a1dun_01_test.objobj", "./Resources/Object/");
 	obj1->SetSumNailName("a1Dun_01.jpg");
 	m_vecObj.push_back(obj1);
 
@@ -203,12 +204,16 @@ void cTestScene::Update()
 		m_pCamera->Update(NULL);
 	}
 
-	SetMap();
+	if (!m_bIsDone)
+	{
+		SetMap();
+		SetBoundBox();
+	}
+	else
+		
 
-	PlayerMoveTest();
 
-
-	SetBoundBox();
+		PlayerMoveTest();
 
 	if (m_pPlayer)
 		m_pPlayer->Update();
@@ -239,7 +244,13 @@ void cTestScene::Render()
 
 
 	for (size_t i = 0; i < m_vecMap.size(); ++i)
-		m_vecMap[i]->RenerComplete();
+	{
+		if (m_bIsDone)
+			m_vecMap[i]->Render();
+		else
+			m_vecMap[i]->RenerComplete();
+	}
+		
 
 	if (m_pCurObj)
 		m_pCurObj->RenerComplete();
@@ -277,8 +288,8 @@ void cTestScene::Render()
 		DT_LEFT,
 		D3DCOLOR_XRGB(255, 255, 255));
 
-	sprintf_s(temp, "BoundBoxCount : %d",
-		m_vecBoundBox.size(),
+	sprintf_s(temp, "BoundBoxCount : %d // IsBound : %d",
+		m_vecBoundBox.size(), m_bIsBound,
 		512);
 	rc = { DEBUG_STARTX, DEBUG_STARTY + 200, DEBUG_STARTX + 600, DEBUG_STARTY + 215 };
 	font->DrawText(NULL,
@@ -357,7 +368,7 @@ void cTestScene::SetMap()
 
 				//m_pCurObj->SetRefHiddenMtl(m_vecObj[i]->GetHiddenMtl());
 
-				//m_pCurObj->SetHiddenObj(m_vecObj[i]->GetHiddenObj());
+				m_pCurObj->SetRefObj(m_vecObj[i]);
 				m_pCurObj->SetObjName(m_vecObj[i]->GetObjName());
 				m_pCurObj->SetSumNailName(m_vecObj[i]->GetSumNailName());
 				m_pCurObj->SetBoundBox(m_vecObj[i]->GetBoundBox());
@@ -442,7 +453,7 @@ void cTestScene::SetMap()
 void cTestScene::PlayerMoveTest()
 {
 	//플레이어 피킹
-	/*if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
+	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
 	{
 		cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
 		D3DXVECTOR3 pickPos;
@@ -466,7 +477,7 @@ void cTestScene::PlayerMoveTest()
 				m_bIsSetMap = true;
 			}
 		}
-	}*/
+	}
 
 	//플레이어 아이템 변화 테스트
 
@@ -548,38 +559,47 @@ void cTestScene::SetBoundBox()
 
 			if (!m_bIsBound)
 			{
-				vRayPos = r.GetOrg() - m_vecMap[0]->GetPosition();
-				D3DXVec3Normalize(&vRayDir, &r.GetDir());
-
-				LPD3DXMESH mesh = m_vecMap[0]->GetComMesh();
-				D3DXIntersect(mesh, &vRayPos, &vRayDir
-				, &bHit, &dwFace, &fBary1, &fBary2, &fDist, NULL, NULL);
-
-				if (bHit)
+				for (size_t i = 0; i < m_vecMap.size(); ++i)
 				{
-					m_vMin = vRayPos + fDist*vRayDir + m_vecMap[0]->GetPosition();
-					m_bIsBound = true;
-				}
-			}
-			else
-			{
-				vRayPos = r.GetOrg() - m_vecMap[0]->GetPosition();
-				D3DXVec3Normalize(&vRayDir, &r.GetDir());
+					vRayPos = r.GetOrg() - m_vecMap[i]->GetPosition();
+					D3DXVec3Normalize(&vRayDir, &r.GetDir());
 
-				LPD3DXMESH mesh = m_vecMap[0]->GetComMesh();
+					LPD3DXMESH mesh = m_vecMap[i]->GetComMesh();
 					D3DXIntersect(mesh, &vRayPos, &vRayDir
 						, &bHit, &dwFace, &fBary1, &fBary2, &fDist, NULL, NULL);
 
 					if (bHit)
 					{
-						m_vMax = vRayPos + fDist*vRayDir + m_vecMap[0]->GetPosition();
+						m_vMin = vRayPos + fDist*vRayDir + m_vecMap[i]->GetPosition();
+						m_bIsBound = true;
+						break;
+					}
+				}
+			}
+			else
+			{
+
+				for (size_t i = 0; i < m_vecMap.size(); ++i)
+				{
+					vRayPos = r.GetOrg() - m_vecMap[i]->GetPosition();
+					D3DXVec3Normalize(&vRayDir, &r.GetDir());
+
+					LPD3DXMESH mesh = m_vecMap[i]->GetComMesh();
+					D3DXIntersect(mesh, &vRayPos, &vRayDir
+						, &bHit, &dwFace, &fBary1, &fBary2, &fDist, NULL, NULL);
+
+					if (bHit)
+					{
+						m_vMax = vRayPos + fDist*vRayDir + m_vecMap[i]->GetPosition();
 
 						cBoundBox* box = new cBoundBox;
 						box->Setup(m_vMin, m_vMax, NULL);
 						box->SetIsDraw(true);
 						m_vecBoundBox.push_back(box);
 						m_bIsBound = false;
+						break;
 					}
+				}
 			}
 			
 		}
@@ -591,8 +611,14 @@ void cTestScene::SetBoundBox()
 				m_bIsBound = false;
 				m_vMin = D3DXVECTOR3(0, 0, 0);
 				m_vMax = D3DXVECTOR3(0, 0, 0);
+				return;
 			}
 			m_vecBoundBox.pop_back();
+		}
+
+		if (g_pKeyManager->isOnceKeyDown(VK_SPACE))
+		{
+			m_bIsDone = true;
 		}
 	}
 }

@@ -14,6 +14,11 @@ cActionTrace::~cActionTrace()
 {
 }
 
+cAction * cActionTrace::Create()
+{
+	return nullptr;
+}
+
 void cActionTrace::Start()
 {
 	m_fPassedTime = 0;
@@ -50,13 +55,22 @@ void cActionTrace::Update()
 	}
 
 	D3DXVECTOR3 dir1 = m_pTarget->GetPosition() - (*m_tTo);
-	D3DXVECTOR3 dir2 = (*m_tFrom) - (*m_tTo);
 
+<<<<<<< HEAD
 	//if (D3DXVec3Dot(&dir1, &dir2) <= 0)
 	//{
 	//	m_pTarget->SetPosition(*m_tTo);
 	//	m_pDelegate->OnActionFinish(this);
 	//}
+=======
+	D3DXVECTOR3 dir2 = (*m_tFrom) - (*m_tTo);
+	
+	if (D3DXVec3Dot(&dir1, &dir2) <= 0)
+	{
+		m_pTarget->SetPosition(*m_tTo);
+		m_pDelegate->OnActionFinish(this);
+	}
+>>>>>>> a14e8c3c8cf5045941a2bc098576c46f12c28957
 }
 
 bool cActionTrace::Distance()
