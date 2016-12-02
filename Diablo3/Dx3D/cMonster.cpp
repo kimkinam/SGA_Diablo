@@ -1,16 +1,19 @@
 #include "stdafx.h"
 #include "cMonster.h"
 #include "cSkinnedMesh.h"
-#include "cAction.h"
+#include "cActionTrace.h"
 
 cMonster::cMonster()
 	: m_emState(MONSTER_IDLE)
 	, m_pMesh(NULL)
+	, m_pTarget(NULL)
+	, m_fTraceTime(0.0f)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 
 	m_vPosition.x = 1.0f;
 	m_vPosition.z = 1.0f;
+
 }
 
 
@@ -26,10 +29,26 @@ void cMonster::Setup(char* szMonsterName)
 	string fileName = MonsterName + ".x";
 	m_pMesh = new cSkinnedMesh("./Resources/Monster/", StringToChar(fileName));
 	m_pMesh->SetAnimationIndex("idle");
+
 }
 
 void cMonster::Update()
 {
+	if (this->GetState() == MONSTER_IDLE)
+	{
+		D3DXVECTOR3 vLength = m_pTarget->GetPosition() - this->GetPosition();
+		
+		if (D3DXVec3Length(&vLength) < 5.0f)
+		{
+			Trace();
+			this->SetState(MONSTER_MOVE);
+		}
+	}
+	if (this->GetState() == MONSTER_MOVE)
+	{
+		if (!this->GetAction())
+			this->SetState(MONSTER_IDLE);
+	}
 	
 	//몬스터가 기본적으로 해야할 짓들
 }
@@ -62,4 +81,21 @@ void cMonster::Render()
 		&rc,
 		DT_LEFT,
 		D3DCOLOR_XRGB(255, 255, 255));
+}
+
+void cMonster::Trace()
+{
+	cActionTrace* trace = new cActionTrace;
+
+	trace->SetTo(m_pTarget->GetPtPosition());
+	trace->SetFrom(this->GetPtPosition());
+	trace->SetTarget(this);
+	trace->SetDelegate(this);
+	trace->SetTraceTime(3.0f);
+	trace->Start();
+	this->SetAction(trace);
+	this->GetMesh()->SetAnimationIndex("run");
+
+	SAFE_RELEASE(trace);
+
 }

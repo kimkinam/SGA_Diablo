@@ -13,11 +13,13 @@ private:
 	cBoss*		   Boss_diablo; // º¸½º
 	cPlayer*	   m_pPlayer;
 
-	cActionTrace*  m_pAction;
+
 
 	std::vector<ST_PC_VERTEX>	m_vecTiles;
 	bool						m_bIsSetMap;
 	D3DXVECTOR3					m_vpickPos;
+	bool						m_isAnim;
+	bool						m_isTurn;
 
 public:
 	cBossScene();

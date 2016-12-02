@@ -5,6 +5,9 @@ private:
 	SYNTHESIZE(D3DXVECTOR3*, m_tFrom, From);
 	SYNTHESIZE(D3DXVECTOR3*, m_tTo, To);
 	SYNTHESIZE(D3DXVECTOR3*, m_vPosition, Position);
+	SYNTHESIZE(float, m_fSpeed, Speed);
+	SYNTHESIZE(float, m_fDistance, Distance);
+	SYNTHESIZE(float, m_fTraceTime, TraceTime);
 
 public:
 	cActionTrace();
@@ -14,7 +17,6 @@ public:
 	
 	virtual void Start() override;
 	virtual void Update() override;
-	bool Distance();
 
 };
 

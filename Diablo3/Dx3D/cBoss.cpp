@@ -15,9 +15,13 @@ cBoss::~cBoss()
 void cBoss::Setup()
 {
 	cMonster::Setup("diablo");
+
+	int a = 0;
 }
 void cBoss::Update()
 {
+	cMonster::Update();
+
 	if (m_pAction)
 		m_pAction->Update();
 
@@ -30,9 +34,21 @@ void cBoss::Render()
 void cBoss::OnActionFinish(cAction * pSender)
 {
 	m_pAction = NULL;
-
-	m_pMesh->SetAnimationIndex("idle");
+	
+	if (pSender->GetPassedTime() < m_fTraceTime)
+	{
+		m_pMesh->SetAnimationIndex("attack");
+		m_emState = MONSTER_SKILL1;
+	}
+	else
+	{
+		m_pMesh->SetAnimationIndex("idle");
+		m_emState = MONSTER_IDLE;
+	}
+		
 }
 
-
-
+void cBoss::Trace()
+{
+	cMonster::Trace();
+}

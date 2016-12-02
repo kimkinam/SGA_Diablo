@@ -1,5 +1,6 @@
 #pragma once
 #include "cMonster.h"
+
 class cBoss :
 	public cMonster
 {
@@ -7,11 +8,13 @@ private:
 
 public:
 	cBoss();
-	~cBoss();
+	virtual ~cBoss();
 
-	void Setup();
-	void Update();
-	void Render();
+	virtual void Setup();
+	virtual void Update();
+	virtual void Render();
+	virtual void Trace();
+
 	virtual void OnActionFinish(cAction* pSender) override;
 };
 
