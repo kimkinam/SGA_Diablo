@@ -282,6 +282,9 @@
     <ClInclude Include="cSkeleton.h">
       <Filter>Scene\GamingScene\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="cAnimation.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -460,6 +463,9 @@
     </ClCompile>
     <ClCompile Include="cSkeleton.cpp">
       <Filter>Scene\GamingScene\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="cAnimation.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -17,8 +17,8 @@ void cSkeleton::Setup()
 	m_fSpeed = 0.05f;
 	m_fAttackRange = 1.0f;
 	m_fTraceRange = 3.0f;
-	if (m_pTarget)
-		cMonster::Setup("Skeleton");
+
+	cMonster::Setup("Skeleton");
 }
 
 void cSkeleton::Update()

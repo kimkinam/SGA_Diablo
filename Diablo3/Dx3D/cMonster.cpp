@@ -8,12 +8,13 @@ cMonster::cMonster()
 	: m_emState(MONSTER_IDLE)
 	, m_pMesh(NULL)
 	, m_pTarget(NULL)
+	, m_pAttackSphere(NULL)
+	, m_pTraceSphere(NULL)
 	, m_fAttackRange(0.0f)
 	, m_fTraceRange(0.0f)
 	, m_fSpeed(0.0f)
 {
 	D3DXMatrixIdentity(&m_matWorld);
-	p = 0.0f;
 }
 
 
@@ -94,7 +95,7 @@ void cMonster::Update()
 		//double curTime = pCurAS->GetPeriodicPosition(this->GetMesh()->GetAnimController()->GetTime());
 		//double totalTime = pCurAS->GetPeriod();
 
-		p = pCurAS->GetPeriodicPosition(td.Position);
+		double p = pCurAS->GetPeriodicPosition(td.Position);
 
 		if (p > 0.8f)
 		{
@@ -184,7 +185,7 @@ void cMonster::Render()
 	font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
 
 	char temp[128];
-	sprintf_s(temp, "CurAnimation : %f", p, 128);//m_pMesh->GetCurAnimationName().c_str(), 128);
+	sprintf_s(temp, "CurAnimation : %f", m_pMesh->GetCurAnimationName().c_str(), 128);
 	RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 200, DEBUG_STARTX + 250, DEBUG_STARTY + 315 };
 	font->DrawText(NULL,
 		temp,

@@ -24,7 +24,6 @@ protected:
 	LPD3DXMESH m_pAttackSphere;
 	LPD3DXMESH m_pTraceSphere;
 
-	double p;
 
 public:
 	cMonster();
