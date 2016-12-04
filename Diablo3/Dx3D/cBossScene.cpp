@@ -14,12 +14,6 @@ cBossScene::cBossScene()
 	, m_pBoss(NULL)
 	, m_pPlayer(NULL)
 	, m_vpickPos(0, 0, 0)
-<<<<<<< HEAD
-=======
-	, m_bIsSetMap(false)
-	, m_isAnim(false)
-	, m_isTurn(false)
->>>>>>> 65ab56b83d0f8d2a0d2f65015c3637a9a04789e0
 {
 }
 
@@ -61,7 +55,6 @@ HRESULT cBossScene::SetUp()
 	m_pPlayer = new cPlayer;
 	m_pPlayer->SetUp();
 
-<<<<<<< HEAD
 	m_pBoss = new cBoss;
 	m_pBoss->Setup();
 	m_pBoss->SetTarget(m_pPlayer);
@@ -71,19 +64,6 @@ HRESULT cBossScene::SetUp()
 	m_pSkeleton->Setup();
 	m_pSkeleton->SetTarget(m_pPlayer);
 	m_pSkeleton->SetPosition(D3DXVECTOR3(-10, 0, 10));
-=======
-	Boss_diablo = new cBoss;
-	Boss_diablo->Setup();
-	Boss_diablo->SetTarget(m_pPlayer);
-	Boss_diablo->SetPosition(D3DXVECTOR3(0, 0, 10));
-
-	//BossMoveTest();
-
-	Boss_diablo->GetPosition().x = 10.f;
-	Boss_diablo->GetPosition().z = 10.f;
-
-	//BossMoveTest();
->>>>>>> 65ab56b83d0f8d2a0d2f65015c3637a9a04789e0
 
 }
 
@@ -128,22 +108,16 @@ void cBossScene::Render()
 	if (m_pPlayer)
 		m_pPlayer->Render();
 
-<<<<<<< HEAD
 	if (m_pBoss)
 		m_pBoss->Render();
 
 	if (m_pSkeleton)
 		m_pSkeleton->Render();
-=======
-	if (Boss_diablo)
-		Boss_diablo->Render();
->>>>>>> 65ab56b83d0f8d2a0d2f65015c3637a9a04789e0
 
 	LPD3DXFONT font;
 	font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
 
 	char temp[512];
-<<<<<<< HEAD
 	if (m_pBoss->GetAction())
 	{
 		sprintf_s(temp, "Distance: %f", ((cActionTrace*)m_pBoss->GetAction())->GetDistance(), 512);
@@ -160,22 +134,13 @@ void cBossScene::Render()
 	sprintf_s(temp, "state: %d", m_pBoss->GetState(), 512);
 
 	RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 170, DEBUG_STARTX + 250, DEBUG_STARTY + 200 };
-=======
-	if (Boss_diablo->GetAction())
-	sprintf_s(temp, "Distance: %f", ((cActionTrace*)Boss_diablo->GetAction())->GetDistance(), 512);
-
-	RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 120, DEBUG_STARTX + 250, DEBUG_STARTY + 150 };
->>>>>>> 65ab56b83d0f8d2a0d2f65015c3637a9a04789e0
 	font->DrawText(NULL,
 		temp,
 		128,
 		&rc,
 		DT_LEFT,
 		D3DCOLOR_XRGB(255, 255, 255));
-<<<<<<< HEAD
 
-=======
->>>>>>> 65ab56b83d0f8d2a0d2f65015c3637a9a04789e0
 }
 
 
@@ -191,7 +156,6 @@ void cBossScene::BossMoveTest()
 	cActionTrace* trace = new cActionTrace;
 
 	trace->SetTo(m_pPlayer->GetPtPosition());
-<<<<<<< HEAD
 	trace->SetFrom(m_pBoss->GetPtPosition());
 	trace->SetTarget(m_pBoss);
 	trace->SetDelegate(m_pBoss);
@@ -200,17 +164,6 @@ void cBossScene::BossMoveTest()
 	m_pBoss->GetMesh()->SetAnimationIndex("run");
 
 
-=======
-	trace->SetFrom(Boss_diablo->GetPtPosition());
-	trace->SetTarget(Boss_diablo);
-	trace->SetDelegate(Boss_diablo);
-	trace->Start();
-	Boss_diablo->SetAction(trace);
-	Boss_diablo->GetMesh()->SetAnimationIndex("run");
-	
-
-	m_bIsSetMap = true;
->>>>>>> 65ab56b83d0f8d2a0d2f65015c3637a9a04789e0
 }
 
 void cBossScene::PlayerMove()

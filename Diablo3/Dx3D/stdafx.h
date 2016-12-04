@@ -181,10 +181,10 @@ struct ST_COLLIDER
 	ST_COLLIDER() : nWidth(0), nHeight(0), nStartX(0), nStartY(0) { }
 
 	ST_COLLIDER(int startX, int startY, int width, int height) {
-		
+
 		nStartX = startX;
 		nStartY = startY;
-		
+
 		nWidth = width;
 		nHeight = height;
 
