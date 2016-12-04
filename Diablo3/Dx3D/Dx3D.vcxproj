@@ -123,6 +123,7 @@
     <ClInclude Include="cRay.h" />
     <ClInclude Include="cSceneManager.h" />
     <ClInclude Include="cSceneObject.h" />
+    <ClInclude Include="cSkeleton.h" />
     <ClInclude Include="cSkinnedMesh.h" />
     <ClInclude Include="cSkinnedMeshManager.h" />
     <ClInclude Include="cTestScene.h" />
@@ -190,6 +191,7 @@
     <ClCompile Include="cRay.cpp" />
     <ClCompile Include="cSceneManager.cpp" />
     <ClCompile Include="cSceneObject.cpp" />
+    <ClCompile Include="cSkeleton.cpp" />
     <ClCompile Include="cSkinnedMesh.cpp" />
     <ClCompile Include="cSkinnedMeshManager.cpp" />
     <ClCompile Include="cTestScene.cpp" />

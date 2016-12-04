@@ -12,7 +12,7 @@ cObjLoader::~cObjLoader(void)
 {
 }
 
-void cObjLoader::Load(IN char* szFilename, IN char* szFolderName,OUT std::vector<cGroup*>& vecGroup, IN D3DXMATRIXA16* pmat)
+void cObjLoader::Load(IN char* szFilename, IN char* szFolderName,OUT std::vector<cGroup*>& vecGroup, IN D3DXMATRIX* pmat)
 {
 	m_mapMtlTex.clear();
 
@@ -116,7 +116,7 @@ void cObjLoader::Load(IN char* szFilename, IN char* szFolderName,OUT std::vector
 	}
 }
 
-LPD3DXMESH cObjLoader::Load(IN char* szFilename, IN char* szFolderName,OUT std::vector<cMtlTex*>& vecMtlTex, IN D3DXMATRIXA16* pmat /*= NULL*/)
+LPD3DXMESH cObjLoader::Load(IN char* szFilename, IN char* szFolderName,OUT std::vector<cMtlTex*>& vecMtlTex, IN D3DXMATRIX* pmat /*= NULL*/)
 {
 	//m_mapMtlTex.clear();
 
@@ -254,7 +254,7 @@ LPD3DXMESH cObjLoader::Load(IN char* szFilename, IN char* szFolderName,OUT std::
 	return pMesh;
 }
 
-void cObjLoader::Load(IN char * szFilename, IN char * szFolderName, IN D3DXMATRIXA16* pMat,
+void cObjLoader::Load(IN char * szFilename, IN char * szFolderName, IN D3DXMATRIX* pMat,
 	OUT std::vector<cMtlTex*>& vecMtlTex, OUT LPD3DXMESH& mesh, 
 	OUT std::vector<cMtlTex*>& vecHiddenMtlTex, OUT std::vector<LPD3DXMESH>& vecHiddenMesh)
 {

@@ -5,7 +5,12 @@
 cActionTrace::cActionTrace()
 	: m_tFrom(NULL)
 	, m_tTo(NULL)
-	
+	, m_vPosition(NULL)
+	, m_fSpeed(0.0f)
+	, m_fTraceRange(0.0f)
+	, m_fAttackRange(0.0f)
+	, m_fDistance(0.0f)
+	, m_bIsAtk(false)
 {
 }
 
@@ -21,7 +26,8 @@ cAction * cActionTrace::Create()
 
 void cActionTrace::Start()
 {
-	m_fPassedTime = 0;
+	m_fPassedTime = 0.0f;
+
 	D3DXVECTOR3 Dir = (*m_tFrom) - (*m_tTo);
 	D3DXVec3Normalize(&Dir, &Dir);
 	m_pTarget->SetDirection(Dir);
@@ -30,9 +36,12 @@ void cActionTrace::Start()
 
 void cActionTrace::Update()
 {
+	cAction::Update();
+
 	D3DXVECTOR3 Dir = (*m_tFrom) - (*m_tTo);
 	D3DXVec3Normalize(&Dir, &Dir);
 	m_pTarget->SetDirection(Dir);
+
 
 	if (m_pTarget)
 	{
@@ -47,19 +56,31 @@ void cActionTrace::Update()
 
 		D3DXVECTOR3 position = m_pTarget->GetPosition();
 
-		position = position - m_pTarget->GetDirection() * 0.05f;
-		m_pTarget->SetPosition(position);
+		position = position - m_pTarget->GetDirection() * m_fSpeed;
+		m_vPosition = &position;
+		m_pTarget->SetPosition(*m_vPosition);
 		m_pTarget->SetAngle(angle);
 
 	}
 
-	D3DXVECTOR3 dir1 = m_pTarget->GetPosition() - (*m_tTo);
 
-	D3DXVECTOR3 dir2 = (*m_tFrom) - (*m_tTo);
-	
-	if (D3DXVec3Dot(&dir1, &dir2) <= 0)
+	//타겟과의 거리
+	m_fDistance = D3DXVec3Length(&((*m_tFrom) - (*m_tTo)));
+
+	//공격할 상황
+	if (m_fAttackRange > m_fDistance)
 	{
-		m_pTarget->SetPosition(*m_tTo);
+		m_pTarget->SetPosition(*this->GetPosition());
+		m_bIsAtk = true;
+		m_pDelegate->OnActionFinish(this);
+
+	}
+	//추적포기 상황
+	if (m_fTraceRange < m_fDistance)
+	{
+		m_pTarget->SetPosition(*this->GetPosition());
+		m_bIsAtk = false;
 		m_pDelegate->OnActionFinish(this);
 	}
+
 }

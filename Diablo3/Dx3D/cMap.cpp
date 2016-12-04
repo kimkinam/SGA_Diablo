@@ -7,7 +7,11 @@ cMap::cMap()
 	: m_pMesh(NULL)
 	, m_pComMesh(NULL)
 	, m_vPosition(0, 0, 0)
+	, m_vScale(1.f, 1.f, 1.f)
 	, m_pEffect(NULL)
+	, m_vForward(0, 0, 1)
+	, m_vRight(1, 0, 0)
+	, m_vUp(0, 1, 0)
 	//, m_bIsDrawBound(false)
 {
 	m_sSumNailName = m_sObjName = "";
@@ -61,20 +65,20 @@ void cMap::Setup(char * szFileName, char * szForlderName)
 	m_sObjName = szFileName;
 
 	cObjLoader loader;
-	D3DXMATRIXA16 matS, matR, matW;
-	D3DXMatrixScaling(&matS, 0.5f, 0.5f, 0.5f);
+	D3DXMATRIXA16 matS, matR;
+	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
 	D3DXMatrixRotationY(&matR, D3DXToRadian(90));
-	matW = matS * matR;
+	m_matWorld = matS * matR;
 	//loader.Load(szFileName, szForlderName, &matW,
 	//	m_vecMtl, m_pMesh, m_vecHiddenMtl, m_vecHiddenObj);
 
 
-	loader.Load(szFileName, szForlderName, &matW, 
+	loader.Load(szFileName, szForlderName, &m_matWorld,
 		m_vecMtl, m_pMesh,
 		m_vecHiddenMtl, m_vecHiddenObj);
 
 	cObjLoader loader2;
-	m_pComMesh = loader2.Load(szFileName, szForlderName, m_vecComMtl, &matW);
+	m_pComMesh = loader2.Load(szFileName, szForlderName, m_vecComMtl, &m_matWorld);
 
 	m_vecHiddenDraw.resize(m_vecHiddenObj.size());
 	for (size_t i = 0; i < m_vecHiddenObj.size(); ++i)
@@ -91,41 +95,13 @@ void cMap::Render()
 
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 
-	//g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-
-	//D3DXMATRIXA16 matView, matProjection, matViewProjection;
-	//g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
-	//g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
-	//
-	//matViewProjection = matView * matProjection;
-	//
-	//D3DXMATRIXA16 mView, mInvView;
-	//g_pD3DDevice->GetTransform(D3DTS_VIEW, &mView);
-	//D3DXMatrixInverse(&mInvView, 0, &mView);
-	//D3DXVECTOR3 vEye = D3DXVECTOR3(0, 0, 0);
-	//D3DXVec3TransformCoord(&vEye, &vEye, &mInvView);
-	//
-	//// 쉐이더 전역변수들을 설정
-	//m_pEffect->SetMatrix("matWorld", &m_matWorld);
-	//m_pEffect->SetMatrix("matViewProjection", &matViewProjection);
-	//m_pEffect->SetVector("gLightColor", &D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f));
-	//m_pEffect->SetVector("vViewPosition", &D3DXVECTOR4(vEye, 1.0f));
-	//m_pEffect->SetVector("vLightPosition", &D3DXVECTOR4(500.0f, 500.0f, 500.0f, 1.0f));
-	//
-	//UINT numPasses = 0;
-	//m_pEffect->Begin(&numPasses, NULL);
 
 	for (size_t i = 0; i < m_vecMtl.size(); ++i)
 	{
 		g_pD3DDevice->SetMaterial(&m_vecMtl[i]->GetMtl());
 		g_pD3DDevice->SetTexture(0, m_vecMtl[i]->GetTexture());
 
-		//for (UINT j = 0; j < numPasses; ++j)
-		//{
-			//m_pEffect->BeginPass(j);
-			m_pMesh->DrawSubset(i);
-			//m_pEffect->EndPass();
-		//}
+		m_pMesh->DrawSubset(i);
 		
 	}
 
@@ -146,7 +122,6 @@ void cMap::Render()
 		}
 	}
 
-	m_pEffect->End();
 
 	
 

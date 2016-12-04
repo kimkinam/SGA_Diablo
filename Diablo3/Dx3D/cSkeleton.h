@@ -1,14 +1,14 @@
 #pragma once
 #include "cMonster.h"
-
-class cBoss :
+class cSkeleton :
 	public cMonster
 {
 private:
 
 public:
-	cBoss();
-	virtual ~cBoss();
+
+	cSkeleton();
+	virtual ~cSkeleton();
 
 	virtual void Setup();
 	virtual void Update();

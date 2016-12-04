@@ -2,18 +2,20 @@
 
 class cGrid;
 class cBoss;
+class cSkeleton;
 class cPlayer;
+class cActionTrace;
 
 class cBossScene :
 	public cSceneObject
 {
 private:
-	cGrid*		m_pGrid;
-	cBoss*		Boss_diablo; // 보스
-	cPlayer*	m_pPlayer;
+	cGrid*			m_pGrid;
+	cBoss*			m_pBoss; // 보스
+	cPlayer*		m_pPlayer;
+	cSkeleton*		m_pSkeleton;
 
 	std::vector<ST_PC_VERTEX>	m_vecTiles;
-	bool						m_bIsSetMap;
 	D3DXVECTOR3					m_vpickPos;
 
 public:

@@ -82,7 +82,6 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer(THIS_ LPCSTR Name,
 			LPDIRECT3DTEXTURE9 pTex = g_pTextureManager->GetTexture(sFullPath);
 			pBoneMesh->vecTexture.push_back(pTex);
 
-			int a = 0;
 		}
 
 	}

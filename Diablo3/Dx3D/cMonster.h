@@ -5,22 +5,33 @@ class cSkinnedMesh;
 
 class cMonster : public cGameObject
 {
-private:
+protected:
 	D3DXMATRIX		m_matWorld;
-	
+
 	SYNTHESIZE(cSkinnedMesh*, m_pMesh, Mesh);
+
 	SYNTHESIZE(MONSTER_STATE, m_emState, State); // 몬스터 상태
-	SYNTHESIZE(ST_MONSTER_STAT, m_stStat, Stat); // 몬스터 스텟 ? 
-	
-	LPD3DXEFFECT				m_pEffect;
+
+	SYNTHESIZE(ST_MONSTER_STAT, m_stStat, Stat); // 몬스터 스텟 ?
+
+	SYNTHESIZE(cGameObject*, m_pTarget, Target);
+
+	SYNTHESIZE(float, m_fAttackRange, AttackRange);
+	SYNTHESIZE(float, m_fTraceRange, TraceRange);
+	SYNTHESIZE(float, m_fSpeed, Speed);
+
+	LPD3DXMESH m_pAttackSphere;
+	LPD3DXMESH m_pTraceSphere;
 
 public:
 	cMonster();
 	virtual ~cMonster();
 
-	void Setup(char* szMonsterName);
-	void Update();
-	void Render();
+	virtual void Setup(char* szMonsterName);
+	virtual void Update();
+	virtual void Render();
+	virtual void Trace();
+	virtual void Attack();
 
 };
 

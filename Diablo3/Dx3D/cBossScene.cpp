@@ -7,13 +7,13 @@
 #include "cActionMove.h"
 #include "cActionTrace.h"
 #include "cSkinnedMesh.h"
+#include "cSkeleton.h"
 
 cBossScene::cBossScene()
 	: m_pGrid(NULL)
-	, Boss_diablo(NULL)
+	, m_pBoss(NULL)
 	, m_pPlayer(NULL)
 	, m_vpickPos(0, 0, 0)
-	, m_bIsSetMap(false)
 {
 }
 
@@ -22,14 +22,14 @@ cBossScene::~cBossScene()
 {
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pCamera);
-	SAFE_RELEASE(Boss_diablo);
+	SAFE_RELEASE(m_pBoss);
 	SAFE_RELEASE(m_pPlayer);
+	SAFE_RELEASE(m_pSkeleton);
 
 }
 
 HRESULT cBossScene::SetUp()
 {
-
 	if (m_bIsLoad)
 	{
 		Reset();
@@ -44,7 +44,7 @@ HRESULT cBossScene::SetUp()
 	ST_PC_VERTEX v;
 	D3DXCOLOR c;
 	c = D3DCOLOR_XRGB(255, 255, 255);
-	m_vecTiles.reserve(sizeof(ST_PC_VERTEX)* 6);
+	m_vecTiles.reserve(sizeof(ST_PC_VERTEX) * 6);
 	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, 120), c));
 	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(120, 0, 120), c));
 	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(120, 0, -120), c));
@@ -55,13 +55,16 @@ HRESULT cBossScene::SetUp()
 	m_pPlayer = new cPlayer;
 	m_pPlayer->SetUp();
 
-	Boss_diablo = new cBoss;
-	Boss_diablo->Setup();
-	Boss_diablo->SetPosition(D3DXVECTOR3(0, 0, 10));
+	m_pBoss = new cBoss;
+	m_pBoss->Setup();
+	m_pBoss->SetTarget(m_pPlayer);
+	m_pBoss->SetPosition(D3DXVECTOR3(10, 0, 10));
 
-	BossMoveTest();
+	m_pSkeleton = new cSkeleton;
+	m_pSkeleton->Setup();
+	m_pSkeleton->SetTarget(m_pPlayer);
+	m_pSkeleton->SetPosition(D3DXVECTOR3(-10, 0, 10));
 
-	m_bIsLoad = true;
 }
 
 HRESULT cBossScene::Reset()
@@ -77,16 +80,17 @@ HRESULT cBossScene::Reset()
 
 void cBossScene::Update()
 {
-
+	//BossMoveTest();
 	PlayerMove();
-
-	
 
 	if (m_pPlayer)
 		m_pPlayer->Update();
 
-	if (Boss_diablo)
-		Boss_diablo->Update();
+	if (m_pBoss)
+		m_pBoss->Update();
+
+	if (m_pSkeleton)
+		m_pSkeleton->Update();
 
 	if (m_pCamera)
 		m_pCamera->Update();
@@ -104,8 +108,39 @@ void cBossScene::Render()
 	if (m_pPlayer)
 		m_pPlayer->Render();
 
-	if (Boss_diablo)
-		Boss_diablo->Render();
+	if (m_pBoss)
+		m_pBoss->Render();
+
+	if (m_pSkeleton)
+		m_pSkeleton->Render();
+
+	LPD3DXFONT font;
+	font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
+
+	char temp[512];
+	if (m_pBoss->GetAction())
+	{
+		sprintf_s(temp, "Distance: %f", ((cActionTrace*)m_pBoss->GetAction())->GetDistance(), 512);
+
+		RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 120, DEBUG_STARTX + 250, DEBUG_STARTY + 150 };
+		font->DrawText(NULL,
+			temp,
+			128,
+			&rc,
+			DT_LEFT,
+			D3DCOLOR_XRGB(255, 255, 255));
+	}
+
+	sprintf_s(temp, "state: %d", m_pBoss->GetState(), 512);
+
+	RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 170, DEBUG_STARTX + 250, DEBUG_STARTY + 200 };
+	font->DrawText(NULL,
+		temp,
+		128,
+		&rc,
+		DT_LEFT,
+		D3DCOLOR_XRGB(255, 255, 255));
+
 }
 
 
@@ -113,25 +148,24 @@ void cBossScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	if (m_pCamera)
 		m_pCamera->WndProc(hWnd, message, wParam, lParam);
-
 }
 
 
 void cBossScene::BossMoveTest()
 {
-	cActionTrace* pAction = new cActionTrace;
+	cActionTrace* trace = new cActionTrace;
 
-	pAction->SetTo(m_pPlayer->GetPtPosition());
-	pAction->SetFrom(Boss_diablo->GetPtPosition());
-	pAction->SetTarget(Boss_diablo);
-	pAction->SetDelegate(Boss_diablo);
-	pAction->Start();
-	Boss_diablo->SetAction(pAction);
-	Boss_diablo->GetMesh()->SetAnimationIndex("run");
+	trace->SetTo(m_pPlayer->GetPtPosition());
+	trace->SetFrom(m_pBoss->GetPtPosition());
+	trace->SetTarget(m_pBoss);
+	trace->SetDelegate(m_pBoss);
+	trace->Start();
+	m_pBoss->SetAction(trace);
+	m_pBoss->GetMesh()->SetAnimationIndex("run");
 
 
-		m_bIsSetMap = true;
 }
+
 void cBossScene::PlayerMove()
 {
 	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
@@ -155,12 +189,9 @@ void cBossScene::PlayerMove()
 				m_pPlayer->SetAction(pAction);
 				m_pPlayer->GetMesh()->SetAnimationIndex(0);
 
-				m_bIsSetMap = true;
 			}
 		}
 	}
-
 }
-
 
 

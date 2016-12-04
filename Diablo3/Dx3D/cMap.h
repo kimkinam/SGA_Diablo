@@ -5,7 +5,7 @@ class cMtlTex;
 class cMap : public cObject
 {
 private:
-	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vPosition, Position);
+	
 
 	//¸Ê ÅëÂ¥ ¸Å½¬
 	SYNTHESIZE_PASS_BY_REF(LPD3DXMESH, m_pComMesh, ComMesh);
@@ -24,8 +24,14 @@ private:
 	SYNTHESIZE_PASS_BY_REF(std::vector<bool>, m_vecHiddenDraw, HiddenDraw);
 
 	SYNTHESIZE(D3DXMATRIX, m_matWorld, WorldTM);
+	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
+	SYNTHESIZE(D3DXVECTOR3, m_vScale, Scale);
+	SYNTHESIZE(D3DXVECTOR3, m_vForward, Forward);
+	SYNTHESIZE(D3DXVECTOR3, m_vUp, Up);
+	SYNTHESIZE(D3DXVECTOR3, m_vRight, Right);
 	SYNTHESIZE(string, m_sSumNailName, SumNailName);
 	SYNTHESIZE(string, m_sObjName, ObjName);
+	
 
 	SYNTHESIZE(LPD3DXEFFECT, m_pEffect, Effect);
 

@@ -279,6 +279,9 @@
     <ClInclude Include="cOBB.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="cSkeleton.h">
+      <Filter>Scene\GamingScene\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -454,6 +457,9 @@
     </ClCompile>
     <ClCompile Include="cOBB.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkeleton.cpp">
+      <Filter>Scene\GamingScene\Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

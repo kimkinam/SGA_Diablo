@@ -12,7 +12,7 @@
 #include "cUIButton.h"
 #include "cPlayer.h"	
 #include "cActionMove.h"
-#include "cMonster.h"
+#include "cBoss.h"
 
 cTestScene::cTestScene()
 	: m_pGrid(NULL)
@@ -89,11 +89,14 @@ HRESULT cTestScene::SetUp()
 	m_pPlayer->SetUp();
 
 	//몬스터
-	m_pMonster = new cMonster;
-	m_pMonster->Setup("diablo");
+	m_pMonster = new cBoss;
+	m_pMonster->Setup();
+	m_pMonster->SetTarget(m_pPlayer);
+	m_pMonster->SetPosition(D3DXVECTOR3(10, 0, 10));
 
 	//완전한 맵
 	cMap* obj1 = new cMap;
+	obj1->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
 	obj1->Setup("a1dun_01_test.objobj", "./Resources/Object/");
 	obj1->SetSumNailName("a1Dun_01.jpg");
 	m_vecObj.push_back(obj1);
@@ -226,6 +229,10 @@ void cTestScene::Update()
 	if (m_pUIRoot)
 		m_pUIRoot->Update();
 
+	if (g_pKeyManager->isOnceKeyDown('L'))
+	{
+		Save("map1");
+	}
 
 }
 
@@ -367,8 +374,7 @@ void cTestScene::SetMap()
 				m_pCurObj = new cMap;
 
 				m_pCurObj->SetRefMtl(m_vecObj[i]);
-
-				//m_pCurObj->SetRefHiddenMtl(m_vecObj[i]->GetHiddenMtl());
+				m_pCurObj->SetScale(m_vecObj[i]->GetScale());
 				m_pCurObj->SetEffect(m_vecObj[i]->GetEffect());
 				m_pCurObj->SetRefObj(m_vecObj[i]);
 				m_pCurObj->SetObjName(m_vecObj[i]->GetObjName());
@@ -658,3 +664,35 @@ void cTestScene::CollisionTest()
 		}
 	}
 }
+
+void cTestScene::Save(string fileName)
+{
+	string path = "./Resources/Object/";
+	string exp = ".wobj";
+	string fullName = path + fileName + exp;
+
+	FILE* fp = NULL;
+
+	fp = fopen(fullName.c_str(), "wb");
+
+	assert(fp != NULL && "세이브 파일이 생성되지 않았습니다");
+
+	int nObj = m_vecMap.size();
+	fwrite(&nObj, sizeof(int), 1, fp);
+
+	for (size_t i = 0; i < m_vecMap.size(); ++i)
+	{
+		ST_SAVEOBJECT wObj;
+		ZeroMemory(&wObj, sizeof(ST_SAVEOBJECT));
+		string name = m_vecMap[i]->GetObjName();
+		strncpy(wObj.szfileName, name.c_str(), name.length());
+
+		wObj.vPosition = m_vecMap[i]->GetPosition();
+		wObj.vScale = m_vecMap[i]->GetScale();
+
+		fwrite(&wObj, sizeof(ST_SAVEOBJECT), 1, fp);
+	}
+
+	fclose(fp);
+}
+

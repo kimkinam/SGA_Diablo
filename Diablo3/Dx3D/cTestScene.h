@@ -7,6 +7,7 @@ class cMap;
 class cPlayer;
 class cMonster;
 class cBoundBox;
+class cBoss;
 
 class cTestScene : public cSceneObject, public iButtonDelegate
 {
@@ -14,7 +15,7 @@ private:
 	cGrid*						m_pGrid;
 
 	cPlayer*					m_pPlayer;
-	cMonster*					m_pMonster;
+	cBoss*					m_pMonster;
 
 	//현재 오브젝트
 	cMap*						m_pCurObj;
@@ -64,6 +65,7 @@ public:
 	void SetBoundBox();
 
 	void CollisionTest();
+	void Save(string fileName);
 
 
 };

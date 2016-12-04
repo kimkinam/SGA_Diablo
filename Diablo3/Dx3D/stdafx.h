@@ -202,6 +202,15 @@ struct ST_SPHERE
 };
 
 
+typedef struct ST_SAVEOBJECT
+{
+	char szfileName[128];
+	char szFolderName[128];
+	D3DXVECTOR3 vPosition;
+	D3DXVECTOR3 vScale;
+
+}ST_SAVEOBJECT, *LPST_SAVEOBJECT;
+
 #define DEBUG_INTERVAL 5
 #define	DEBUG_STARTX 0
 #define DEBUG_STARTY 50
