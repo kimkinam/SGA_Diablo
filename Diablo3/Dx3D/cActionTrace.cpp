@@ -17,6 +17,9 @@ cActionTrace::cActionTrace()
 
 cActionTrace::~cActionTrace()
 {
+	//SAFE_DELETE(m_tFrom);
+	//SAFE_DELETE(m_tTo);
+	//SAFE_DELETE(m_vPosition);
 }
 
 cAction * cActionTrace::Create()
@@ -26,11 +29,11 @@ cAction * cActionTrace::Create()
 
 void cActionTrace::Start()
 {
-	m_fPassedTime = 0.0f;
+	cAction::Start();
 
-	D3DXVECTOR3 Dir = (*m_tFrom) - (*m_tTo);
-	D3DXVec3Normalize(&Dir, &Dir);
-	m_pTarget->SetDirection(Dir);
+	//D3DXVECTOR3 Dir = (*m_tFrom) - (*m_tTo);
+	//D3DXVec3Normalize(&Dir, &Dir);
+	//m_pTarget->SetDirection(Dir);
 }
 
 
@@ -38,31 +41,31 @@ void cActionTrace::Update()
 {
 	cAction::Update();
 
-	D3DXVECTOR3 Dir = (*m_tFrom) - (*m_tTo);
-	D3DXVec3Normalize(&Dir, &Dir);
-	m_pTarget->SetDirection(Dir);
+	D3DXVECTOR3 dir = (*m_tTo) - (*m_tFrom);
+	D3DXVec3Normalize(&dir, &dir);
 
+	D3DXVECTOR3 position = m_pTarget->GetPosition();
 
-	if (m_pTarget)
-	{
-		float angle;
-		D3DXVECTOR3	v3 = (*m_tFrom) - (*m_tTo);
-		angle = acosf(((*m_tTo).x - (*m_tFrom).x) / D3DXVec3Length(&v3));
+	position = position + dir * m_fSpeed;
 
-		if ((*m_tFrom).z > (*m_tTo).z)
-			angle = D3DX_PI + D3DX_PI / 2 + angle;
-		else
-			angle = D3DX_PI + D3DX_PI / 2 - angle;
+	D3DXMATRIXA16 matR, matT, matW;
+	D3DXMatrixLookAtLH(&matR,
+		&D3DXVECTOR3(0, 0, 0),
+		&-dir,
+		&D3DXVECTOR3(0, 1, 0));
+	D3DXMatrixTranspose(&matR, &matR);
+	D3DXMatrixTranslation(&matT, position.x, position.y, position.z);
 
-		D3DXVECTOR3 position = m_pTarget->GetPosition();
+	matW = matR * matT;
 
-		position = position - m_pTarget->GetDirection() * m_fSpeed;
-		m_vPosition = &position;
-		m_pTarget->SetPosition(*m_vPosition);
-		m_pTarget->SetAngle(angle);
+	D3DXMATRIXA16 localmatR;
+	D3DXMatrixRotationY(&localmatR, m_pTarget->GetAngle());
 
-	}
+	matW = localmatR * matW;
 
+	m_pTarget->SetPosition(position);
+	m_pTarget->SetDirection(dir);
+	m_pTarget->SetWorldTM(matW);
 
 	//타겟과의 거리
 	m_fDistance = D3DXVec3Length(&((*m_tFrom) - (*m_tTo)));
@@ -70,16 +73,16 @@ void cActionTrace::Update()
 	//공격할 상황
 	if (m_fAttackRange > m_fDistance)
 	{
-		m_pTarget->SetPosition(*this->GetPosition());
-		m_bIsAtk = true;
+		m_pTarget->SetPosition(m_pTarget->GetPosition());
+		m_pTarget->SetIsAtk(true);
 		m_pDelegate->OnActionFinish(this);
 
 	}
 	//추적포기 상황
 	if (m_fTraceRange < m_fDistance)
 	{
-		m_pTarget->SetPosition(*this->GetPosition());
-		m_bIsAtk = false;
+		m_pTarget->SetPosition(m_pTarget->GetPosition());
+		m_pTarget->SetIsAtk(false);
 		m_pDelegate->OnActionFinish(this);
 	}
 

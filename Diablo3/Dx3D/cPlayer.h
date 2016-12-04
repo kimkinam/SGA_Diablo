@@ -9,7 +9,6 @@ class cOBB;
 class cPlayer : public cGameObject
 {
 private:
-	D3DXMATRIXA16	m_matWorld;
 	double			m_dAttackStartTime;
 	double			m_dAttackTermTime;
 	cObj*			m_pSword;
@@ -17,10 +16,10 @@ private:
 
 	SYNTHESIZE(cOBB*, m_pOBB, OBB);
 	SYNTHESIZE(bool, m_bIsAtk, IsAtk);
-	SYNTHESIZE(cSkinnedMesh*, m_pMesh, Mesh);
-	SYNTHESIZE(PLAYER_STATE, m_emState, State);
+	
+	//SYNTHESIZE(PLAYER_STATE, m_emState, State);
 	SYNTHESIZE(int, m_nCurMap, CurMap);
-	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3*, m_pPosition, m_pPos);
+	SYNTHESIZE(D3DXVECTOR3, m_pPosition, m_pPos);
 
 
 

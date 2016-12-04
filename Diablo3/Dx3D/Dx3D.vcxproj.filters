@@ -285,6 +285,9 @@
     <ClInclude Include="cAnimation.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="cActionAtk.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -465,6 +468,9 @@
       <Filter>Scene\GamingScene\Monster</Filter>
     </ClCompile>
     <ClCompile Include="cAnimation.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cActionAtk.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

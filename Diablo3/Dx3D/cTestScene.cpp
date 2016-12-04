@@ -89,10 +89,10 @@ HRESULT cTestScene::SetUp()
 	m_pPlayer->SetUp();
 
 	//몬스터
-	m_pMonster = new cBoss;
-	m_pMonster->Setup();
-	m_pMonster->SetTarget(m_pPlayer);
-	m_pMonster->SetPosition(D3DXVECTOR3(10, 0, 10));
+	//m_pMonster = new cBoss;
+	//m_pMonster->Setup();
+	//m_pMonster->SetTarget(m_pPlayer);
+	//m_pMonster->SetPosition(D3DXVECTOR3(10, 0, 10));
 
 	//완전한 맵
 	cMap* obj1 = new cMap;

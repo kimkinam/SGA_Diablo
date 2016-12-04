@@ -6,34 +6,32 @@
 #include "cOBB.h"
 
 cPlayer::cPlayer()
-	: m_emState(PLAYER_IDLE)
-	, m_pMesh(NULL)
-	, m_bIsAtk(false)
+	//: m_emState(PLAYER_IDLE)
+	: m_bIsAtk(false)
 	, m_dAttackStartTime(0.0f)
 	, m_dAttackTermTime(0.0f)
 	, m_pSword(NULL)
 	, m_nCurMap(0)
 	, m_pOBB(NULL)
 {
-	D3DXMatrixIdentity(&m_matWorld);
 	
 }
 
 
 cPlayer::~cPlayer()
 {
-	SAFE_RELEASE(m_pAction);
-	SAFE_DELETE(m_pMesh);
 	SAFE_DELETE(m_pOBB);
 
 	SAFE_RELEASE(m_pSword);
+
 }
 
 void cPlayer::SetUp()
 {
+	
 	//¹Ù¹Ù
-	m_pMesh = new cSkinnedMesh("./Resources/Player/", "Bab3.X");
-	m_pMesh->SetAnimationIndex(1);
+	m_pMesh = new cSkinnedMesh("./Resources/Player/", "babarian.X");
+	//m_pMesh->SetAnimationIndex("idle");
 
 	m_pMesh->GetBoundingSphere()->vCenter.y = 0.5f;
 
@@ -55,12 +53,14 @@ void cPlayer::SetUp()
 
 	m_pSword->SetWorldTM(m_pMesh->AttachItem("right_weapon"));
 
+	cGameObject::Setup();
+	m_pAni->SetPlaySpeed(0.5f);
+	
 }
 
 void cPlayer::Update()
 {
-	if (m_pAction)
-		m_pAction->Update();
+	cGameObject::Update();
 
 	AniControl();
 
@@ -80,12 +80,12 @@ void cPlayer::Update()
 
 void cPlayer::Render()
 {
-	D3DXMATRIXA16 matR, matT;
-	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-	D3DXMatrixRotationY(&matR, m_fAngle);
-
-	m_matWorld = matR * matT;
-
+	//D3DXMATRIXA16 matR, matT;
+	//D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	//D3DXMatrixRotationY(&matR, m_fAngle);
+	//
+	//m_matWorld = matR * matT;
+	
 	if (m_pMesh)
 		m_pMesh->UpdateAndRender(&m_matWorld);
 
@@ -101,31 +101,61 @@ void cPlayer::Render()
 
 void cPlayer::AniControl()
 {
+	cGameObject::Update();
+
 	switch (m_emState)
 	{
-		case PLAYER_IDLE_START:
-			m_pMesh->SetAnimationIndex("idle");
-			m_emState = PLAYER_IDLE;
+	case cGameObject::IDLE_START:
 		break;
-		case PLAYER_IDLE:
+	case cGameObject::IDLE:
 		break;
-		case PLAYER_MOVE_START:
-			m_pMesh->SetAnimationIndex("run");
-			m_emState = PLAYER_IDLE_START;
+	case cGameObject::TRACE_START:
 		break;
-		case PLAYER_MOVE:
+	case cGameObject::TRACE:
 		break;
-		case PLAYER_ATTAACK1_START:
+	case cGameObject::MOVE_START:
 		break;
-		case PLAYER_ATTACK1:
+	case cGameObject::MOVE:
 		break;
-		case PLAYER_ATTACK2_START:
+	case cGameObject::ATTACK_START:
 		break;
-		case PLAYER_ATTACT2:
+	case cGameObject::ATTACK:
 		break;
-		case PLAYER_STATE_COUNT:
+	case cGameObject::HITTED_START:
 		break;
-		default:
+	case cGameObject::HITTED:
+	{
+		LPD3DXANIMATIONSET pCurAS = NULL;
+
+		m_pMesh->GetAnimController()->GetAnimationSetByName("hit", &pCurAS);
+
+		D3DXTRACK_DESC td;
+		m_pMesh->GetAnimController()->GetTrackDesc(0, &td);
+
+		double p = pCurAS->GetPeriodicPosition(td.Position);
+
+		float l = pCurAS->GetPeriod();
+		if (p > pCurAS->GetPeriod()/5)
+		{
+			m_emState = IDLE_START;
+		}
+
+
+	}
+		break;
+	case cGameObject::KNOCKBACK_START:
+		break;
+	case cGameObject::KNOCKBACK:
+		break;
+	case cGameObject::STUNNED_START:
+		break;
+	case cGameObject::STUNNED:
+		break;
+	case cGameObject::DEAD_START:
+		break;
+	case cGameObject::DEAD:
+		break;
+	default:
 		break;
 	}
 }
@@ -138,11 +168,12 @@ void cPlayer::OnActionFinish(cAction * pSender)
 {
 	m_pAction = NULL;
 	m_bIsMove = false;
-	m_pMesh->SetAnimationIndex(1);
+	m_pAni->Play("idle");
+	//m_pMesh->SetAnimationIndex("idle");
 }
 
 void cPlayer::PlayerPosition()
 {
-	m_pPosition = &cGameObject::GetPosition();
+	//m_pPosition = &cGameObject::GetPosition();
 }
 

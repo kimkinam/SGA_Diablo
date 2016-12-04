@@ -10,7 +10,7 @@ public:
 	cBoss();
 	virtual ~cBoss();
 
-	virtual void Setup();
+	virtual void Setup(D3DXVECTOR3* vLookAt = NULL);
 	virtual void Update();
 	virtual void Render();
 	virtual void Trace();

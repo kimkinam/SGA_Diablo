@@ -11,21 +11,18 @@ cBoss::~cBoss()
 {
 }
 
-void cBoss::Setup()
+void cBoss::Setup(D3DXVECTOR3* vLookAt)
 {
 	m_fSpeed = 0.05f;
 	m_fAttackRange = 2.0f;
 	m_fTraceRange = 5.0f;
 
-	cMonster::Setup("diablo");
-
-
+	cMonster::Setup("diablo", vLookAt);
 }
 void cBoss::Update()
 {
 	cMonster::Update();
-
-
+	
 }
 void cBoss::Render()
 {
@@ -39,13 +36,6 @@ void cBoss::Trace()
 
 void cBoss::OnActionFinish(cAction * pSender)
 {
-	cActionTrace* trace = (cActionTrace*)pSender;
-
-	if (trace->GetIsAtk())
-		m_emState = MONSTER_ATTACK_START;
-	else
-		m_emState = MONSTER_IDLE_START;
-
-	m_pAction = NULL;
+	cMonster::OnActionFinish(pSender);
 
 }

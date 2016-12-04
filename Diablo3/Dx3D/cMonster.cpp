@@ -2,174 +2,102 @@
 #include "cMonster.h"
 #include "cSkinnedMesh.h"
 #include "cActionTrace.h"
+#include "cActionAtk.h"
 #include "cPlayer.h"
 
 cMonster::cMonster()
-	: m_emState(MONSTER_IDLE)
-	, m_pMesh(NULL)
-	, m_pTarget(NULL)
+	//: m_emState(MONSTER_IDLE)
+	: m_pTarget(NULL)
 	, m_pAttackSphere(NULL)
 	, m_pTraceSphere(NULL)
 	, m_fAttackRange(0.0f)
 	, m_fTraceRange(0.0f)
 	, m_fSpeed(0.0f)
 {
-	D3DXMatrixIdentity(&m_matWorld);
-<<<<<<< HEAD
-=======
-	p = 0.0f;
-	pCurAS = NULL;
->>>>>>> 491dfae5fe567714700bbb46b0294cd6a68cb1c9
 }
 
 
 cMonster::~cMonster()
 {
-	SAFE_RELEASE(m_pAction);
-	SAFE_DELETE(m_pMesh);
 	SAFE_RELEASE(m_pAttackSphere);
 	SAFE_RELEASE(m_pTraceSphere);
 }
 
-void cMonster::Setup(char* szMonsterName)
+
+void cMonster::Setup(char * szMonsterName, D3DXVECTOR3* vLookAt)
 {
+	
 	string MonsterName = string(szMonsterName);
 	string fileName = MonsterName + ".x";
 	m_pMesh = new cSkinnedMesh("./Resources/Monster/", StringToChar(fileName));
-	m_pMesh->SetAnimationIndex("idle");
+	//m_pMesh->SetAnimationIndex("idle");
 
 	D3DXCreateSphere(g_pD3DDevice, m_fAttackRange, 20, 20, &m_pAttackSphere, NULL);
 	D3DXCreateSphere(g_pD3DDevice, m_fTraceRange, 20, 20, &m_pTraceSphere, NULL);
+
+	cGameObject::Setup(vLookAt);
+
+	
 }
 
 void cMonster::Update()
 {
-	if (m_pAction)
-		m_pAction->Update();
+	
+	//공격 시 회전은
+	if(!m_bIsAtk)
+		cGameObject::Rotate();
 
+	cGameObject::Update();
+
+
+	//몬스터가 기본적으로 해야할 짓들
 	switch (m_emState)
 	{
-	case MONSTER_IDLE_START:
-		this->GetMesh()->SetAnimationIndex("idle");
-		this->SetState(MONSTER_IDLE);
+	
+	case cGameObject::IDLE:
+		Trace();
 		break;
-	case MONSTER_IDLE:
+	case cGameObject::TRACE:
+		break;
+	case cGameObject::MOVE:
+		break;
+	case cGameObject::ATTACK_START:
 	{
-		D3DXVECTOR3 vLength = m_pTarget->GetPosition() - this->GetPosition();
+		m_pAni->Play("attack");
+		//m_pMesh->SetAnimationIndex("attack");
 
-		if (D3DXVec3Length(&vLength) < m_fTraceRange)
-		{
-			Trace();
-			this->SetState(MONSTER_TRACE_START);
-		}
-		break;
+		cActionAtk* atk = new cActionAtk;
+		LPD3DXANIMATIONSET pAtk;
+		m_pMesh->GetAnimController()->GetAnimationSetByName("attack", &pAtk);
+
+		atk->SetActionTime(pAtk->GetPeriod());
+		atk->SetTarget(this);
+		atk->SetDelegate(this);
+		atk->SetAtkRange(m_fAttackRange);
+		atk->SetAttackTarget(m_pTarget);
+		atk->Start();
+		this->SetAction(atk);
+
+		m_bIsAtk = true;
+
+		SAFE_RELEASE(atk);
+
+		m_emState = ATTACK;
 	}
-	case MONSTER_TRACE_START:
-		this->GetMesh()->SetAnimationIndex("run");
-		this->SetState(MONSTER_TRACE);
 		break;
-	case MONSTER_TRACE:
-	{
-		//D3DXVECTOR3 vLength = m_pTarget->GetPosition() - this->GetPosition();
-		//
-		//if (D3DXVec3Length(&vLength) > m_fTraceRange)
-		//{
-		//	this->OnActionFinish(this->GetAction());
-		//	this->SetPosition(this->GetPosition());
-		//	this->SetState(MONSTER_IDLE_START);
-		//}
-
-	}
-
-
-	break;
-	case MONSTER_ATTACK_START:
-		this->GetMesh()->SetAnimationIndex("attack");
-		this->SetState(MONSTER_ATTACK);
+	case cGameObject::ATTACK:
 		break;
-	case MONSTER_ATTACK:
-	{
-		
-		float distance = D3DXVec3Length(&(this->GetPosition() - this->GetTarget()->GetPosition()));
-
-		this->GetMesh()->GetAnimController()->GetTrackAnimationSet(0, &pCurAS);
-
-		D3DXTRACK_DESC td;
-		this->GetMesh()->GetAnimController()->GetTrackDesc(0, &td);
-		//double curTime = pCurAS->GetPeriodicPosition(this->GetMesh()->GetAnimController()->GetTime());
-		//double totalTime = pCurAS->GetPeriod();
-
-		double p = pCurAS->GetPeriodicPosition(td.Position);
-
-		//맞는 처리
-		if (p > 0.8f)
-		{
-			cPlayer* p = (cPlayer*)m_pTarget;
-			p->SetState(PLAYER_MOVE_START);
-		}
-
-		if (p > pCurAS->GetPeriod() - 0.2f)
-		{
-			D3DXVECTOR3	v3 = m_pTarget->GetPosition() - m_vPosition;
-			D3DXVec3Normalize(&v3, &v3);
-			m_fAngle = -D3DXVec3Dot(&m_vDirection, &v3) + D3DXToRadian(90);
-			
-		}
-
-		//if (m_pTarget->GetIsMove())
-		//{
-		//	D3DXVECTOR3	v3 = m_vPosition - *m_pTarget->GetPtPosition();
-		//	D3DXVec3Normalize(&v3, &v3);
-		//	m_fAngle = D3DXVec3Dot(&m_vDirection, &v3);
-		//
-		//}
-		
-		//사거리를 벗어낫을 경우
-		if (distance > m_fAttackRange)
-		{
-			if (pCurAS)
-			{
-				//현재 애니메이션이 돌아가는 트랙정보를 가져온다.
-				D3DXTRACK_DESC td;
-				this->GetMesh()->GetAnimController()->GetTrackDesc(0, &td);
-
-				//현재 애니메이션의 전체 길이를 실행하고
-				if (td.Position > pCurAS->GetPeriod() - EPSILON - 0.2f)
-				{
-					//상태를 변화시켜준다.
-					this->SetState(MONSTER_IDLE_START);
-				}
-			}
-		}
-
-		SAFE_RELEASE(pCurAS);
-
-	}
-	break;
-	case MONSTER_HITTED_START:
+	case cGameObject::HITTED:
 		break;
-	case MONSTER_HITTED:
+	case cGameObject::KNOCKBACK:
 		break;
-	case MONSTER_KNOCKBACK_START:
+	case cGameObject::STUNNED:
 		break;
-	case MONSTER_KNOCKBACK:
-		break;
-	case MONSTER_STUNNED_START:
-		break;
-	case MONSTER_STUNNED:
-		break;
-	case MONSTER_DEAD_START:
-		break;
-	case MONSTER_DEAD:
+	case cGameObject::DEAD:
 		break;
 	default:
 		break;
 	}
-
-	//몬스터가 기본적으로 해야할 짓들
-
-
-
 }
 
 void cMonster::Render()
@@ -178,27 +106,28 @@ void cMonster::Render()
 	//기본적으로 그냥 몸뚱아리는 이거 쓸거고
 	//이펙트, 파티클같은것들은 각자 몬스터 랜더에서 처리
 
-	D3DXMATRIXA16 matR, matT;
-	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-	D3DXMatrixRotationY(&matR, m_fAngle);
+	//D3DXMATRIXA16 matR, matT;
+	//D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	//D3DXMatrixRotationY(&matR, m_fAngle);
+	//
+	//m_matWorld = matR * matT;
 
-	m_matWorld = matR * matT;
 
 	if (m_pMesh)
 		m_pMesh->UpdateAndRender(&m_matWorld);
 
 	//공격사거리 그리는 부분
-	D3DXMATRIXA16 mat;
-	D3DXMatrixTranslation(&mat, 0, 1, 0);
-	m_matWorld *= mat;
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
-	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	
-	if (m_pAttackSphere)
-		m_pAttackSphere->DrawSubset(0);
-	
-	if (m_pTraceSphere)
-		m_pTraceSphere->DrawSubset(0);
+	//D3DXMATRIXA16 mat;
+	//D3DXMatrixTranslation(&mat, 0, 1, 0);
+	//m_matWorld *= mat;
+	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+	//g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	//
+	//if (m_pAttackSphere)
+	//	m_pAttackSphere->DrawSubset(0);
+	//
+	//if (m_pTraceSphere)
+	//	m_pTraceSphere->DrawSubset(0);
 
 
 	//디버그 정보
@@ -215,8 +144,9 @@ void cMonster::Render()
 		DT_LEFT,
 		D3DCOLOR_XRGB(255, 255, 255));
 
-	
-	sprintf_s(temp, "CurAnimation : %f", D3DXToDegree(m_fAngle), 128);//m_pMesh->GetCurAnimationName().c_str(), 128);
+	if (m_pAction)
+	{
+		sprintf_s(temp, "CurAnimation : %f", m_pAction->GetDistance(), 128);//m_pMesh->GetCurAnimationName().c_str(), 128);
 		rc = { DEBUG_STARTX, DEBUG_STARTY + 300, DEBUG_STARTX + 250, DEBUG_STARTY + 415 };
 		font->DrawText(NULL,
 			temp,
@@ -224,6 +154,8 @@ void cMonster::Render()
 			&rc,
 			DT_LEFT,
 			D3DCOLOR_XRGB(255, 255, 255));
+	}
+	
 	
 	
 
@@ -231,26 +163,46 @@ void cMonster::Render()
 
 void cMonster::Trace()
 {
-	cActionTrace* trace = new cActionTrace;
+	D3DXVECTOR3 vLength = m_pTarget->GetPosition() - this->GetPosition();
 
-	trace->SetTo(m_pTarget->GetPtPosition());
-	trace->SetFrom(this->GetPtPosition());
-	trace->SetTarget(this);
-	trace->SetDelegate(this);
+	float d = D3DXVec3Length(&vLength);
+	if (D3DXVec3Length(&vLength) < m_fTraceRange)
+	{
+		cActionTrace* trace = new cActionTrace;
 
-	trace->SetTraceRange(m_fTraceRange);
-	trace->SetAttackRange(m_fAttackRange);
-	trace->SetSpeed(m_fSpeed);
+		trace->SetTo(m_pTarget->GetPtPosition());
+		trace->SetFrom(this->GetPtPosition());
+		trace->SetTarget(this);
+		trace->SetDelegate(this);
 
-	trace->Start();
-	this->SetAction(trace);
-	//this->GetMesh()->SetAnimationIndex("run");
+		trace->SetTraceRange(m_fTraceRange);
+		trace->SetAttackRange(m_fAttackRange);
+		trace->SetSpeed(m_fSpeed);
 
-	SAFE_RELEASE(trace);
+		trace->Start();
+		this->SetAction(trace);
+		this->SetState(TRACE_START);
+
+		SAFE_RELEASE(trace);
+
+	}
+
+	
 
 }
 
 void cMonster::Attack()
 {
 	this->GetMesh()->SetAnimationIndex("attack");
+}
+
+void cMonster::OnActionFinish(cAction * pSender)
+{
+	if (m_bIsAtk)
+		m_emState = ATTACK_START;
+	else
+		m_emState = IDLE_START;
+
+	m_pAction = NULL;
+
 }

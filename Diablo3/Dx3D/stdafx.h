@@ -236,6 +236,7 @@ typedef struct ST_SAVEOBJECT
 #include "cRay.h"
 #include "cBoundBox.h"
 #include "cOBB.h"
+#include "cGameObject.h"
 
 
 //전역 해더

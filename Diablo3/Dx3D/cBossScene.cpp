@@ -56,14 +56,16 @@ HRESULT cBossScene::SetUp()
 	m_pPlayer->SetUp();
 
 	m_pBoss = new cBoss;
-	m_pBoss->Setup();
 	m_pBoss->SetTarget(m_pPlayer);
 	m_pBoss->SetPosition(D3DXVECTOR3(10, 0, 10));
+	m_pBoss->Setup(&D3DXVECTOR3(1,0,0));
+	
 
 	m_pSkeleton = new cSkeleton;
-	m_pSkeleton->Setup();
 	m_pSkeleton->SetTarget(m_pPlayer);
 	m_pSkeleton->SetPosition(D3DXVECTOR3(-10, 0, 10));
+	m_pSkeleton->Setup();
+	
 
 }
 
@@ -161,6 +163,7 @@ void cBossScene::BossMoveTest()
 	trace->SetDelegate(m_pBoss);
 	trace->Start();
 	m_pBoss->SetAction(trace);
+	//m_pBoss->GetAni()->Play("run");
 	m_pBoss->GetMesh()->SetAnimationIndex("run");
 
 
@@ -186,9 +189,11 @@ void cBossScene::PlayerMove()
 				pAction->SetFrom(m_pPlayer->GetPosition());
 				pAction->SetTarget(m_pPlayer);
 				pAction->SetDelegate(m_pPlayer);
+				pAction->SetSpeed(0.05f);
 				pAction->Start();
 				m_pPlayer->SetAction(pAction);
-				m_pPlayer->GetMesh()->SetAnimationIndex(0);
+				m_pPlayer->GetAni()->Play("run");
+				//m_pPlayer->GetMesh()->SetAnimationIndex("run");
 
 			}
 		}

@@ -83,6 +83,7 @@
   <ItemGroup>
     <ClInclude Include="Asciitok.h" />
     <ClInclude Include="cAction.h" />
+    <ClInclude Include="cActionAtk.h" />
     <ClInclude Include="cActionFalling.h" />
     <ClInclude Include="cActionJump.h" />
     <ClInclude Include="cActionMove.h" />
@@ -152,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cAction.cpp" />
+    <ClCompile Include="cActionAtk.cpp" />
     <ClCompile Include="cActionFalling.cpp" />
     <ClCompile Include="cActionJump.cpp" />
     <ClCompile Include="cActionMove.cpp" />

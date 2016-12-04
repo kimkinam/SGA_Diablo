@@ -1,4 +1,5 @@
 #pragma once
+
 class cAnimation
 {
 private:
@@ -15,7 +16,7 @@ private:
 	MAP_ANIMSET						m_mapAnimSet;				//Map 으로 되어있는 AnimationSet
 	VEC_ANIMSET						m_vecAnimSet;				//Vector 로 되어있는 AnimationSet
 
-	LPD3DXANIMATIONSET				m_pNowPlayAnimationSet;		//현제 플레이되고있는 AnimationSet
+	SYNTHESIZE_ADD_REF(LPD3DXANIMATIONSET, m_pNowPlayAnimationSet, NowPlayAnimationSet);	//현제 플레이되고있는 AnimationSet
 	D3DXTRACK_DESC					m_Track_Desc_0;				//0번 Track_Desc ( 0 번 Track 의 정보 )
 
 	LPD3DXANIMATIONSET				m_pPrevPlayAnimationSet;	//OneShot 플레이시 한번 Animation 플레이되고 다시 되돌아갈 Animaiton
@@ -25,7 +26,8 @@ private:
 	float							m_fOutCrossFadeTime;		//OneShot Animation 끝나고 되돌아갈때 CrossFade 타임
 	double							m_AnimationPlayFactor;		//Animation 진행 Factor ( 0 이면 처음 1 일수록 마지막 )
 	float							m_fAnimDelta;
-
+	bool							m_bIsAnimBlend;
+	float							m_fPassedBlendTime;
 public:
 	cAnimation();
 	~cAnimation();
@@ -37,6 +39,9 @@ public:
 
 	void PlayOneShot(std::string animName, float inCrossFadeTime = 0.0, float outCrossFadeTime = 0.0f);
 	void PlayOneShotAfterHold(std::string animName, float crossFadeTime = 0.0);
+
+	//void PlayAniByIndex(int nIndex);
+	//void PlayAniByName(char* szStateName);
 
 	void Stop() {
 		this->m_bIsPlay = false;

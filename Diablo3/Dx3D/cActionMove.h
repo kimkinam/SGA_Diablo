@@ -7,6 +7,7 @@ class cActionMove : public cAction
 private:
 	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vFrom, From);
 	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vTo, To);
+	SYNTHESIZE(float, m_fSpeed, Speed);
 
 public:
 	cActionMove();

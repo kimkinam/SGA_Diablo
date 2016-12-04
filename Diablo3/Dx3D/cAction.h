@@ -9,6 +9,7 @@ class cAction : public cObject
 protected:
 	SYNTHESIZE(float, m_fPassedTime, PassedTime);
 	SYNTHESIZE(float, m_fActionTime, ActionTime);
+	SYNTHESIZE(float, m_fDistance, Distance);
 	SYNTHESIZE(cGameObject*, m_pTarget, Target);
 	SYNTHESIZE(iActionDelegate*, m_pDelegate, Delegate);
 
