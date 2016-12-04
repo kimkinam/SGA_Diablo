@@ -7,11 +7,21 @@ cMonster::cMonster()
 	: m_emState(MONSTER_IDLE)
 	, m_pMesh(NULL)
 	, m_pTarget(NULL)
+<<<<<<< HEAD
 	, m_fAttackRange(0.0f)
 	, m_fTraceRange(0.0f)
 	, m_fSpeed(0.0f)
 {
 	D3DXMatrixIdentity(&m_matWorld);
+=======
+	, m_fTraceTime(0.0f)
+{
+	D3DXMatrixIdentity(&m_matWorld);
+
+	m_vPosition.x = 1.0f;
+	m_vPosition.z = 1.0f;
+
+>>>>>>> 65ab56b83d0f8d2a0d2f65015c3637a9a04789e0
 }
 
 
@@ -30,12 +40,16 @@ void cMonster::Setup(char* szMonsterName)
 	m_pMesh = new cSkinnedMesh("./Resources/Monster/", StringToChar(fileName));
 	m_pMesh->SetAnimationIndex("idle");
 
+<<<<<<< HEAD
 	D3DXCreateSphere(g_pD3DDevice, m_fAttackRange, 20, 20, &m_pAttackSphere, NULL);
 	D3DXCreateSphere(g_pD3DDevice, m_fTraceRange, 20, 20, &m_pTraceSphere, NULL);
+=======
+>>>>>>> 65ab56b83d0f8d2a0d2f65015c3637a9a04789e0
 }
 
 void cMonster::Update()
 {
+<<<<<<< HEAD
 	if (m_pAction)
 		m_pAction->Update();
 
@@ -128,6 +142,22 @@ void cMonster::Update()
 		break;
 	default:
 		break;
+=======
+	if (this->GetState() == MONSTER_IDLE)
+	{
+		D3DXVECTOR3 vLength = m_pTarget->GetPosition() - this->GetPosition();
+		
+		if (D3DXVec3Length(&vLength) < 5.0f)
+		{
+			Trace();
+			this->SetState(MONSTER_MOVE);
+		}
+	}
+	if (this->GetState() == MONSTER_MOVE)
+	{
+		if (!this->GetAction())
+			this->SetState(MONSTER_IDLE);
+>>>>>>> 65ab56b83d0f8d2a0d2f65015c3637a9a04789e0
 	}
 	
 	//몬스터가 기본적으로 해야할 짓들
@@ -178,7 +208,10 @@ void cMonster::Render()
 		&rc,
 		DT_LEFT,
 		D3DCOLOR_XRGB(255, 255, 255));
+<<<<<<< HEAD
 
+=======
+>>>>>>> 65ab56b83d0f8d2a0d2f65015c3637a9a04789e0
 }
 
 void cMonster::Trace()
@@ -189,20 +222,28 @@ void cMonster::Trace()
 	trace->SetFrom(this->GetPtPosition());
 	trace->SetTarget(this);
 	trace->SetDelegate(this);
+<<<<<<< HEAD
 	
 	trace->SetTraceRange(m_fTraceRange);
 	trace->SetAttackRange(m_fAttackRange);
 	trace->SetSpeed(m_fSpeed);
 
+=======
+	trace->SetTraceTime(3.0f);
+>>>>>>> 65ab56b83d0f8d2a0d2f65015c3637a9a04789e0
 	trace->Start();
 	this->SetAction(trace);
 	this->GetMesh()->SetAnimationIndex("run");
 
 	SAFE_RELEASE(trace);
 
+<<<<<<< HEAD
 }
 
 void cMonster::Attack()
 {
 	this->GetMesh()->SetAnimationIndex("attack");
 }
+=======
+}
+>>>>>>> 65ab56b83d0f8d2a0d2f65015c3637a9a04789e0
