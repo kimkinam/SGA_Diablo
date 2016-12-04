@@ -31,7 +31,7 @@ void cPlayer::SetUp()
 	
 	//¹Ù¹Ù
 	m_pMesh = new cSkinnedMesh("./Resources/Player/", "babarian.X");
-	//m_pMesh->SetAnimationIndex("idle");
+	m_pMesh->SetAnimationIndex("idle");
 
 	m_pMesh->GetBoundingSphere()->vCenter.y = 0.5f;
 
@@ -54,7 +54,9 @@ void cPlayer::SetUp()
 	m_pSword->SetWorldTM(m_pMesh->AttachItem("right_weapon"));
 
 	cGameObject::Setup();
-	m_pAni->SetPlaySpeed(0.5f);
+
+
+	//m_pAni->SetPlaySpeed(0.5f);
 	
 }
 
@@ -140,6 +142,7 @@ void cPlayer::AniControl()
 			m_emState = IDLE_START;
 		}
 
+		SAFE_RELEASE(pCurAS);
 
 	}
 		break;
@@ -168,8 +171,8 @@ void cPlayer::OnActionFinish(cAction * pSender)
 {
 	m_pAction = NULL;
 	m_bIsMove = false;
-	m_pAni->Play("idle");
-	//m_pMesh->SetAnimationIndex("idle");
+	//m_pAni->Play("idle");
+	m_pMesh->SetAnimationIndex("idle");
 }
 
 void cPlayer::PlayerPosition()

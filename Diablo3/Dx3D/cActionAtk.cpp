@@ -34,11 +34,14 @@ void cActionAtk::Update()
 	m_pTarget->SetPosition(m_pTarget->GetPosition());
 	D3DXVECTOR3 v = m_pTarget->GetPosition() - m_pAttakTarget->GetPosition();
 	m_fDistance = D3DXVec3Length(&v);
+	
+	LPD3DXANIMATIONSET pCurAS = NULL;
+	m_pTarget->GetMesh()->GetAnimController()->GetTrackAnimationSet(0, &pCurAS);
 
 	D3DXTRACK_DESC td;
 	m_pTarget->GetMesh()->GetAnimController()->GetTrackDesc(0, &td);
 
-	double p = m_pTarget->GetAni()->GetNowPlayAnimationSet()->GetPeriodicPosition(td.Position);
+	double p = pCurAS->GetPeriodicPosition(td.Position);
 
 	if (p > 0.8f && m_fDistance < m_fAtkRange)
 	{
@@ -46,7 +49,7 @@ void cActionAtk::Update()
 			m_pAttakTarget->SetState(cGameObject::HITTED_START);
 	}
 
-	if (p > m_pTarget->GetAni()->GetNowPlayAnimationSet()->GetPeriod() - 0.2f)
+	if (p > pCurAS->GetPeriod() - 0.2f)
 	{
 		D3DXVECTOR3 vDir = m_pTarget->GetPosition() - m_pAttakTarget->GetPosition();
 		D3DXVec3Normalize(&vDir, &vDir);
@@ -68,14 +71,13 @@ void cActionAtk::Update()
 	
 	if (m_fDistance > m_fAtkRange)
 	{
-		LPD3DXANIMATIONSET pCurAS = NULL;
-		m_pTarget->GetMesh()->GetAnimController()->GetAnimationSetByName("attack", &pCurAS);
+		m_pTarget->GetMesh()->GetAnimController()->GetTrackAnimationSet(0, &pCurAS);
 		if (pCurAS)
 		{
 			//현재 애니메이션이 돌아가는 트랙정보를 가져온다.
 			D3DXTRACK_DESC td;
 			m_pTarget->GetMesh()->GetAnimController()->GetTrackDesc(0, &td);
-
+	
 			//현재 애니메이션의 전체 길이를 실행하고
 			if (td.Position > pCurAS->GetPeriod() - EPSILON - 0.2f)
 			{
@@ -88,4 +90,5 @@ void cActionAtk::Update()
 		}
 	}
 
+	SAFE_RELEASE(pCurAS);
 }

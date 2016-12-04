@@ -22,6 +22,18 @@ cAnimation::~cAnimation()
 	SAFE_RELEASE(m_pAnimController);
 	SAFE_RELEASE(m_pNowPlayAnimationSet);
 	SAFE_RELEASE(m_pPrevPlayAnimationSet);
+
+	for each(auto c in m_vecAnimSet)
+	{
+		SAFE_RELEASE(c);
+	}
+
+	for each(auto c in m_mapAnimSet)
+	{
+		SAFE_RELEASE(c.second);
+	}
+
+	int a = 0;
 }
 
 void cAnimation::Setup()
@@ -43,6 +55,8 @@ void cAnimation::Setup()
 		this->m_mapAnimSet.insert(std::make_pair(
 			animSet->GetName(),
 			animSet));
+
+		SAFE_RELEASE(animSet);
 	}
 
 	//일단 첫번째 Animation 으로 시작

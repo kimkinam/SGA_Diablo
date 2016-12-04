@@ -30,9 +30,9 @@ public:
 	};
 protected:
 	D3DXVECTOR3 m_vPrevPosition;
-	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vPosition, Position);
-	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vDirection, Direction);
-	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vUp, UpVector);
+	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
+	SYNTHESIZE(D3DXVECTOR3, m_vDirection, Direction);
+	SYNTHESIZE(D3DXVECTOR3, m_vUp, UpVector);
 	SYNTHESIZE_PASS_BY_REF(D3DXMATRIXA16, m_matWorld, WorldTM);
 
 	SYNTHESIZE_ADD_REF(cAction*, m_pAction, Action);
@@ -51,7 +51,6 @@ public:
 	
 	virtual void Setup(D3DXVECTOR3* vLook = NULL);
 	virtual void Update();
-	void Rotate();
 	virtual void Render();
 	virtual void OnActionFinish(cAction* pSender) override;
 

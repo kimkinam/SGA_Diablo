@@ -112,27 +112,27 @@ void cSkinnedMesh::Load(char* szDirectory, char* szFilename)
 
 void cSkinnedMesh::UpdateAndRender(D3DXMATRIX* pMat)
 {
-	//if (m_pAnimController)
-	//{
-	//	if (m_isAnimBlend)
-	//	{
-	//		m_fPassedBlendTime += g_pTimeManager->GetDeltaTime();
-	//		if (m_fPassedBlendTime >= m_fBlendTime)
-	//		{
-	//			m_isAnimBlend = false;
-	//			m_pAnimController->SetTrackWeight(0, 1.0f);
-	//			m_pAnimController->SetTrackEnable(1, false);
-	//		}
-	//		else
-	//		{
-	//			float fWeight = m_fPassedBlendTime / m_fBlendTime;
-	//			m_pAnimController->SetTrackWeight(0, fWeight);
-	//			m_pAnimController->SetTrackWeight(1, 1.f - fWeight);
-	//		}
-	//	}
-	//
-	//	m_pAnimController->AdvanceTime(g_pTimeManager->GetDeltaTime(), NULL);
-	//}
+	if (m_pAnimController)
+	{
+		if (m_isAnimBlend)
+		{
+			m_fPassedBlendTime += g_pTimeManager->GetDeltaTime();
+			if (m_fPassedBlendTime >= m_fBlendTime)
+			{
+				m_isAnimBlend = false;
+				m_pAnimController->SetTrackWeight(0, 1.0f);
+				m_pAnimController->SetTrackEnable(1, false);
+			}
+			else
+			{
+				float fWeight = m_fPassedBlendTime / m_fBlendTime;
+				m_pAnimController->SetTrackWeight(0, fWeight);
+				m_pAnimController->SetTrackWeight(1, 1.f - fWeight);
+			}
+		}
+	
+		m_pAnimController->AdvanceTime(g_pTimeManager->GetDeltaTime(), NULL);
+	}
 
 	if (m_pRootFrame)
 	{

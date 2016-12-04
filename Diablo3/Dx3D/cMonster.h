@@ -11,7 +11,7 @@ protected:
 
 	SYNTHESIZE(ST_MONSTER_STAT, m_stStat, Stat); // ∏ÛΩ∫≈Õ Ω∫≈› ?
 
-	SYNTHESIZE(cGameObject*, m_pTarget, Target);
+	SYNTHESIZE_ADD_REF(cGameObject*, m_pTarget, Target);
 
 	SYNTHESIZE(float, m_fAttackRange, AttackRange);
 	SYNTHESIZE(float, m_fTraceRange, TraceRange);

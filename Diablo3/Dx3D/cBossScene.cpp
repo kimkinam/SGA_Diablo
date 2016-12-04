@@ -13,6 +13,7 @@ cBossScene::cBossScene()
 	: m_pGrid(NULL)
 	, m_pBoss(NULL)
 	, m_pPlayer(NULL)
+	, m_pSkeleton(NULL)
 	, m_vpickPos(0, 0, 0)
 {
 }
@@ -54,17 +55,17 @@ HRESULT cBossScene::SetUp()
 
 	m_pPlayer = new cPlayer;
 	m_pPlayer->SetUp();
-
+	
 	m_pBoss = new cBoss;
 	m_pBoss->SetTarget(m_pPlayer);
 	m_pBoss->SetPosition(D3DXVECTOR3(10, 0, 10));
 	m_pBoss->Setup(&D3DXVECTOR3(1,0,0));
 	
-
-	m_pSkeleton = new cSkeleton;
-	m_pSkeleton->SetTarget(m_pPlayer);
-	m_pSkeleton->SetPosition(D3DXVECTOR3(-10, 0, 10));
-	m_pSkeleton->Setup();
+	//
+	//m_pSkeleton = new cSkeleton;
+	//m_pSkeleton->SetTarget(m_pPlayer);
+	//m_pSkeleton->SetPosition(D3DXVECTOR3(-10, 0, 10));
+	//m_pSkeleton->Setup();
 	
 
 }
@@ -116,32 +117,6 @@ void cBossScene::Render()
 	if (m_pSkeleton)
 		m_pSkeleton->Render();
 
-	LPD3DXFONT font;
-	font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
-
-	char temp[512];
-	if (m_pBoss->GetAction())
-	{
-		sprintf_s(temp, "Distance: %f", ((cActionTrace*)m_pBoss->GetAction())->GetDistance(), 512);
-
-		RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 120, DEBUG_STARTX + 250, DEBUG_STARTY + 150 };
-		font->DrawText(NULL,
-			temp,
-			128,
-			&rc,
-			DT_LEFT,
-			D3DCOLOR_XRGB(255, 255, 255));
-	}
-
-	sprintf_s(temp, "state: %d", m_pBoss->GetState(), 512);
-
-	RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 170, DEBUG_STARTX + 250, DEBUG_STARTY + 200 };
-	font->DrawText(NULL,
-		temp,
-		128,
-		&rc,
-		DT_LEFT,
-		D3DCOLOR_XRGB(255, 255, 255));
 
 }
 
@@ -166,6 +141,7 @@ void cBossScene::BossMoveTest()
 	//m_pBoss->GetAni()->Play("run");
 	m_pBoss->GetMesh()->SetAnimationIndex("run");
 
+	SAFE_RELEASE(trace);
 
 }
 
@@ -192,9 +168,10 @@ void cBossScene::PlayerMove()
 				pAction->SetSpeed(0.05f);
 				pAction->Start();
 				m_pPlayer->SetAction(pAction);
-				m_pPlayer->GetAni()->Play("run");
-				//m_pPlayer->GetMesh()->SetAnimationIndex("run");
+				//m_pPlayer->GetAni()->Play("run");
+				m_pPlayer->GetMesh()->SetAnimationIndex("run");
 
+				SAFE_RELEASE(pAction);
 			}
 		}
 	}

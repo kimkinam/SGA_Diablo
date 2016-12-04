@@ -21,6 +21,7 @@ cMonster::~cMonster()
 {
 	SAFE_RELEASE(m_pAttackSphere);
 	SAFE_RELEASE(m_pTraceSphere);
+	SAFE_RELEASE(m_pTarget);
 }
 
 
@@ -30,7 +31,7 @@ void cMonster::Setup(char * szMonsterName, D3DXVECTOR3* vLookAt)
 	string MonsterName = string(szMonsterName);
 	string fileName = MonsterName + ".x";
 	m_pMesh = new cSkinnedMesh("./Resources/Monster/", StringToChar(fileName));
-	//m_pMesh->SetAnimationIndex("idle");
+	m_pMesh->SetAnimationIndex("idle");
 
 	D3DXCreateSphere(g_pD3DDevice, m_fAttackRange, 20, 20, &m_pAttackSphere, NULL);
 	D3DXCreateSphere(g_pD3DDevice, m_fTraceRange, 20, 20, &m_pTraceSphere, NULL);
@@ -42,11 +43,6 @@ void cMonster::Setup(char * szMonsterName, D3DXVECTOR3* vLookAt)
 
 void cMonster::Update()
 {
-	
-	//공격 시 회전은
-	if(!m_bIsAtk)
-		cGameObject::Rotate();
-
 	cGameObject::Update();
 
 
@@ -63,8 +59,8 @@ void cMonster::Update()
 		break;
 	case cGameObject::ATTACK_START:
 	{
-		m_pAni->Play("attack");
-		//m_pMesh->SetAnimationIndex("attack");
+		//m_pAni->Play("attack");
+		m_pMesh->SetAnimationIndex("attack");
 
 		cActionAtk* atk = new cActionAtk;
 		LPD3DXANIMATIONSET pAtk;
@@ -133,7 +129,7 @@ void cMonster::Render()
 	//디버그 정보
 	LPD3DXFONT font;
 	font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
-
+	
 	char temp[128];
 	sprintf_s(temp, "CurAnimation : %f", m_pMesh->GetCurAnimationName().c_str(), 128);
 	RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 200, DEBUG_STARTX + 250, DEBUG_STARTY + 315 };
@@ -143,7 +139,7 @@ void cMonster::Render()
 		&rc,
 		DT_LEFT,
 		D3DCOLOR_XRGB(255, 255, 255));
-
+	
 	if (m_pAction)
 	{
 		sprintf_s(temp, "CurAnimation : %f", m_pAction->GetDistance(), 128);//m_pMesh->GetCurAnimationName().c_str(), 128);
@@ -203,6 +199,7 @@ void cMonster::OnActionFinish(cAction * pSender)
 	else
 		m_emState = IDLE_START;
 
+	SAFE_RELEASE(pSender);
 	m_pAction = NULL;
 
 }
