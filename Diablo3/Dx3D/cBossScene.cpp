@@ -8,10 +8,12 @@
 #include "cActionTrace.h"
 #include "cSkinnedMesh.h"
 #include "cSkeleton.h"
+#include "cBoss.h"
 
 cBossScene::cBossScene()
 	: m_pGrid(NULL)
 	, m_pBoss(NULL)
+	, m_pBoss2(NULL)
 	, m_pPlayer(NULL)
 	, m_pSkeleton(NULL)
 	, m_vpickPos(0, 0, 0)
@@ -24,6 +26,7 @@ cBossScene::~cBossScene()
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pCamera);
 	SAFE_RELEASE(m_pBoss);
+	SAFE_RELEASE(m_pBoss2);
 	SAFE_RELEASE(m_pPlayer);
 	SAFE_RELEASE(m_pSkeleton);
 
@@ -60,7 +63,15 @@ HRESULT cBossScene::SetUp()
 	m_pBoss->SetTarget(m_pPlayer);
 	m_pBoss->SetPosition(D3DXVECTOR3(10, 0, 10));
 	m_pBoss->Setup(&D3DXVECTOR3(1,0,0));
+
 	
+	m_pBoss2 = new cBoss;
+	m_pBoss2->SetTarget(m_pPlayer);
+	m_pBoss2->SetPosition(D3DXVECTOR3(-10, 0, 10));
+	m_pBoss2->Setup(&D3DXVECTOR3(1, 0, 0));
+
+	m_vecMonster.push_back(m_pBoss);
+	m_vecMonster.push_back(m_pBoss2);
 	//
 	//m_pSkeleton = new cSkeleton;
 	//m_pSkeleton->SetTarget(m_pPlayer);
@@ -89,11 +100,17 @@ void cBossScene::Update()
 	if (m_pPlayer)
 		m_pPlayer->Update();
 
-	if (m_pBoss)
+	/*if (m_pBoss)
 		m_pBoss->Update();
 
-	if (m_pSkeleton)
-		m_pSkeleton->Update();
+	if (m_pBoss2)
+		m_pBoss2->Update();*/
+
+	for each(auto c in m_vecMonster)
+	{
+		c->Update();
+	}
+
 
 	if (m_pCamera)
 		m_pCamera->Update();
@@ -111,12 +128,10 @@ void cBossScene::Render()
 	if (m_pPlayer)
 		m_pPlayer->Render();
 
-	if (m_pBoss)
-		m_pBoss->Render();
-
-	if (m_pSkeleton)
-		m_pSkeleton->Render();
-
+	for each(auto c in m_vecMonster)
+	{
+		c->Render();
+	}
 
 }
 
@@ -130,18 +145,18 @@ void cBossScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 void cBossScene::BossMoveTest()
 {
-	cActionTrace* trace = new cActionTrace;
-
-	trace->SetTo(m_pPlayer->GetPtPosition());
-	trace->SetFrom(m_pBoss->GetPtPosition());
-	trace->SetTarget(m_pBoss);
-	trace->SetDelegate(m_pBoss);
-	trace->Start();
-	m_pBoss->SetAction(trace);
-	//m_pBoss->GetAni()->Play("run");
-	m_pBoss->GetMesh()->SetAnimationIndex("run");
-
-	SAFE_RELEASE(trace);
+	//cActionTrace* trace = new cActionTrace;
+	//
+	//trace->SetTo(m_pPlayer->GetPtPosition());
+	//trace->SetFrom(m_pBoss->GetPtPosition());
+	//trace->SetTarget(m_pBoss);
+	//trace->SetDelegate(m_pBoss);
+	//trace->Start();
+	//m_pBoss->SetAction(trace);
+	////m_pBoss->GetAni()->Play("run");
+	//m_pBoss->GetMesh()->SetAnimationIndex("run");
+	//
+	//SAFE_RELEASE(trace);
 
 }
 

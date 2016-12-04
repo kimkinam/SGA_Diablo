@@ -27,7 +27,8 @@ cMonster::~cMonster()
 
 void cMonster::Setup(char * szMonsterName, D3DXVECTOR3* vLookAt)
 {
-	
+	cGameObject::Setup(vLookAt);
+
 	string MonsterName = string(szMonsterName);
 	string fileName = MonsterName + ".x";
 	m_pMesh = new cSkinnedMesh("./Resources/Monster/", StringToChar(fileName));
@@ -36,7 +37,7 @@ void cMonster::Setup(char * szMonsterName, D3DXVECTOR3* vLookAt)
 	D3DXCreateSphere(g_pD3DDevice, m_fAttackRange, 20, 20, &m_pAttackSphere, NULL);
 	D3DXCreateSphere(g_pD3DDevice, m_fTraceRange, 20, 20, &m_pTraceSphere, NULL);
 
-	cGameObject::Setup(vLookAt);
+	
 
 	
 }

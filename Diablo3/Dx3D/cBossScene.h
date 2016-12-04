@@ -5,6 +5,7 @@ class cBoss;
 class cSkeleton;
 class cPlayer;
 class cActionTrace;
+class cMonster;
 
 class cBossScene :
 	public cSceneObject
@@ -12,10 +13,11 @@ class cBossScene :
 private:
 	cGrid*			m_pGrid;
 	cBoss*			m_pBoss; // º¸½º
+	cBoss*			m_pBoss2;
 	cPlayer*		m_pPlayer;
 	cSkeleton*		m_pSkeleton;
 
-	//std::vector<cMonster*>		m_vecMonster;
+	std::vector<cMonster*>		m_vecMonster;
 
 	std::vector<ST_PC_VERTEX>	m_vecTiles;
 	D3DXVECTOR3					m_vpickPos;
