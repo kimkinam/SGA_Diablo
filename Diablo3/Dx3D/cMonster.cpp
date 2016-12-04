@@ -15,6 +15,11 @@ cMonster::cMonster()
 	, m_fSpeed(0.0f)
 {
 	D3DXMatrixIdentity(&m_matWorld);
+<<<<<<< HEAD
+=======
+	p = 0.0f;
+	pCurAS = NULL;
+>>>>>>> 491dfae5fe567714700bbb46b0294cd6a68cb1c9
 }
 
 
@@ -84,9 +89,8 @@ void cMonster::Update()
 		break;
 	case MONSTER_ATTACK:
 	{
+		
 		float distance = D3DXVec3Length(&(this->GetPosition() - this->GetTarget()->GetPosition()));
-
-		LPD3DXANIMATIONSET pCurAS = NULL;
 
 		this->GetMesh()->GetAnimController()->GetTrackAnimationSet(0, &pCurAS);
 
@@ -97,11 +101,28 @@ void cMonster::Update()
 
 		double p = pCurAS->GetPeriodicPosition(td.Position);
 
+		//맞는 처리
 		if (p > 0.8f)
 		{
 			cPlayer* p = (cPlayer*)m_pTarget;
 			p->SetState(PLAYER_MOVE_START);
 		}
+
+		if (p > pCurAS->GetPeriod() - 0.2f)
+		{
+			D3DXVECTOR3	v3 = m_pTarget->GetPosition() - m_vPosition;
+			D3DXVec3Normalize(&v3, &v3);
+			m_fAngle = -D3DXVec3Dot(&m_vDirection, &v3) + D3DXToRadian(90);
+			
+		}
+
+		//if (m_pTarget->GetIsMove())
+		//{
+		//	D3DXVECTOR3	v3 = m_vPosition - *m_pTarget->GetPtPosition();
+		//	D3DXVec3Normalize(&v3, &v3);
+		//	m_fAngle = D3DXVec3Dot(&m_vDirection, &v3);
+		//
+		//}
 		
 		//사거리를 벗어낫을 경우
 		if (distance > m_fAttackRange)
@@ -193,6 +214,18 @@ void cMonster::Render()
 		&rc,
 		DT_LEFT,
 		D3DCOLOR_XRGB(255, 255, 255));
+
+	
+	sprintf_s(temp, "CurAnimation : %f", D3DXToDegree(m_fAngle), 128);//m_pMesh->GetCurAnimationName().c_str(), 128);
+		rc = { DEBUG_STARTX, DEBUG_STARTY + 300, DEBUG_STARTX + 250, DEBUG_STARTY + 415 };
+		font->DrawText(NULL,
+			temp,
+			128,
+			&rc,
+			DT_LEFT,
+			D3DCOLOR_XRGB(255, 255, 255));
+	
+	
 
 }
 

@@ -24,7 +24,12 @@ protected:
 	LPD3DXMESH m_pAttackSphere;
 	LPD3DXMESH m_pTraceSphere;
 
+<<<<<<< HEAD
 
+=======
+	double p;
+	LPD3DXANIMATIONSET pCurAS;
+>>>>>>> 491dfae5fe567714700bbb46b0294cd6a68cb1c9
 public:
 	cMonster();
 	virtual ~cMonster();

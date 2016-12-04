@@ -137,7 +137,7 @@ void cPlayer::Picking()
 void cPlayer::OnActionFinish(cAction * pSender)
 {
 	m_pAction = NULL;
-
+	m_bIsMove = false;
 	m_pMesh->SetAnimationIndex(1);
 }
 
