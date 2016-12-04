@@ -336,6 +336,19 @@ void cSkinnedMesh::Update(ST_BONE* pCurrent, D3DXMATRIXA16* pmatParent)
 	{
 		Update((ST_BONE*)pCurrent->pFrameFirstChild, &(pCurrent->CombinedTransformationMatrix));
 	}
+
+	LPD3DXANIMATIONSET pCurAS = NULL;
+	m_pAnimController->GetTrackAnimationSet(0, &pCurAS);
+	
+	D3DXTRACK_DESC td;
+	m_pAnimController->GetTrackDesc(0, &td);
+
+	//현재 애니메이션의 전체 길이를 실행하고
+	if (td.Position > pCurAS->GetPeriod())
+	{
+		td.Position = 0.0f;
+		m_pAnimController->SetTrackDesc(0, &td);
+	}
 }
 
 void cSkinnedMesh::SetupBoneMatrixPtrs(ST_BONE* pBone)

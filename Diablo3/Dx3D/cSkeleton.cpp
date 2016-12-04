@@ -17,26 +17,30 @@ void cSkeleton::Setup()
 	m_fSpeed = 0.05f;
 	m_fAttackRange = 1.0f;
 	m_fTraceRange = 3.0f;
-
-	cMonster::Setup("Skeleton");
+	if (m_pTarget)
+		cMonster::Setup("Skeleton");
 }
 
 void cSkeleton::Update()
 {
-	cMonster::Update();
+	if (m_pTarget)
+	{
+		cMonster::Update();
+	}
+	
 
-	if (m_pAction)
-		m_pAction->Update();
 }
 
 void cSkeleton::Render()
 {
-	cMonster::Render();
+	if (m_pTarget)
+		cMonster::Render();
 }
 
 void cSkeleton::Trace()
 {
-	cMonster::Trace();
+	if (m_pTarget)
+		cMonster::Trace();
 }
 
 void cSkeleton::OnActionFinish(cAction * pSender)

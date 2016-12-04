@@ -2,6 +2,7 @@
 
 class cAtion;
 class cSkinnedMesh;
+class cPlayer;
 
 class cMonster : public cGameObject
 {
@@ -23,9 +24,12 @@ protected:
 	LPD3DXMESH m_pAttackSphere;
 	LPD3DXMESH m_pTraceSphere;
 
+	double p;
+
 public:
 	cMonster();
 	virtual ~cMonster();
+
 
 	virtual void Setup(char* szMonsterName);
 	virtual void Update();

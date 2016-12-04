@@ -101,6 +101,33 @@ void cPlayer::Render()
 
 void cPlayer::AniControl()
 {
+	switch (m_emState)
+	{
+		case PLAYER_IDLE_START:
+			m_pMesh->SetAnimationIndex("idle");
+			m_emState = PLAYER_IDLE;
+		break;
+		case PLAYER_IDLE:
+		break;
+		case PLAYER_MOVE_START:
+			m_pMesh->SetAnimationIndex("run");
+			m_emState = PLAYER_IDLE_START;
+		break;
+		case PLAYER_MOVE:
+		break;
+		case PLAYER_ATTAACK1_START:
+		break;
+		case PLAYER_ATTACK1:
+		break;
+		case PLAYER_ATTACK2_START:
+		break;
+		case PLAYER_ATTACT2:
+		break;
+		case PLAYER_STATE_COUNT:
+		break;
+		default:
+		break;
+	}
 }
 
 void cPlayer::Picking()

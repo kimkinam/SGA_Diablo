@@ -61,9 +61,9 @@ HRESULT cBossScene::SetUp()
 	m_pBoss->SetPosition(D3DXVECTOR3(10, 0, 10));
 
 	m_pSkeleton = new cSkeleton;
-	m_pSkeleton->Setup();
-	m_pSkeleton->SetTarget(m_pPlayer);
-	m_pSkeleton->SetPosition(D3DXVECTOR3(-10, 0, 10));
+	//m_pSkeleton->Setup();
+	//m_pSkeleton->SetTarget(m_pPlayer);
+	//m_pSkeleton->SetPosition(D3DXVECTOR3(-10, 0, 10));
 
 }
 

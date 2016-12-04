@@ -2,6 +2,7 @@
 #include "cMonster.h"
 #include "cSkinnedMesh.h"
 #include "cActionTrace.h"
+#include "cPlayer.h"
 
 cMonster::cMonster()
 	: m_emState(MONSTER_IDLE)
@@ -12,6 +13,7 @@ cMonster::cMonster()
 	, m_fSpeed(0.0f)
 {
 	D3DXMatrixIdentity(&m_matWorld);
+	p = 0.0f;
 }
 
 
@@ -87,6 +89,19 @@ void cMonster::Update()
 
 		this->GetMesh()->GetAnimController()->GetTrackAnimationSet(0, &pCurAS);
 
+		D3DXTRACK_DESC td;
+		this->GetMesh()->GetAnimController()->GetTrackDesc(0, &td);
+		//double curTime = pCurAS->GetPeriodicPosition(this->GetMesh()->GetAnimController()->GetTime());
+		//double totalTime = pCurAS->GetPeriod();
+
+		p = pCurAS->GetPeriodicPosition(td.Position);
+
+		if (p > 0.8f)
+		{
+			cPlayer* p = (cPlayer*)m_pTarget;
+			p->SetState(PLAYER_MOVE_START);
+		}
+		
 		//사거리를 벗어낫을 경우
 		if (distance > m_fAttackRange)
 		{
@@ -103,7 +118,6 @@ void cMonster::Update()
 					this->SetState(MONSTER_IDLE_START);
 				}
 			}
-
 		}
 
 		SAFE_RELEASE(pCurAS);
@@ -152,17 +166,17 @@ void cMonster::Render()
 		m_pMesh->UpdateAndRender(&m_matWorld);
 
 	//공격사거리 그리는 부분
-	//D3DXMATRIXA16 mat;
-	//D3DXMatrixTranslation(&mat, 0, 1, 0);
-	//m_matWorld *= mat;
-	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
-	//g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	//
-	//if (m_pAttackSphere)
-	//	m_pAttackSphere->DrawSubset(0);
-	//
-	//if (m_pTraceSphere)
-	//	m_pTraceSphere->DrawSubset(0);
+	D3DXMATRIXA16 mat;
+	D3DXMatrixTranslation(&mat, 0, 1, 0);
+	m_matWorld *= mat;
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	
+	if (m_pAttackSphere)
+		m_pAttackSphere->DrawSubset(0);
+	
+	if (m_pTraceSphere)
+		m_pTraceSphere->DrawSubset(0);
 
 
 	//디버그 정보
@@ -170,7 +184,7 @@ void cMonster::Render()
 	font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
 
 	char temp[128];
-	sprintf_s(temp, "CurAnimation : %s", m_pMesh->GetCurAnimationName().c_str(), 128);
+	sprintf_s(temp, "CurAnimation : %f", p, 128);//m_pMesh->GetCurAnimationName().c_str(), 128);
 	RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 200, DEBUG_STARTX + 250, DEBUG_STARTY + 315 };
 	font->DrawText(NULL,
 		temp,
@@ -196,7 +210,7 @@ void cMonster::Trace()
 
 	trace->Start();
 	this->SetAction(trace);
-	this->GetMesh()->SetAnimationIndex("run");
+	//this->GetMesh()->SetAnimationIndex("run");
 
 	SAFE_RELEASE(trace);
 
