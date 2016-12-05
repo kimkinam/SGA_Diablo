@@ -14,6 +14,7 @@ cGameObject::cGameObject()
 	, m_bIsAtk(false)
 	, m_emState(IDLE)
 	, m_pAni(NULL)
+	, m_pOBB(NULL)
 {
 	time = 0.0f;
 	D3DXMatrixIdentity(&m_matWorld);
@@ -25,6 +26,7 @@ cGameObject::~cGameObject()
 	SAFE_RELEASE(m_pAction);
 	SAFE_DELETE(m_pMesh);
 	SAFE_DELETE(m_pAni);
+	SAFE_DELETE(m_pOBB);
 
 }
 
@@ -136,6 +138,12 @@ void cGameObject::Update()
 
 void cGameObject::Render()
 {
+
+	if (m_pOBB)
+		m_pOBB->Update(&m_matWorld);
+
+	if (m_pOBB)
+		m_pOBB->DebugRender(D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
 }
 
 void cGameObject::OnActionFinish(cAction * pSender)

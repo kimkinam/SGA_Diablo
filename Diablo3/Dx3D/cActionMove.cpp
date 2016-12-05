@@ -45,41 +45,63 @@ void cActionMove::Update()
 	//
 	//m_vPrevPosition = m_vPosition;
 
-	D3DXVECTOR3 position = m_pTarget->GetPosition();
-
-	D3DXVECTOR3 dir = m_vTo - m_vFrom;
-	D3DXVec3Normalize(&dir, &dir);
-
-	position = position + dir * m_fSpeed;
-
-	D3DXMATRIXA16 matR, matT, matW;
-	D3DXMatrixLookAtLH(&matR,
-		&D3DXVECTOR3(0, 0, 0),
-		&dir,
-		&D3DXVECTOR3(0, 1, 0));
-	D3DXMatrixTranspose(&matR, &matR);
-	D3DXMatrixTranslation(&matT, position.x, position.y, position.z);
-
-	matW = matR * matT;
-
-	D3DXMATRIXA16 localmatR;
-	D3DXMatrixRotationY(&localmatR, m_pTarget->GetAngle());
-
-	matW = localmatR * matW;
-
-	m_pTarget->SetPosition(position);
-	m_pTarget->SetDirection(dir);
-	m_pTarget->SetWorldTM(matW);
-
-
-	D3DXVECTOR3 dir1 = m_pTarget->GetPosition() - m_vTo;
-	D3DXVECTOR3 dir2 = m_vFrom - m_vTo;
-
-	if (D3DXVec3Dot(&dir1, &dir2) <= 0)
+	if (m_pTarget->GetIsMove())
 	{
-		m_pTarget->SetPosition(m_vTo);
-		m_pDelegate->OnActionFinish(this);
+		D3DXVECTOR3 position = m_pTarget->GetPosition();
+
+		m_vDirection = m_vTo - m_vFrom;
+		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
+
+		position = position + m_vDirection * m_fSpeed;
+
+		D3DXMATRIXA16 matR, matT, matW;
+		D3DXMatrixLookAtLH(&matR,
+			&D3DXVECTOR3(0, 0, 0),
+			&m_vDirection,
+			&D3DXVECTOR3(0, 1, 0));
+		D3DXMatrixTranspose(&matR, &matR);
+		D3DXMatrixTranslation(&matT, position.x, position.y, position.z);
+
+		if (!m_vecOBB.empty())
+		{
+			for (size_t i = 0; i < m_vecOBB.size(); ++i)
+			{
+				cOBB& temp = *m_pTarget->GetOBB();
+
+				temp.GetCenterPos() += m_vDirection * (m_fSpeed);
+
+				if (cOBB::IsCollision(&temp, m_vecOBB[i]))
+				{
+					m_pTarget->SetPosition(m_pTarget->GetPosition());
+					m_pTarget->SetIsMove(false);
+					m_pDelegate->OnActionFinish(this);
+					return;
+				}
+			}
+		}
+
+		matW = matR * matT;
+
+		D3DXMATRIXA16 localmatR;
+		D3DXMatrixRotationY(&localmatR, m_pTarget->GetAngle());
+
+		matW = localmatR * matW;
+
+		m_pTarget->SetPosition(position);
+		m_pTarget->SetDirection(m_vDirection);
+		m_pTarget->SetWorldTM(matW);
+
+		D3DXVECTOR3 dir1 = m_pTarget->GetPosition() - m_vTo;
+		D3DXVECTOR3 dir2 = m_vFrom - m_vTo;
+
+		if (D3DXVec3Dot(&dir1, &dir2) <= 0)
+		{
+			m_pTarget->SetPosition(m_vTo);
+			m_pTarget->SetIsMove(false);
+			m_pDelegate->OnActionFinish(this);
+		}
 	}
+	
 	//D3DXVECTOR3 dir = m_vTo - m_vFrom;
 	//D3DXVec3Normalize(&dir, &dir);
 	//

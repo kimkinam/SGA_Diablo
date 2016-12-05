@@ -64,7 +64,7 @@ public:
 	void PlayerMoveTest();
 	void SetBoundBox();
 
-	void CollisionTest();
+	bool CollisionTest();
 	void Save(string fileName);
 
 

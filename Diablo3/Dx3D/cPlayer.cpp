@@ -12,7 +12,7 @@ cPlayer::cPlayer()
 	, m_dAttackTermTime(0.0f)
 	, m_pSword(NULL)
 	, m_nCurMap(0)
-	, m_pOBB(NULL)
+	
 {
 	
 }
@@ -20,7 +20,6 @@ cPlayer::cPlayer()
 
 cPlayer::~cPlayer()
 {
-	SAFE_DELETE(m_pOBB);
 
 	SAFE_RELEASE(m_pSword);
 
@@ -88,18 +87,16 @@ void cPlayer::Render()
 	//
 	//m_matWorld = matR * matT;
 	
+	cGameObject::Render();
+
+
 	if (m_pMesh)
 		m_pMesh->UpdateAndRender(&m_matWorld);
 
 	if (m_pSword)
 		m_pSword->Render();
 	
-	if (m_pOBB)
-		m_pOBB->Update(&m_matWorld);
-
-	if (m_pOBB)
-		m_pOBB->DebugRender(D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
-}
+	}
 
 void cPlayer::AniControl()
 {

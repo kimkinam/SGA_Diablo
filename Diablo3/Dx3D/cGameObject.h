@@ -5,6 +5,7 @@
 #include "cSkinnedMesh.h"
 #include "cAnimation.h"
 
+class cOBB;
 
 class cGameObject : public cObject, public iActionDelegate
 {
@@ -33,6 +34,7 @@ protected:
 	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
 	SYNTHESIZE(D3DXVECTOR3, m_vDirection, Direction);
 	SYNTHESIZE(D3DXVECTOR3, m_vUp, UpVector);
+	SYNTHESIZE(cOBB*, m_pOBB, OBB);
 	SYNTHESIZE_PASS_BY_REF(D3DXMATRIXA16, m_matWorld, WorldTM);
 
 	SYNTHESIZE_ADD_REF(cAction*, m_pAction, Action);

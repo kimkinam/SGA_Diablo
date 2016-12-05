@@ -7,6 +7,7 @@ cAction::cAction()
 	, m_fActionTime(0.0f)
 	, m_pTarget(NULL)
 	, m_pDelegate(NULL)
+	, m_vDirection(0, 0, 0)
 {
 }
 

@@ -207,6 +207,9 @@ void cTestScene::Update()
 		m_pCamera->Update(NULL);
 	}
 
+	if (g_pKeyManager->isToggleKey('1'))
+		m_bIsDone = false;
+
 	if (!m_bIsDone)
 	{
 		SetMap();
@@ -460,7 +463,7 @@ void cTestScene::SetMap()
 
 void cTestScene::PlayerMoveTest()
 {
-	CollisionTest();
+	//CollisionTest();
 
 	//플레이어 피킹
 	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
@@ -472,19 +475,26 @@ void cTestScene::PlayerMoveTest()
 			if (r.IntersectTri(m_vecTiles[i].p,
 				m_vecTiles[i + 1].p,
 				m_vecTiles[i + 2].p,
-				pickPos))
+				pickPos) && !CollisionTest())
 			{
 				cActionMove* pAction = new cActionMove;
 
+				m_pPlayer->SetIsMove(true);
 				pAction->SetTo(pickPos);
 				pAction->SetFrom(m_pPlayer->GetPosition());
 				pAction->SetTarget(m_pPlayer);
 				pAction->SetDelegate(m_pPlayer);
+				pAction->SetSpeed(0.05f);
+				pAction->SetOBB(m_vecBoundBox);
 				pAction->Start();
 				m_pPlayer->SetAction(pAction);
-				m_pPlayer->GetMesh()->SetAnimationIndex(0);
+				m_pPlayer->GetMesh()->SetAnimationIndex("run");
 
 				m_bIsSetMap = true;
+
+				
+
+				SAFE_RELEASE(pAction);
 			}
 		}
 	}
@@ -646,7 +656,7 @@ void cTestScene::SetBoundBox()
 	}
 }
 
-void cTestScene::CollisionTest()
+bool cTestScene::CollisionTest()
 {
 
 	for (size_t i = 0; i < m_vecBoundBox.size(); ++i)
@@ -654,13 +664,15 @@ void cTestScene::CollisionTest()
 		if (cOBB::IsCollision(m_pPlayer->GetOBB(), m_vecBoundBox[i]))
 		{
 			m_pPlayer->SetIsMove(false);
-			m_pPlayer->SetPosition(m_pPlayer->GetPosition() + m_pPlayer->GetDirection() * 0.1f);
-			m_pPlayer->OnActionFinish(m_pPlayer->GetAction());
+			//m_pPlayer->SetPosition(m_pPlayer->GetPosition());
+			//m_pPlayer->OnActionFinish(m_pPlayer->GetAction());
+			return true;
 			break;
 		}
 		else
 		{
-			m_pPlayer->SetIsMove(true);
+			return false;
+			//m_pPlayer->SetIsMove(true);
 		}
 	}
 }

@@ -30,6 +30,11 @@ cBossScene::~cBossScene()
 	SAFE_RELEASE(m_pPlayer);
 	SAFE_RELEASE(m_pSkeleton);
 
+	for (size_t i = 0; i < m_vecMonster.size(); ++i)
+	{
+		SAFE_RELEASE(m_vecMonster[i]);
+	}
+
 }
 
 HRESULT cBossScene::SetUp()

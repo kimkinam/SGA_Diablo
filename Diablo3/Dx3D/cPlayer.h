@@ -3,7 +3,7 @@
 class cAtion;
 class cSkinnedMesh;
 class cObj;
-class cOBB;
+
 
 
 class cPlayer : public cGameObject
@@ -14,7 +14,7 @@ private:
 	cObj*			m_pSword;
 	
 
-	SYNTHESIZE(cOBB*, m_pOBB, OBB);
+	
 	SYNTHESIZE(bool, m_bIsAtk, IsAtk);
 	
 	//SYNTHESIZE(PLAYER_STATE, m_emState, State);
