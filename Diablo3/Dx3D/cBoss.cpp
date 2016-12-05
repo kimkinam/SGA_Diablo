@@ -18,6 +18,8 @@ void cBoss::Setup(D3DXVECTOR3* vLookAt)
 	m_fTraceRange = 5.0f;
 
 	cMonster::Setup("diablo", vLookAt);
+
+	m_stStat.fHp = 1000.0f;
 }
 void cBoss::Update()
 {

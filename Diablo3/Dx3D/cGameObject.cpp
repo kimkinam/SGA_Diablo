@@ -71,69 +71,69 @@ void cGameObject::Update()
 	//if (m_pAni)
 	//	m_pAni->Update();
 
-	switch (m_emState)
-	{
-	case cGameObject::IDLE_START:
-		//m_pAni->Play("idle");
-		m_pMesh->SetAnimationIndex("idle");
-		m_emState = IDLE;
-		break;
-	case cGameObject::TRACE_START:
-		//m_pAni->Play("run");
-		m_pMesh->SetAnimationIndex("run");
-		m_emState = TRACE;
-		break;
-	case cGameObject::MOVE_START:
-		break;
-	
-	case cGameObject::HITTED_START:
-	{
-		//m_pAni->PlayOneShot("hit");
-		//m_emState = HITTED;
-	}
-	case cGameObject::HITTED:
-	{
-		//LPD3DXANIMATIONSET pAS = NULL;
-		//
-		//m_pMesh->GetAnimController()->GetTrackAnimationSet(0, &pAS);
-		//
-		//if (pAS)
-		//{
-		//	D3DXTRACK_DESC td;
-		//	m_pMesh->GetAnimController()->GetTrackDesc(0, &td);
-		//
-		//	if (td.Position > pAS->GetPeriod() - EPSILON - 0.1f)
-		//	{
-		//		m_pAni->Play("Idle");
-		//
-		//		time = g_pTimeManager->GetTotalSec();
-		//		m_emState = cGameObject::ATTACK;
-		//	}
-		//}
-		//
-		//SAFE_RELEASE(pAS);
-		//
-		//float a = m_pAni->GetNowPlayAnimationSet()->GetPeriod();
-		//double d = m_pAni->GetNowPlayAnimationSet()->GetPeriodicPosition(m_pAni->m_Track_Desc_0.Position);
-		//
-		//if (d > a - 0.1f)
-		//{
-		//	m_pAni->Play("Idle", 0.1f);
-		//	m_emState = cGameObject::IDLE;
-		//}
-	}
-		//m_pMesh->SetAnimationIndex("hit");
-		
-		break;
-	case cGameObject::KNOCKBACK_START:
-		break;
-	case cGameObject::STUNNED_START:
-		break;
-	case cGameObject::DEAD_START:
-		break;
-	default:
-		break;
-	}
+	//switch (m_emState)
+	//{
+	//case cGameObject::IDLE_START:
+	//	//m_pAni->Play("idle");
+	//	m_pMesh->SetAnimationIndex("idle");
+	//	m_emState = IDLE;
+	//	break;
+	//case cGameObject::TRACE_START:
+	//	//m_pAni->Play("run");
+	//	m_pMesh->SetAnimationIndex("run");
+	//	m_emState = TRACE;
+	//	break;
+	//case cGameObject::MOVE_START:
+	//	break;
+	//
+	//case cGameObject::HITTED_START:
+	//{
+	//	//m_pAni->PlayOneShot("hit");
+	//	//m_emState = HITTED;
+	//}
+	//case cGameObject::HITTED:
+	//{
+	//	//LPD3DXANIMATIONSET pAS = NULL;
+	//	//
+	//	//m_pMesh->GetAnimController()->GetTrackAnimationSet(0, &pAS);
+	//	//
+	//	//if (pAS)
+	//	//{
+	//	//	D3DXTRACK_DESC td;
+	//	//	m_pMesh->GetAnimController()->GetTrackDesc(0, &td);
+	//	//
+	//	//	if (td.Position > pAS->GetPeriod() - EPSILON - 0.1f)
+	//	//	{
+	//	//		m_pAni->Play("Idle");
+	//	//
+	//	//		time = g_pTimeManager->GetTotalSec();
+	//	//		m_emState = cGameObject::ATTACK;
+	//	//	}
+	//	//}
+	//	//
+	//	//SAFE_RELEASE(pAS);
+	//	//
+	//	//float a = m_pAni->GetNowPlayAnimationSet()->GetPeriod();
+	//	//double d = m_pAni->GetNowPlayAnimationSet()->GetPeriodicPosition(m_pAni->m_Track_Desc_0.Position);
+	//	//
+	//	//if (d > a - 0.1f)
+	//	//{
+	//	//	m_pAni->Play("Idle", 0.1f);
+	//	//	m_emState = cGameObject::IDLE;
+	//	//}
+	//}
+	//	//m_pMesh->SetAnimationIndex("hit");
+	//	
+	//	break;
+	//case cGameObject::KNOCKBACK_START:
+	//	break;
+	//case cGameObject::STUNNED_START:
+	//	break;
+	//case cGameObject::DEAD_START:
+	//	break;
+	//default:
+	//	break;
+	//}
 }
 
 void cGameObject::Render()

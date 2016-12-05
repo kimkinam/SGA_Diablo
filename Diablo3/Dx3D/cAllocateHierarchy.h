@@ -7,9 +7,12 @@ struct ST_BONE : public D3DXFRAME
 
 struct ST_BONE_MESH : public D3DXMESHCONTAINER
 {
-	std::vector<LPDIRECT3DTEXTURE9> vecTexture;
-	std::map<string, LPDIRECT3DTEXTURE9> mapTexture;
-	std::vector<D3DMATERIAL9>		vecMaterial;
+	std::vector<LPDIRECT3DTEXTURE9>			vecDTexture;
+	std::vector<LPDIRECT3DTEXTURE9>			vecETexture;
+	std::vector<LPDIRECT3DTEXTURE9>			vecSTexture;
+	std::vector<LPDIRECT3DTEXTURE9>			vecNTexture;
+
+	std::vector<D3DMATERIAL9>				vecMaterial;
 
 	LPD3DXMESH				pWorkingMesh;			// 작업메쉬
 	LPD3DXMESH				pOrigMesh;				// 원본 메쉬 CloneMeshFVF로 복사

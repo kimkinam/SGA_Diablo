@@ -4,7 +4,11 @@ class cAtion;
 class cSkinnedMesh;
 class cPlayer;
 
-class cMonster : public cGameObject
+class cDetecting;
+class cMonsterGlobalState;
+class cMonsterTrace;
+
+class cMonster : public cGameObject, public iAI_Base
 {
 protected:
 	//SYNTHESIZE(MONSTER_STATE, m_emState, State); // 몬스터 상태
@@ -19,6 +23,9 @@ protected:
 
 	LPD3DXMESH m_pAttackSphere;
 	LPD3DXMESH m_pTraceSphere;
+
+//	cState<cMonster>* m_pCurState;
+	cStateMachine<cMonster>* m_pSateMachnie;;
 
 public:
 	cMonster();

@@ -70,6 +70,24 @@
     <Filter Include="Scene\BossScene">
       <UniqueIdentifier>{5658f148-2e88-4bec-9ada-e6d8f4073598}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI">
+      <UniqueIdentifier>{45625169-da39-4b8f-935b-3ccb2acd0cf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\SateMachine">
+      <UniqueIdentifier>{3137dee0-fc9f-4061-ad5f-420a95df36fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Sates">
+      <UniqueIdentifier>{17a20249-9b92-4203-9bad-85350b865f78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{f3927c31-397f-4de2-98d9-0fc2862b1ab9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision\OBB">
+      <UniqueIdentifier>{c936f1da-8e21-4706-93ea-3b80f64a0cf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation">
+      <UniqueIdentifier>{d5944461-ef22-4604-831e-31f08b9ce8d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -276,16 +294,37 @@
     <ClInclude Include="cActionTrace.h">
       <Filter>Scene\GamingScene\Action</Filter>
     </ClInclude>
-    <ClInclude Include="cOBB.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="cSkeleton.h">
       <Filter>Scene\GamingScene\Monster</Filter>
     </ClInclude>
-    <ClInclude Include="cAnimation.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="iAI_Base.h">
+      <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="cStateMachine.h">
+      <Filter>AI\SateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="iState.h">
+      <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="cMonsterGlobalState.h">
+      <Filter>AI\Sates</Filter>
     </ClInclude>
     <ClInclude Include="cActionAtk.h">
+      <Filter>Scene\GamingScene\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="cOBB.h">
+      <Filter>Collision\OBB</Filter>
+    </ClInclude>
+    <ClInclude Include="cAnimation.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="cMonsterDetecting.h">
+      <Filter>AI\Sates</Filter>
+    </ClInclude>
+    <ClInclude Include="cMonsterTrace.h">
+      <Filter>AI\Sates</Filter>
+    </ClInclude>
+    <ClInclude Include="cMonsterAttack.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -461,16 +500,37 @@
     <ClCompile Include="cActionTrace.cpp">
       <Filter>Scene\GamingScene\Action</Filter>
     </ClCompile>
-    <ClCompile Include="cOBB.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="cSkeleton.cpp">
       <Filter>Scene\GamingScene\Monster</Filter>
     </ClCompile>
-    <ClCompile Include="cAnimation.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="iAI_Base.cpp">
+      <Filter>AI</Filter>
+    </ClCompile>
+    <ClCompile Include="cStateMachine.cpp">
+      <Filter>AI\SateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="iState.cpp">
+      <Filter>AI</Filter>
+    </ClCompile>
+    <ClCompile Include="cMonsterGlobalState.cpp">
+      <Filter>AI\Sates</Filter>
     </ClCompile>
     <ClCompile Include="cActionAtk.cpp">
+      <Filter>Scene\GamingScene\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="cOBB.cpp">
+      <Filter>Collision\OBB</Filter>
+    </ClCompile>
+    <ClCompile Include="cAnimation.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="cMonsterDetecting.cpp">
+      <Filter>AI\Sates</Filter>
+    </ClCompile>
+    <ClCompile Include="cMonsterTrace.cpp">
+      <Filter>AI\Sates</Filter>
+    </ClCompile>
+    <ClCompile Include="cMonsterAttack.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -77,13 +77,51 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer(THIS_ LPCSTR Name,
 		// 텍스쳐 정보 저장.
 		if (pMaterials[i].pTextureFilename)
 		{
+			//Normal
 			std::string sFilename(pMaterials[i].pTextureFilename);
 			std::string sFullPath = m_sDirectory + sFilename;
-			LPDIRECT3DTEXTURE9 pTex = g_pTextureManager->GetTexture(sFullPath);
-			pBoneMesh->vecTexture.push_back(pTex);
+
+			LPDIRECT3DTEXTURE9 pTex = NULL;
+			if (FAILED(D3DXCreateTextureFromFile(g_pD3DDevice, sFullPath.c_str(), &pTex)))
+			{
+				string defaultFile = "./Resource/Default/diffuseDefault.png";
+				D3DXCreateTextureFromFile(g_pD3DDevice, defaultFile.c_str(), &pTex);
+			}
+			pBoneMesh->vecNTexture.push_back(pTex);
+
+			int lastDotIndex = sFilename.find_last_of(".");
+			string name = sFilename.substr(0, lastDotIndex - 2);
+			string exp = sFilename.substr(lastDotIndex, sFilename.length());
+			
+			//Emission
+			sFullPath = m_sDirectory + name + "_E" + exp;
+			if (FAILED(D3DXCreateTextureFromFile(g_pD3DDevice, sFullPath.c_str(), &pTex)))
+			{
+				string defaultFile = "./Resource/Default/emissionDefault.png";
+				D3DXCreateTextureFromFile(g_pD3DDevice, defaultFile.c_str(), &pTex);
+			}
+			pBoneMesh->vecETexture.push_back(pTex);
+
+			//Specular
+			sFullPath = m_sDirectory + name + "_S" + exp;
+			if (FAILED(D3DXCreateTextureFromFile(g_pD3DDevice, sFullPath.c_str(), &pTex)))
+			{
+				string defaultFile = "./Resource/Default/specularDefault.png";
+				D3DXCreateTextureFromFile(g_pD3DDevice, defaultFile.c_str(), &pTex);
+			}
+			pBoneMesh->vecSTexture.push_back(pTex);
+			
+			//Diffuse
+			sFullPath = m_sDirectory + name + "_D" + exp;
+			if (FAILED(D3DXCreateTextureFromFile(g_pD3DDevice, sFullPath.c_str(), &pTex)))
+			{
+				string defaultFile = "./Resource/Default/normalDefault.png";
+				D3DXCreateTextureFromFile(g_pD3DDevice, defaultFile.c_str(), &pTex);
+			}
+			pBoneMesh->vecDTexture.push_back(pTex);
 
 		}
-
+		
 	}
 
 	// 이펙트 무시
@@ -255,6 +293,27 @@ STDMETHODIMP cAllocateHierarchy::DestroyMeshContainer(THIS_ LPD3DXMESHCONTAINER 
 	SAFE_DELETE_ARRAY(pBoneMesh->pAdjacency);
 	SAFE_DELETE_ARRAY(pBoneMesh->ppBoneMatrixPtrs);
 	SAFE_DELETE_ARRAY(pBoneMesh->pBoneOffsetMatrices);
+
+	//Release the textures   
+	for (UINT i = 0; i < pBoneMesh->vecDTexture.size(); ++i)
+	{
+		SAFE_RELEASE(pBoneMesh->vecDTexture[i]);
+	}
+
+	for (UINT i = 0; i < pBoneMesh->vecETexture.size(); ++i)
+	{
+		SAFE_RELEASE(pBoneMesh->vecETexture[i]);
+	}
+
+	for (UINT i = 0; i < pBoneMesh->vecSTexture.size(); ++i)
+	{
+		SAFE_RELEASE(pBoneMesh->vecSTexture[i]);
+	}
+
+	for (UINT i = 0; i < pBoneMesh->vecNTexture.size(); ++i)
+	{
+		SAFE_RELEASE(pBoneMesh->vecNTexture[i]);
+	}
 
 	SAFE_DELETE(pMeshContainerToFree);
 

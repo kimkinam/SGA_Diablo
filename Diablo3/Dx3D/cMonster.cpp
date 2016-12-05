@@ -4,16 +4,25 @@
 #include "cActionTrace.h"
 #include "cActionAtk.h"
 #include "cPlayer.h"
+#include "cMonsterDetecting.h"
+#include "cMonsterGlobalState.h"
+#include "cMonsterTrace.h"
 
 cMonster::cMonster()
-	//: m_emState(MONSTER_IDLE)
+//: m_emState(MONSTER_IDLE)
 	: m_pTarget(NULL)
 	, m_pAttackSphere(NULL)
 	, m_pTraceSphere(NULL)
 	, m_fAttackRange(0.0f)
 	, m_fTraceRange(0.0f)
 	, m_fSpeed(0.0f)
+	, m_pSateMachnie(NULL)
 {
+	m_pSateMachnie = new cStateMachine<cMonster>(this);
+
+	m_pSateMachnie->SetCurState(cMonsterDetecting::Instance());
+	m_pSateMachnie->SetGlobalState(cMonsterGlobalState::Instance());
+
 }
 
 
@@ -38,63 +47,65 @@ void cMonster::Setup(char * szMonsterName, D3DXVECTOR3* vLookAt)
 	D3DXCreateSphere(g_pD3DDevice, m_fTraceRange, 20, 20, &m_pTraceSphere, NULL);
 
 	
-
+	
 	
 }
 
 void cMonster::Update()
 {
-	cGameObject::Update();
-
-
-	//몬스터가 기본적으로 해야할 짓들
-	switch (m_emState)
-	{
-	
-	case cGameObject::IDLE:
-		Trace();
-		break;
-	case cGameObject::TRACE:
-		break;
-	case cGameObject::MOVE:
-		break;
-	case cGameObject::ATTACK_START:
-	{
-		//m_pAni->Play("attack");
-		m_pMesh->SetAnimationIndex("attack");
-
-		cActionAtk* atk = new cActionAtk;
-		LPD3DXANIMATIONSET pAtk;
-		m_pMesh->GetAnimController()->GetAnimationSetByName("attack", &pAtk);
-
-		atk->SetActionTime(pAtk->GetPeriod());
-		atk->SetTarget(this);
-		atk->SetDelegate(this);
-		atk->SetAtkRange(m_fAttackRange);
-		atk->SetAttackTarget(m_pTarget);
-		atk->Start();
-		this->SetAction(atk);
-
-		m_bIsAtk = true;
-
-		SAFE_RELEASE(atk);
-
-		m_emState = ATTACK;
-	}
-		break;
-	case cGameObject::ATTACK:
-		break;
-	case cGameObject::HITTED:
-		break;
-	case cGameObject::KNOCKBACK:
-		break;
-	case cGameObject::STUNNED:
-		break;
-	case cGameObject::DEAD:
-		break;
-	default:
-		break;
-	}
+	//if (m_pSateMachnie)
+	//	m_pSateMachnie->Update();
+	//cGameObject::Update();
+	//
+	//
+	////몬스터가 기본적으로 해야할 짓들
+	//switch (m_emState)
+	//{
+	//
+	//case cGameObject::IDLE:
+	//	Trace();
+	//	break;
+	//case cGameObject::TRACE:
+	//	break;
+	//case cGameObject::MOVE:
+	//	break;
+	//case cGameObject::ATTACK_START:
+	//{
+	//	//m_pAni->Play("attack");
+	//	m_pMesh->SetAnimationIndex("attack");
+	//
+	//	cActionAtk* atk = new cActionAtk;
+	//	LPD3DXANIMATIONSET pAtk;
+	//	m_pMesh->GetAnimController()->GetAnimationSetByName("attack", &pAtk);
+	//
+	//	atk->SetActionTime(pAtk->GetPeriod());
+	//	atk->SetTarget(this);
+	//	atk->SetDelegate(this);
+	//	atk->SetAtkRange(m_fAttackRange);
+	//	atk->SetAttackTarget(m_pTarget);
+	//	atk->Start();
+	//	this->SetAction(atk);
+	//
+	//	m_bIsAtk = true;
+	//
+	//	SAFE_RELEASE(atk);
+	//
+	//	m_emState = ATTACK;
+	//}
+	//	break;
+	//case cGameObject::ATTACK:
+	//	break;
+	//case cGameObject::HITTED:
+	//	break;
+	//case cGameObject::KNOCKBACK:
+	//	break;
+	//case cGameObject::STUNNED:
+	//	break;
+	//case cGameObject::DEAD:
+	//	break;
+	//default:
+	//	break;
+	//}
 }
 
 void cMonster::Render()

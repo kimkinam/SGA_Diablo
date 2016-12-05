@@ -30,10 +30,6 @@ cBossScene::~cBossScene()
 	SAFE_RELEASE(m_pPlayer);
 	SAFE_RELEASE(m_pSkeleton);
 
-	for (size_t i = 0; i < m_vecMonster.size(); ++i)
-	{
-		SAFE_RELEASE(m_vecMonster[i]);
-	}
 
 }
 
@@ -68,15 +64,14 @@ HRESULT cBossScene::SetUp()
 	m_pBoss->SetTarget(m_pPlayer);
 	m_pBoss->SetPosition(D3DXVECTOR3(10, 0, 10));
 	m_pBoss->Setup(&D3DXVECTOR3(1,0,0));
-
+	m_pBoss->SetID(1);
 	
 	m_pBoss2 = new cBoss;
 	m_pBoss2->SetTarget(m_pPlayer);
 	m_pBoss2->SetPosition(D3DXVECTOR3(-10, 0, 10));
 	m_pBoss2->Setup(&D3DXVECTOR3(1, 0, 0));
+	m_pBoss2->SetID(1);
 
-	m_vecMonster.push_back(m_pBoss);
-	m_vecMonster.push_back(m_pBoss2);
 	//
 	//m_pSkeleton = new cSkeleton;
 	//m_pSkeleton->SetTarget(m_pPlayer);
@@ -105,16 +100,12 @@ void cBossScene::Update()
 	if (m_pPlayer)
 		m_pPlayer->Update();
 
-	/*if (m_pBoss)
+	if (m_pBoss)
 		m_pBoss->Update();
 
 	if (m_pBoss2)
-		m_pBoss2->Update();*/
+		m_pBoss2->Update();
 
-	for each(auto c in m_vecMonster)
-	{
-		c->Update();
-	}
 
 
 	if (m_pCamera)
@@ -133,10 +124,12 @@ void cBossScene::Render()
 	if (m_pPlayer)
 		m_pPlayer->Render();
 
-	for each(auto c in m_vecMonster)
-	{
-		c->Render();
-	}
+	
+	if (m_pBoss)
+		m_pBoss->Render();
+
+	if (m_pBoss2)
+		m_pBoss2->Render();
 
 }
 

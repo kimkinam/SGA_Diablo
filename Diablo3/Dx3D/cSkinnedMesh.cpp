@@ -220,11 +220,22 @@ void cSkinnedMesh::Render(ST_BONE* pBone /*= NULL*/)
 			m_pEffect->SetVector("vMaterialAmbient", &D3DXVECTOR4(0.53f, 0.53f, 0.53f, 0.53f));
 			m_pEffect->SetVector("vMaterialDiffuse", &D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f));
 
+			m_pEffect->SetVector("vLightDiffuse", &D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f));
+			m_pEffect->SetVector("vMaterialAmbient", &D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f));
+			m_pEffect->SetVector("vMaterialDiffuse", &D3DXVECTOR4(0.8f, 0.8f, 0.8f, 1.0f));
+
+
 			// we're pretty much ignoring the materials we got from the x-file; just set
 			// the texture here
 
-			if (!pBoneMesh->vecTexture.empty())
-				m_pEffect->SetTexture( "Diffuse_Tex", pBoneMesh->vecTexture[ pBoneCombos[ dwAttrib ].AttribId ] );
+			if (!pBoneMesh->vecDTexture.empty())
+			{
+				m_pEffect->SetTexture("Diffuse_Tex",	pBoneMesh->vecDTexture[pBoneCombos[dwAttrib].AttribId]);
+				m_pEffect->SetTexture("Normal_Tex",		pBoneMesh->vecNTexture[pBoneCombos[dwAttrib].AttribId]);
+				m_pEffect->SetTexture("Specular_Tex",	pBoneMesh->vecSTexture[pBoneCombos[dwAttrib].AttribId]);
+				m_pEffect->SetTexture("Emission_Tex",	pBoneMesh->vecETexture[pBoneCombos[dwAttrib].AttribId]);
+			}
+				
 
 			// set the current number of bones; this tells the effect which shader to use
 			m_pEffect->SetInt("CurNumBones", pBoneMesh->dwMaxNumFaceInfls - 1);
@@ -234,7 +245,7 @@ void cSkinnedMesh::Render(ST_BONE* pBone /*= NULL*/)
 
 			UINT uiPasses, uiPass;
 
-			if (!pBoneMesh->vecTexture.empty())
+			if (!pBoneMesh->vecDTexture.empty())
 			{
 				// run through each pass and draw
 				m_pEffect->Begin(&uiPasses, 0);
@@ -459,8 +470,8 @@ D3DXMATRIX * cSkinnedMesh::AttachItem(char * szFileName)
 void cSkinnedMesh::ChangeItem(char * szName, char * szFileName)
 {
 	ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)D3DXFrameFind(m_pRootFrame, szName)->pMeshContainer;
-	pBoneMesh->vecTexture.resize(pBoneMesh->vecTexture.size() + 1);
-	pBoneMesh->vecTexture[pBoneMesh->vecTexture.size()-1] = g_pTextureManager->GetTexture(szFileName);
+	pBoneMesh->vecDTexture.resize(pBoneMesh->vecDTexture.size() + 1);
+	pBoneMesh->vecDTexture[pBoneMesh->vecDTexture.size()-1] = g_pTextureManager->GetTexture(szFileName);
 }
 
 void cSkinnedMesh::Destroy()

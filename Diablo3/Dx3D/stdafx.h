@@ -237,7 +237,9 @@ typedef struct ST_SAVEOBJECT
 #include "cBoundBox.h"
 #include "cOBB.h"
 #include "cGameObject.h"
-
+#include "iAI_Base.h"
+#include "iState.h"
+#include "cStateMachine.h"
 
 //전역 해더
 #include "Item.h"

@@ -109,7 +109,11 @@ float4 PixScene(
 		specular = pow(specular, 20.0f);	
 	}
 
-	float4 Color = tex2D( g_samScene, TexCoord ) * float4(color + specular, 1.0f);
+ 
+	float4 albedo = tex2D(DiffuseSample, TexCoord) * float4(color + specular, 1.0f);
+	float4 albedo1 = tex2D(EmissionSample, TexCoord ) * float4(color + specular, 1.0f);
+	float4 Color = albedo + albedo1;
+
 	return Color;
 }
 
