@@ -64,8 +64,6 @@ void cSkinnedMesh::Load(char* szDirectory, char* szFilename)
 	ah.SetDirectory(szDirectory);
 	ah.SetDefaultPaletteSize(nPaletteSize);
 
-	
-
 	std::string sFullPath(szDirectory);
 	sFullPath += std::string(szFilename);
 
@@ -220,9 +218,9 @@ void cSkinnedMesh::Render(ST_BONE* pBone /*= NULL*/)
 			m_pEffect->SetVector("vMaterialAmbient", &D3DXVECTOR4(0.53f, 0.53f, 0.53f, 0.53f));
 			m_pEffect->SetVector("vMaterialDiffuse", &D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f));
 
-			m_pEffect->SetVector("vLightDiffuse", &D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f));
-			m_pEffect->SetVector("vMaterialAmbient", &D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f));
-			m_pEffect->SetVector("vMaterialDiffuse", &D3DXVECTOR4(0.8f, 0.8f, 0.8f, 1.0f));
+			//m_pEffect->SetVector("vLightDiffuse", &D3DXVECTOR4(0.5f, 1.0f, 1.0f, 1.0f));
+			//m_pEffect->SetVector("vMaterialAmbient", &D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f));
+			//m_pEffect->SetVector("vMaterialDiffuse", &D3DXVECTOR4(0.8f, 0.8f, 0.8f, 1.0f));
 
 
 			// we're pretty much ignoring the materials we got from the x-file; just set

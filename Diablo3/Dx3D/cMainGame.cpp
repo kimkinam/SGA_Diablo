@@ -31,7 +31,7 @@ void cMainGame::Setup()
 	//m_pScene = new cBossScene;
 	//m_pScene->SetUp();
 
-	g_pSceneManager->changeScene("BossScene");
+	g_pSceneManager->changeScene("TestScene");
 	
 	SetLight();
 }
@@ -80,7 +80,8 @@ void cMainGame::Render()
 	char temp[512];
 	sprintf_s(temp, "F1 : LoadingScene\nF2 : TestScene\nF3 : GamingScene\nF4 : BossScene",512);
 	
-	RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 40, DEBUG_STARTX + 250, DEBUG_STARTY + 130 };
+	RECT rc;
+	SetRect(&rc, DEBUG_STARTX, DEBUG_STARTY + 40, DEBUG_STARTX + 250, DEBUG_STARTY + 130);
 	font->DrawText(NULL,
 		temp,
 		128,

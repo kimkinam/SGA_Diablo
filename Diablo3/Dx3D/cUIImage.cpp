@@ -5,7 +5,7 @@
 cUIImage::cUIImage()
 	: m_pTexture(NULL)
 {
-	m_rcDraw = { 0,0,0,0 };
+	SetRect(&m_rcDraw, 0, 0, 0, 0);
 	D3DXMatrixIdentity(&m_matS);
 
 }

@@ -5,6 +5,12 @@ class cMonster;
 class cMonsterAttack
 	: public iState<cMonster>
 {
+private:
+	float	m_fAttackRange;
+	float	m_fDelay;
+	float	m_fRotationDelay;
+
+	float	m_fAttackTime;
 public:
 	cMonsterAttack() { }
 	virtual ~cMonsterAttack() { }

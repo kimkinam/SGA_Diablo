@@ -23,6 +23,7 @@ cMonster::cMonster()
 	m_pSateMachnie->SetCurState(cMonsterDetecting::Instance());
 	m_pSateMachnie->SetGlobalState(cMonsterGlobalState::Instance());
 
+	m_sSumNailName = m_sObjName = m_sFolderName = "";
 }
 
 
@@ -53,9 +54,9 @@ void cMonster::Setup(char * szMonsterName, D3DXVECTOR3* vLookAt)
 
 void cMonster::Update()
 {
-	//if (m_pSateMachnie)
-	//	m_pSateMachnie->Update();
-	//cGameObject::Update();
+	if (m_pSateMachnie)
+		m_pSateMachnie->Update();
+	cGameObject::Update();
 	//
 	//
 	////몬스터가 기본적으로 해야할 짓들

@@ -3,9 +3,10 @@
 #include "cSkinnedMesh.h"
 
 cOBB::cOBB(void)
+	: m_vMin(0, 0, 0)
+	, m_vMax(0, 0, 0)
 {
 }
-
 
 cOBB::~cOBB(void)
 {
@@ -13,23 +14,25 @@ cOBB::~cOBB(void)
 
 void cOBB::Setup(cSkinnedMesh* pSkinnedMesh)
 {
-	D3DXVECTOR3 vMin = pSkinnedMesh->GetMin();
-	D3DXVECTOR3 vMax = pSkinnedMesh->GetMax();
+	m_vMin = pSkinnedMesh->GetMin();
+	m_vMax = pSkinnedMesh->GetMax();
 
-	Setup(vMin, vMax);
+	Setup(m_vMin, m_vMax);
 }
 
 void cOBB::Setup(D3DXVECTOR3 vMin, D3DXVECTOR3 vMax)
 {
-	m_vOrgCenterPos = (vMin + vMax) / 2.f;
+	m_vMin = vMin;
+	m_vMax = vMax;
+	m_vOrgCenterPos = (m_vMin + m_vMax) / 2.f;
 
 	m_vOrgAxisDir[0] = D3DXVECTOR3(1, 0, 0);
 	m_vOrgAxisDir[1] = D3DXVECTOR3(0, 1, 0);
 	m_vOrgAxisDir[2] = D3DXVECTOR3(0, 0, 1);
 
-	m_fAxisLen[0] = fabs(vMax.x - vMin.x);
-	m_fAxisLen[1] = fabs(vMax.y - vMin.y);
-	m_fAxisLen[2] = fabs(vMax.z - vMin.z);
+	m_fAxisLen[0] = fabs(m_vMax.x - m_vMin.x);
+	m_fAxisLen[1] = fabs(m_vMax.y - m_vMin.y);
+	m_fAxisLen[2] = fabs(m_vMax.z - m_vMin.z);
 
 	m_fAxisHalfLen[0] = m_fAxisLen[0] / 2.0f;
 	m_fAxisHalfLen[1] = m_fAxisLen[1] / 2.0f;
@@ -40,6 +43,7 @@ void cOBB::Setup(D3DXVECTOR3 vMin, D3DXVECTOR3 vMax)
 	//	m_vOrgCenterPos.x,
 	//	m_vOrgCenterPos.y,
 	//	m_vOrgCenterPos.z);
+
 }
 
 void cOBB::Update(D3DXMATRIXA16* pmatWorld)

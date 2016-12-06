@@ -325,7 +325,7 @@
       <Filter>AI\Sates</Filter>
     </ClInclude>
     <ClInclude Include="cMonsterAttack.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>AI\Sates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -531,7 +531,7 @@
       <Filter>AI\Sates</Filter>
     </ClCompile>
     <ClCompile Include="cMonsterAttack.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>AI\Sates</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

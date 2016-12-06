@@ -7,6 +7,7 @@ class cMonsterManager;
 class cPlayerManager;
 class cCamera;
 class cBoss;
+class cMap;
 
 class cGamingScene : public cSceneObject
 {
@@ -18,11 +19,13 @@ private:
 	cPlayerManager*			m_pPlayerManager;
 
 	cBoss*					Boss_diablo;
+	std::vector<cMap*>		m_vecMap;
 
 public:
 	cGamingScene();
 	virtual ~cGamingScene();
 
+	void LoadMap(string fileName);
 	//cScene override;
 	virtual HRESULT SetUp()	override;
 	virtual void Update()	override;

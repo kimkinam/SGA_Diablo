@@ -27,6 +27,11 @@ protected:
 //	cState<cMonster>* m_pCurState;
 	cStateMachine<cMonster>* m_pSateMachnie;;
 
+private:
+	SYNTHESIZE(string, m_sSumNailName, SumNailName);
+	SYNTHESIZE(string, m_sObjName, ObjName);
+	SYNTHESIZE(string, m_sFolderName, FolderName);
+
 public:
 	cMonster();
 	virtual ~cMonster();

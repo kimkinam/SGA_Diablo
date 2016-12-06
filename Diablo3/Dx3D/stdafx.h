@@ -207,6 +207,9 @@ typedef struct ST_SAVEOBJECT
 	char szfileName[128];
 	char szFolderName[128];
 	D3DXVECTOR3 vPosition;
+	D3DXVECTOR3 vForward;
+	D3DXVECTOR3 vUp;
+	D3DXVECTOR3	vRight;
 	D3DXVECTOR3 vScale;
 
 }ST_SAVEOBJECT, *LPST_SAVEOBJECT;

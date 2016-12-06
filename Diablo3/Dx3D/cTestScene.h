@@ -15,17 +15,18 @@ private:
 	cGrid*						m_pGrid;
 
 	cPlayer*					m_pPlayer;
-	cBoss*					m_pMonster;
+
+	std::vector<cMonster*>		m_vecMonster;
 
 	//현재 오브젝트
 	cMap*						m_pCurObj;
+	int							m_nCurIndex;
 
 	//오브젝트 벡터
 	std::vector<cMap*>			m_vecObj;
 	std::vector<cMap*>			m_vecMap;
 
 	//바운드 박스
-	//std::vector<cBoundBox*>		m_vecBoundBox;
 	std::vector<cOBB*>			m_vecBoundBox;
 
 	//맵 위치 정할 타일
@@ -37,8 +38,12 @@ private:
 
 	//UI
 	LPD3DXSPRITE				m_pSprite;
+
 	std::vector<cUIObject*>		m_vecObjUI;
+	std::vector<cUIObject*>		m_vecMonsterUI;
 	cUIObject*					m_pUIRoot;
+	cUIObject*					m_pMonsterUI;
+	cUIObject*					m_pObjUI;
 
 
 	D3DXVECTOR3					m_vMin;
@@ -66,6 +71,7 @@ public:
 
 	bool CollisionTest();
 	void Save(string fileName);
+	void Load(string fileName);
 
 
 };

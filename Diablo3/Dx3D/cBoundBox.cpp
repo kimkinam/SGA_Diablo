@@ -3,7 +3,8 @@
 
 
 cBoundBox::cBoundBox()
-	: m_bIsDraw(false)
+	: m_bIsDraw(true)
+	, m_vPosition(0, 0, 0)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 }
@@ -13,16 +14,18 @@ cBoundBox::~cBoundBox()
 {
 }
 
-void cBoundBox::Setup(D3DXVECTOR3 vMin, D3DXVECTOR3 vMax, D3DXMATRIX * pMat)
+void cBoundBox::Setup(D3DXVECTOR3 vMin, D3DXVECTOR3 vMax, D3DXVECTOR3 vPosition)
 {
 	MakeBoundBox(vMin, vMax, m_vecVertex);
 
-	if (pMat)
-		m_matWorld *= *pMat;
+	m_vPosition = vPosition;
+	
+	D3DXMATRIXA16 matT;
+	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 
 	for (size_t i = 0; i < m_vecVertex.size(); ++i)
 	{
-		D3DXVec3TransformCoord(&m_vecVertex[i].p, &m_vecVertex[i].p, &m_matWorld);
+		D3DXVec3TransformCoord(&m_vecVertex[i].p, &m_vecVertex[i].p, &matT);
 	}
 
 
@@ -43,8 +46,6 @@ void cBoundBox::Setup(D3DXVECTOR3 * vMin, D3DXVECTOR3 * vMax, D3DXMATRIX * pMat)
 
 void cBoundBox::Render()
 {
-	if (!m_bIsDraw) return;
-
 	D3DXMatrixIdentity(&m_matWorld);
 	DWORD dLightMode = 0;
 	DWORD dFillMode = 0;

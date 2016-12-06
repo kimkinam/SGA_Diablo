@@ -103,6 +103,8 @@ float4 PixScene(
 	float3 viewDir		= normalize(fViewDir);
 	float3 specular		= 0;
 
+	float3 tangentNormal = tex2D(NormalSample, TexCoord);
+
 	if(color.x > 0)
 	{
 		specular = saturate(dot(reflaction, -viewDir));
@@ -110,8 +112,8 @@ float4 PixScene(
 	}
 
  
-	float4 albedo = tex2D(DiffuseSample, TexCoord) * float4(color + specular, 1.0f);
-	float4 albedo1 = tex2D(EmissionSample, TexCoord ) * float4(color + specular, 1.0f);
+	float4 albedo	= tex2D(DiffuseSample, TexCoord) * float4(color + specular, 1.0f);
+	float4 albedo1	= tex2D(EmissionSample, TexCoord ) * float4(color + specular, 1.0f);
 	float4 Color = albedo + albedo1;
 
 	return Color;

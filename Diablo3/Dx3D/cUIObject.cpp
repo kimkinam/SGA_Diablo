@@ -53,12 +53,14 @@ void cUIObject::Update()
 
 void cUIObject::Render(LPD3DXSPRITE pSprite)
 {
+	if (!m_bIsDraw) return;
+
 	for each(auto c in m_vecChild)
 	{
 		c->Render(pSprite);
 	}
 
-	if (!m_bIsDraw) return;
+	
 
 	if (m_bIsDrawBorder)
 		DrawBorder();
@@ -143,5 +145,59 @@ cUIObject* cUIObject::FindChildByTag(cUIObject::Ui_Tag nTag)
 	}
 
 	return NULL;
+}
+
+cUIObject * cUIObject::FindPtIn()
+{
+	for each (auto c in m_vecChild)
+	{
+		RECT rc;
+
+		float deltaX = c->GetPosition().x;
+		float deltaY = c->GetPosition().y;
+
+		POINT startPos = c->GetStartPos();
+
+		SetRect(&rc, startPos.x + c->GetCollider().nStartX + deltaX,
+			startPos.y + c->GetCollider().nStartY + deltaY,
+			startPos.x + c->GetCollider().nWidth + deltaX,
+			startPos.y + c->GetCollider().nHeight + deltaY);
+
+		if (PtInRect(&rc, g_ptMouse))
+			return c;
+	}
+}
+
+POINT cUIObject::GetStartPos()
+{
+	POINT pos;
+	pos.x = 0;
+	pos.y = 0;
+
+	if (this->GetParent())
+	{
+		pos.x += (this->GetParent())->GetStartPos().x;
+		pos.y += (this->GetParent())->GetStartPos().y;
+	}
+	else
+	{
+		pos.x += this->GetPosition().x;
+		pos.y += this->GetPosition().y;
+	}
+
+	return pos;
+}
+
+void cUIObject::DeleteChildByTag(cUIObject::Ui_Tag nTag)
+{
+	for each(auto c in m_vecChild)
+	{
+		c->DeleteChildByTag(nTag);
+	}
+
+	if (m_nTag == nTag)
+	{
+		this->Release();
+	}
 }
 

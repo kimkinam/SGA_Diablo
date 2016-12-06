@@ -48,7 +48,6 @@ void cMonsterTrace::Execute(cMonster * pOwner)
 	{
 		pOwner->m_pSateMachnie->ChangeState(cMonsterDetecting::Instance());
 	}
-	
 }
 
 void cMonsterTrace::Exit(cMonster * pOwner)

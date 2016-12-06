@@ -8,15 +8,15 @@ cMap::cMap()
 	, m_pComMesh(NULL)
 	, m_vPosition(0, 0, 0)
 	, m_vScale(1.f, 1.f, 1.f)
-	, m_pEffect(NULL)
 	, m_vForward(0, 0, 1)
 	, m_vRight(1, 0, 0)
 	, m_vUp(0, 1, 0)
 	//, m_bIsDrawBound(false)
 {
-	m_sSumNailName = m_sObjName = "";
+	m_sSumNailName = m_sObjName = m_sFolderName = "";
 
 	D3DXMatrixIdentity(&m_matWorld);
+	D3DXMatrixIdentity(&m_matLocal);
 }
 
 
@@ -56,45 +56,77 @@ cMap::~cMap()
 		SAFE_DELETE(c);
 	}
 
-	SAFE_RELEASE(m_pEffect);
 
 }
 
 void cMap::Setup(char * szFileName, char * szForlderName)
 {
 	m_sObjName = szFileName;
+	m_sFolderName = szForlderName;
 
 	cObjLoader loader;
 	D3DXMATRIXA16 matS, matR;
 	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
 	D3DXMatrixRotationY(&matR, D3DXToRadian(90));
-	m_matWorld = matS * matR;
-	//loader.Load(szFileName, szForlderName, &matW,
-	//	m_vecMtl, m_pMesh, m_vecHiddenMtl, m_vecHiddenObj);
+	m_matLocal = matS * matR;
 
-
-	loader.Load(szFileName, szForlderName, &m_matWorld,
+	loader.Load(szFileName, szForlderName, &m_matLocal,
 		m_vecMtl, m_pMesh,
 		m_vecHiddenMtl, m_vecHiddenObj);
 
 	cObjLoader loader2;
-	m_pComMesh = loader2.Load(szFileName, szForlderName, m_vecComMtl, &m_matWorld);
+	m_pComMesh = loader2.Load(szFileName, szForlderName, m_vecComMtl, &m_matLocal);
 
 	m_vecHiddenDraw.resize(m_vecHiddenObj.size());
 	for (size_t i = 0; i < m_vecHiddenObj.size(); ++i)
 		m_vecHiddenDraw[i] = (false);
 
-	m_pEffect = LoadEffect("shader_map.fx");
+	m_vForward = D3DXVECTOR3(1, 0, 0);
+}
+
+void cMap::Setup(ST_SAVEOBJECT wObj)
+{
+	m_sObjName = wObj.szfileName;
+	m_sFolderName = wObj.szFolderName;
+
+	m_vPosition = wObj.vPosition;
+	m_vForward = wObj.vForward;
+	m_vUp = wObj.vUp;
+	m_vRight = wObj.vRight;
+	m_vScale = wObj.vScale;
+
+	D3DXVECTOR3 scaledRight		= m_vScale.x * m_vRight;
+	D3DXVECTOR3 scaledUp		= m_vScale.y * m_vUp;
+	D3DXVECTOR3 scaledForward	= m_vScale.z * m_vForward;
+
+
+	m_matLocal._11 = scaledRight.x;		m_matLocal._12 = scaledRight.y;		m_matLocal._13 = scaledRight.z;
+	m_matLocal._21 = scaledUp.x;		m_matLocal._22 = scaledUp.y;		m_matLocal._23 = scaledUp.z;
+	m_matLocal._31 = scaledForward.x;	m_matLocal._32 = scaledForward.y;	m_matLocal._33 = scaledForward.z;
+	m_matLocal._41 = m_vPosition.x;		m_matLocal._42 = m_vPosition.y;		m_matLocal._43 = m_vPosition.z;
+
+	cObjLoader loader;
+
+	loader.Load(StringToChar(m_sObjName), StringToChar(m_sFolderName), &m_matLocal,
+		m_vecMtl, m_pMesh,
+		m_vecHiddenMtl, m_vecHiddenObj);
+
+	cObjLoader loader2;
+	m_pComMesh = loader2.Load(StringToChar(m_sObjName), StringToChar(m_sFolderName), m_vecComMtl, &m_matLocal);
+
+	m_vecHiddenDraw.resize(m_vecHiddenObj.size());
+	for (size_t i = 0; i < m_vecHiddenObj.size(); ++i)
+		m_vecHiddenDraw[i] = (false);
+
+
+	SetLocalBoundBox(NULL);
 }
 
 void cMap::Render()
 {
 	g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
-	D3DXMatrixTranslation(&m_matWorld, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
-
 
 	for (size_t i = 0; i < m_vecMtl.size(); ++i)
 	{
@@ -104,8 +136,6 @@ void cMap::Render()
 		m_pMesh->DrawSubset(i);
 		
 	}
-
-
 
 	if (!m_vecHiddenObj.empty())
 	{
@@ -122,10 +152,7 @@ void cMap::Render()
 		}
 	}
 
-
-	
-
-	//RenderBoundBox();
+	RenderBoundBox();
 }
 
 void cMap::RenerComplete()
@@ -133,7 +160,7 @@ void cMap::RenerComplete()
 	g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	D3DXMatrixTranslation(&m_matWorld, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-
+	//D3DXMatrixIdentity(&mat_)
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 
 	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
@@ -156,20 +183,47 @@ void cMap::RenderBoundBox()
 	}
 }
 
-void cMap::SetLocalBoundBox()
+void cMap::SetLocalBoundBox(D3DXVECTOR3* vPos)
 {
 	m_vecBoundBox.resize(m_vecHiddenObj.size());
 
 	D3DXVECTOR3 vMin, vMax;
-	D3DXMATRIX matT;
-	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 
 	for (size_t i = 0; i < m_vecBoundBox.size(); ++i)
 	{
 		GetBoundMinMax(m_vecHiddenObj[i], vMin, vMax);
 		m_vecBoundBox[i] = new cBoundBox;
-		m_vecBoundBox[i]->Setup(vMin, vMax, &matT);
+		if(vPos)
+			m_vecBoundBox[i]->Setup(vMin, vMax, *vPos);
+		else
+			m_vecBoundBox[i]->Setup(vMin, vMax, D3DXVECTOR3(0,0,0));
 	}
+}
+
+void cMap::CloneMap(cMap * map)
+{
+	this->SetRefMtl(map);
+	this->SetScale(map->GetScale());
+	this->SetFolderName(map->GetFolderName());
+	this->SetRefObj(map);
+	this->SetObjName(map->GetObjName());
+	this->SetSumNailName(map->GetSumNailName());
+	this->SetBoundBox(map->GetBoundBox());
+	this->SetPosition(map->GetPosition());
+	this->SetHiddenDraw(map->GetHiddenDraw());
+
+	this->SetForward(map->GetForward());
+	map->GetMesh()->CloneMeshFVF(
+		map->GetMesh()->GetOptions(),
+		map->GetMesh()->GetFVF(),
+		g_pD3DDevice,
+		&this->GetMesh());
+
+	map->GetComMesh()->CloneMeshFVF(
+		map->GetComMesh()->GetOptions(),
+		map->GetComMesh()->GetFVF(),
+		g_pD3DDevice,
+		&this->GetComMesh());
 }
 
 void cMap::SetRefMtl(cMap* map)

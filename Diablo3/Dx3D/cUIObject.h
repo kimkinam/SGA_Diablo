@@ -20,8 +20,12 @@ public :
 		Inven_belt,
 		Inven_arm,
 		Inven_wrist,
-		Inven_sword
+		Inven_sword,
+
+		thumbnail_Monster,
+		thumbnail_Object
 	};
+
 protected:
 	std::vector<cUIObject*>	m_vecChild;
 	D3DXMATRIXA16			m_matW;
@@ -37,7 +41,9 @@ protected:
 	SYNTHESIZE(Ui_Tag, m_nTag, Tag);
 	SYNTHESIZE(D3DXMATRIX, m_matS, matS);
 
-	
+public:
+	static UINT objCount;
+	static UINT monsterCount;
 public:
 	cUIObject();
 	virtual ~cUIObject();
@@ -51,5 +57,8 @@ public:
 	virtual void SetDraw(bool isDraw);
 
 	virtual cUIObject* FindChildByTag(cUIObject::Ui_Tag nTag);
+	virtual cUIObject* FindPtIn();
+	virtual POINT GetStartPos();
+	virtual void DeleteChildByTag(cUIObject::Ui_Tag nTag);
 };
 

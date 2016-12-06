@@ -59,7 +59,8 @@ void cCamera::Render()
 		m_vEye.x,
 		m_vEye.y,
 		m_vEye.z, 128);
-	RECT rc = { DEBUG_STARTX, DEBUG_STARTY, DEBUG_STARTX + 250, DEBUG_STARTY + 15 };
+	RECT rc;
+	SetRect(&rc, DEBUG_STARTX, DEBUG_STARTY, DEBUG_STARTX + 250, DEBUG_STARTY + 15);
 	font->DrawText(NULL,
 		temp,
 		128,
@@ -67,7 +68,7 @@ void cCamera::Render()
 		DT_LEFT,
 		D3DCOLOR_XRGB(255, 255, 255));
 
-	rc = { DEBUG_STARTX, DEBUG_STARTY + 15 + DEBUG_INTERVAL, DEBUG_STARTX + 250, DEBUG_STARTY + 15 + DEBUG_INTERVAL + 15 };
+	SetRect(&rc, DEBUG_STARTX, DEBUG_STARTY + 15 + DEBUG_INTERVAL, DEBUG_STARTX + 250, DEBUG_STARTY + 15 + DEBUG_INTERVAL + 15);
 	sprintf_s(temp, "MousePos : %d, %d", g_ptMouse.x, g_ptMouse.y);
 	font->DrawText(NULL,
 		temp,
@@ -76,19 +77,6 @@ void cCamera::Render()
 		DT_LEFT,
 		D3DCOLOR_XRGB(255, 255, 255));
 
-	RECT rc_win;
-	GetClientRect(g_hWnd, &rc_win);
-	rc = { 0, 150, 250, 200 };
-	sprintf_s(temp, "WinRect : %d, %d", rc_win.right, rc_win.bottom);
-	font->DrawText(NULL,
-		temp,
-		128,
-		&rc,
-		DT_LEFT,
-		D3DCOLOR_XRGB(255, 255, 255));
-
-
-	
 }
 
 void cCamera::Update(D3DXVECTOR3* pTarget)

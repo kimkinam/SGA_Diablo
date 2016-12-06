@@ -65,7 +65,6 @@ void cPlayer::Update()
 
 	AniControl();
 
-
 	if (m_vPosition.x < 0 && m_vPosition.z < 0)	//왼쪽아래
 		m_nCurMap = 0;
 	if (m_vPosition.x < 0 && m_vPosition.z > 0)	//왼쪽위

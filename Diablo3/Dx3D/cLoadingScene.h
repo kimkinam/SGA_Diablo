@@ -1,10 +1,13 @@
 #pragma once
 
+class cGrid;
+class cBoss;
 
 class cLoadingScene : public cSceneObject
 {
 private:
-
+	cGrid*			m_pGrid;
+	cBoss*			m_pBoss;
 public:
 	cLoadingScene();
 	virtual ~cLoadingScene();
