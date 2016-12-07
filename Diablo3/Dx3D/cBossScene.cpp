@@ -30,7 +30,6 @@ cBossScene::~cBossScene()
 	SAFE_RELEASE(m_pPlayer);
 	SAFE_RELEASE(m_pSkeleton);
 
-
 }
 
 HRESULT cBossScene::SetUp()

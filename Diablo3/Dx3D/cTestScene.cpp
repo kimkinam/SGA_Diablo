@@ -15,10 +15,6 @@
 #include "cBoss.h"
 #include "cUIObject.h"
 
-UINT cUIObject::monsterCount = 0;
-UINT cUIObject::objCount = 0;
-
-
 cTestScene::cTestScene()
 	: m_pGrid(NULL)
 	, m_pPlayer(NULL)
@@ -40,7 +36,6 @@ cTestScene::cTestScene()
 
 cTestScene::~cTestScene()
 {
-	//ULONG ul = g_pD3DDevice->Release();
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
 	SAFE_RELEASE(m_pPlayer);
@@ -139,17 +134,17 @@ HRESULT cTestScene::SetUp()
 
 
 	////¿ÏÀüÇÑ ¸Ê
-	//cMap* obj1 = new cMap;
-	//obj1->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
-	//obj1->Setup("a1dun_01_test.objobj", "./Resources/Object/");
-	//obj1->SetSumNailName("a1Dun_01.jpg");
-	//m_vecObj.push_back(obj1);
-	//
-	//cMap* obj2 = new cMap;
-	//obj2->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
-	//obj2->Setup("a1dun_02_test.objobj", "./Resources/Object/");
-	//obj2->SetSumNailName("a1Dun_02.jpg");
-	//m_vecObj.push_back(obj2);
+	cMap* obj1 = new cMap;
+	obj1->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
+	obj1->Setup("a1dun_01_test.objobj", "./Resources/Object/");
+	obj1->SetSumNailName("a1Dun_01.jpg");
+	m_vecObj.push_back(obj1);
+	
+	cMap* obj2 = new cMap;
+	obj2->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
+	obj2->Setup("a1dun_02_test.objobj", "./Resources/Object/");
+	obj2->SetSumNailName("a1Dun_02.jpg");
+	m_vecObj.push_back(obj2);
 
 
 	ST_PC_VERTEX v;
@@ -259,7 +254,6 @@ HRESULT cTestScene::Reset()
 
 void cTestScene::Update()
 {
-
 	StateChange();
 
 	SetMap();
