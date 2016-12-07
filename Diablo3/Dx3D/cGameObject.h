@@ -43,9 +43,7 @@ protected:
 	SYNTHESIZE(bool, m_bIsAtk, IsAtk);
 	SYNTHESIZE(STATE, m_emState, State);
 	SYNTHESIZE(cSkinnedMesh*, m_pMesh, Mesh);
-	SYNTHESIZE_PASS_BY_REF(cAnimation*, m_pAni, Ani);
 
-	float time;
 
 public:
 	cGameObject();

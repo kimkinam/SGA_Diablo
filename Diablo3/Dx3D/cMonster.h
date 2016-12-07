@@ -43,7 +43,9 @@ public:
 	virtual void Trace();
 	virtual void Attack();
 
-virtual void OnActionFinish(cAction* pSender) override;
+	virtual void CloneMonster(cMonster* monster);
+
+	virtual void OnActionFinish(cAction* pSender) override;
 
 };
 

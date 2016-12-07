@@ -10,6 +10,7 @@ cUIObject::cUIObject()
 	, m_bIsDraw(true)
 	, m_nTag(Normal)
 	, m_bIsPicked(false)
+	, m_nCount(0)
 {
 	m_stCollider = ST_COLLIDER();
 	D3DXMatrixIdentity(&m_matW);
@@ -133,6 +134,15 @@ void cUIObject::SetDraw(bool isDraw)
 	m_bIsDraw = isDraw;
 }
 
+void cUIObject::SetDraw(cUIObject::Ui_Tag nTag, bool isDraw)
+{
+	for each(auto c in m_vecChild)
+	{
+		c->SetDraw(nTag, isDraw);
+	}
+	if (m_nTag == nTag) SetDraw(isDraw);
+}
+
 cUIObject* cUIObject::FindChildByTag(cUIObject::Ui_Tag nTag)
 {
 	if (m_nTag == nTag)
@@ -146,58 +156,3 @@ cUIObject* cUIObject::FindChildByTag(cUIObject::Ui_Tag nTag)
 
 	return NULL;
 }
-
-cUIObject * cUIObject::FindPtIn()
-{
-	for each (auto c in m_vecChild)
-	{
-		RECT rc;
-
-		float deltaX = c->GetPosition().x;
-		float deltaY = c->GetPosition().y;
-
-		POINT startPos = c->GetStartPos();
-
-		SetRect(&rc, startPos.x + c->GetCollider().nStartX + deltaX,
-			startPos.y + c->GetCollider().nStartY + deltaY,
-			startPos.x + c->GetCollider().nWidth + deltaX,
-			startPos.y + c->GetCollider().nHeight + deltaY);
-
-		if (PtInRect(&rc, g_ptMouse))
-			return c;
-	}
-}
-
-POINT cUIObject::GetStartPos()
-{
-	POINT pos;
-	pos.x = 0;
-	pos.y = 0;
-
-	if (this->GetParent())
-	{
-		pos.x += (this->GetParent())->GetStartPos().x;
-		pos.y += (this->GetParent())->GetStartPos().y;
-	}
-	else
-	{
-		pos.x += this->GetPosition().x;
-		pos.y += this->GetPosition().y;
-	}
-
-	return pos;
-}
-
-void cUIObject::DeleteChildByTag(cUIObject::Ui_Tag nTag)
-{
-	for each(auto c in m_vecChild)
-	{
-		c->DeleteChildByTag(nTag);
-	}
-
-	if (m_nTag == nTag)
-	{
-		this->Release();
-	}
-}
-

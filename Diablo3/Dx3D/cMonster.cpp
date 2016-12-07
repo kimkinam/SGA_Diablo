@@ -34,22 +34,19 @@ cMonster::~cMonster()
 	SAFE_RELEASE(m_pTarget);
 }
 
-
 void cMonster::Setup(char * szMonsterName, D3DXVECTOR3* vLookAt)
 {
 	cGameObject::Setup(vLookAt);
 
-	string MonsterName = string(szMonsterName);
-	string fileName = MonsterName + ".x";
-	m_pMesh = new cSkinnedMesh("./Resources/Monster/", StringToChar(fileName));
+	m_sObjName = szMonsterName;
+	//string MonsterName = string(szMonsterName);
+	//string fileName = MonsterName + ".x";
+	m_pMesh = new cSkinnedMesh("./Resources/Monster/", StringToChar(m_sObjName));
 	m_pMesh->SetAnimationIndex("idle");
 
 	D3DXCreateSphere(g_pD3DDevice, m_fAttackRange, 20, 20, &m_pAttackSphere, NULL);
 	D3DXCreateSphere(g_pD3DDevice, m_fTraceRange, 20, 20, &m_pTraceSphere, NULL);
 
-	
-	
-	
 }
 
 void cMonster::Update()
@@ -57,56 +54,6 @@ void cMonster::Update()
 	if (m_pSateMachnie)
 		m_pSateMachnie->Update();
 	cGameObject::Update();
-	//
-	//
-	////몬스터가 기본적으로 해야할 짓들
-	//switch (m_emState)
-	//{
-	//
-	//case cGameObject::IDLE:
-	//	Trace();
-	//	break;
-	//case cGameObject::TRACE:
-	//	break;
-	//case cGameObject::MOVE:
-	//	break;
-	//case cGameObject::ATTACK_START:
-	//{
-	//	//m_pAni->Play("attack");
-	//	m_pMesh->SetAnimationIndex("attack");
-	//
-	//	cActionAtk* atk = new cActionAtk;
-	//	LPD3DXANIMATIONSET pAtk;
-	//	m_pMesh->GetAnimController()->GetAnimationSetByName("attack", &pAtk);
-	//
-	//	atk->SetActionTime(pAtk->GetPeriod());
-	//	atk->SetTarget(this);
-	//	atk->SetDelegate(this);
-	//	atk->SetAtkRange(m_fAttackRange);
-	//	atk->SetAttackTarget(m_pTarget);
-	//	atk->Start();
-	//	this->SetAction(atk);
-	//
-	//	m_bIsAtk = true;
-	//
-	//	SAFE_RELEASE(atk);
-	//
-	//	m_emState = ATTACK;
-	//}
-	//	break;
-	//case cGameObject::ATTACK:
-	//	break;
-	//case cGameObject::HITTED:
-	//	break;
-	//case cGameObject::KNOCKBACK:
-	//	break;
-	//case cGameObject::STUNNED:
-	//	break;
-	//case cGameObject::DEAD:
-	//	break;
-	//default:
-	//	break;
-	//}
 }
 
 void cMonster::Render()
@@ -115,48 +62,40 @@ void cMonster::Render()
 	//기본적으로 그냥 몸뚱아리는 이거 쓸거고
 	//이펙트, 파티클같은것들은 각자 몬스터 랜더에서 처리
 
-	//D3DXMATRIXA16 matR, matT;
-	//D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-	//D3DXMatrixRotationY(&matR, m_fAngle);
-	//
-	//m_matWorld = matR * matT;
-
+	D3DXMATRIXA16 matR, matT;
+	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	D3DXMatrixRotationY(&matR, m_fAngle);
+	
+	m_matWorld = matR * matT;
 
 	if (m_pMesh)
 		m_pMesh->UpdateAndRender(&m_matWorld);
 
 	//공격사거리 그리는 부분
-	if (g_pKeyManager->isToggleKey('1'))
-	{
-		//D3DXMATRIXA16 mat;
-		//D3DXMatrixTranslation(&mat, 0, 1, 0);
-		//m_matWorld *= mat;
-		g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
-		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-
-		if (m_pAttackSphere)
-			m_pAttackSphere->DrawSubset(0);
-
-		if (m_pTraceSphere)
-			m_pTraceSphere->DrawSubset(0);
-	}
+	//if (g_pKeyManager->isToggleKey('1'))
+	//{
+	//	//D3DXMATRIXA16 mat;
+	//	//D3DXMatrixTranslation(&mat, 0, 1, 0);
+	//	//m_matWorld *= mat;
+	//	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+	//	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	//
+	//	if (m_pAttackSphere)
+	//		m_pAttackSphere->DrawSubset(0);
+	//
+	//	if (m_pTraceSphere)
+	//		m_pTraceSphere->DrawSubset(0);
+	//}
 	
 
 
 	//디버그 정보
 	LPD3DXFONT font;
 	font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
-	
+
 	char temp[128];
-	sprintf_s(temp, "CurAnimation : %f", m_pMesh->GetCurAnimationName().c_str(), 128);
 	RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 200, DEBUG_STARTX + 250, DEBUG_STARTY + 315 };
-	font->DrawText(NULL,
-		temp,
-		128,
-		&rc,
-		DT_LEFT,
-		D3DCOLOR_XRGB(255, 255, 255));
-	
+
 	if (m_pAction)
 	{
 		sprintf_s(temp, "CurAnimation : %f", m_pAction->GetDistance(), 128);//m_pMesh->GetCurAnimationName().c_str(), 128);
@@ -168,11 +107,9 @@ void cMonster::Render()
 			DT_LEFT,
 			D3DCOLOR_XRGB(255, 255, 255));
 	}
-	
-	
-	
-
 }
+
+
 
 void cMonster::Trace()
 {
@@ -207,6 +144,15 @@ void cMonster::Trace()
 void cMonster::Attack()
 {
 	this->GetMesh()->SetAnimationIndex("attack");
+}
+
+void cMonster::CloneMonster(cMonster* monster)
+{
+	//this->Setup(StringToChar(monster->GetObjName()), NULL);
+	this->m_pMesh = new cSkinnedMesh("./Resources/Monster/",
+		StringToChar(monster->GetObjName()));
+	this->m_pMesh->SetAnimationIndex("idle");
+
 }
 
 void cMonster::OnActionFinish(cAction * pSender)

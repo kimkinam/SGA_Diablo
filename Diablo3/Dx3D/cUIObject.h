@@ -39,6 +39,7 @@ protected:
 	SYNTHESIZE(bool, m_bIsDrawBorder, DrawBorder);
 	SYNTHESIZE(bool, m_bIsDraw, IsDraw);
 	SYNTHESIZE(Ui_Tag, m_nTag, Tag);
+	SYNTHESIZE(UINT, m_nCount, Count);
 	SYNTHESIZE(D3DXMATRIX, m_matS, matS);
 
 public:
@@ -55,10 +56,9 @@ public:
 	virtual void SetPosition(float x, float y, float z = 0);
 	virtual void DrawBorder();
 	virtual void SetDraw(bool isDraw);
+	virtual void SetDraw(cUIObject::Ui_Tag nTag, bool isDraw);
 
 	virtual cUIObject* FindChildByTag(cUIObject::Ui_Tag nTag);
-	virtual cUIObject* FindPtIn();
-	virtual POINT GetStartPos();
-	virtual void DeleteChildByTag(cUIObject::Ui_Tag nTag);
+	
 };
 
