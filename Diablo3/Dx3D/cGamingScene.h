@@ -5,20 +5,30 @@ class cUiManager;
 class cCamera;
 class cMap;
 class cBoundBox;
+class cMonster;
+class cPlayer;
+
+
 
 class cGamingScene : public cSceneObject
 {
 private:
 	cGrid*					m_pGrid;
-	cUiManager*				m_pUIManager;
+	cPlayer*				m_pPlayer;
 	std::vector<cMap*>		m_vecMap;
-	std::vector<cBoundBox*>	m_vecBoundBox;
+	std::vector<cOBB*>		m_vecBoundBox;
+	std::vector<cMonster*>	m_vecMonster;
+
+	std::vector<ST_PC_VERTEX>	m_vecTiles;
 
 public:
 	cGamingScene();
 	virtual ~cGamingScene();
 
 	void LoadMap(string fileName);
+	void PlayerMoveTest();
+	bool CollisionTest();
+
 	//cScene override;
 	virtual HRESULT SetUp()	override;
 	virtual void Update()	override;

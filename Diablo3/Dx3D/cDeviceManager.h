@@ -2,6 +2,7 @@
 
 #define g_pDeviceManager cDeviceManager::GetInstance()
 #define g_pD3DDevice cDeviceManager::GetInstance()->GetDevice()
+
 class cDeviceManager
 {
 private:

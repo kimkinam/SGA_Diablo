@@ -1,14 +1,16 @@
 #pragma once
 
-class iAI_Base;
+class cGameObject;
 
 class cAIManager
 {
 private:
 	// 기존 포인터들 저장
-	typedef std::map<int, iAI_Base*> AIMap;
-	
-	AIMap m_AImap;
+	typedef std::map<int, cGameObject*>				AIMap;
+	typedef std::map<int, cGameObject*>::iterator	iter;
+
+	AIMap	m_AImap;
+	iter	m_iter;
 
 public:
 	cAIManager();
@@ -23,11 +25,11 @@ public:
 		return &instance;
 	}
 
-	void RegisterAIBase(iAI_Base* NewAIBase);
+	void RegisterAIBase(cGameObject* NewAIBase);
 
-	iAI_Base* GetAIBaseFromID(int id);
+	cGameObject* GetAIBaseFromID(int id);
 
-	void RemoveAIBase(iAI_Base* pAIBase);
+	void RemoveAIBase(cGameObject* pAIBase);
 };
 
 #define g_pAIManager cAIManager::Instance()

@@ -106,7 +106,7 @@ HRESULT cTestScene::SetUp()
 
 	//플레이어
 	m_pPlayer = new cPlayer;
-	m_pPlayer->SetUp();
+	m_pPlayer->Setup();
 
 	//몬스터
 	cFetish* Fetish = new cFetish;
@@ -142,11 +142,11 @@ HRESULT cTestScene::SetUp()
 
 
 	////완전한 맵
-	cMap* obj1 = new cMap;
-	obj1->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
-	obj1->Setup("a1dun_01_test.objobj", "./Resources/Object/");
-	obj1->SetSumNailName("a1Dun_01.jpg");
-	m_vecObj.push_back(obj1);
+	//cMap* obj1 = new cMap;
+	//obj1->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
+	//obj1->Setup("a1dun_01_test.objobj", "./Resources/Object/");
+	//obj1->SetSumNailName("a1Dun_01.jpg");
+	//m_vecObj.push_back(obj1);
 	
 	//cMap* obj2 = new cMap;
 	//obj2->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));

@@ -8,7 +8,7 @@ class cDetecting;
 class cMonsterGlobalState;
 class cMonsterTrace;
 
-class cMonster : public cGameObject, public iAI_Base
+class cMonster : public cGameObject
 {
 protected:
 	SYNTHESIZE(ST_MONSTER_STAT, m_stStat, Stat);

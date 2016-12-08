@@ -214,20 +214,8 @@ typedef struct ST_SAVEOBJECT
 
 }ST_SAVEOBJECT, *LPST_SAVEOBJECT;
 
-<<<<<<< HEAD
-=======
-struct Telegram
-{
-	int Sender;
-	int Receiver;
-	int Msg;
-	float SendTime;
 
-	//void* ExtraInfo;
 
-	Telegram() : Sender(0), Receiver(0), Msg(0), SendTime(0) {}
-};
->>>>>>> e0112a28f4a653c275e510a043686c65ae0a0200
 
 #define DEBUG_INTERVAL 5
 #define	DEBUG_STARTX 0
@@ -241,6 +229,8 @@ struct Telegram
 #include "cKeyManager.h"
 #include "cSceneManager.h"
 #include "cSkinnedMeshManager.h"
+#include "cAIManager.h"
+#include "cMessageManager.h"
 
 //Interface
 #include "cObject.h"

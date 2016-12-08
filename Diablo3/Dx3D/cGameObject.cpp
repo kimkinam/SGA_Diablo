@@ -19,6 +19,9 @@ cGameObject::cGameObject()
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&m_matLocal);
+
+	m_ID = m_INextID;
+	m_INextID ++;
 }
 
 
@@ -28,6 +31,7 @@ cGameObject::~cGameObject()
 	SAFE_DELETE(m_pMesh);
 	SAFE_DELETE(m_pOBB);
 
+	m_INextID--;
 }
 
 void cGameObject::Setup(D3DXVECTOR3* vLook)

@@ -158,9 +158,9 @@ void cMap::Render()
 		}
 	}
 
-	D3DXMatrixIdentity(&m_matWorld);
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
-	RenderBoundBox();
+	//D3DXMatrixIdentity(&m_matWorld);
+	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+	//RenderBoundBox();
 }
 
 void cMap::RenerComplete()

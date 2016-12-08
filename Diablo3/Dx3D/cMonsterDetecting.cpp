@@ -14,6 +14,8 @@ void cMonsterDetecting::Enter(cMonster * pOwner)
 
 void cMonsterDetecting::Execute(cMonster * pOwner)
 {
+	if (!pOwner->GetTarget()) return;
+
 	D3DXVECTOR3 vLength = pOwner->GetTarget()->GetPosition()
 		- pOwner->GetPosition();
 

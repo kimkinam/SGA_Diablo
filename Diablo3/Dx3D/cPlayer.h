@@ -28,12 +28,12 @@ public:
 	cPlayer();
 	virtual ~cPlayer();
 
-	void SetUp();
-	void Update();
-	void Render();
-	void AniControl();
-	void Picking();
-	void PlayerPosition();
+	virtual void Setup(D3DXVECTOR3* vLook = NULL);
+	virtual void Update();
+	virtual void Render();
+	virtual void AniControl();
+	virtual void Picking();
+	virtual void PlayerPosition();
 
 	virtual void OnActionFinish(cAction* pSender) override;
 };

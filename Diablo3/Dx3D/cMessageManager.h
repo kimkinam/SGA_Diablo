@@ -1,4 +1,6 @@
 #pragma once
+#include "MessageTypes.h"
+
 class cMessageManager
 {
 private:
