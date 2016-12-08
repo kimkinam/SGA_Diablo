@@ -75,23 +75,23 @@ HRESULT cGamingScene::SetUp()
 	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, -120), c));
 	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, 120), c));
 
-	LoadMap("map1");
+	//LoadMap("map1");
 
-	g_pAIManager->RegisterAIBase(m_pPlayer);
+	//g_pAIManager->RegisterAIBase(m_pPlayer);
+	//
+	//for (size_t i = 0; i < m_vecMonster.size(); ++i)
+	//{
+	//	g_pAIManager->RegisterAIBase(m_vecMonster[i]);
+	//}
 
-	for (size_t i = 0; i < m_vecMonster.size(); ++i)
-	{
-		g_pAIManager->RegisterAIBase(m_vecMonster[i]);
-	}
-
-	cGameObject* g = g_pAIManager->GetAIBaseFromID(0);
-
-	g_pAIManager->RemoveAIBase(m_pPlayer);
-	SAFE_RELEASE(m_pPlayer);
-
-	cGameObject* b = g_pAIManager->GetAIBaseFromID(0);
-
-	int a = 0;
+	//cGameObject* g = g_pAIManager->GetAIBaseFromID(0);
+	//
+	//g_pAIManager->RemoveAIBase(m_pPlayer);
+	//SAFE_RELEASE(m_pPlayer);
+	//
+	//cGameObject* b = g_pAIManager->GetAIBaseFromID(0);
+	//
+	//int a = 0;
 
 	return S_OK;
 }

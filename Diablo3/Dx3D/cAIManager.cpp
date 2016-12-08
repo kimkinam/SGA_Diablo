@@ -11,10 +11,10 @@ cAIManager::cAIManager(const cAIManager&)
 }
 cAIManager::~cAIManager()
 {
-	for each(auto c in m_AImap)
-	{
-		SAFE_RELEASE(c.second);
-	}
+	//for each(auto c in m_AImap)
+	//{
+	//	SAFE_DELETE(c.second);
+	//}
 }
 
 //cAIBaseManager& cAIBaseManager::operator=(const cAIBaseManager&)
