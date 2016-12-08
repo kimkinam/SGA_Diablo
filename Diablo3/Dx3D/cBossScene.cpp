@@ -57,7 +57,7 @@ HRESULT cBossScene::SetUp()
 	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, 120), c));
 
 	m_pPlayer = new cPlayer;
-	m_pPlayer->SetUp();
+	m_pPlayer->Setup();
 	
 	m_pBoss = new cBoss;
 	m_pBoss->SetTarget(m_pPlayer);

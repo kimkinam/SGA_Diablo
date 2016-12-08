@@ -4,6 +4,7 @@
 #include "iActionDelegate.h"
 #include "cSkinnedMesh.h"
 #include "cAnimation.h"
+#include "iAI_Base.h"
 
 class cOBB;
 
@@ -29,6 +30,14 @@ public:
 		DEAD_START,					//14
 		DEAD,						//15
 	};
+	
+private:
+	//고유 식별 번호
+	SYNTHESIZE(UINT, m_ID, ID);
+
+	//다음 유효한 식별번호(총 갯수)
+	static UINT m_INextID;
+
 protected:
 	D3DXVECTOR3 m_vPrevPosition;
 	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
@@ -47,10 +56,12 @@ protected:
 	SYNTHESIZE(STATE, m_emState, State);
 	SYNTHESIZE(cSkinnedMesh*, m_pMesh, Mesh);
 
-
+	
 public:
 	cGameObject();
 	virtual ~cGameObject();
+
+	//static UINT GetNextID() { return m_INextID; }
 	
 	virtual void Setup(D3DXVECTOR3* vLook = NULL);
 	virtual void Update();
@@ -61,4 +72,6 @@ public:
 	D3DXVECTOR3* GetPtPosition(){ return &m_vPosition; }
 	
 };
+
+
 

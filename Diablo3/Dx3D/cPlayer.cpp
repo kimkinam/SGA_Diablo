@@ -12,7 +12,6 @@ cPlayer::cPlayer()
 	, m_dAttackTermTime(0.0f)
 	, m_pSword(NULL)
 	, m_nCurMap(0)
-	
 {
 	
 }
@@ -25,9 +24,8 @@ cPlayer::~cPlayer()
 
 }
 
-void cPlayer::SetUp()
+void cPlayer::Setup(D3DXVECTOR3* vLook)
 {
-	
 	//¹Ù¹Ù
 	m_pMesh = new cSkinnedMesh("./Resources/Player/", "babarian.X");
 	m_pMesh->SetAnimationIndex("idle");
@@ -52,11 +50,7 @@ void cPlayer::SetUp()
 
 	m_pSword->SetWorldTM(m_pMesh->AttachItem("right_weapon"));
 
-	cGameObject::Setup(&D3DXVECTOR3(-1,0,0));
-
-
-	//m_pAni->SetPlaySpeed(0.5f);
-	
+	cGameObject::Setup(vLook);
 }
 
 void cPlayer::Update()
@@ -84,10 +78,7 @@ void cPlayer::Update()
 
 void cPlayer::Render()
 {
-	
-	
 	cGameObject::Render();
-
 
 	if (m_pMesh)
 		m_pMesh->UpdateAndRender(&m_matWorld);
@@ -95,7 +86,7 @@ void cPlayer::Render()
 	if (m_pSword)
 		m_pSword->Render();
 	
-	}
+}
 
 void cPlayer::AniControl()
 {

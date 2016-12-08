@@ -2,6 +2,10 @@
 #include "cMessageManager.h"
 
 
+void cMessageManager::Discharge()
+{
+}
+
 cMessageManager::cMessageManager()
 {
 }

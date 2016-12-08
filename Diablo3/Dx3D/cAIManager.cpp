@@ -11,10 +11,10 @@ cAIManager::cAIManager(const cAIManager&)
 }
 cAIManager::~cAIManager()
 {
-	for each(auto c in m_AImap)
-	{
-		SAFE_DELETE(c.second);
-	}
+	//for each(auto c in m_AImap)
+	//{
+	//	SAFE_DELETE(c.second);
+	//}
 }
 
 //cAIBaseManager& cAIBaseManager::operator=(const cAIBaseManager&)
@@ -28,12 +28,13 @@ static cAIManager* Instance()
 	return &instance;
 }
 
-void cAIManager::RegisterAIBase(iAI_Base* NewAIBase)
+void cAIManager::RegisterAIBase(cGameObject* NewAIBase)
 {
+	SAFE_ADDREF(NewAIBase);
 	m_AImap[NewAIBase->GetID()] = NewAIBase;
 }
 
-iAI_Base* cAIManager::GetAIBaseFromID(int id)
+cGameObject* cAIManager::GetAIBaseFromID(int id)
 {
 	if (m_AImap.find(id) == m_AImap.end()) 
 	{
@@ -42,7 +43,16 @@ iAI_Base* cAIManager::GetAIBaseFromID(int id)
 	return m_AImap[id];
 }
 
-void cAIManager::RemoveAIBase(iAI_Base* pAIBase)
+void cAIManager::RemoveAIBase(cGameObject* pAIBase)
 {
-
+	for (m_iter = m_AImap.begin(); m_iter != m_AImap.end();)
+	{
+		if (m_iter->second == pAIBase)
+		{
+			SAFE_RELEASE(pAIBase);
+			m_AImap.erase(m_iter++);
+		}
+		else
+			m_iter++;
+	}
 }

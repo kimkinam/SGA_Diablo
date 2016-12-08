@@ -104,7 +104,7 @@ void cMonster::Render()
 			m_pTraceSphere->DrawSubset(0);
 	//}
 	
-
+		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
 	//디버그 정보
 	LPD3DXFONT font;
