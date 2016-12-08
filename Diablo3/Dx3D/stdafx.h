@@ -214,6 +214,18 @@ typedef struct ST_SAVEOBJECT
 
 }ST_SAVEOBJECT, *LPST_SAVEOBJECT;
 
+struct Telegram
+{
+	int Sender;
+	int Receiver;
+	int Msg;
+	float SendTime;
+
+	//void* ExtraInfo;
+
+	Telegram() : Sender(0), Receiver(0), Msg(0), SendTime(0) {}
+};
+
 #define DEBUG_INTERVAL 5
 #define	DEBUG_STARTX 0
 #define DEBUG_STARTY 50
