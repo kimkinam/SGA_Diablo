@@ -21,7 +21,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -91,6 +91,7 @@
     <ClInclude Include="cActionJump.h" />
     <ClInclude Include="cActionMove.h" />
     <ClInclude Include="cActionTrace.h" />
+    <ClInclude Include="cAIManager.h" />
     <ClInclude Include="cAllocateHierarchy.h" />
     <ClInclude Include="cAnimation.h" />
     <ClInclude Include="cAseLoader.h" />
@@ -101,6 +102,7 @@
     <ClInclude Include="cCharController.h" />
     <ClInclude Include="cCube.h" />
     <ClInclude Include="cFetish.h" />
+    <ClInclude Include="cMessageManager.h" />
     <ClInclude Include="cMonsterAttack.h" />
     <ClInclude Include="cMonsterDetecting.h" />
     <ClInclude Include="cDeviceManager.h" />
@@ -170,6 +172,7 @@
     <ClCompile Include="cActionJump.cpp" />
     <ClCompile Include="cActionMove.cpp" />
     <ClCompile Include="cActionTrace.cpp" />
+    <ClCompile Include="cAIManager.cpp" />
     <ClCompile Include="cAllocateHierarchy.cpp" />
     <ClCompile Include="cAnimation.cpp" />
     <ClCompile Include="cAseLoader.cpp" />
@@ -180,6 +183,7 @@
     <ClCompile Include="cCharController.cpp" />
     <ClCompile Include="cCube.cpp" />
     <ClCompile Include="cFetish.cpp" />
+    <ClCompile Include="cMessageManager.cpp" />
     <ClCompile Include="cMonsterAttack.cpp" />
     <ClCompile Include="cMonsterDetecting.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />
