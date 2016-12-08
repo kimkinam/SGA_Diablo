@@ -1,25 +1,18 @@
 #pragma once
 
 class cGrid;
-class iMap;
 class cUiManager;
-class cMonsterManager;
-class cPlayerManager;
 class cCamera;
-class cBoss;
 class cMap;
+class cBoundBox;
 
 class cGamingScene : public cSceneObject
 {
 private:
 	cGrid*					m_pGrid;
-	iMap*					m_pMap;
 	cUiManager*				m_pUIManager;
-	cMonsterManager*		m_pMonsterManager;
-	cPlayerManager*			m_pPlayerManager;
-
-	cBoss*					Boss_diablo;
 	std::vector<cMap*>		m_vecMap;
+	std::vector<cBoundBox*>	m_vecBoundBox;
 
 public:
 	cGamingScene();

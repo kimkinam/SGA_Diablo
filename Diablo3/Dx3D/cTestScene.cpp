@@ -142,11 +142,11 @@ HRESULT cTestScene::SetUp()
 
 
 	////완전한 맵
-	//cMap* obj1 = new cMap;
-	//obj1->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
-	//obj1->Setup("a1dun_01_test.objobj", "./Resources/Object/");
-	//obj1->SetSumNailName("a1Dun_01.jpg");
-	//m_vecObj.push_back(obj1);
+	cMap* obj1 = new cMap;
+	obj1->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
+	obj1->Setup("a1dun_01_test.objobj", "./Resources/Object/");
+	obj1->SetSumNailName("a1Dun_01.jpg");
+	m_vecObj.push_back(obj1);
 	
 	//cMap* obj2 = new cMap;
 	//obj2->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
@@ -285,10 +285,10 @@ void cTestScene::Update()
 	if (m_pUIRoot)
 		m_pUIRoot->Update();
 
-	//if (g_pKeyManager->isOnceKeyDown('L'))
-	//{
-	//	Save("map1");
-	//}
+	if (g_pKeyManager->isOnceKeyDown('L'))
+	{
+		Save("map1");
+	}
 
 	if (g_pKeyManager->isOnceKeyDown('P'))
 	{
@@ -926,35 +926,38 @@ void cTestScene::Save(string fileName)
 
 	assert(fp != NULL && "세이브 파일이 생성되지 않았습니다");
 
-	//int nObj = m_vecOutMap.size();
-	//fwrite(&nObj, sizeof(int), 1, fp);
-	//
-	//for (size_t i = 0; i < m_vecOutMap.size(); ++i)
-	//{
-	//	ST_SAVEOBJECT wObj;
-	//	ZeroMemory(&wObj, sizeof(ST_SAVEOBJECT));
-	//
-	//	string name = m_vecOutMap[i]->GetObjName();
-	//	strncpy(wObj.szfileName, name.c_str(), name.length());
-	//	string folderName = m_vecOutMap[i]->GetFolderName();
-	//	strncpy(wObj.szFolderName, folderName.c_str(), folderName.length());
-	//	
-	//	wObj.vPosition = m_vecOutMap[i]->GetPosition();
-	//	wObj.vScale = m_vecOutMap[i]->GetScale();
-	//	wObj.vForward = m_vecOutMap[i]->GetDirection();
-	//	wObj.vUp = m_vecOutMap[i]->GetUpVector();
-	//	
-	//	D3DXVECTOR3 right;
-	//	D3DXVec3Cross(&right, &wObj.vUp, &wObj.vForward);
-	//	D3DXVec3Normalize(&wObj.vRight, &right);
-	//
-	//	fwrite(&wObj, sizeof(ST_SAVEOBJECT), 1, fp);
-	//
-	//}
 
+	//맵정보 저장
+
+	int nObj = m_vecOutMap.size();
+	fwrite(&nObj, sizeof(int), 1, fp);
+	
+	for (size_t i = 0; i < m_vecOutMap.size(); ++i)
+	{
+		ST_SAVEOBJECT wObj;
+		ZeroMemory(&wObj, sizeof(ST_SAVEOBJECT));
+	
+		string name = m_vecOutMap[i]->GetObjName();
+		strncpy(wObj.szfileName, name.c_str(), name.length());
+		string folderName = m_vecOutMap[i]->GetFolderName();
+		strncpy(wObj.szFolderName, folderName.c_str(), folderName.length());
+		
+		wObj.vPosition = m_vecOutMap[i]->GetPosition();
+		wObj.vScale = m_vecOutMap[i]->GetScale();
+		wObj.vForward = m_vecOutMap[i]->GetDirection();
+		wObj.vUp = m_vecOutMap[i]->GetUpVector();
+		
+		D3DXVECTOR3 right;
+		D3DXVec3Cross(&right, &wObj.vUp, &wObj.vForward);
+		D3DXVec3Normalize(&wObj.vRight, &right);
+	
+		fwrite(&wObj, sizeof(ST_SAVEOBJECT), 1, fp);
+	
+	}
+
+	//충돌박스 정보 저장
 	int nBoxCount = m_vecBoundBox.size();
 	fwrite(&nBoxCount, sizeof(int), 1, fp);
-
 	for (size_t i = 0; i < m_vecBoundBox.size(); ++i)
 	{
 		D3DXVECTOR3 vMin = m_vecBoundBox[i]->GetMin();
@@ -964,9 +967,9 @@ void cTestScene::Save(string fileName)
 		fwrite(&vMax, sizeof(D3DXVECTOR3), 1, fp);
 	}
 
+	//몬스터 정보 저장
 	int nMonsterCount = m_vecOutMonster.size();
 	fwrite(&nMonsterCount, sizeof(int), 1, fp);
-
 	for (size_t i = 0; i < m_vecOutMonster.size(); ++i)
 	{
 		ST_SAVEOBJECT wObj;
@@ -986,8 +989,11 @@ void cTestScene::Save(string fileName)
 		D3DXVec3Cross(&right, &wObj.vUp, &wObj.vForward);
 		D3DXVec3Normalize(&wObj.vRight, &right);
 
-		fwrite(&wObj, sizeof(ST_SAVEOBJECT), 1, fp);
+		ST_MONSTER_STAT st;
 
+		st = m_vecOutMonster[i]->GetStat();
+		fwrite(&wObj, sizeof(ST_SAVEOBJECT), 1, fp);
+		fwrite(&st, sizeof(ST_MONSTER_STAT), 1, fp);
 	}
 
 	fclose(fp);
@@ -995,6 +1001,8 @@ void cTestScene::Save(string fileName)
 
 void cTestScene::Load(string fileName)
 {
+	if (!m_vecOutMap.empty()) return;
+
 	for (size_t i = 0; i < m_vecOutMap.size(); ++i)
 	{
 		SAFE_RELEASE(m_vecOutMap[i]);
@@ -1010,23 +1018,23 @@ void cTestScene::Load(string fileName)
 
 	assert(fp != NULL && "세이브 파일이 생성되지 않았습니다");
 
-	//int nObj;
-	//fread(&nObj, sizeof(int), 1, fp);
-	//
-	//for (int i = 0; i < nObj; ++i)
-	//{
-	//	ST_SAVEOBJECT wObj;
-	//	fread(&wObj, sizeof(ST_SAVEOBJECT), 1, fp);
-	//	cMap* map = new cMap;
-	//	
-	//	map->Setup(wObj);
-	//	m_vecOutMap.push_back(map);
-	//}
+	//맵정보 로드
+	int nObj;
+	fread(&nObj, sizeof(int), 1, fp);
+	
+	for (int i = 0; i < nObj; ++i)
+	{
+		ST_SAVEOBJECT wObj;
+		fread(&wObj, sizeof(ST_SAVEOBJECT), 1, fp);
+		cMap* map = new cMap;
+		
+		map->Setup(wObj);
+		m_vecOutMap.push_back(map);
+	}
 
+	//충돌박스 정보 로드
 	int nBoxCount;
-
 	fread(&nBoxCount, sizeof(int), 1, fp);
-
 	for (size_t i = 0; i < nBoxCount; ++i)
 	{
 		
@@ -1040,21 +1048,24 @@ void cTestScene::Load(string fileName)
 		m_vecBoundBox.push_back(obb);
 	}
 
+	//몬스터정보 로드
 	int nMonsterCount;
-	
 	fread(&nMonsterCount, sizeof(int), 1, fp);
 	for (size_t i = 0; i < nMonsterCount; ++i)
 	{
 		ST_SAVEOBJECT wObj;
 		fread(&wObj, sizeof(ST_SAVEOBJECT), 1, fp);
-	
-		cMonster* map = new cMonster;
-	
-		map->Setup(wObj);
-		m_vecOutMonster.push_back(map);
-	
-	}
 
+		ST_MONSTER_STAT st;
+		fread(&st, sizeof(ST_MONSTER_STAT), 1, fp);
+
+		cMonster* monster = new cMonster;
+
+		monster->SetStat(st);
+		monster->Setup(wObj);
+
+		m_vecOutMonster.push_back(monster);
+	}
 
 	fclose(fp);
 

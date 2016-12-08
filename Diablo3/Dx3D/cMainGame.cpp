@@ -31,7 +31,7 @@ void cMainGame::Setup()
 	//m_pScene = new cBossScene;
 	//m_pScene->SetUp();
 
-	g_pSceneManager->changeScene("GamingScene");
+	g_pSceneManager->changeScene("TestScene");
 	
 	SetLight();
 }
