@@ -54,13 +54,13 @@ void cActionMove::Update()
 
 		position = position + m_vDirection * m_fSpeed;
 
-		D3DXMATRIXA16 matR, matT, matW;
-		D3DXMatrixLookAtLH(&matR,
-			&D3DXVECTOR3(0, 0, 0),
-			&m_vDirection,
-			&D3DXVECTOR3(0, 1, 0));
-		D3DXMatrixTranspose(&matR, &matR);
-		D3DXMatrixTranslation(&matT, position.x, position.y, position.z);
+		//D3DXMATRIXA16 matR, matT, matW;
+		//D3DXMatrixLookAtLH(&matR,
+		//	&D3DXVECTOR3(0, 0, 0),
+		//	&m_vDirection,
+		//	&D3DXVECTOR3(0, 1, 0));
+		//D3DXMatrixTranspose(&matR, &matR);
+		//D3DXMatrixTranslation(&matT, position.x, position.y, position.z);
 
 		if (!m_vecOBB.empty())
 		{
@@ -68,7 +68,7 @@ void cActionMove::Update()
 			{
 				cOBB& temp = *m_pTarget->GetOBB();
 
-				temp.GetCenterPos() += m_vDirection * (m_fSpeed);
+				temp.GetCenterPos() = position;
 
 				if (cOBB::IsCollision(&temp, m_vecOBB[i]))
 				{
@@ -80,16 +80,17 @@ void cActionMove::Update()
 			}
 		}
 
-		matW = matR * matT;
+		//matW = matR * matT;
 
-		D3DXMATRIXA16 localmatR;
-		D3DXMatrixRotationY(&localmatR, m_pTarget->GetAngle());
-
-		matW = localmatR * matW;
+		//D3DXMATRIXA16 localmatR;
+		//D3DXMatrixRotationY(&localmatR, m_pTarget->GetAngle());
+		//
+		//matW = localmatR * matW;
 
 		m_pTarget->SetPosition(position);
-		m_pTarget->SetDirection(m_vDirection);
-		m_pTarget->SetWorldTM(matW);
+		//m_pTarget->SetDirection(m_vDirection);
+		m_pTarget->SetNewDirection(m_vDirection);
+		//m_pTarget->SetWorldTM(matW);
 
 		D3DXVECTOR3 dir1 = m_pTarget->GetPosition() - m_vTo;
 		D3DXVECTOR3 dir2 = m_vFrom - m_vTo;

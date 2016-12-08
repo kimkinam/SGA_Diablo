@@ -18,7 +18,7 @@ void cMonsterAttack::Enter(cMonster * pOwner)
 		atk->SetActionTime(pAtk->GetPeriod());
 		atk->SetTarget(pOwner);
 		atk->SetDelegate(pOwner);
-		atk->SetAtkRange(pOwner->GetAttackRange());
+		atk->SetAtkRange(pOwner->GetStat().fAttackRange);
 		atk->SetAttackTarget(pOwner->GetTarget());
 		atk->Start();
 		pOwner->SetAction(atk);
@@ -35,7 +35,7 @@ void cMonsterAttack::Execute(cMonster * pOwner)
 	D3DXVECTOR3 v = pOwner->GetPosition() - pOwner->GetTarget()->GetPosition();
 	float distance = D3DXVec3Length(&v);
 
-	if (distance > pOwner->GetAttackRange())
+	if (distance > pOwner->GetStat().fAttackRange)
 	{
 		LPD3DXANIMATIONSET pCurAS = NULL;
 		pOwner->GetMesh()->GetAnimController()->GetTrackAnimationSet(0, &pCurAS);

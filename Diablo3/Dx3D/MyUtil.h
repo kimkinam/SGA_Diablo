@@ -21,6 +21,8 @@ namespace MyUtil
 	void GetBoundSphere(LPD3DXMESH pMesh, ST_SPHERE& pSphere);
 
 	void MakeBoundBox(D3DXVECTOR3 vMin, D3DXVECTOR3 vMax, std::vector<ST_PC_VERTEX>& vecVertex);
+
+
 	
 	LPD3DXEFFECT LoadEffect(const char* szFileName);
 }

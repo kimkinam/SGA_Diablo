@@ -100,6 +100,7 @@
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="cCharController.h" />
     <ClInclude Include="cCube.h" />
+    <ClInclude Include="cFetish.h" />
     <ClInclude Include="cMonsterAttack.h" />
     <ClInclude Include="cMonsterDetecting.h" />
     <ClInclude Include="cDeviceManager.h" />
@@ -133,6 +134,7 @@
     <ClInclude Include="cSceneManager.h" />
     <ClInclude Include="cSceneObject.h" />
     <ClInclude Include="cSkeleton.h" />
+    <ClInclude Include="cSkeletonArcher.h" />
     <ClInclude Include="cSkinnedMesh.h" />
     <ClInclude Include="cSkinnedMeshManager.h" />
     <ClInclude Include="iState.h" />
@@ -177,6 +179,7 @@
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="cCharController.cpp" />
     <ClCompile Include="cCube.cpp" />
+    <ClCompile Include="cFetish.cpp" />
     <ClCompile Include="cMonsterAttack.cpp" />
     <ClCompile Include="cMonsterDetecting.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />
@@ -210,6 +213,7 @@
     <ClCompile Include="cSceneManager.cpp" />
     <ClCompile Include="cSceneObject.cpp" />
     <ClCompile Include="cSkeleton.cpp" />
+    <ClCompile Include="cSkeletonArcher.cpp" />
     <ClCompile Include="cSkinnedMesh.cpp" />
     <ClCompile Include="cSkinnedMeshManager.cpp" />
     <ClCompile Include="iState.cpp" />

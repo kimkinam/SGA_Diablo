@@ -34,8 +34,11 @@ protected:
 	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
 	SYNTHESIZE(D3DXVECTOR3, m_vDirection, Direction);
 	SYNTHESIZE(D3DXVECTOR3, m_vUp, UpVector);
+	SYNTHESIZE(D3DXVECTOR3, m_vRight, Right);
+	SYNTHESIZE(D3DXVECTOR3, m_vScale, Scale);
 	SYNTHESIZE(cOBB*, m_pOBB, OBB);
-	SYNTHESIZE_PASS_BY_REF(D3DXMATRIXA16, m_matWorld, WorldTM);
+	SYNTHESIZE_PASS_BY_REF(D3DXMATRIX, m_matLocal, LocalTM);
+	SYNTHESIZE_PASS_BY_REF(D3DXMATRIX, m_matWorld, WorldTM);
 
 	SYNTHESIZE_ADD_REF(cAction*, m_pAction, Action);
 	SYNTHESIZE(float, m_fAngle, Angle);
@@ -54,6 +57,7 @@ public:
 	virtual void Render();
 	virtual void OnActionFinish(cAction* pSender) override;
 
+	void SetNewDirection(D3DXVECTOR3 vDirection);
 	D3DXVECTOR3* GetPtPosition(){ return &m_vPosition; }
 	
 };

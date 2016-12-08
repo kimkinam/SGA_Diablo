@@ -131,9 +131,9 @@ void cGamingScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 
 void cGamingScene::LoadMap(string fileName)
 {
-	for (size_t i = 0; i < m_vecMap.size(); ++i)
+	for (size_t i = 0; i < m_vecOutMap.size(); ++i)
 	{
-		SAFE_RELEASE(m_vecMap[i]);
+		SAFE_RELEASE(m_vecOutMap[i]);
 	}
 
 	string path = "./Resources/Object/";
@@ -146,18 +146,51 @@ void cGamingScene::LoadMap(string fileName)
 
 	assert(fp != NULL && "세이브 파일이 생성되지 않았습니다");
 
-	int nObj;
-	fread(&nObj, sizeof(int), 1, fp);
+	//int nObj;
+	//fread(&nObj, sizeof(int), 1, fp);
+	//
+	//for (int i = 0; i < nObj; ++i)
+	//{
+	//	ST_SAVEOBJECT wObj;
+	//	fread(&wObj, sizeof(ST_SAVEOBJECT), 1, fp);
+	//	cMap* map = new cMap;
+	//	
+	//	map->Setup(wObj);
+	//	m_vecOutMap.push_back(map);
+	//}
 
-	for (int i = 0; i < nObj; ++i)
+	int nBoxCount;
+
+	fread(&nBoxCount, sizeof(int), 1, fp);
+
+	for (size_t i = 0; i < nBoxCount; ++i)
+	{
+
+		D3DXVECTOR3 vMin;
+		D3DXVECTOR3 vMax;
+
+		fread(&vMin, sizeof(D3DXVECTOR3), 1, fp);
+		fread(&vMax, sizeof(D3DXVECTOR3), 1, fp);
+		cOBB* obb = new cOBB;
+		obb->Setup(vMin, vMax);
+		m_vecBoundBox.push_back(obb);
+	}
+
+	int nMonsterCount;
+
+	fread(&nMonsterCount, sizeof(int), 1, fp);
+	for (size_t i = 0; i < nMonsterCount; ++i)
 	{
 		ST_SAVEOBJECT wObj;
 		fread(&wObj, sizeof(ST_SAVEOBJECT), 1, fp);
-		cMap* map = new cMap;
+
+		cMonster* map = new cMonster;
 
 		map->Setup(wObj);
-		m_vecMap.push_back(map);
+		m_vecOutMonster.push_back(map);
+
 	}
+
 
 	fclose(fp);
 }

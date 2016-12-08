@@ -52,7 +52,7 @@ void cPlayer::SetUp()
 
 	m_pSword->SetWorldTM(m_pMesh->AttachItem("right_weapon"));
 
-	cGameObject::Setup();
+	cGameObject::Setup(&D3DXVECTOR3(-1,0,0));
 
 
 	//m_pAni->SetPlaySpeed(0.5f);
@@ -74,17 +74,17 @@ void cPlayer::Update()
 	if (m_vPosition.x > 0 && m_vPosition.z < 0)	//오른쪽아래
 		m_nCurMap = 3;
 
+	D3DXMatrixIdentity(&m_matWorld);
+	D3DXMatrixTranslation(&m_matWorld, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+
+	m_matWorld = m_matLocal * m_matWorld;
 	
 	
 }
 
 void cPlayer::Render()
 {
-	//D3DXMATRIXA16 matR, matT;
-	//D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-	//D3DXMatrixRotationY(&matR, m_fAngle);
-	//
-	//m_matWorld = matR * matT;
+	
 	
 	cGameObject::Render();
 

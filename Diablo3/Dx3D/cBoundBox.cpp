@@ -5,8 +5,12 @@
 cBoundBox::cBoundBox()
 	: m_bIsDraw(true)
 	, m_vPosition(0, 0, 0)
+	, m_vDirection(0, 0, 1)
+	, m_vRight(1, 0, 0)
+	, m_vUp(0, 1, 0)
 {
 	D3DXMatrixIdentity(&m_matWorld);
+	D3DXMatrixIdentity(&m_matLocal);
 }
 
 
@@ -14,18 +18,24 @@ cBoundBox::~cBoundBox()
 {
 }
 
-void cBoundBox::Setup(D3DXVECTOR3 vMin, D3DXVECTOR3 vMax, D3DXVECTOR3 vPosition)
+void cBoundBox::Setup(D3DXVECTOR3 vMin, D3DXVECTOR3 vMax, D3DXMATRIX* mat)
 {
 	MakeBoundBox(vMin, vMax, m_vecVertex);
 
-	m_vPosition = vPosition;
 	
-	D3DXMATRIXA16 matT;
-	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	m_matLocal._11 = m_vRight.x;		m_matLocal._12 = m_vRight.y;		m_matLocal._13 = m_vRight.z;
+	m_matLocal._21 = m_vUp.x;			m_matLocal._22 = m_vUp.y;			m_matLocal._23 = m_vUp.z;
+	m_matLocal._31 = m_vDirection.x;	m_matLocal._32 = m_vDirection.y;	m_matLocal._33 = m_vDirection.z;
+	m_matLocal._41 = 0;					m_matLocal._42 = 0;					m_matLocal._43 = 0;
+
+	if(mat)
+		m_matWorld = *mat;
+
+	m_matWorld = m_matLocal * m_matWorld;
 
 	for (size_t i = 0; i < m_vecVertex.size(); ++i)
 	{
-		D3DXVec3TransformCoord(&m_vecVertex[i].p, &m_vecVertex[i].p, &matT);
+		D3DXVec3TransformCoord(&m_vecVertex[i].p, &m_vecVertex[i].p, &m_matWorld);
 	}
 
 
@@ -46,7 +56,12 @@ void cBoundBox::Setup(D3DXVECTOR3 * vMin, D3DXVECTOR3 * vMax, D3DXMATRIX * pMat)
 
 void cBoundBox::Render()
 {
+	//
+	////D3DXMatrixIdentity(&m_matWorld);
+	//
+	//m_matWorld = m_matLocal * m_matWorld;
 	D3DXMatrixIdentity(&m_matWorld);
+	//D3DXMatrixTranslation(&m_matWorld, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 	DWORD dLightMode = 0;
 	DWORD dFillMode = 0;
 	DWORD dCullMode = 0;
@@ -86,11 +101,11 @@ bool cBoundBox::GetRayDistance(D3DXVECTOR3 vRayPosition, D3DXVECTOR3 vDirection,
 		if (D3DXIntersectTri(&m_vecVertex[i].p,
 			&m_vecVertex[i + 1].p,
 			&m_vecVertex[i + 2].p,
-			&vRayPosition,
+			&(vRayPosition),
 			&vDirection,
 			&u, &v, vDirection))
 		{
-			return true;
+  			return true;
 		}
 	}
 

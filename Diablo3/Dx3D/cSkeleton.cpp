@@ -14,11 +14,9 @@ cSkeleton::~cSkeleton()
 
 void cSkeleton::Setup()
 {
-	m_fSpeed = 0.05f;
-	m_fAttackRange = 1.0f;
-	m_fTraceRange = 3.0f;
+	m_stStat = ST_MONSTER_STAT(100, 0, 10, 5, 0.05f, 1.0f, 3.0f);
 
-	cMonster::Setup("Skeleton");
+	cMonster::Setup("Skeleton.x");
 }
 
 void cSkeleton::Update()
@@ -31,10 +29,6 @@ void cSkeleton::Render()
 	cMonster::Render();
 }
 
-void cSkeleton::Trace()
-{
-	cMonster::Trace();
-}
 
 void cSkeleton::OnActionFinish(cAction * pSender)
 {

@@ -17,9 +17,9 @@ void cMonsterTrace::Enter(cMonster * pOwner)
 		trace->SetTarget(pOwner);
 		trace->SetDelegate(pOwner);
 
-		trace->SetTraceRange(pOwner->GetTraceRange());
-		trace->SetAttackRange(pOwner->GetAttackRange());
-		trace->SetSpeed(pOwner->GetSpeed());
+		trace->SetTraceRange(pOwner->GetStat().fTraceRange);
+		trace->SetAttackRange(pOwner->GetStat().fAttackRange);
+		trace->SetSpeed(pOwner->GetStat().fSpeed);
 
 		trace->Start();
 		pOwner->SetAction(trace);
@@ -38,13 +38,13 @@ void cMonsterTrace::Execute(cMonster * pOwner)
 	float distance = D3DXVec3Length(&vLength);
 
 	//공격 사거리 안에 들어오면 공격상태로 바꿔준다.
-	if (distance < pOwner->GetAttackRange())
+	if (distance < pOwner->GetStat().fAttackRange)
 	{
 		pOwner->m_pSateMachnie->ChangeState(cMonsterAttack::Instance());
 	}
 
 	//공격 사거리 밖이면 검사상태로 바꿔준다.
-	if (distance > pOwner->GetTraceRange())
+	if (distance > pOwner->GetStat().fAttackRange)
 	{
 		pOwner->m_pSateMachnie->ChangeState(cMonsterDetecting::Instance());
 	}

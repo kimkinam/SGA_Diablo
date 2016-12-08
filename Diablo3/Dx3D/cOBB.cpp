@@ -46,7 +46,7 @@ void cOBB::Setup(D3DXVECTOR3 vMin, D3DXVECTOR3 vMax)
 
 }
 
-void cOBB::Update(D3DXMATRIXA16* pmatWorld)
+void cOBB::Update(D3DXMATRIX* pmatWorld)
 {
 	if (pmatWorld)
 		m_matWorldTM = *pmatWorld;

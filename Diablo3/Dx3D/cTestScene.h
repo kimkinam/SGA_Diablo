@@ -23,7 +23,8 @@ private:
 	cGrid*						m_pGrid;
 
 	cPlayer*					m_pPlayer;
-
+	D3DXMATRIXA16				m_matR;
+	
 	
 
 	//현재 오브젝트
@@ -68,6 +69,7 @@ public:
 	virtual HRESULT Reset();
 	virtual void Update();
 	virtual void Render();
+	void DebugRender();
 	virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) ;
 
 	//iButtonDelegate override

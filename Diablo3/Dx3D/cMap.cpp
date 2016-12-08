@@ -7,8 +7,8 @@ cMap::cMap()
 	: m_pMesh(NULL)
 	, m_pComMesh(NULL)
 	, m_vPosition(0, 0, 0)
-	, m_vScale(1.f, 1.f, 1.f)
-	, m_vForward(0, 0, 1)
+	, m_vScale(1.0f, 1.0f, 1.0f)
+	, m_vDirection(0, 0, 1)
 	, m_vRight(1, 0, 0)
 	, m_vUp(0, 1, 0)
 	//, m_bIsDrawBound(false)
@@ -67,8 +67,8 @@ void cMap::Setup(char * szFileName, char * szForlderName)
 	cObjLoader loader;
 	D3DXMATRIXA16 matS, matR;
 	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
-	D3DXMatrixRotationY(&matR, D3DXToRadian(90));
-	m_matLocal = matS * matR;
+	//D3DXMatrixRotationY(&matR, D3DXToRadian(90));
+	m_matLocal = matS;// *matR;
 
 	loader.Load(szFileName, szForlderName, &m_matLocal,
 		m_vecMtl, m_pMesh,
@@ -81,7 +81,6 @@ void cMap::Setup(char * szFileName, char * szForlderName)
 	for (size_t i = 0; i < m_vecHiddenObj.size(); ++i)
 		m_vecHiddenDraw[i] = (false);
 
-	m_vForward = D3DXVECTOR3(1, 0, 0);
 }
 
 void cMap::Setup(ST_SAVEOBJECT wObj)
@@ -90,20 +89,20 @@ void cMap::Setup(ST_SAVEOBJECT wObj)
 	m_sFolderName = wObj.szFolderName;
 
 	m_vPosition = wObj.vPosition;
-	m_vForward = wObj.vForward;
+	m_vDirection = wObj.vForward;
 	m_vUp = wObj.vUp;
 	m_vRight = wObj.vRight;
 	m_vScale = wObj.vScale;
 
 	D3DXVECTOR3 scaledRight		= m_vScale.x * m_vRight;
 	D3DXVECTOR3 scaledUp		= m_vScale.y * m_vUp;
-	D3DXVECTOR3 scaledForward	= m_vScale.z * m_vForward;
+	D3DXVECTOR3 scaledForward	= m_vScale.z * m_vDirection;
 
 
 	m_matLocal._11 = scaledRight.x;		m_matLocal._12 = scaledRight.y;		m_matLocal._13 = scaledRight.z;
 	m_matLocal._21 = scaledUp.x;		m_matLocal._22 = scaledUp.y;		m_matLocal._23 = scaledUp.z;
 	m_matLocal._31 = scaledForward.x;	m_matLocal._32 = scaledForward.y;	m_matLocal._33 = scaledForward.z;
-	m_matLocal._41 = m_vPosition.x;		m_matLocal._42 = m_vPosition.y;		m_matLocal._43 = m_vPosition.z;
+	m_matLocal._41 = 0;					m_matLocal._42 = 0;					m_matLocal._43 = 0;
 
 	cObjLoader loader;
 
@@ -118,14 +117,21 @@ void cMap::Setup(ST_SAVEOBJECT wObj)
 	for (size_t i = 0; i < m_vecHiddenObj.size(); ++i)
 		m_vecHiddenDraw[i] = (false);
 
+	m_matWorld = m_matLocal;
+	D3DXMatrixTranslation(&m_matLocal, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	SetLocalBoundBox(&m_matLocal);
+	D3DXMatrixIdentity(&m_matLocal);
 
-	SetLocalBoundBox(NULL);
 }
 
 void cMap::Render()
 {
 	g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	
+	D3DXMatrixTranslation(&m_matWorld, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	
+	m_matWorld = m_matLocal * m_matWorld;
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 
 	for (size_t i = 0; i < m_vecMtl.size(); ++i)
@@ -152,6 +158,8 @@ void cMap::Render()
 		}
 	}
 
+	D3DXMatrixIdentity(&m_matWorld);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 	RenderBoundBox();
 }
 
@@ -160,7 +168,9 @@ void cMap::RenerComplete()
 	g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	D3DXMatrixTranslation(&m_matWorld, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-	//D3DXMatrixIdentity(&mat_)
+	
+	m_matWorld = m_matLocal * m_matWorld;
+
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 
 	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
@@ -183,7 +193,7 @@ void cMap::RenderBoundBox()
 	}
 }
 
-void cMap::SetLocalBoundBox(D3DXVECTOR3* vPos)
+void cMap::SetLocalBoundBox(D3DXMATRIX *mat)
 {
 	m_vecBoundBox.resize(m_vecHiddenObj.size());
 
@@ -193,15 +203,16 @@ void cMap::SetLocalBoundBox(D3DXVECTOR3* vPos)
 	{
 		GetBoundMinMax(m_vecHiddenObj[i], vMin, vMax);
 		m_vecBoundBox[i] = new cBoundBox;
-		if(vPos)
-			m_vecBoundBox[i]->Setup(vMin, vMax, *vPos);
+		if(mat)
+			m_vecBoundBox[i]->Setup(vMin, vMax, mat);
 		else
-			m_vecBoundBox[i]->Setup(vMin, vMax, D3DXVECTOR3(0,0,0));
+			m_vecBoundBox[i]->Setup(vMin, vMax, NULL);
 	}
 }
 
 void cMap::CloneMap(cMap * map)
 {
+	this->SetDirection(map->GetDirection());
 	this->SetRefMtl(map);
 	this->SetScale(map->GetScale());
 	this->SetFolderName(map->GetFolderName());
@@ -212,7 +223,7 @@ void cMap::CloneMap(cMap * map)
 	this->SetPosition(map->GetPosition());
 	this->SetHiddenDraw(map->GetHiddenDraw());
 
-	this->SetForward(map->GetForward());
+	this->SetDirection(map->GetDirection());
 	map->GetMesh()->CloneMeshFVF(
 		map->GetMesh()->GetOptions(),
 		map->GetMesh()->GetFVF(),
@@ -260,6 +271,43 @@ void cMap::SetRefObj(cMap * map)
 	}
 
 	m_vecHiddenObj = map->GetHiddenObj();
+}
+
+void cMap::SetNewDirection(D3DXVECTOR3 vDirection)
+{
+	m_vDirection = vDirection;
+	
+	D3DXVECTOR3 vRight;
+	D3DXVECTOR3 vUp;
+	
+	//Right 재설정
+	D3DXVec3Cross(&vRight, &D3DXVECTOR3(0, 1, 0), &m_vDirection);
+	D3DXVec3Normalize(&m_vRight, &vRight);
+	
+	//Up 재설정
+	D3DXVec3Cross(&vUp, &m_vDirection, &m_vRight);
+	D3DXVec3Normalize(&m_vUp, &vUp);
+	
+	ChangeLocal();
+
+	//D3DXMATRIXA16 matR;
+	//D3DXMatrixIdentity(&matR);
+	//D3DXMatrixRotationY(&matR, D3DXToRadian(90));
+	//m_matLocal *= matR;
+
+}
+
+void cMap::ChangeLocal()
+{
+	D3DXVECTOR3 scaledRight = m_vScale.x * m_vRight;
+	D3DXVECTOR3 scaledUp = m_vScale.y * m_vUp;
+	D3DXVECTOR3 scaledForward = m_vScale.z * m_vDirection;
+	
+	m_matLocal._11 = m_vRight.x;		m_matLocal._12 = m_vRight.y;		m_matLocal._13 = m_vRight.z;
+	m_matLocal._21 = m_vUp.x;			m_matLocal._22 = m_vUp.y;			m_matLocal._23 = m_vUp.z;
+	m_matLocal._31 = m_vDirection.x;	m_matLocal._32 = m_vDirection.y;	m_matLocal._33 = m_vDirection.z;
+	m_matLocal._41 = 0;					m_matLocal._42 = 0;					m_matLocal._43 = 0;
+
 }
 
 

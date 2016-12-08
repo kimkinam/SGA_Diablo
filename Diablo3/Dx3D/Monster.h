@@ -22,9 +22,23 @@ struct ST_MONSTER_STAT
 	float fMp;
 	float fAtk;
 	float fDef;
-	float fStr;
-	float fDex;
-	float fInt;
 
-	ST_MONSTER_STAT() { fHp = fMp = fAtk = fDef = fStr = fDex = fInt = 0.0f; }
+	float fSpeed;
+	float fAttackRange;
+	float fTraceRange;
+
+	ST_MONSTER_STAT() { fHp = fMp = fAtk = fDef
+		= fSpeed = fAttackRange = fTraceRange = 0.0f; }
+
+	ST_MONSTER_STAT(float _fHp, float _fMp, float _fAtk, float _fDef,
+		float _fSpeed, float _fAttackRange, float _fTraceRange) 
+	{
+		fHp				= _fHp;
+		fMp				= _fMp;
+		fAtk			= _fAtk;
+		fDef			= _fDef;
+		fSpeed			= _fSpeed;
+		fAttackRange	= _fAttackRange;
+		fTraceRange		= _fTraceRange;
+	}
 };

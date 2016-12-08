@@ -23,12 +23,12 @@ private:
 	SYNTHESIZE_PASS_BY_REF(std::vector<cBoundBox*>, m_vecBoundBox, BoundBox);
 	SYNTHESIZE_PASS_BY_REF(std::vector<bool>, m_vecHiddenDraw, HiddenDraw);
 
-	SYNTHESIZE(D3DXMATRIX, m_matLocal, LocalTM);
-	SYNTHESIZE(D3DXMATRIX, m_matWorld, WorldTM);
+	SYNTHESIZE_PASS_BY_REF(D3DXMATRIX, m_matLocal, LocalTM);
+	SYNTHESIZE_PASS_BY_REF(D3DXMATRIX, m_matWorld, WorldTM);
 	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
 	SYNTHESIZE(D3DXVECTOR3, m_vScale, Scale);
-	SYNTHESIZE(D3DXVECTOR3, m_vForward, Forward);
-	SYNTHESIZE(D3DXVECTOR3, m_vUp, Up);
+	SYNTHESIZE(D3DXVECTOR3, m_vDirection, Direction);
+	SYNTHESIZE(D3DXVECTOR3, m_vUp, UpVector);
 	SYNTHESIZE(D3DXVECTOR3, m_vRight, Right);
 
 	SYNTHESIZE(string, m_sSumNailName, SumNailName);
@@ -45,13 +45,15 @@ public:
 	void Render();
 	void RenerComplete();
 	void RenderBoundBox();
-	void SetLocalBoundBox(D3DXVECTOR3* vPos);
+	void SetLocalBoundBox(D3DXMATRIX* mat);
 
 	void CloneMap(cMap* map);
 
 	void SetRefMtl(cMap* map);
 	void SetRefObj(cMap* map);
-	
+
+	void SetNewDirection(D3DXVECTOR3 vDirection);
+	void ChangeLocal();
 
 };
 

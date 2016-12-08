@@ -134,17 +134,16 @@ void cSkinnedMesh::UpdateAndRender(D3DXMATRIX* pMat)
 
 	if (m_pRootFrame)
 	{
-		D3DXMATRIXA16 mat;
+		D3DXMATRIXA16 matW;
+		D3DXMatrixIdentity(&matW);
+		D3DXMatrixRotationY(&matW, D3DXToRadian(180));
 		if (pMat)
 		{
-			mat = *pMat;
+			matW = matW * *pMat;
 		}
-		else
-		{
-			D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-		}
+		
 
-		Update(m_pRootFrame, &mat);
+		Update(m_pRootFrame, &matW);
 		Render(m_pRootFrame);
 
 		//if (pBoundingSphereMesh)

@@ -19,7 +19,7 @@ void cMonsterDetecting::Execute(cMonster * pOwner)
 
 	float distance = D3DXVec3Length(&vLength);
 
-	if (distance < pOwner->GetTraceRange())
+	if (distance < pOwner->GetStat().fTraceRange)
 	{
 		pOwner->m_pSateMachnie->ChangeState(cMonsterTrace::Instance());
 	}

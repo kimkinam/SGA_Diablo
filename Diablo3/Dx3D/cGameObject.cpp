@@ -7,6 +7,8 @@ cGameObject::cGameObject()
 	, m_vPosition(0, 0, 0)
 	, m_vDirection(0, 0, 1)
 	, m_vUp(0, 1, 0)
+	, m_vRight(1, 0, 0)
+	, m_vScale(1, 1, 1)
 	, m_pAction(NULL)
 	, m_pMesh(NULL)
 	, m_fAngle(0.0f)
@@ -16,6 +18,7 @@ cGameObject::cGameObject()
 	, m_pOBB(NULL)
 {
 	D3DXMatrixIdentity(&m_matWorld);
+	D3DXMatrixIdentity(&m_matLocal);
 }
 
 
@@ -29,33 +32,33 @@ cGameObject::~cGameObject()
 
 void cGameObject::Setup(D3DXVECTOR3* vLook)
 {
-	D3DXMATRIXA16 matR, matT;
-
 	if (vLook)
 	{
-		float m_fAngle = acosf(D3DXVec3Dot(vLook, &m_vDirection));
-
-		D3DXMatrixRotationY(&matR, m_fAngle);
-
 		m_vDirection = *vLook;
-	}
-	else
-	{
-		m_fAngle = D3DX_PI;
+
+		D3DXVECTOR3 vRight;
+		D3DXVECTOR3 vUp;
+
+		D3DXVec3Cross(&vRight, &D3DXVECTOR3(0, 1, 0), &m_vDirection);
+		D3DXVec3Normalize(&m_vRight, &vRight);
+
+		D3DXVec3Cross(&vUp, &m_vDirection, &m_vRight);
+		D3DXVec3Normalize(&m_vUp, &vUp);
 	}
 		
-	D3DXMatrixRotationY(&matR, m_fAngle);
-	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 
-	m_matWorld = matR * matT;	
+	//D3DXMATRIXA16 matR, matT;
 
-	//m_pAni = new cAnimation;
-	//m_pAni->SetAnimController(m_pMesh->GetAnimController());
-	//m_pAni->Setup();
-	
-	//m_pAni->Play("idle");
+	D3DXVECTOR3 scaledRight		= m_vScale.x * m_vRight;
+	D3DXVECTOR3 scaledUp		= m_vScale.y * m_vUp;
+	D3DXVECTOR3 scaledForward	= m_vScale.z * m_vDirection;
 
+	m_matLocal._11 = scaledRight.x;		m_matLocal._12 = scaledRight.y;		m_matLocal._13 = scaledRight.z;
+	m_matLocal._21 = scaledUp.x;		m_matLocal._22 = scaledUp.y;		m_matLocal._23 = scaledUp.z;
+	m_matLocal._31 = scaledForward.x;	m_matLocal._32 = scaledForward.y;	m_matLocal._33 = scaledForward.z;
+	m_matLocal._41 = 0;					m_matLocal._42 = 0;					m_matLocal._43 = 0;
 
+	m_matWorld = m_matLocal;
 }
 
 void cGameObject::Update()
@@ -65,72 +68,6 @@ void cGameObject::Update()
 		m_pAction->Update();
 	}
 
-	//if (m_pAni)
-	//	m_pAni->Update();
-
-	//switch (m_emState)
-	//{
-	//case cGameObject::IDLE_START:
-	//	//m_pAni->Play("idle");
-	//	m_pMesh->SetAnimationIndex("idle");
-	//	m_emState = IDLE;
-	//	break;
-	//case cGameObject::TRACE_START:
-	//	//m_pAni->Play("run");
-	//	m_pMesh->SetAnimationIndex("run");
-	//	m_emState = TRACE;
-	//	break;
-	//case cGameObject::MOVE_START:
-	//	break;
-	//
-	//case cGameObject::HITTED_START:
-	//{
-	//	//m_pAni->PlayOneShot("hit");
-	//	//m_emState = HITTED;
-	//}
-	//case cGameObject::HITTED:
-	//{
-	//	//LPD3DXANIMATIONSET pAS = NULL;
-	//	//
-	//	//m_pMesh->GetAnimController()->GetTrackAnimationSet(0, &pAS);
-	//	//
-	//	//if (pAS)
-	//	//{
-	//	//	D3DXTRACK_DESC td;
-	//	//	m_pMesh->GetAnimController()->GetTrackDesc(0, &td);
-	//	//
-	//	//	if (td.Position > pAS->GetPeriod() - EPSILON - 0.1f)
-	//	//	{
-	//	//		m_pAni->Play("Idle");
-	//	//
-	//	//		time = g_pTimeManager->GetTotalSec();
-	//	//		m_emState = cGameObject::ATTACK;
-	//	//	}
-	//	//}
-	//	//
-	//	//SAFE_RELEASE(pAS);
-	//	//
-	//	//float a = m_pAni->GetNowPlayAnimationSet()->GetPeriod();
-	//	//double d = m_pAni->GetNowPlayAnimationSet()->GetPeriodicPosition(m_pAni->m_Track_Desc_0.Position);
-	//	//
-	//	//if (d > a - 0.1f)
-	//	//{
-	//	//	m_pAni->Play("Idle", 0.1f);
-	//	//	m_emState = cGameObject::IDLE;
-	//	//}
-	//}
-	//	//m_pMesh->SetAnimationIndex("hit");
-	//	
-	//	break;
-	//case cGameObject::KNOCKBACK_START:
-	//	break;
-	//case cGameObject::STUNNED_START:
-	//	break;
-	//case cGameObject::DEAD_START:
-	//	break;
-	//default:
-	//	break;
-	//}
 }
 
 void cGameObject::Render()
@@ -145,4 +82,31 @@ void cGameObject::Render()
 void cGameObject::OnActionFinish(cAction * pSender)
 {
 }
+
+void cGameObject::SetNewDirection(D3DXVECTOR3 vDirection)
+{
+	m_vDirection = vDirection;
+
+	D3DXVECTOR3 vRight;
+	D3DXVECTOR3 vUp;
+
+	D3DXVec3Cross(&vRight, &D3DXVECTOR3(0, 1, 0), &m_vDirection);
+	D3DXVec3Normalize(&m_vRight, &vRight);
+
+	D3DXVec3Cross(&vUp, &m_vDirection, &m_vRight);
+	D3DXVec3Normalize(&m_vUp, &vUp);
+
+	//m_matWorld._11 = m_vRight.x;		m_matWorld._12 = m_vRight.y;		m_matWorld._13 = m_vRight.z;
+	//m_matWorld._21 = m_vUp.x;			m_matWorld._22 = m_vUp.y;			m_matWorld._23 = m_vUp.z;
+	//m_matWorld._31 = m_vDirection.x;	m_matWorld._32 = m_vDirection.y;	m_matWorld._33 = m_vDirection.z;
+	//m_matWorld._41 = 0;					m_matWorld._42 = 0;					m_matWorld._43 = 0;
+
+	m_matLocal._11 = m_vRight.x;		m_matLocal._12 = m_vRight.y;		m_matLocal._13 = m_vRight.z;
+	m_matLocal._21 = m_vUp.x;			m_matLocal._22 = m_vUp.y;			m_matLocal._23 = m_vUp.z;
+	m_matLocal._31 = m_vDirection.x;	m_matLocal._32 = m_vDirection.y;	m_matLocal._33 = m_vDirection.z;
+	m_matLocal._41 = 0;					m_matLocal._42 = 0;					m_matLocal._43 = 0;
+
+	
+}
+
 

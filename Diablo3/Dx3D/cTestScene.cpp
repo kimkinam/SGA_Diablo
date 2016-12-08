@@ -14,6 +14,9 @@
 #include "cActionMove.h"
 #include "cBoss.h"
 #include "cUIObject.h"
+#include "cFetish.h"
+#include "cSkeleton.h"
+#include "cSkeletonArcher.h"
 
 cTestScene::cTestScene()
 	: m_pGrid(NULL)
@@ -30,7 +33,7 @@ cTestScene::cTestScene()
 	, m_nCurIndex(0)
 	, m_emState(SET_MAP)
 {
-	
+	D3DXMatrixIdentity(&m_matR);
 }
 
 
@@ -54,6 +57,11 @@ cTestScene::~cTestScene()
 	}
 
 	for each(auto c in m_vecOutMap)
+	{
+		SAFE_RELEASE(c);
+	}
+
+	for each(auto c in m_vecOutMonster)
 	{
 		SAFE_RELEASE(c);
 	}
@@ -101,18 +109,18 @@ HRESULT cTestScene::SetUp()
 	m_pPlayer->SetUp();
 
 	//몬스터
-	cMonster* Fetish = new cMonster;
-	Fetish->Setup("Fetish.x");
+	cFetish* Fetish = new cFetish;
+	Fetish->Setup();
 	Fetish->SetSumNailName("Fetish.png");
 	m_vecMonster.push_back(Fetish);
 
-	cMonster* Skeleton = new cMonster;
-	Skeleton->Setup("Skeleton.x");
+	cSkeleton* Skeleton = new cSkeleton;
+	Skeleton->Setup();
 	Skeleton->SetSumNailName("Skeleton.png");
 	m_vecMonster.push_back(Skeleton);
 
-	cMonster* SkeletonArcher = new cMonster;
-	SkeletonArcher->Setup("skeletonArcher.x");
+	cSkeletonArcher* SkeletonArcher = new cSkeletonArcher;
+	SkeletonArcher->Setup();
 	SkeletonArcher->SetSumNailName("skeletonArcher.png");
 	m_vecMonster.push_back(SkeletonArcher);
 
@@ -134,17 +142,23 @@ HRESULT cTestScene::SetUp()
 
 
 	////완전한 맵
-	cMap* obj1 = new cMap;
-	obj1->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
-	obj1->Setup("a1dun_01_test.objobj", "./Resources/Object/");
-	obj1->SetSumNailName("a1Dun_01.jpg");
-	m_vecObj.push_back(obj1);
+	//cMap* obj1 = new cMap;
+	//obj1->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
+	//obj1->Setup("a1dun_01_test.objobj", "./Resources/Object/");
+	//obj1->SetSumNailName("a1Dun_01.jpg");
+	//m_vecObj.push_back(obj1);
 	
-	cMap* obj2 = new cMap;
-	obj2->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
-	obj2->Setup("a1dun_02_test.objobj", "./Resources/Object/");
-	obj2->SetSumNailName("a1Dun_02.jpg");
-	m_vecObj.push_back(obj2);
+	//cMap* obj2 = new cMap;
+	//obj2->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
+	//obj2->Setup("a1dun_02_test.objobj", "./Resources/Object/");
+	//obj2->SetSumNailName("a1Dun_02.jpg");
+	//m_vecObj.push_back(obj2);
+	//
+	//cMap* obj3 = new cMap;
+	//obj3->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
+	//obj3->Setup("a1dun_03_test.objobj", "./Resources/Object/");
+	//obj3->SetSumNailName("a1Dun_03.jpg");
+	//m_vecObj.push_back(obj3);
 
 
 	ST_PC_VERTEX v;
@@ -271,10 +285,10 @@ void cTestScene::Update()
 	if (m_pUIRoot)
 		m_pUIRoot->Update();
 
-	if (g_pKeyManager->isOnceKeyDown('L'))
-	{
-		Save("map1");
-	}
+	//if (g_pKeyManager->isOnceKeyDown('L'))
+	//{
+	//	Save("map1");
+	//}
 
 	if (g_pKeyManager->isOnceKeyDown('P'))
 	{
@@ -330,18 +344,19 @@ void cTestScene::Render()
 	if (m_pUIRoot)
 		m_pUIRoot->Render(m_pSprite);
 
+	
+	DebugRender();
+}
+
+void cTestScene::DebugRender()
+{
 	LPD3DXFONT font;
 	font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
 
 	char temp[512];
-	sprintf_s(temp, "PlayerPos : %.2f, %.2f, %.2f",
-		m_pPlayer->GetPosition().x,
-		m_pPlayer->GetPosition().y,
-		m_pPlayer->GetPosition().z,
-		//m_pPlayer->GetCurMap(),
-		
-		512);
-	RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 150, DEBUG_STARTX + 600, DEBUG_STARTY + 165 };
+	sprintf_s(temp, "=================================", 512);
+	RECT rc;
+	SetRect(&rc, DEBUG_STARTX, DEBUG_STARTY + 110, DEBUG_STARTX + 600, DEBUG_STARTY + 125);
 	font->DrawText(NULL,
 		temp,
 		128,
@@ -349,10 +364,10 @@ void cTestScene::Render()
 		DT_LEFT,
 		D3DCOLOR_XRGB(255, 255, 255));
 
-	sprintf_s(temp, "BoundBoxCount : %d // IsBound : %d",
-		m_vecBoundBox.size(), m_bIsBound,
-		512);
-	rc = { DEBUG_STARTX, DEBUG_STARTY + 200, DEBUG_STARTX + 600, DEBUG_STARTY + 215 };
+	sprintf_s(temp, "1 : SET_MAP \n2 : SET_MONSTER\n3 : SET_BOX\n4 : SET_DONE\nDelete : erase Object\nL : SaveMap", 512);
+
+	SetRect(&rc, DEBUG_STARTX, DEBUG_STARTY + 130, DEBUG_STARTX + 600, DEBUG_STARTY + 235);
+	//RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 130, DEBUG_STARTX + 600, DEBUG_STARTY + 145 };
 	font->DrawText(NULL,
 		temp,
 		128,
@@ -360,6 +375,43 @@ void cTestScene::Render()
 		DT_LEFT,
 		D3DCOLOR_XRGB(255, 255, 255));
 
+	sprintf_s(temp, "=================================", 512);
+
+	SetRect(&rc, DEBUG_STARTX, DEBUG_STARTY + 220, DEBUG_STARTX + 600, DEBUG_STARTY + 230);
+	//RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 130, DEBUG_STARTX + 600, DEBUG_STARTY + 145 };
+	font->DrawText(NULL,
+		temp,
+		128,
+		&rc,
+		DT_LEFT,
+		D3DCOLOR_XRGB(255, 255, 255));
+
+	switch (m_emState)
+	{
+	case SET_MAP:
+		sprintf_s(temp, "CurrentMode : SET_MAP", 512);
+		break;
+	case SET_MONSTER:
+		sprintf_s(temp, "CurrentMode : SET_MONSTER", 512);
+		break;
+	case SET_BOX:
+		sprintf_s(temp, "CurrentMode : SET_BOX", 512);
+		break;
+	case SET_DONE:
+		sprintf_s(temp, "CurrentMode : SET_DONE", 512);
+		break;
+	default:
+		break;
+	}
+
+	SetRect(&rc, DEBUG_STARTX, DEBUG_STARTY + 240, DEBUG_STARTX + 600, DEBUG_STARTY + 260);
+	//RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 130, DEBUG_STARTX + 600, DEBUG_STARTY + 145 };
+	font->DrawText(NULL,
+		temp,
+		128,
+		&rc,
+		DT_LEFT,
+		D3DCOLOR_XRGB(255, 255, 255));
 }
 
 void cTestScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -421,6 +473,7 @@ void cTestScene::SetMap()
 			{
 				cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
 				D3DXVECTOR3 pickPos;
+				float fAngle;
 				for (size_t i = 0; i < m_vecTiles.size(); i += 3)
 				{
 					if (r.IntersectTri(m_vecTiles[i].p,
@@ -429,6 +482,27 @@ void cTestScene::SetMap()
 						pickPos))
 					{
 
+						if (g_pKeyManager->isOnceKeyDown(VK_LEFT))
+						{
+							D3DXMATRIXA16 matR;
+							D3DXMatrixRotationY(&matR, D3DXToRadian(-90));
+							D3DXVECTOR3 vDir = m_pCurObj->GetDirection();
+							D3DXVec3TransformNormal(&vDir, &vDir, &matR);
+							m_pCurObj->SetNewDirection(vDir);
+							m_matR *= matR;
+							
+						}
+						if (g_pKeyManager->isOnceKeyDown(VK_RIGHT))
+						{
+							D3DXMATRIXA16 matR;
+							D3DXMatrixRotationY(&matR, D3DXToRadian(90));
+							D3DXVECTOR3 vDir = m_pCurObj->GetDirection();
+							D3DXVec3TransformNormal(&vDir, &vDir, &matR);
+							m_pCurObj->SetNewDirection(vDir);
+							m_matR *= matR;
+							
+						
+						}
 						if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
 						{
 							if (pickPos.x < 0 && pickPos.z > 0)
@@ -440,7 +514,10 @@ void cTestScene::SetMap()
 							if (pickPos.x > 0 && pickPos.z < 0)
 								m_pCurObj->SetPosition(D3DXVECTOR3(10, 0, -10));
 
-							m_pCurObj->SetLocalBoundBox(&m_pCurObj->GetPosition());
+							D3DXMATRIXA16 matW, matT;
+							D3DXMatrixTranslation(&matT, m_pCurObj->GetPosition().x, m_pCurObj->GetPosition().y, m_pCurObj->GetPosition().z);
+							matW = m_matR * matT;
+							m_pCurObj->SetLocalBoundBox(&matW);
 
 							m_vecOutMap.push_back(m_pCurObj);
 
@@ -481,6 +558,7 @@ void cTestScene::SetMap()
 
 			if (g_pKeyManager->isOnceKeyDown(VK_DELETE))
 			{
+				D3DXMatrixIdentity(&m_matR);
 				if (m_pCurObj)
 				{
 					m_pCurObj->Release();
@@ -488,8 +566,12 @@ void cTestScene::SetMap()
 				}
 				else
 				{
-					if(!m_vecOutMap.empty())
+					if (!m_vecOutMap.empty())
+					{
+						m_vecOutMap.back()->Release();
 						m_vecOutMap.pop_back();
+					}
+						
 				}
 			}
 		break;
@@ -508,7 +590,7 @@ void cTestScene::SetMap()
 					{
 						if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
 						{
-
+							//m_pCurMonster->Setup()
 							m_pCurMonster->SetPosition(pickPos);
 
 							m_vecOutMonster.push_back(m_pCurMonster);
@@ -519,7 +601,11 @@ void cTestScene::SetMap()
 						{
 							if (m_bisClone)
 							{
-								m_pCurMonster->CloneMonster(m_vecMonster[m_nCurIndex]);
+								//m_pCurMonster->SetAttackRange(m_vecMonster[m_nCurIndex]->GetAttackRange());
+								
+								m_pCurMonster->SetStat(m_vecMonster[m_nCurIndex]->GetStat());
+								m_pCurMonster->Setup(StringToChar(m_vecMonster[m_nCurIndex]->GetObjName()));
+								//m_pCurMonster->CloneMonster(m_vecMonster[m_nCurIndex]);;
 								//m_pCurMonster->CloneMap(m_vecObj[m_nCurIndex]);
 
 								m_bisClone = false;
@@ -527,7 +613,24 @@ void cTestScene::SetMap()
 							m_pCurMonster->SetPosition(pickPos);
 
 						}
+						if (g_pKeyManager->isOnceKeyDown(VK_LEFT))
+						{
+							D3DXMATRIXA16 matR;
+							D3DXMatrixRotationY(&matR, D3DXToRadian(-90));
+							D3DXVECTOR3 vDir = m_pCurMonster->GetDirection();
+							D3DXVec3TransformNormal(&vDir, &vDir, &matR);
+							m_pCurMonster->SetNewDirection(vDir);
 
+							int a = 0;
+						}
+						if (g_pKeyManager->isOnceKeyDown(VK_RIGHT))
+						{
+							D3DXMATRIXA16 matR;
+							D3DXMatrixRotationY(&matR, D3DXToRadian(90));
+							D3DXVECTOR3 vDir = m_pCurMonster->GetDirection();
+							D3DXVec3TransformNormal(&vDir, &vDir, &matR);
+							m_pCurMonster->SetNewDirection(vDir);
+						}
 					}
 				}
 			}
@@ -550,6 +653,7 @@ void cTestScene::SetMap()
 
 			if (g_pKeyManager->isOnceKeyDown(VK_DELETE))
 			{
+				D3DXMatrixIdentity(&m_matR);
 				if (m_pCurMonster)
 				{
 					m_pCurMonster->Release();
@@ -558,7 +662,11 @@ void cTestScene::SetMap()
 				else
 				{
 					if (!m_vecOutMonster.empty())
+					{
+						m_vecOutMonster.back()->Release();
 						m_vecOutMonster.pop_back();
+					}
+						
 				}
 			}
 		break;
@@ -581,6 +689,7 @@ void cTestScene::StateChange()
 {
 	if (g_pKeyManager->isOnceKeyDown('1'))
 	{
+		D3DXMatrixIdentity(&m_matR);
 		m_emState = SET_MAP;
 		m_pUIRoot->SetDraw(cUIObject::Ui_Tag::thumbnail_Monster, false);
 		m_pUIRoot->SetDraw(cUIObject::Ui_Tag::thumbnail_Object, true);
@@ -588,6 +697,7 @@ void cTestScene::StateChange()
 
 	if (g_pKeyManager->isOnceKeyDown('2'))
 	{
+		D3DXMatrixIdentity(&m_matR);
 		m_emState = SET_MONSTER;
 		m_pUIRoot->SetDraw(cUIObject::Ui_Tag::thumbnail_Monster, true);
 		m_pUIRoot->SetDraw(cUIObject::Ui_Tag::thumbnail_Object, false);
@@ -596,7 +706,7 @@ void cTestScene::StateChange()
 	if (g_pKeyManager->isOnceKeyDown('3'))
 		m_emState = SET_BOX;
 
-	if (g_pKeyManager->isOnceKeyDown(VK_SPACE))
+	if (g_pKeyManager->isOnceKeyDown('4'))
 		m_emState = SET_DONE;
 
 }
@@ -816,34 +926,33 @@ void cTestScene::Save(string fileName)
 
 	assert(fp != NULL && "세이브 파일이 생성되지 않았습니다");
 
-	int nObj = m_vecOutMap.size();
-	fwrite(&nObj, sizeof(int), 1, fp);
-
-	for (size_t i = 0; i < m_vecOutMap.size(); ++i)
-	{
-		ST_SAVEOBJECT wObj;
-		ZeroMemory(&wObj, sizeof(ST_SAVEOBJECT));
-
-		string name = m_vecOutMap[i]->GetObjName();
-		strncpy(wObj.szfileName, name.c_str(), name.length());
-		string folderName = m_vecOutMap[i]->GetFolderName();
-		strncpy(wObj.szFolderName, folderName.c_str(), folderName.length());
-		
-		wObj.vPosition = m_vecOutMap[i]->GetPosition();
-		wObj.vScale = m_vecOutMap[i]->GetScale();
-		wObj.vForward = m_vecOutMap[i]->GetForward();
-		wObj.vUp = m_vecOutMap[i]->GetUp();
-		
-		D3DXVECTOR3 right;
-		D3DXVec3Cross(&right, &wObj.vUp, &wObj.vForward);
-		D3DXVec3Normalize(&wObj.vRight, &right);
-
-		fwrite(&wObj, sizeof(ST_SAVEOBJECT), 1, fp);
-
-	}
+	//int nObj = m_vecOutMap.size();
+	//fwrite(&nObj, sizeof(int), 1, fp);
+	//
+	//for (size_t i = 0; i < m_vecOutMap.size(); ++i)
+	//{
+	//	ST_SAVEOBJECT wObj;
+	//	ZeroMemory(&wObj, sizeof(ST_SAVEOBJECT));
+	//
+	//	string name = m_vecOutMap[i]->GetObjName();
+	//	strncpy(wObj.szfileName, name.c_str(), name.length());
+	//	string folderName = m_vecOutMap[i]->GetFolderName();
+	//	strncpy(wObj.szFolderName, folderName.c_str(), folderName.length());
+	//	
+	//	wObj.vPosition = m_vecOutMap[i]->GetPosition();
+	//	wObj.vScale = m_vecOutMap[i]->GetScale();
+	//	wObj.vForward = m_vecOutMap[i]->GetDirection();
+	//	wObj.vUp = m_vecOutMap[i]->GetUpVector();
+	//	
+	//	D3DXVECTOR3 right;
+	//	D3DXVec3Cross(&right, &wObj.vUp, &wObj.vForward);
+	//	D3DXVec3Normalize(&wObj.vRight, &right);
+	//
+	//	fwrite(&wObj, sizeof(ST_SAVEOBJECT), 1, fp);
+	//
+	//}
 
 	int nBoxCount = m_vecBoundBox.size();
-
 	fwrite(&nBoxCount, sizeof(int), 1, fp);
 
 	for (size_t i = 0; i < m_vecBoundBox.size(); ++i)
@@ -855,19 +964,31 @@ void cTestScene::Save(string fileName)
 		fwrite(&vMax, sizeof(D3DXVECTOR3), 1, fp);
 	}
 
-	int a = 0;
-	/*string path = "./Resources/Object/";
-	string exp = ".wBoundBox";
-	string fullName = path + fileName + exp;
+	int nMonsterCount = m_vecOutMonster.size();
+	fwrite(&nMonsterCount, sizeof(int), 1, fp);
 
-	FILE* fp = NULL;
+	for (size_t i = 0; i < m_vecOutMonster.size(); ++i)
+	{
+		ST_SAVEOBJECT wObj;
+		ZeroMemory(&wObj, sizeof(ST_SAVEOBJECT));
 
-	fp = fopen(fullName.c_str(), "wb");
+		string name = m_vecOutMonster[i]->GetObjName();
+		strncpy(wObj.szfileName, name.c_str(), name.length());
+		string folderName = m_vecOutMonster[i]->GetFolderName();
+		strncpy(wObj.szFolderName, folderName.c_str(), folderName.length());
 
-	assert(fp != NULL && "세이브 파일이 생성되지 않았습니다");
+		wObj.vPosition = m_vecOutMonster[i]->GetPosition();
+		wObj.vScale = m_vecOutMonster[i]->GetScale();
+		wObj.vForward = m_vecOutMonster[i]->GetDirection();
+		wObj.vUp = m_vecOutMonster[i]->GetUpVector();
 
-	int nObj = m_vecMap.size();
-	fwrite(&nObj, sizeof(int), 1, fp);*/
+		D3DXVECTOR3 right;
+		D3DXVec3Cross(&right, &wObj.vUp, &wObj.vForward);
+		D3DXVec3Normalize(&wObj.vRight, &right);
+
+		fwrite(&wObj, sizeof(ST_SAVEOBJECT), 1, fp);
+
+	}
 
 	fclose(fp);
 }
@@ -889,18 +1010,18 @@ void cTestScene::Load(string fileName)
 
 	assert(fp != NULL && "세이브 파일이 생성되지 않았습니다");
 
-	int nObj;
-	fread(&nObj, sizeof(int), 1, fp);
-	
-	for (int i = 0; i < nObj; ++i)
-	{
-		ST_SAVEOBJECT wObj;
-		fread(&wObj, sizeof(ST_SAVEOBJECT), 1, fp);
-		cMap* map = new cMap;
-		
-		map->Setup(wObj);
-		m_vecOutMap.push_back(map);
-	}
+	//int nObj;
+	//fread(&nObj, sizeof(int), 1, fp);
+	//
+	//for (int i = 0; i < nObj; ++i)
+	//{
+	//	ST_SAVEOBJECT wObj;
+	//	fread(&wObj, sizeof(ST_SAVEOBJECT), 1, fp);
+	//	cMap* map = new cMap;
+	//	
+	//	map->Setup(wObj);
+	//	m_vecOutMap.push_back(map);
+	//}
 
 	int nBoxCount;
 
@@ -917,6 +1038,21 @@ void cTestScene::Load(string fileName)
 		cOBB* obb = new cOBB;
 		obb->Setup(vMin, vMax);
 		m_vecBoundBox.push_back(obb);
+	}
+
+	int nMonsterCount;
+	
+	fread(&nMonsterCount, sizeof(int), 1, fp);
+	for (size_t i = 0; i < nMonsterCount; ++i)
+	{
+		ST_SAVEOBJECT wObj;
+		fread(&wObj, sizeof(ST_SAVEOBJECT), 1, fp);
+	
+		cMonster* map = new cMonster;
+	
+		map->Setup(wObj);
+		m_vecOutMonster.push_back(map);
+	
 	}
 
 

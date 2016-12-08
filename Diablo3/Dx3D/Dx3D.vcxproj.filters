@@ -88,6 +88,9 @@
     <Filter Include="Animation">
       <UniqueIdentifier>{d5944461-ef22-4604-831e-31f08b9ce8d6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\GamingScene\Monster\MonsterBase">
+      <UniqueIdentifier>{dd4990f6-5415-457b-b2d8-c95b90ed0d2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -264,9 +267,6 @@
     <ClInclude Include="cPlayer.h">
       <Filter>Scene\GamingScene\Player</Filter>
     </ClInclude>
-    <ClInclude Include="cMonster.h">
-      <Filter>Scene\GamingScene\Monster</Filter>
-    </ClInclude>
     <ClInclude Include="player.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -326,6 +326,15 @@
     </ClInclude>
     <ClInclude Include="cMonsterAttack.h">
       <Filter>AI\Sates</Filter>
+    </ClInclude>
+    <ClInclude Include="cSkeletonArcher.h">
+      <Filter>Scene\GamingScene\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="cFetish.h">
+      <Filter>Scene\GamingScene\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="cMonster.h">
+      <Filter>Scene\GamingScene\Monster\MonsterBase</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -476,9 +485,6 @@
     <ClCompile Include="cPlayer.cpp">
       <Filter>Scene\GamingScene\Player</Filter>
     </ClCompile>
-    <ClCompile Include="cMonster.cpp">
-      <Filter>Scene\GamingScene\Monster</Filter>
-    </ClCompile>
     <ClCompile Include="cBoss.cpp">
       <Filter>Scene\GamingScene\Monster</Filter>
     </ClCompile>
@@ -532,6 +538,15 @@
     </ClCompile>
     <ClCompile Include="cMonsterAttack.cpp">
       <Filter>AI\Sates</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkeletonArcher.cpp">
+      <Filter>Scene\GamingScene\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="cFetish.cpp">
+      <Filter>Scene\GamingScene\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="cMonster.cpp">
+      <Filter>Scene\GamingScene\Monster\MonsterBase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
