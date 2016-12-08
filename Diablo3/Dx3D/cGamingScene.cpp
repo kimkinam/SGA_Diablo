@@ -83,7 +83,6 @@ HRESULT cGamingScene::SetUp()
 	//{
 	//	g_pAIManager->RegisterAIBase(m_vecMonster[i]);
 	//}
-
 	//cGameObject* g = g_pAIManager->GetAIBaseFromID(0);
 	//
 	//g_pAIManager->RemoveAIBase(m_pPlayer);

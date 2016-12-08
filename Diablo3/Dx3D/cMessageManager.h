@@ -1,12 +1,14 @@
 #pragma once
 #include "MessageTypes.h"
 
+class cGameObject;
+
 class cMessageManager
 {
 private:
 	std::set<Telegram> PriorityQ;
 
-	void Discharge();
+	void Discharge(cGameObject* pReceiver, const Telegram& msg);
 
 public:
 	cMessageManager();
@@ -18,7 +20,7 @@ public:
 		return &instance;
 	}
 
-	void MessageSend(float delay, int sender, int receiver, int msg, void* ExtraInfo);
+	void MessageSend(float delay, int sender, int receiver, MESSAGE_TYPE msg);// , void* ExtraInfo);
 	void MessageDelayedSend();
 };
 
