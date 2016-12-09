@@ -16,3 +16,20 @@ void cMonsterGlobalState::Execute(cMonster * pOwner)
 void cMonsterGlobalState::Exit(cMonster * pOwner)
 {
 }
+
+bool cMonsterGlobalState::OnMessage(cMonster* pOwner, const Telegram& msg)
+{
+	switch (msg.Msg)
+	{
+	case MSG_RUN:
+		// 青悼 贸府
+		return true;
+		break;
+	case MSG_NONE:
+		// 青悼 贸府
+		return true;
+		break;
+	}
+
+	return false;
+}

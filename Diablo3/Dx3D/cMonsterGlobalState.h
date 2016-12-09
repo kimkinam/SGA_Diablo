@@ -24,5 +24,8 @@ public:
 
 	//상태에서 퇴장
 	virtual void Exit(cMonster* pOwner);
+
+	//GameObject의 HandleMessage로부터 메시지를 접수하면 이 부분이 실행
+	virtual bool OnMessage(cMonster* pOwner, const Telegram& msg);
 };
 

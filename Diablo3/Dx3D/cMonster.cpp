@@ -149,3 +149,8 @@ void cMonster::OnActionFinish(cAction * pSender)
 	m_pAction = NULL;
 
 }
+
+bool cMonster::HandleMessage(const Telegram& msg)
+{
+	return m_pSateMachnie->HandleMessage(msg);
+}
