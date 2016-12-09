@@ -113,4 +113,7 @@ void cGameObject::SetNewDirection(D3DXVECTOR3 vDirection)
 	
 }
 
-
+bool cGameObject::HandleMessage(const Telegram& msg)
+{
+	return false;
+}

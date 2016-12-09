@@ -53,6 +53,14 @@ public:
 
 		return false;
 	}
+
+	bool HandleMessage(const Telegram& msg)
+	{
+		// 현재 상태가 유효하고 메시지를 처리할 수 있는지 알아본다
+		if (m_pCurState && m_pCurState->OnMessage(m_pOwner, msg)) return true;
+		// 처리할 수 없고 전역 상태가 설치되어 있다면, 메시지를 전역 상태로 보낸다
+		if (m_pGlobalState && m_pGlobalState->OnMessage(m_pOwner, msg)) return true;
+	
+		return false;
+	}
 };
-
-
