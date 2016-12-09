@@ -4,20 +4,20 @@ class cAtion;
 class cSkinnedMesh;
 class cPlayer;
 
-class cDetecting;
 class cMonsterGlobalState;
 class cMonsterTrace;
 
 class cMonster : public cGameObject
 {
+
+public :
+	cStateMachine<cMonster>* m_pSateMachnie;
 protected:
-	SYNTHESIZE(ST_MONSTER_STAT, m_stStat, Stat);
-	SYNTHESIZE_ADD_REF(cGameObject*, m_pTarget, Target);
+	
 
 	
 	LPD3DXMESH m_pAttackSphere;
 	LPD3DXMESH m_pTraceSphere;
-	cStateMachine<cMonster>* m_pSateMachnie;
 
 private:
 	SYNTHESIZE(string, m_sSumNailName, SumNailName);

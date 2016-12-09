@@ -2,22 +2,22 @@
 #include "cMonsterGlobalState.h"
 #include "cMonster.h"
 
-void cMonsterGlobalState::Enter(cMonster * pOwner)
+void cMonsterGlobalState::Enter(cGameObject * pOwner)
 {
 }
 
-void cMonsterGlobalState::Execute(cMonster * pOwner)
+void cMonsterGlobalState::Execute(cGameObject * pOwner)
 {
-	assert(pOwner->GetStat().fHp > 0 && "ав╬З╫ю╢о╢ы.");
+	//assert(pOwner->GetStat().fHp > 0 && "ав╬З╫ю╢о╢ы.");
 
 	
 }
 
-void cMonsterGlobalState::Exit(cMonster * pOwner)
+void cMonsterGlobalState::Exit(cGameObject * pOwner)
 {
 }
 
-bool cMonsterGlobalState::OnMessage(cMonster* pOwner, const Telegram& msg)
+bool cMonsterGlobalState::OnMessage(cGameObject* pOwner, const Telegram& msg)
 {
 	switch (msg.Msg)
 	{

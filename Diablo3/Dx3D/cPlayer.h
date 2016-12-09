@@ -9,6 +9,7 @@ class cUIImage;
 #define HP_SPHERE_SCALE	 2
 #define HP_SPHERE_SIZE_X 48 * HP_SPHERE_SCALE
 #define HP_SPHERE_SIZE_Y 49 * HP_SPHERE_SCALE
+
 struct ST_HPSPHERE
 {
 	int nCount;
@@ -21,6 +22,8 @@ struct ST_HPSPHERE
 
 class cPlayer : public cGameObject
 {
+public:
+	cStateMachine<cPlayer>* m_pSateMachnie;
 private:
 	double			m_dAttackStartTime;
 	double			m_dAttackTermTime;
@@ -62,5 +65,8 @@ public:
 	void TrailUpdate();
 	void TrailTexSetUp(const char* texFileName);
 	void SetSphere(ST_HPSPHERE& sphere);
+
+	// 파생 클래스들은 메시지를 사용하여 통신할 수 있다
+	virtual bool HandleMessage(const Telegram& msg);
 };
 

@@ -348,6 +348,12 @@
     <ClInclude Include="cTrailRenderer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="cPlayerIdleState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cPlayerMove.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -567,6 +573,12 @@
       <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="cTrailRenderer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayerIdleState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayerMove.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

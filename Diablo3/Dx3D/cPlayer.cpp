@@ -7,6 +7,8 @@
 #include "cTrailRenderer.h"
 #include <time.h>
 #include "cUIImage.h"
+#include "cMonsterGlobalState.h"
+#include "cPlayerIdleState.h"
 
 cPlayer::cPlayer()
 	//: m_emState(PLAYER_IDLE)
@@ -20,7 +22,12 @@ cPlayer::cPlayer()
 	, m_pHpTex(NULL)
 	, m_pMpTex(NULL)
 {
-	
+	m_pSateMachnie = new cStateMachine<cPlayer>(this);
+
+	m_pSateMachnie->SetCurState(cPlayerIdleState::Instance());
+	m_pSateMachnie->SetGlobalState(cMonsterGlobalState::Instance());
+
+
 }
 
 
@@ -38,7 +45,6 @@ void cPlayer::Setup(D3DXVECTOR3* vLook)
 {
 	//바바
 	m_pMesh = new cSkinnedMesh("./Resources/Player/", "babarian.X");
-	m_pMesh->SetAnimationIndex("idle");
 
 	m_pMesh->GetBoundingSphere()->vCenter.y = 0.5f;
 
@@ -115,13 +121,17 @@ void cPlayer::Setup(D3DXVECTOR3* vLook)
 
 	SetSphere(m_Hp);
 	SetSphere(m_Mp);
+
+	m_pSateMachnie->ChangeState(cPlayerIdleState::Instance());
 }
 
 void cPlayer::Update()
 {
 	cGameObject::Update();
 
-	
+	if (m_pSateMachnie)
+		m_pSateMachnie->Update();
+
 	DWORD dwCurTime = g_pTimeManager->GetTotalSec();
 	if (dwCurTime - m_Hp.dwOldAniTime >= m_Hp.dwAniTime)
 	{
@@ -157,14 +167,14 @@ void cPlayer::Update()
 
 	AniControl();
 
-	if (m_vPosition.x < 0 && m_vPosition.z < 0)	//왼쪽아래
-		m_nCurMap = 0;
-	if (m_vPosition.x < 0 && m_vPosition.z > 0)	//왼쪽위
-		m_nCurMap = 1;
-	if (m_vPosition.x > 0 && m_vPosition.z > 0)	//오른쪽위
-		m_nCurMap = 2;
-	if (m_vPosition.x > 0 && m_vPosition.z < 0)	//오른쪽아래
-		m_nCurMap = 3;
+	//if (m_vPosition.x < 0 && m_vPosition.z < 0)	//왼쪽아래
+	//	m_nCurMap = 0;
+	//if (m_vPosition.x < 0 && m_vPosition.z > 0)	//왼쪽위
+	//	m_nCurMap = 1;
+	//if (m_vPosition.x > 0 && m_vPosition.z > 0)	//오른쪽위
+	//	m_nCurMap = 2;
+	//if (m_vPosition.x > 0 && m_vPosition.z < 0)	//오른쪽아래
+	//	m_nCurMap = 3;
 
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixTranslation(&m_matWorld, m_vPosition.x, m_vPosition.y, m_vPosition.z);
@@ -366,5 +376,10 @@ void cPlayer::SetSphere(ST_HPSPHERE & sphere)
 	sphere.dwOldAniTime = g_pTimeManager->GetTotalSec();
 
 	int a = 0;
+}
+
+bool cPlayer::HandleMessage(const Telegram & msg)
+{
+	return m_pSateMachnie->HandleMessage(msg);
 }
 

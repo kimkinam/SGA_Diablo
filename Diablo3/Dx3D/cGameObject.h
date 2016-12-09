@@ -4,9 +4,39 @@
 #include "iActionDelegate.h"
 #include "cSkinnedMesh.h"
 #include "cAnimation.h"
-#include "iAI_Base.h"
 
 class cOBB;
+
+template<typename T> class cStateMachine;
+
+struct ST_MONSTER_STAT
+{
+	float fHp;
+	float fMp;
+	float fAtk;
+	float fDef;
+
+	float fSpeed;
+	float fAttackRange;
+	float fTraceRange;
+
+	ST_MONSTER_STAT() {
+		fHp = fMp = fAtk = fDef
+			= fSpeed = fAttackRange = fTraceRange = 0.0f;
+	}
+
+	ST_MONSTER_STAT(float _fHp, float _fMp, float _fAtk, float _fDef,
+		float _fSpeed, float _fAttackRange, float _fTraceRange)
+	{
+		fHp = _fHp;
+		fMp = _fMp;
+		fAtk = _fAtk;
+		fDef = _fDef;
+		fSpeed = _fSpeed;
+		fAttackRange = _fAttackRange;
+		fTraceRange = _fTraceRange;
+	}
+};
 
 class cGameObject : public cObject, public iActionDelegate
 {
@@ -30,7 +60,7 @@ public:
 		DEAD_START,					//14
 		DEAD,						//15
 	};
-	
+	SYNTHESIZE(ST_MONSTER_STAT, m_stStat, Stat);
 private:
 	//고유 식별 번호
 	SYNTHESIZE(UINT, m_ID, ID);
@@ -39,6 +69,9 @@ private:
 	static UINT m_INextID;
 
 protected:
+	//cStateMachine<cGameObject>* m_pSateMachnie;
+	SYNTHESIZE_ADD_REF(cGameObject*, m_pTarget, Target);
+
 	D3DXVECTOR3 m_vPrevPosition;
 	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
 	SYNTHESIZE(D3DXVECTOR3, m_vDirection, Direction);

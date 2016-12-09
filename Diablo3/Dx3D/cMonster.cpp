@@ -9,10 +9,10 @@
 #include "cMonsterTrace.h"
 
 cMonster::cMonster()
-	: m_pTarget(NULL)
-	, m_pAttackSphere(NULL)
+	: //m_pTarget(NULL)
+	 m_pAttackSphere(NULL)
 	, m_pTraceSphere(NULL)
-	, m_pSateMachnie(NULL)
+	
 {
 	m_pSateMachnie = new cStateMachine<cMonster>(this);
 
