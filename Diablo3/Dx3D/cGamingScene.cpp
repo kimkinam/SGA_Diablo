@@ -100,10 +100,23 @@ void cGamingScene::Update()
 
 	PlayerMoveTest();
 
-	if (m_pPlayer)
-		m_pPlayer->Update();
+	if (g_pKeyManager->isOnceKeyDown(VK_OEM_PERIOD))
+	{
 
-	
+		m_pPlayer->GetMesh()->SetAnimationIndex("attack");
+	}
+	if (g_pKeyManager->isOnceKeyDown(VK_OEM_COMMA))
+	{
+
+		m_pPlayer->GetMesh()->SetAnimationIndex("whirlwinding");
+	}
+
+	if (m_pPlayer)
+	{
+		m_pPlayer->Update();
+		m_pPlayer->TrailUpdate();
+	}
+		
 	for (size_t i = 0; i < m_vecMonster.size(); ++i)
 	{
 		m_vecMonster[i]->Update();
