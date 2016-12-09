@@ -28,6 +28,7 @@ public:
 	void LoadMap(string fileName);
 	void PlayerMoveTest();
 	bool CollisionTest();
+	void SetupVertexFog(DWORD color, DWORD Mode, BOOL UseRange, FLOAT Density);
 
 	//cScene override;
 	virtual HRESULT SetUp()	override;

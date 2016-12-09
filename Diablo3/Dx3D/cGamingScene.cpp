@@ -75,7 +75,7 @@ HRESULT cGamingScene::SetUp()
 	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, -120), c));
 	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, 120), c));
 
-	//LoadMap("map1");
+	
 
 	//g_pAIManager->RegisterAIBase(m_pPlayer);
 	//
@@ -97,6 +97,8 @@ HRESULT cGamingScene::SetUp()
 
 void cGamingScene::Update()
 {
+	if(g_pKeyManager->isOnceKeyDown('L'))
+		LoadMap("map1");
 
 	PlayerMoveTest();
 
@@ -358,5 +360,32 @@ bool cGamingScene::CollisionTest()
 		{
 			return false;
 		}
+	}
+}
+
+void cGamingScene::SetupVertexFog(DWORD color, DWORD Mode, BOOL UseRange, FLOAT Density)
+{
+	float Start = 0.5f;
+	float End = 0.8f;
+
+	g_pD3DDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
+	g_pD3DDevice->SetRenderState(D3DRS_FOGCOLOR, color);
+
+	if (D3DFOG_LINEAR == Mode)
+	{
+		g_pD3DDevice->SetRenderState(D3DRS_FOGVERTEXMODE, Mode);
+		g_pD3DDevice->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&Start));
+		g_pD3DDevice->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&End));
+	}
+	else
+	{
+		g_pD3DDevice->SetRenderState(D3DRS_FOGVERTEXMODE, Mode);
+		g_pD3DDevice->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&Density));
+	}
+
+	if (UseRange)
+	{
+		g_pD3DDevice->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
+
 	}
 }
