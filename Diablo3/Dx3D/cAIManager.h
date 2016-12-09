@@ -17,7 +17,12 @@ public:
 	cAIManager(const cAIManager&);
 	~cAIManager();
 
+<<<<<<< HEAD
 	//cAIManager& operator=(const cAIManager&);
+=======
+	void Destroy();
+	/*cAIBaseManager& operator=(const cAIBaseManager&);*/
+>>>>>>> fd0862dac1e580af3d9fcbc3a09f36f02618a17e
 
 	static cAIManager* Instance()
 	{

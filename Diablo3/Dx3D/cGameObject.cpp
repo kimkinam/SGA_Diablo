@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "cGameObject.h"
+#include "cStateMachine.h"
 
 
 cGameObject::cGameObject()
@@ -115,5 +116,6 @@ void cGameObject::SetNewDirection(D3DXVECTOR3 vDirection)
 
 bool cGameObject::HandleMessage(const Telegram& msg)
 {
+	int a = 0;
 	return false;
 }

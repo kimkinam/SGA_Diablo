@@ -21,7 +21,7 @@ cGamingScene::~cGamingScene()
 {
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
-	SAFE_RELEASE(m_pPlayer);
+	//SAFE_RELEASE(m_pPlayer);
 
 	for each(auto c in m_vecMap)
 	{
@@ -37,6 +37,8 @@ cGamingScene::~cGamingScene()
 	{
 		SAFE_RELEASE(c);
 	}
+
+	
 }
 
 
@@ -75,9 +77,9 @@ HRESULT cGamingScene::SetUp()
 	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, -120), c));
 	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, 120), c));
 
-	//LoadMap("map1");
+	
 
-	//g_pAIManager->RegisterAIBase(m_pPlayer);
+	g_pAIManager->RegisterAIBase(m_pPlayer);
 	//
 	//for (size_t i = 0; i < m_vecMonster.size(); ++i)
 	//{
@@ -97,6 +99,8 @@ HRESULT cGamingScene::SetUp()
 
 void cGamingScene::Update()
 {
+	if(g_pKeyManager->isOnceKeyDown('L'))
+		LoadMap("map1");
 
 	PlayerMoveTest();
 
@@ -255,21 +259,34 @@ void cGamingScene::PlayerMoveTest()
 				m_vecTiles[i + 2].p,
 				pickPos) && !CollisionTest())
 			{
-				cActionMove* pAction = new cActionMove;
+				//cActionMove* pAction = new cActionMove;
+				//
+				//m_pPlayer->SetIsMove(true);
+				//pAction->SetTo(pickPos);
+				//pAction->SetFrom(m_pPlayer->GetPosition());
+				//pAction->SetTarget(m_pPlayer);
+				//pAction->SetDelegate(m_pPlayer);
+				//pAction->SetSpeed(0.05f);
+				//pAction->SetOBB(m_vecBoundBox);
+				//pAction->Start();
+				//m_pPlayer->SetAction(pAction);
+				pickPos.y = 0;
+				struct extramsg
+				{
+					UINT				nBox;
+					std::vector<cOBB*>	Box;
+					D3DXVECTOR3			vPickPos;
+				};
+				extramsg msg;
+				msg.nBox = m_vecBoundBox.size();
+				msg.Box = m_vecBoundBox;
+				msg.vPickPos = pickPos;
 
-				m_pPlayer->SetIsMove(true);
-				pAction->SetTo(pickPos);
-				pAction->SetFrom(m_pPlayer->GetPosition());
-				pAction->SetTarget(m_pPlayer);
-				pAction->SetDelegate(m_pPlayer);
-				pAction->SetSpeed(0.05f);
-				pAction->SetOBB(m_vecBoundBox);
-				pAction->Start();
-				m_pPlayer->SetAction(pAction);
-				m_pPlayer->GetMesh()->SetAnimationIndex("run");
+				g_pMessageManager->MessageSend(0.0f, 0, 0, MESSAGE_TYPE::MSG_RUN, &msg);
+				//m_pPlayer->GetMesh()->SetAnimationIndex("run");
 
 
-				SAFE_RELEASE(pAction);
+				//SAFE_RELEASE(pAction);
 			}
 		}
 	}
@@ -358,5 +375,32 @@ bool cGamingScene::CollisionTest()
 		{
 			return false;
 		}
+	}
+}
+
+void cGamingScene::SetupVertexFog(DWORD color, DWORD Mode, BOOL UseRange, FLOAT Density)
+{
+	float Start = 0.5f;
+	float End = 0.8f;
+
+	g_pD3DDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
+	g_pD3DDevice->SetRenderState(D3DRS_FOGCOLOR, color);
+
+	if (D3DFOG_LINEAR == Mode)
+	{
+		g_pD3DDevice->SetRenderState(D3DRS_FOGVERTEXMODE, Mode);
+		g_pD3DDevice->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&Start));
+		g_pD3DDevice->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&End));
+	}
+	else
+	{
+		g_pD3DDevice->SetRenderState(D3DRS_FOGVERTEXMODE, Mode);
+		g_pD3DDevice->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&Density));
+	}
+
+	if (UseRange)
+	{
+		g_pD3DDevice->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
+
 	}
 }

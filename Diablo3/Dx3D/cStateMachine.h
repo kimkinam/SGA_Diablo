@@ -1,5 +1,7 @@
 #pragma once
 
+class cGameObject;
+
 template <class T>
 class cStateMachine
 {
@@ -9,13 +11,18 @@ private:
 	T*	m_pOwner;
 	SYNTHESIZE(State*, m_pCurState, CurState);
 	SYNTHESIZE(State*, m_pPreState, PreState);
+<<<<<<< HEAD
 	 SYNTHESIZE(State*, m_pGlobalState, GlobalState);
+=======
+	SYNTHESIZE(iState<cGameObject>*, m_pGlobalState, GlobalState);
+>>>>>>> fd0862dac1e580af3d9fcbc3a09f36f02618a17e
 
 public:
 	cStateMachine(T* owner)
 	{
 		m_pOwner = owner;
-		m_pCurState = m_pPreState = m_pGlobalState = NULL;
+		m_pCurState = m_pPreState = NULL;
+		m_pGlobalState = NULL;
 	}
 
 	~cStateMachine()

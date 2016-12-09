@@ -130,7 +130,9 @@
     <ClInclude Include="cObject.h" />
     <ClInclude Include="cObjLoader.h" />
     <ClInclude Include="cPlayer.h" />
+    <ClInclude Include="cPlayerIdleState.h" />
     <ClInclude Include="cPlayerManager.h" />
+    <ClInclude Include="cPlayerMove.h" />
     <ClInclude Include="cPyramid.h" />
     <ClInclude Include="cRay.h" />
     <ClInclude Include="cSceneManager.h" />
@@ -213,7 +215,9 @@
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="cObjLoader.cpp" />
     <ClCompile Include="cPlayer.cpp" />
+    <ClCompile Include="cPlayerIdleState.cpp" />
     <ClCompile Include="cPlayerManager.cpp" />
+    <ClCompile Include="cPlayerMove.cpp" />
     <ClCompile Include="cPyramid.cpp" />
     <ClCompile Include="cRay.cpp" />
     <ClCompile Include="cSceneManager.cpp" />

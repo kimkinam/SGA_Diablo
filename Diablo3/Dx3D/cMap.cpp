@@ -12,6 +12,7 @@ cMap::cMap()
 	, m_vRight(1, 0, 0)
 	, m_vUp(0, 1, 0)
 	//, m_bIsDrawBound(false)
+	, m_pFogEffect(NULL)
 {
 	m_sSumNailName = m_sObjName = m_sFolderName = "";
 
@@ -22,6 +23,8 @@ cMap::cMap()
 
 cMap::~cMap()
 {
+	SAFE_RELEASE(m_pFogEffect);
+
 	//통제 매쉬 해제
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pComMesh);
@@ -81,6 +84,9 @@ void cMap::Setup(char * szFileName, char * szForlderName)
 	for (size_t i = 0; i < m_vecHiddenObj.size(); ++i)
 		m_vecHiddenDraw[i] = (false);
 
+	m_pFogEffect = LoadEffect("fog.txt");
+	m_hFogTechHandle = m_pFogEffect->GetTechniqueByName("Fog");
+
 }
 
 void cMap::Setup(ST_SAVEOBJECT wObj)
@@ -122,6 +128,9 @@ void cMap::Setup(ST_SAVEOBJECT wObj)
 	SetLocalBoundBox(&m_matLocal);
 	D3DXMatrixIdentity(&m_matLocal);
 
+	m_pFogEffect = LoadEffect("fog.txt");
+	m_hFogTechHandle = m_pFogEffect->GetTechniqueByName("Fog");
+
 }
 
 void cMap::Render()
@@ -134,14 +143,29 @@ void cMap::Render()
 	m_matWorld = m_matLocal * m_matWorld;
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 
-	for (size_t i = 0; i < m_vecMtl.size(); ++i)
-	{
-		g_pD3DDevice->SetMaterial(&m_vecMtl[i]->GetMtl());
-		g_pD3DDevice->SetTexture(0, m_vecMtl[i]->GetTexture());
+	m_pFogEffect->SetTechnique(m_hFogTechHandle);
 
-		m_pMesh->DrawSubset(i);
-		
+	g_pD3DDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	g_pD3DDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	g_pD3DDevice->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+
+	UINT numPasses = 0;
+	m_pFogEffect->Begin(&numPasses, 0);
+	D3DXMATRIXA16 I;
+	D3DXMatrixIdentity(&I);
+	for (size_t j = 0; j < numPasses; ++j)
+	{
+		m_pFogEffect->BeginPass(j);
+		for (size_t i = 0; i < m_vecMtl.size(); ++i)
+		{
+			g_pD3DDevice->SetMaterial(&m_vecMtl[i]->GetMtl());
+			g_pD3DDevice->SetTexture(0, m_vecMtl[i]->GetTexture());
+
+			m_pMesh->DrawSubset(i);
+		}
+		m_pFogEffect->EndPass();
 	}
+	m_pFogEffect->End();
 
 	if (!m_vecHiddenObj.empty())
 	{

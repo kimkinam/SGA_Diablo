@@ -20,7 +20,7 @@ public:
 		return &instance;
 	}
 
-	void MessageSend(float delay, int sender, int receiver, MESSAGE_TYPE msg);// , void* ExtraInfo);
+	void MessageSend(float delay, int sender, int receiver, MESSAGE_TYPE msg, void* ExtraInfo = NULL);
 	void MessageDelayedSend();
 };
 

@@ -14,17 +14,17 @@ void cMonsterDetecting::Enter(cMonster * pOwner)
 
 void cMonsterDetecting::Execute(cMonster * pOwner)
 {
-	if (!pOwner->GetTarget()) return;
-
-	D3DXVECTOR3 vLength = pOwner->GetTarget()->GetPosition()
-		- pOwner->GetPosition();
-
-	float distance = D3DXVec3Length(&vLength);
-
-	if (distance < pOwner->GetStat().fTraceRange)
-	{
-		pOwner->m_pSateMachnie->ChangeState(cMonsterTrace::Instance());
-	}
+	//if (!pOwner->GetTarget()) return;
+	//
+	//D3DXVECTOR3 vLength = pOwner->GetTarget()->GetPosition()
+	//	- pOwner->GetPosition();
+	//
+	//float distance = D3DXVec3Length(&vLength);
+	//
+	//if (distance < pOwner->GetStat().fTraceRange)
+	//{
+	//	pOwner->m_pSateMachnie->ChangeState(cMonsterTrace::Instance());
+	//}
 }
 
 void cMonsterDetecting::Exit(cMonster * pOwner)

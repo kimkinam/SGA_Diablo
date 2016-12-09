@@ -11,16 +11,17 @@ cAIManager::cAIManager(const cAIManager&)
 }
 cAIManager::~cAIManager()
 {
-	//for each(auto c in m_AImap)
-	//{
-	//	SAFE_DELETE(c.second);
-	//}
+	
 }
 
-//cAIBaseManager& cAIBaseManager::operator=(const cAIBaseManager&)
-//{
-//	return 
-//}
+void cAIManager::Destroy()
+{
+	for each(auto c in m_AImap)
+	{
+		SAFE_RELEASE(c.second);
+	}
+	m_AImap.clear();
+}
 
 static cAIManager* Instance()
 {
@@ -30,7 +31,7 @@ static cAIManager* Instance()
 
 void cAIManager::RegisterAIBase(cGameObject* NewAIBase)
 {
-	SAFE_ADDREF(NewAIBase);
+	//SAFE_ADDREF(NewAIBase);
 	m_AImap[NewAIBase->GetID()] = NewAIBase;
 }
 
