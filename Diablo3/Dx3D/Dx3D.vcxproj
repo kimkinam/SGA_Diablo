@@ -139,6 +139,7 @@
     <ClInclude Include="cSkeletonArcher.h" />
     <ClInclude Include="cSkinnedMesh.h" />
     <ClInclude Include="cSkinnedMeshManager.h" />
+    <ClInclude Include="cTrailRenderer.h" />
     <ClInclude Include="iState.h" />
     <ClInclude Include="cStateMachine.h" />
     <ClInclude Include="cTestScene.h" />
@@ -221,6 +222,7 @@
     <ClCompile Include="cSkeletonArcher.cpp" />
     <ClCompile Include="cSkinnedMesh.cpp" />
     <ClCompile Include="cSkinnedMeshManager.cpp" />
+    <ClCompile Include="cTrailRenderer.cpp" />
     <ClCompile Include="iState.cpp" />
     <ClCompile Include="cStateMachine.cpp" />
     <ClCompile Include="cTestScene.cpp" />

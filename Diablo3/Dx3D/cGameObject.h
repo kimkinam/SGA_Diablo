@@ -6,9 +6,10 @@
 #include "cAnimation.h"
 #include "iAI_Base.h"
 
+
 class cOBB;
 
-class cGameObject : public cObject, public iActionDelegate
+class cGameObject : public cObject//, public iActionDelegate
 {
 public:
 	enum STATE
@@ -56,7 +57,7 @@ protected:
 	SYNTHESIZE(STATE, m_emState, State);
 	SYNTHESIZE(cSkinnedMesh*, m_pMesh, Mesh);
 
-	
+	cStateMachine<cGameObject>* m_pSateMachnie;
 public:
 	cGameObject();
 	virtual ~cGameObject();
