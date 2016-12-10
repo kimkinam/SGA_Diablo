@@ -5,7 +5,7 @@
 #include "cActionAtk.h"
 #include "cPlayer.h"
 #include "cMonsterDetecting.h"
-#include "cMonsterGlobalState.h"
+#include "cGameObjectGlobalState.h"
 #include "cMonsterTrace.h"
 
 cMonster::cMonster()
@@ -17,7 +17,7 @@ cMonster::cMonster()
 	m_pSateMachnie = new cStateMachine<cMonster>(this);
 
 	m_pSateMachnie->SetCurState(cMonsterDetecting::Instance());
-	m_pSateMachnie->SetGlobalState(cMonsterGlobalState::Instance());
+	m_pSateMachnie->SetGlobalState(cGameObjectGlobalState::Instance());
 
 	m_sSumNailName = m_sObjName = m_sFolderName = "";
 
@@ -34,7 +34,7 @@ cMonster::~cMonster()
 
 void cMonster::Setup(char * szMonsterName, D3DXVECTOR3* vLookAt)
 {
-	cGameObject::Setup(vLookAt);
+	
 
 	m_sObjName = szMonsterName;
 	//string MonsterName = string(szMonsterName);
@@ -47,6 +47,7 @@ void cMonster::Setup(char * szMonsterName, D3DXVECTOR3* vLookAt)
 	D3DXCreateSphere(g_pD3DDevice, m_stStat.fAttackRange, 20, 20, &m_pAttackSphere, NULL);
 	D3DXCreateSphere(g_pD3DDevice, m_stStat.fTraceRange, 20, 20, &m_pTraceSphere, NULL);
 
+	cGameObject::Setup(vLookAt);
 }
 
 void cMonster::Setup(ST_SAVEOBJECT wObj)
@@ -55,7 +56,7 @@ void cMonster::Setup(ST_SAVEOBJECT wObj)
 	m_sFolderName = wObj.szFolderName;
 
 	m_vPosition = wObj.vPosition;
-	cGameObject::Setup(&wObj.vForward);
+	
 
 	m_pMesh = new cSkinnedMesh("./Resources/Monster/", StringToChar(m_sObjName));
 	m_pMesh->SetAnimationIndex("idle");
@@ -65,17 +66,20 @@ void cMonster::Setup(ST_SAVEOBJECT wObj)
 	D3DXCreateSphere(g_pD3DDevice, m_stStat.fAttackRange, 20, 20, &m_pAttackSphere, NULL);
 	D3DXCreateSphere(g_pD3DDevice, m_stStat.fTraceRange, 20, 20, &m_pTraceSphere, NULL);
 
+	cGameObject::Setup(&wObj.vForward);
+
 }
 
 void cMonster::Update()
 {
+	cGameObject::Update();
 	if (m_pSateMachnie)
 		m_pSateMachnie->Update();
-	cGameObject::Update();
 }
 
 void cMonster::Render()
 {
+	cGameObject::Render();
 	//몬스터 렌더
 	//기본적으로 그냥 몸뚱아리는 이거 쓸거고
 	//이펙트, 파티클같은것들은 각자 몬스터 랜더에서 처리
@@ -97,11 +101,12 @@ void cMonster::Render()
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	
-		if (m_pAttackSphere)
-			m_pAttackSphere->DrawSubset(0);
-	
-		if (m_pTraceSphere)
-			m_pTraceSphere->DrawSubset(0);
+		
+		//if (m_pAttackSphere)
+		//	m_pAttackSphere->DrawSubset(0);
+		//
+		//if (m_pTraceSphere)
+		//	m_pTraceSphere->DrawSubset(0);
 	//}
 	
 		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
@@ -140,11 +145,6 @@ void cMonster::Render()
 
 void cMonster::OnActionFinish(cAction * pSender)
 {
-	if (m_bIsAtk)
-		m_emState = ATTACK_START;
-	else
-		m_emState = IDLE_START;
-
 	SAFE_RELEASE(pSender);
 	m_pAction = NULL;
 

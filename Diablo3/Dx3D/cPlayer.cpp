@@ -7,13 +7,12 @@
 #include "cTrailRenderer.h"
 #include <time.h>
 #include "cUIImage.h"
-#include "cMonsterGlobalState.h"
+#include "cGameObjectGlobalState.h"
 #include "cPlayerIdleState.h"
 
 cPlayer::cPlayer()
 	//: m_emState(PLAYER_IDLE)
-	: m_bIsAtk(false)
-	, m_dAttackStartTime(0.0f)
+	: m_dAttackStartTime(0.0f)
 	, m_dAttackTermTime(0.0f)
 	, m_pSword(NULL)
 	, m_nCurMap(0)
@@ -25,7 +24,7 @@ cPlayer::cPlayer()
 	m_pSateMachnie = new cStateMachine<cPlayer>(this);
 
 	m_pSateMachnie->SetCurState(cPlayerIdleState::Instance());
-	m_pSateMachnie->SetGlobalState(cMonsterGlobalState::Instance());
+	m_pSateMachnie->SetGlobalState(cGameObjectGlobalState::Instance());
 
 
 }
@@ -43,6 +42,8 @@ cPlayer::~cPlayer()
 
 void cPlayer::Setup(D3DXVECTOR3* vLook)
 {
+
+	
 	//바바
 	m_pMesh = new cSkinnedMesh("./Resources/Player/", "babarian.X");
 
@@ -67,6 +68,11 @@ void cPlayer::Setup(D3DXVECTOR3* vLook)
 	m_pSword->SetWorldTM(m_pMesh->AttachItem("right_weapon"));
 
 	cGameObject::Setup(vLook);
+
+	m_stStat.fHp = 1000.0f;
+	m_stStat.fAtk = 50.0f;
+	m_stStat.fAttackRange = this->GetMesh()->GetBoundingSphere()->fRadius * 2;
+	m_stStat.fSpeed = 0.1f;
 
 	this->TrailTexSetUp("./Resources/Images/Trail/Trail_angelic.dds");
 	this->TrailTexSetUp("./Resources/Images/Trail/Trail_arcane.dds");
@@ -129,9 +135,17 @@ void cPlayer::Update()
 {
 	cGameObject::Update();
 
+	TrailUpdate();
+
+	//m_pMesh->GetBoundingSphere()->vCenter.y += 1.5f;
 	if (m_pSateMachnie)
 		m_pSateMachnie->Update();
 
+	if (g_pKeyManager->isOnceKeyDown(VK_UP))
+	{
+		g_pMessageManager->MessageSend(0.0f, this->GetID(), this->GetID(),
+			MESSAGE_TYPE::MSG_ATTACK, NULL);
+	}
 	DWORD dwCurTime = g_pTimeManager->GetTotalSec();
 	if (dwCurTime - m_Hp.dwOldAniTime >= m_Hp.dwAniTime)
 	{
@@ -165,7 +179,6 @@ void cPlayer::Update()
 	}
 
 
-	AniControl();
 
 	//if (m_vPosition.x < 0 && m_vPosition.z < 0)	//왼쪽아래
 	//	m_nCurMap = 0;
@@ -188,20 +201,20 @@ void cPlayer::Render()
 {
 	cGameObject::Render();
 	
-	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
-	m_pSprite->Draw(m_pHpTex,
-		&m_Hp.pRect[m_Hp.nIndex],
-		&m_Hp.pCenter[m_Hp.nIndex],
-		&D3DXVECTOR3(700, 200, 0), 
-		D3DCOLOR_XRGB(255, 255, 255));
-	
-	m_pSprite->Draw(m_pMpTex,
-		&m_Mp.pRect[m_Mp.nIndex],
-		&m_Mp.pCenter[m_Mp.nIndex],
-		&D3DXVECTOR3(600, 200, 0), 
-		D3DCOLOR_XRGB(255, 255, 255));
-
-	m_pSprite->End();
+	//m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
+	//m_pSprite->Draw(m_pHpTex,
+	//	&m_Hp.pRect[m_Hp.nIndex],
+	//	&m_Hp.pCenter[m_Hp.nIndex],
+	//	&D3DXVECTOR3(700, 200, 0), 
+	//	D3DCOLOR_XRGB(255, 255, 255));
+	//
+	//m_pSprite->Draw(m_pMpTex,
+	//	&m_Mp.pRect[m_Mp.nIndex],
+	//	&m_Mp.pCenter[m_Mp.nIndex],
+	//	&D3DXVECTOR3(600, 200, 0), 
+	//	D3DCOLOR_XRGB(255, 255, 255));
+	//
+	//m_pSprite->End();
 
 	if (m_pMesh)
 		m_pMesh->UpdateAndRender(&m_matWorld);
@@ -236,77 +249,10 @@ void cPlayer::Render()
 	
 }
 
-void cPlayer::AniControl()
-{
-
-
-	switch (m_emState)
-	{
-	case cGameObject::IDLE_START:
-		break;
-	case cGameObject::IDLE:
-		break;
-	case cGameObject::TRACE_START:
-		break;
-	case cGameObject::TRACE:
-		break;
-	case cGameObject::MOVE_START:
-		break;
-	case cGameObject::MOVE:
-		break;
-	case cGameObject::ATTACK_START:
-		break;
-	case cGameObject::ATTACK:
-		break;
-	case cGameObject::HITTED_START:
-		break;
-	case cGameObject::HITTED:
-	{
-		LPD3DXANIMATIONSET pCurAS = NULL;
-
-		m_pMesh->GetAnimController()->GetAnimationSetByName("hit", &pCurAS);
-
-		D3DXTRACK_DESC td;
-		m_pMesh->GetAnimController()->GetTrackDesc(0, &td);
-
-		double p = pCurAS->GetPeriodicPosition(td.Position);
-
-		float l = pCurAS->GetPeriod();
-		if (p > pCurAS->GetPeriod()/5)
-		{
-			m_emState = IDLE_START;
-		}
-
-		SAFE_RELEASE(pCurAS);
-
-	}
-		break;
-	case cGameObject::KNOCKBACK_START:
-		break;
-	case cGameObject::KNOCKBACK:
-		break;
-	case cGameObject::STUNNED_START:
-		break;
-	case cGameObject::STUNNED:
-		break;
-	case cGameObject::DEAD_START:
-		break;
-	case cGameObject::DEAD:
-		break;
-	default:
-		break;
-	}
-}
-
-void cPlayer::Picking()
-{
-}
-
 void cPlayer::OnActionFinish(cAction * pSender)
 {
+	SAFE_RELEASE(pSender);
 	m_pAction = NULL;
-	m_bIsMove = false;
-	//m_pAni->Play("idle");
 	m_pMesh->SetAnimationIndex("idle");
 }
 
@@ -322,6 +268,7 @@ void cPlayer::TrailUpdate()
 		m_nTrailIndex--;
 		if (m_nTrailIndex < 0)
 		{
+
 			m_nTrailIndex = m_vecTrailTex.size() - 1;
 		}
 		m_pTrailRenderer->SetTrailTexture(m_vecTrailTex[m_nTrailIndex]);
@@ -375,7 +322,6 @@ void cPlayer::SetSphere(ST_HPSPHERE & sphere)
 	sphere.dwAniTime = g_pTimeManager->GetDeltaTime();
 	sphere.dwOldAniTime = g_pTimeManager->GetTotalSec();
 
-	int a = 0;
 }
 
 bool cPlayer::HandleMessage(const Telegram & msg)

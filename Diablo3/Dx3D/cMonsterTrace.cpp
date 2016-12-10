@@ -56,7 +56,7 @@ void cMonsterTrace::Exit(cMonster * pOwner)
 
 bool cMonsterTrace::OnMessage(cMonster* pOwner, const Telegram& msg)
 {
-	switch (msg.Msg)
+	switch (msg.emMessageType)
 	{
 	case MSG_RUN:
 		// 행동 처리

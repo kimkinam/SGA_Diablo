@@ -11,7 +11,6 @@ cCharController::cCharController(void)
 	, m_fSpeed(0.1f)
 	, m_pAction(NULL)
 	, m_pMap(NULL)
-	, m_emState(PLAYER_IDLE)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 }
@@ -39,16 +38,6 @@ void cCharController::Update(iMap* map)
 	D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matRotY);
 
 	D3DXVECTOR3 vPosition = m_vPosition;
-	if (g_pKeyManager->isStayKeyDown('W'))
-	{
-		m_emState = PLAYER_MOVE;
-		vPosition = vPosition - (m_vDirection * m_fSpeed);
-	}
-	if (g_pKeyManager->isOnceKeyUp('W'))
-	{
-		m_emState = PLAYER_IDLE;
-	}
-
 	
 	
 	if (m_pAction)
@@ -90,10 +79,6 @@ void cCharController::Update(iMap* map)
 
 void cCharController::OnActionFinish(cAction * pSender)
 {
-	if (g_pKeyManager->isStayKeyDown('W'))
-		m_emState = PLAYER_MOVE;
-	else
-		m_emState = PLAYER_IDLE;
 	m_pAction = NULL;
 }
 

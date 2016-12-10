@@ -21,7 +21,8 @@ cGamingScene::~cGamingScene()
 {
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
-	//SAFE_RELEASE(m_pPlayer);
+	//m_pPlayer->Release();
+	SAFE_RELEASE(m_pPlayer);
 
 	for each(auto c in m_vecMap)
 	{
@@ -35,8 +36,11 @@ cGamingScene::~cGamingScene()
 
 	for each(auto c in m_vecMonster)
 	{
+		//c->Release();
 		SAFE_RELEASE(c);
 	}
+
+	int a = 0;
 
 	
 }
@@ -45,8 +49,6 @@ cGamingScene::~cGamingScene()
 
 HRESULT cGamingScene::SetUp()
 {
-	
-
 	if (m_bIsLoad)
 	{
 		Reset();
@@ -63,8 +65,6 @@ HRESULT cGamingScene::SetUp()
 
 	m_pPlayer = new cPlayer;
 	m_pPlayer->Setup(&D3DXVECTOR3(0,0,1));
-	//m_pPlayer->SetID(m_pPlayer->GetID());
-
 
 	ST_PC_VERTEX v;
 	D3DXCOLOR c;
@@ -77,28 +77,27 @@ HRESULT cGamingScene::SetUp()
 	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, -120), c));
 	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, 120), c));
 
-	
-
 	g_pAIManager->RegisterAIBase(m_pPlayer);
-	//
-	//for (size_t i = 0; i < m_vecMonster.size(); ++i)
-	//{
-	//	g_pAIManager->RegisterAIBase(m_vecMonster[i]);
-	//}
-	//cGameObject* g = g_pAIManager->GetAIBaseFromID(0);
-	//
-	//g_pAIManager->RemoveAIBase(m_pPlayer);
-	//SAFE_RELEASE(m_pPlayer);
-	//
-	//cGameObject* b = g_pAIManager->GetAIBaseFromID(0);
-	//
-	//int a = 0;
 
 	return S_OK;
 }
 
 void cGamingScene::Update()
 {
+	g_pMessageManager->MessageDelayedSend();
+
+	for (m_vecMonsterIter = m_vecMonster.begin(); m_vecMonsterIter != m_vecMonster.end();)
+	{
+		if ((*m_vecMonsterIter)->GetStat().fHp < 0)
+		{
+			(*m_vecMonsterIter)->Release();
+			m_vecMonsterIter = m_vecMonster.erase(m_vecMonsterIter);
+		}
+			
+		else
+			++m_vecMonsterIter;
+	}
+
 	if(g_pKeyManager->isOnceKeyDown('L'))
 		LoadMap("map1");
 
@@ -106,7 +105,6 @@ void cGamingScene::Update()
 
 	if (g_pKeyManager->isOnceKeyDown(VK_OEM_PERIOD))
 	{
-
 		m_pPlayer->GetMesh()->SetAnimationIndex("attack");
 	}
 	if (g_pKeyManager->isOnceKeyDown(VK_OEM_COMMA))
@@ -114,6 +112,14 @@ void cGamingScene::Update()
 
 		m_pPlayer->GetMesh()->SetAnimationIndex("whirlwinding");
 	}
+
+
+
+	/*for each(auto c in g_pAIManager->GetAImap())
+	{
+	c.second->Update();
+	}*/
+
 
 	if (m_pPlayer)
 	{
@@ -135,7 +141,6 @@ void cGamingScene::Update()
 	{
 		m_pCamera->Update(NULL);
 	}
-
 	
 }
 
@@ -144,9 +149,14 @@ void cGamingScene::Render()
 	if (m_pGrid)
 		m_pGrid->Render();
 
+	/*for each(auto c in g_pAIManager->GetAImap())
+	{
+		c.second->Render();
+	}*/
+
 	if (m_pPlayer)
 		m_pPlayer->Render();
-
+	
 	for (size_t i = 0; i < m_vecMonster.size(); ++i)
 	{
 		m_vecMonster[i]->Render();
@@ -165,6 +175,25 @@ void cGamingScene::Render()
 
 	if (m_pCamera)
 		m_pCamera->Render();
+
+
+	//if (m_pPlayer->GetTarget())
+	//{
+	//	LPD3DXFONT font;
+	//	font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
+	//
+	//	char temp[128];
+	//	sprintf_s(temp, "hp : %f",g_pAIManager->GetAIBaseFromID(m_pPlayer->GetTarget()->GetID())->GetStat().fHp,128);
+	//	RECT rc;
+	//	SetRect(&rc, DEBUG_STARTX, DEBUG_STARTY + 100, DEBUG_STARTX + 250, DEBUG_STARTY + 115);
+	//	font->DrawText(NULL,
+	//		temp,
+	//		128,
+	//		&rc,
+	//		DT_LEFT,
+	//		D3DCOLOR_XRGB(255, 255, 255));
+	//}
+	
 
 }
 
@@ -242,51 +271,78 @@ void cGamingScene::LoadMap(string fileName)
 		m_vecMonster.push_back(monster);
 	}
 
+	for (size_t i = 0; i < m_vecMonster.size(); ++i)
+	{
+		g_pAIManager->RegisterAIBase(m_vecMonster[i]);
+	}
 	fclose(fp);
 }
 
 void cGamingScene::PlayerMoveTest()
 {
 	//플레이어 피킹
-	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
+	if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
 	{
+		//충돌처리 해야할 박스정보와 플레이어 스피드를 메시지에 포함한다.
+		ST_RUN_EXTRAINFO MSG;
+		MSG.nBoxCount = m_vecBoundBox.size();
+		MSG.vecBox = m_vecBoundBox;
+		MSG.fSpeed = m_pPlayer->GetStat().fSpeed;
+
+		//레이를 월드좌표로 변환한다.
 		cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
-		D3DXVECTOR3 pickPos;
+
+		//몬스터를 클릭할 경우
+		for (size_t i = 0; i < m_vecMonster.size(); ++i)
+		{
+			if (r.IntersectShpere(m_vecMonster[i]->GetMesh()->GetBoundingSphere()))
+			{
+				//공격할 타겟을 메세지에 담는다.
+				MSG.nTarget = m_vecMonster[i]->GetID();
+
+				//몬스터까지의 방향을 구한다.
+				D3DXVECTOR3 vDir = m_vecMonster[i]->GetPosition() - m_pPlayer->GetPosition();
+
+				//몬스터까지의 거리를 구한다.
+				float fDisToMonster = D3DXVec3Length(&vDir);
+
+				//몬스터방향으로의 캐릭터 사거리를 구한다.
+				D3DXVec3Normalize(&vDir, &vDir);
+				float fRange = D3DXVec3Length(&(vDir * m_pPlayer->GetStat().fAttackRange));
+				
+				//공격사거리보다 멀리 있는 경우
+				if (fRange < fDisToMonster)
+				{
+					MSG.vDest = m_vecMonster[i]->GetPosition() - vDir * m_pPlayer->GetStat().fAttackRange;
+					
+				}
+				//공격사거리 안쪽에 있는 경우.
+				else
+				{
+					MSG.vDest = m_pPlayer->GetPosition();
+				}
+				g_pMessageManager->MessageSend(0.0f, 0, 0, MESSAGE_TYPE::MSG_RUN, &MSG);
+				
+
+				//몬스터를 클릭한 경우 바닥과의 피킹처리는 하지 않는다.
+				return;
+			}
+		}
+		//바닥과의 피킹처리
+		D3DXVECTOR3 vPickPos;
 		for (size_t i = 0; i < m_vecTiles.size(); i += 3)
 		{
 			if (r.IntersectTri(m_vecTiles[i].p,
 				m_vecTiles[i + 1].p,
 				m_vecTiles[i + 2].p,
-				pickPos) && !CollisionTest())
+				vPickPos) && !CollisionTest())
 			{
-				//cActionMove* pAction = new cActionMove;
-				//
-				//m_pPlayer->SetIsMove(true);
-				//pAction->SetTo(pickPos);
-				//pAction->SetFrom(m_pPlayer->GetPosition());
-				//pAction->SetTarget(m_pPlayer);
-				//pAction->SetDelegate(m_pPlayer);
-				//pAction->SetSpeed(0.05f);
-				//pAction->SetOBB(m_vecBoundBox);
-				//pAction->Start();
-				//m_pPlayer->SetAction(pAction);
-				pickPos.y = 0;
-				struct extramsg
-				{
-					UINT				nBox;
-					std::vector<cOBB*>	Box;
-					D3DXVECTOR3			vPickPos;
-				};
-				extramsg msg;
-				msg.nBox = m_vecBoundBox.size();
-				msg.Box = m_vecBoundBox;
-				msg.vPickPos = pickPos;
+				vPickPos.y = 0;
+				
+				MSG.nTarget = m_pPlayer->GetID();
+				MSG.vDest = vPickPos;
 
-				g_pMessageManager->MessageSend(0.0f, 0, 0, MESSAGE_TYPE::MSG_RUN, &msg);
-				//m_pPlayer->GetMesh()->SetAnimationIndex("run");
-
-
-				//SAFE_RELEASE(pAction);
+				g_pMessageManager->MessageSend(0.0f, 0, 0, MESSAGE_TYPE::MSG_RUN, &MSG);
 			}
 		}
 	}
@@ -378,29 +434,3 @@ bool cGamingScene::CollisionTest()
 	}
 }
 
-void cGamingScene::SetupVertexFog(DWORD color, DWORD Mode, BOOL UseRange, FLOAT Density)
-{
-	float Start = 0.5f;
-	float End = 0.8f;
-
-	g_pD3DDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
-	g_pD3DDevice->SetRenderState(D3DRS_FOGCOLOR, color);
-
-	if (D3DFOG_LINEAR == Mode)
-	{
-		g_pD3DDevice->SetRenderState(D3DRS_FOGVERTEXMODE, Mode);
-		g_pD3DDevice->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&Start));
-		g_pD3DDevice->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&End));
-	}
-	else
-	{
-		g_pD3DDevice->SetRenderState(D3DRS_FOGVERTEXMODE, Mode);
-		g_pD3DDevice->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&Density));
-	}
-
-	if (UseRange)
-	{
-		g_pD3DDevice->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
-
-	}
-}

@@ -9,6 +9,7 @@ private:
 	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vTo, To);
 	SYNTHESIZE(float, m_fSpeed, Speed);
 	SYNTHESIZE(std::vector<cOBB*>, m_vecOBB, OBB);
+	SYNTHESIZE(std::vector<ST_SPHERE*>, m_vecSphere, Sphere);
 
 public:
 	cActionMove();

@@ -6,6 +6,8 @@ class cPlayerIdleState :
 	public iState<cPlayer>
 {
 private:
+	float	m_fLastHittedTime;
+private:
 	cPlayerIdleState() {}
 	virtual ~cPlayerIdleState() {}
 

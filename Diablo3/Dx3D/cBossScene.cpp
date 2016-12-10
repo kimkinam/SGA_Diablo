@@ -170,7 +170,6 @@ void cBossScene::PlayerMove()
 				m_vecTiles[i + 2].p,
 				pickPos))
 			{
-				m_pPlayer->SetIsMove(true);
 				cActionMove* pAction = new cActionMove;
 
 				pAction->SetTo(pickPos);

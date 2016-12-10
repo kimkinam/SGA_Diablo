@@ -22,7 +22,6 @@ private:
 
 	// 객체마다 생성
 	SYNTHESIZE(LPD3DXANIMATIONCONTROLLER, m_pAnimController, AnimController);
-	D3DXVECTOR3					m_vPosition;
 	SYNTHESIZE(D3DXVECTOR3, m_vMin, Min);
 	SYNTHESIZE(D3DXVECTOR3, m_vMax, Max);
 
@@ -38,11 +37,11 @@ public:
 	void ChangeItem(char* szName, char* szFileName);
 
 	void SetRandomTrackPosition(); // 테스트용
-	void SetPosition(D3DXVECTOR3 v)
-	{
-		m_vPosition = v;
-		m_stBoundingSphere.vCenter = v;
-	}
+	//void SetPosition(D3DXVECTOR3 v)
+	//{
+	//	m_vPosition = v;
+	//	m_stBoundingSphere.vCenter = v;
+	//}
 	ST_SPHERE* GetBoundingSphere()
 	{
 		return &m_stBoundingSphere;

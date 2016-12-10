@@ -41,26 +41,7 @@ struct ST_MONSTER_STAT
 class cGameObject : public cObject, public iActionDelegate
 {
 public:
-	enum STATE
-	{
-		IDLE_START,					//0
-		IDLE,						//1
-		TRACE_START,				//2
-		TRACE,						//3
-		MOVE_START,					//4	
-		MOVE,						//5
-		ATTACK_START,				//6
-		ATTACK,						//7
-		HITTED_START,				//8
-		HITTED,						//9
-		KNOCKBACK_START,			//10
-		KNOCKBACK,					//11
-		STUNNED_START,				//12
-		STUNNED,					//13
-		DEAD_START,					//14
-		DEAD,						//15
-	};
-	SYNTHESIZE(ST_MONSTER_STAT, m_stStat, Stat);
+	SYNTHESIZE_PASS_BY_REF(ST_MONSTER_STAT, m_stStat, Stat);
 private:
 	//고유 식별 번호
 	SYNTHESIZE(UINT, m_ID, ID);
@@ -72,7 +53,6 @@ protected:
 	//cStateMachine<cGameObject>* m_pSateMachnie;
 	SYNTHESIZE_ADD_REF(cGameObject*, m_pTarget, Target);
 
-	D3DXVECTOR3 m_vPrevPosition;
 	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
 	SYNTHESIZE(D3DXVECTOR3, m_vDirection, Direction);
 	SYNTHESIZE(D3DXVECTOR3, m_vUp, UpVector);
@@ -83,12 +63,9 @@ protected:
 	SYNTHESIZE_PASS_BY_REF(D3DXMATRIX, m_matWorld, WorldTM);
 
 	SYNTHESIZE_ADD_REF(cAction*, m_pAction, Action);
-	SYNTHESIZE(float, m_fAngle, Angle);
-	SYNTHESIZE(bool, m_bIsMove, IsMove);
-	SYNTHESIZE(bool, m_bIsAtk, IsAtk);
-	SYNTHESIZE(STATE, m_emState, State);
 	SYNTHESIZE(cSkinnedMesh*, m_pMesh, Mesh);
-
+	
+	LPD3DXMESH	m_pSphere;
 	
 public:
 	cGameObject();
@@ -106,6 +83,13 @@ public:
 
 	void SetNewDirection(D3DXVECTOR3 vDirection);
 	D3DXVECTOR3* GetPtPosition(){ return &m_vPosition; }
+
+	LPD3DXANIMATIONSET GetCurAnimation();
+	
+
+	//애니메이션 관련
+	bool IsDoneCurAni();
+	double GetCurAniTime();
 	
 };
 

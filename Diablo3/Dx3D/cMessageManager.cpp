@@ -13,59 +13,27 @@ cMessageManager::~cMessageManager()
 
 void cMessageManager::Discharge(cGameObject* pReceiver, const Telegram& msg)
 {
-	switch (msg.Msg)
-	{
-		case MSG_IDLE:
-			pReceiver->HandleMessage(msg);
-		break;
-		case MSG_RUN:
-			pReceiver->HandleMessage(msg);
-		break;
-		case MSG_NONE:
-		break;
-		default:
-		break;
-	}
+	pReceiver->HandleMessage(msg);
 }
 
 
 void cMessageManager::MessageSend(float delay, int sender, int receiver, MESSAGE_TYPE msg, void* ExtraInfo)
 {
+	//매세지를 처리해야할 대상을 고유식별 아이디를 통해 찾아온다.
 	cGameObject* pReceiver = g_pAIManager->GetAIBaseFromID(receiver);
-	
 
 
-	//memccpy(&MSG.nBox, ExtraInfo, 1, sizeof(UINT));
-	//memccpy(&MSG.bound, ExtraInfo, 11, sizeof(cOBB*));
-	//memccpy(&MSG.vPickPos, ExtraInfo, 1, sizeof(D3DXVECTOR3));
-	//msg.bound = ExtraInfo;
-	//msg.vPickPos = pickPos;
+	if (!pReceiver) return;
 
-	Telegram telegram;
+	//전달할 메시지를 담을 변수를 만든다.
+	Telegram telegram(sender, receiver, msg, delay, ExtraInfo);
 	
-	switch (msg)
-	{
-		case MSG_IDLE:
-			telegram = Telegram(sender, receiver, msg, delay, NULL);
-		break;
-		case MSG_RUN:
-		{
-			
-			telegram = Telegram(sender, receiver, msg, delay, ExtraInfo);
-		}
-		break;
-		case MSG_NONE:
-		break;
-		default:
-			telegram = Telegram(sender, receiver, msg, delay, NULL);
-		break;
-	}
-	
-	
+	//딜레이가 없는 매세지면 바로 실행한다.
 	if (delay <= 0.0f)
 	{
 		Discharge(pReceiver, telegram);
 	}
+	//딜레이가 있는 매세지이면 현재 시간을 더해 매세지 큐에 넣어준다.
 	else
 	{
 		float currentTime = g_pTimeManager->GetDeltaTime();
@@ -78,12 +46,13 @@ void cMessageManager::MessageSend(float delay, int sender, int receiver, MESSAGE
 
 void cMessageManager::MessageDelayedSend()
 {
-	float currentTime = g_pTimeManager->GetDeltaTime();
+	float currentTime = g_pTimeManager->GetTotalSec();
 	
 	// 전송될 필요가 있는 정보가 있는지 알아보기 위해, 큐를 들여다본다.
 	// 시간이 지난 정보들의 큐를 앞부분부터 제거해 나간다.
-	while ((PriorityQ.begin()->fDelayTime < currentTime) &&
-		(PriorityQ.begin()->fDelayTime > 0))
+	while (!PriorityQ.empty()
+		&& (PriorityQ.begin()->fDelayTime < currentTime) 
+		&& (PriorityQ.begin()->fDelayTime > 0))
 	{
 		// 큐의 앞부분부터 정보를 읽는다.
 		Telegram telegram = *PriorityQ.begin();

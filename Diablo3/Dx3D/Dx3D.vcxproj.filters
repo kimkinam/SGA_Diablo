@@ -91,6 +91,12 @@
     <Filter Include="Scene\GamingScene\Monster\MonsterBase">
       <UniqueIdentifier>{dd4990f6-5415-457b-b2d8-c95b90ed0d2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI\Sates\Player">
+      <UniqueIdentifier>{64aa2b83-e9b4-45a8-b061-776d26335501}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Sates\Monster">
+      <UniqueIdentifier>{e723c48f-426d-4f8b-bd24-0c7aa88f4c66}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -267,9 +273,6 @@
     <ClInclude Include="cPlayer.h">
       <Filter>Scene\GamingScene\Player</Filter>
     </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Monster.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -306,9 +309,6 @@
     <ClInclude Include="iState.h">
       <Filter>AI</Filter>
     </ClInclude>
-    <ClInclude Include="cMonsterGlobalState.h">
-      <Filter>AI\Sates</Filter>
-    </ClInclude>
     <ClInclude Include="cActionAtk.h">
       <Filter>Scene\GamingScene\Action</Filter>
     </ClInclude>
@@ -317,15 +317,6 @@
     </ClInclude>
     <ClInclude Include="cAnimation.h">
       <Filter>Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="cMonsterDetecting.h">
-      <Filter>AI\Sates</Filter>
-    </ClInclude>
-    <ClInclude Include="cMonsterTrace.h">
-      <Filter>AI\Sates</Filter>
-    </ClInclude>
-    <ClInclude Include="cMonsterAttack.h">
-      <Filter>AI\Sates</Filter>
     </ClInclude>
     <ClInclude Include="cSkeletonArcher.h">
       <Filter>Scene\GamingScene\Monster</Filter>
@@ -348,11 +339,29 @@
     <ClInclude Include="cTrailRenderer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cPlayerIdleState.h">
+    <ClInclude Include="cGameObjectGlobalState.h">
+      <Filter>AI\Sates</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cPlayerMove.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="cMonsterAttack.h">
+      <Filter>AI\Sates\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="cMonsterDetecting.h">
+      <Filter>AI\Sates\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="cMonsterTrace.h">
+      <Filter>AI\Sates\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="cPlayerAttackState.h">
+      <Filter>AI\Sates\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="cPlayerIdleState.h">
+      <Filter>AI\Sates\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="cPlayerMoveState.h">
+      <Filter>AI\Sates\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -536,9 +545,6 @@
     <ClCompile Include="iState.cpp">
       <Filter>AI</Filter>
     </ClCompile>
-    <ClCompile Include="cMonsterGlobalState.cpp">
-      <Filter>AI\Sates</Filter>
-    </ClCompile>
     <ClCompile Include="cActionAtk.cpp">
       <Filter>Scene\GamingScene\Action</Filter>
     </ClCompile>
@@ -547,15 +553,6 @@
     </ClCompile>
     <ClCompile Include="cAnimation.cpp">
       <Filter>Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="cMonsterDetecting.cpp">
-      <Filter>AI\Sates</Filter>
-    </ClCompile>
-    <ClCompile Include="cMonsterTrace.cpp">
-      <Filter>AI\Sates</Filter>
-    </ClCompile>
-    <ClCompile Include="cMonsterAttack.cpp">
-      <Filter>AI\Sates</Filter>
     </ClCompile>
     <ClCompile Include="cSkeletonArcher.cpp">
       <Filter>Scene\GamingScene\Monster</Filter>
@@ -575,11 +572,26 @@
     <ClCompile Include="cTrailRenderer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cPlayerIdleState.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="cGameObjectGlobalState.cpp">
+      <Filter>AI\Sates</Filter>
     </ClCompile>
-    <ClCompile Include="cPlayerMove.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="cMonsterAttack.cpp">
+      <Filter>AI\Sates\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="cMonsterDetecting.cpp">
+      <Filter>AI\Sates\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="cMonsterTrace.cpp">
+      <Filter>AI\Sates\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayerAttackState.cpp">
+      <Filter>AI\Sates\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayerIdleState.cpp">
+      <Filter>AI\Sates\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayerMoveState.cpp">
+      <Filter>AI\Sates\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

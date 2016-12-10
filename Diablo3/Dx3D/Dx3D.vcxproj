@@ -120,7 +120,7 @@
     <ClInclude Include="cMainGame.h" />
     <ClInclude Include="cMap.h" />
     <ClInclude Include="cMonster.h" />
-    <ClInclude Include="cMonsterGlobalState.h" />
+    <ClInclude Include="cGameObjectGlobalState.h" />
     <ClInclude Include="cMonsterManager.h" />
     <ClInclude Include="cMonsterTrace.h" />
     <ClInclude Include="cMtlTex.h" />
@@ -130,9 +130,10 @@
     <ClInclude Include="cObject.h" />
     <ClInclude Include="cObjLoader.h" />
     <ClInclude Include="cPlayer.h" />
+    <ClInclude Include="cPlayerAttackState.h" />
     <ClInclude Include="cPlayerIdleState.h" />
     <ClInclude Include="cPlayerManager.h" />
-    <ClInclude Include="cPlayerMove.h" />
+    <ClInclude Include="cPlayerMoveState.h" />
     <ClInclude Include="cPyramid.h" />
     <ClInclude Include="cRay.h" />
     <ClInclude Include="cSceneManager.h" />
@@ -163,7 +164,7 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="MyUtil.h" />
-    <ClInclude Include="player.h" />
+    <ClInclude Include="playerState.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -205,7 +206,7 @@
     <ClCompile Include="cMainGame.cpp" />
     <ClCompile Include="cMap.cpp" />
     <ClCompile Include="cMonster.cpp" />
-    <ClCompile Include="cMonsterGlobalState.cpp" />
+    <ClCompile Include="cGameObjectGlobalState.cpp" />
     <ClCompile Include="cMonsterManager.cpp" />
     <ClCompile Include="cMonsterTrace.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
@@ -215,9 +216,10 @@
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="cObjLoader.cpp" />
     <ClCompile Include="cPlayer.cpp" />
+    <ClCompile Include="cPlayerAttackState.cpp" />
     <ClCompile Include="cPlayerIdleState.cpp" />
     <ClCompile Include="cPlayerManager.cpp" />
-    <ClCompile Include="cPlayerMove.cpp" />
+    <ClCompile Include="cPlayerMoveState.cpp" />
     <ClCompile Include="cPyramid.cpp" />
     <ClCompile Include="cRay.cpp" />
     <ClCompile Include="cSceneManager.cpp" />

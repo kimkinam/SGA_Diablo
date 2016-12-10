@@ -252,7 +252,7 @@ typedef struct ST_SAVEOBJECT
 //전역 해더
 #include "Item.h"
 #include "MyUtil.h"
-#include "player.h"
+#include "playerState.h"
 #include "Monster.h"
 
 using namespace MyUtil;

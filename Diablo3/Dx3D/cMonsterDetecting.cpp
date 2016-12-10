@@ -33,15 +33,20 @@ void cMonsterDetecting::Exit(cMonster * pOwner)
 
 bool cMonsterDetecting::OnMessage(cMonster* pOwner, const Telegram& msg)
 {
-	switch (msg.Msg)
+	switch (msg.emMessageType)
 	{
 	case MSG_RUN:
-		// 青悼 贸府
-		return true;
+		break;
+	case MSG_IDLE:
+		break;
+	case MSG_ATTACK:
+		break;
+	case MSG_HITTED:
+		return false;
 		break;
 	case MSG_NONE:
-		// 青悼 贸府
-		return true;
+		break;
+	default:
 		break;
 	}
 
