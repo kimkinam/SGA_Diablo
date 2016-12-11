@@ -8,7 +8,8 @@ void cPlayerIdleState::Enter(cPlayer * pOwner)
 	if (!pOwner) return;
 
 	m_fLastHittedTime = g_pTimeManager->GetTotalSec();
-	pOwner->GetMesh()->SetAnimationIndex("idle");
+	//if(pOwner->IsDoneCurAni())
+		pOwner->GetMesh()->SetAnimationIndex("idle");
 }
 
 void cPlayerIdleState::Execute(cPlayer * pOwner)
@@ -62,12 +63,13 @@ bool cPlayerIdleState::OnMessage(cPlayer * pOwner, const Telegram & msg)
 		pAction->SetTarget(pOwner);
 		pAction->SetDelegate(pOwner);
 		pAction->SetSpeed(0.05f);
-		pAction->SetOBB(MSG.vecBox);
+		//pAction->SetOBB(MSG.vecBox);
+		pAction->SetOBB(pOwner->GetBoundBox());
 		pAction->Start();
 		pOwner->SetAction(pAction);
 		pOwner->m_pSateMachnie->ChangeState(cPlayerMoveState::Instance());
 
-		return true;
+		//return true;
 	}
 		
 	break;
@@ -80,5 +82,6 @@ bool cPlayerIdleState::OnMessage(cPlayer * pOwner, const Telegram & msg)
 	default:
 		break;
 	}
+
 	return false;
 }

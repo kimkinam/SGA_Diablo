@@ -8,6 +8,7 @@ enum MESSAGE_TYPE
 	MSG_IDLE,
 	MSG_ATTACK,
 	MSG_HITTED,
+	MSG_DEAD,
 	MSG_NONE,	//1
 };
 
@@ -15,6 +16,7 @@ struct ST_ATK_EXTRAINFO
 {
 	UINT	nTarget;
 };
+
 
 struct ST_RUN_EXTRAINFO
 {

@@ -34,7 +34,6 @@ public:
 	virtual void Render();
 	//virtual void CloneMonster(cMonster* monster);
 
-	virtual void OnActionFinish(cAction* pSender) override;
 
 	// 파생 클래스들은 메시지를 사용하여 통신할 수 있다
 	virtual bool HandleMessage(const Telegram& msg);

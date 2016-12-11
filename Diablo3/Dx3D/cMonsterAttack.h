@@ -46,19 +46,20 @@ public:
 			atk->Start();
 			pOwner->SetAction(atk);
 
-			//pOwner->SetIsAtk(true);
-
-			SAFE_RELEASE(atk);
-
 		}
 	}
 
 	//상태에 진입해서 갱신
 	virtual void Execute(cMonster* pOwner)
 	{
-		D3DXVECTOR3 v = pOwner->GetPosition() - pOwner->GetTarget()->GetPosition();
-		float distance = D3DXVec3Length(&v);
+		D3DXVECTOR3 vDir = pOwner->GetTarget()->GetPosition() - pOwner->GetPosition();
+		float distance = D3DXVec3Length(&vDir);
+		D3DXVec3Normalize(&vDir, &vDir);
 
+		if(pOwner->IsDoneCurAni())
+			pOwner->SetNewDirection(vDir);
+
+		//공격사거리 밖으로 나가면
 		if (distance > pOwner->GetStat().fAttackRange)
 		{
 			LPD3DXANIMATIONSET pCurAS = NULL;
@@ -69,23 +70,27 @@ public:
 				D3DXTRACK_DESC td;
 				pOwner->GetMesh()->GetAnimController()->GetTrackDesc(0, &td);
 
-
 				//현재 애니메이션의 전체 길이를 실행하고
-				if (td.Position > pCurAS->GetPeriod() - EPSILON - 0.2f)
+				if(pOwner->IsDoneCurAni())
+				//if (td.Position > pCurAS->GetPeriod() - EPSILON - 0.2f)
 				{
 					//상태를 변화시켜준다.
 					//pOwner->SetIsAtk(false);
-					pOwner->OnActionFinish(pOwner->GetAction());
+
+					pOwner->SetAction(NULL);
+					//pOwner->OnActionFinish(pOwner->GetAction());
 					pOwner->m_pSateMachnie->ChangeState(cMonsterDetecting::Instance());
 				}
 			}
 		}
+
 	}
 
 	//상태에서 퇴장
 	virtual void Exit(cMonster* pOwner)
 	{
 		
+		int a = 0;
 	}
 
 	//GameObject의 HandleMessage로부터 메시지를 접수하면 이 부분이 실행

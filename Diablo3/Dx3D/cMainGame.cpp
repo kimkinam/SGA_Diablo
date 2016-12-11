@@ -17,8 +17,8 @@ cMainGame::~cMainGame(void)
 	g_pTextureManager->Destroy();
 	g_pFontManger->Destroy();
 	g_pSkinnedMeshManager->Destroy();
-	g_pAIManager->Destroy();
 	g_pDeviceManager->Destroy();
+	g_pObjectPool->Destroy();
 	
 
 }

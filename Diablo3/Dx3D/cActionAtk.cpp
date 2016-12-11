@@ -14,7 +14,7 @@ cActionAtk::cActionAtk()
 
 cActionAtk::~cActionAtk()
 {
-	SAFE_RELEASE(m_pAttakTarget);
+	SAFE_DELETE(m_pAttakTarget);
 }
 
 cAction * cActionAtk::Create()
@@ -50,7 +50,6 @@ void cActionAtk::Update()
 		D3DXVec3Normalize(&vDir, &vDir);
 	
 		D3DXMATRIXA16 matR, matT, matW;
-		//	D3DXMatrixRotationY(&matR, m_fAngle);
 		D3DXMatrixLookAtLH(&matR,
 			&D3DXVECTOR3(0, 0, 0),
 			&vDir,
@@ -64,26 +63,5 @@ void cActionAtk::Update()
 		m_pTarget->SetWorldTM(matW);
 	}
 	
-	//if (m_fDistance > m_fAtkRange)
-	//{
-	//	m_pTarget->GetMesh()->GetAnimController()->GetTrackAnimationSet(0, &pCurAS);
-	//	if (pCurAS)
-	//	{
-	//		//현재 애니메이션이 돌아가는 트랙정보를 가져온다.
-	//		D3DXTRACK_DESC td;
-	//		m_pTarget->GetMesh()->GetAnimController()->GetTrackDesc(0, &td);
-	//
-	//		//현재 애니메이션의 전체 길이를 실행하고
-	//		if (td.Position > pCurAS->GetPeriod() - EPSILON - 0.2f)
-	//		{
-	//			//상태를 변화시켜준다.
-	//			m_pTarget->SetState(cGameObject::IDLE_START);
-	//			m_pTarget->SetIsAtk(false);
-	//			m_pDelegate->OnActionFinish(this);
-	//			//this->SetState(MONSTER_IDLE_START);
-	//		}
-	//	}
-	//}
 
-	SAFE_RELEASE(pCurAS);
 }

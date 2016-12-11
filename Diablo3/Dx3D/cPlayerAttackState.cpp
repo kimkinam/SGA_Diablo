@@ -22,7 +22,6 @@ void cPlayerAttackState::Execute(cPlayer * pOwner)
 	pOwner->SetNewDirection(vDir);
 	if (pOwner->IsDoneCurAni())
 	{
-		
 		g_pMessageManager->MessageSend(0.0f, pOwner->GetID(),
 			pOwner->GetID(), MESSAGE_TYPE::MSG_IDLE);
 	}
@@ -31,13 +30,12 @@ void cPlayerAttackState::Execute(cPlayer * pOwner)
 
 void cPlayerAttackState::Exit(cPlayer * pOwner)
 {
+	//pOwner->GetTarget()->Release();
 	pOwner->SetTarget(NULL);
 }
 
 bool cPlayerAttackState::OnMessage(cPlayer * pOwner, const Telegram & msg)
 {
-	//if  return false;
-
 	switch (msg.emMessageType)
 	{
 	case MSG_RUN:

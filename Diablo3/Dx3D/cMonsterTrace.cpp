@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "cMonsterTrace.h"
 #include "cMonster.h"
-#include "cActionTrace.h"
+#include "cActionMove.h"
 #include "cMonsterDetecting.h"
 #include "cMonsterAttack.h"
 
@@ -9,25 +9,18 @@ void cMonsterTrace::Enter(cMonster * pOwner)
 {
 	if (pOwner)
 	{
-		cActionTrace* trace = new cActionTrace;
-		cGameObject* target = pOwner->GetTarget();
+		cActionMove* pAction = new cActionMove;
 
-		trace->SetTo(target->GetPtPosition());
-		trace->SetFrom(pOwner->GetPtPosition());
-		trace->SetTarget(pOwner);
-		trace->SetDelegate(pOwner);
-
-		trace->SetTraceRange(pOwner->GetStat().fTraceRange);
-		trace->SetAttackRange(pOwner->GetStat().fAttackRange);
-		trace->SetSpeed(pOwner->GetStat().fSpeed);
-
-		trace->Start();
-		pOwner->SetAction(trace);
-
-		SAFE_RELEASE(trace);
-
-		pOwner->GetMesh()->SetAnimationIndex("run");
+		pAction->SetTo(pOwner->GetTarget()->GetPosition());
+		pAction->SetFrom(pOwner->GetPosition());
+		pAction->SetTarget(pOwner);
+		pAction->SetDelegate(pOwner);
+		pAction->SetSpeed(0.02f);
+		pAction->SetOBB(pOwner->GetBoundBox());
+		pAction->Start();
+		pOwner->SetAction(pAction);
 	}
+	pOwner->SetAnimation("run");
 }
 
 void cMonsterTrace::Execute(cMonster * pOwner)
@@ -44,7 +37,7 @@ void cMonsterTrace::Execute(cMonster * pOwner)
 	}
 
 	//공격 사거리 밖이면 검사상태로 바꿔준다.
-	if (distance > pOwner->GetStat().fAttackRange)
+	if (distance > pOwner->GetStat().fTraceRange)
 	{
 		pOwner->m_pSateMachnie->ChangeState(cMonsterDetecting::Instance());
 	}
@@ -52,10 +45,13 @@ void cMonsterTrace::Execute(cMonster * pOwner)
 
 void cMonsterTrace::Exit(cMonster * pOwner)
 {
+	//pOwner->SetAction(NULL);
 }
 
 bool cMonsterTrace::OnMessage(cMonster* pOwner, const Telegram& msg)
 {
+	if (pOwner->GetStat().fHp <= 0) return false;
+
 	switch (msg.emMessageType)
 	{
 	case MSG_RUN:

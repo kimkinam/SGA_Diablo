@@ -25,10 +25,10 @@ class cPlayer : public cGameObject
 public:
 	cStateMachine<cPlayer>* m_pSateMachnie;
 private:
-	double			m_dAttackStartTime;
-	double			m_dAttackTermTime;
-	cObj*			m_pSword;
-	ST_HPSPHERE				m_Hp;
+	double						m_dAttackStartTime;
+	double						m_dAttackTermTime;
+	cObj*						m_pSword;
+	ST_HPSPHERE					m_Hp;
 	LPDIRECT3DTEXTURE9			m_pHpTex;
 	ST_HPSPHERE					m_Mp;
 	LPDIRECT3DTEXTURE9			m_pMpTex;
@@ -55,7 +55,6 @@ public:
 	virtual void Render();
 	virtual void PlayerPosition();
 
-	virtual void OnActionFinish(cAction* pSender) override;
 
 public:
 	void TrailUpdate();

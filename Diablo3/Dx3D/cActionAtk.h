@@ -8,7 +8,7 @@ class cActionAtk :
 	public cAction
 {
 private:
-	SYNTHESIZE_ADD_REF(cGameObject*, m_pAttakTarget, AttackTarget);
+	SYNTHESIZE(cGameObject*, m_pAttakTarget, AttackTarget);
 	SYNTHESIZE(float, m_fAtkRange, AtkRange);
 	SYNTHESIZE(float, m_fAtkTime, AtkTime);
 	

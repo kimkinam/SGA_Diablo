@@ -24,3 +24,10 @@ void cObject::Release()
 		delete this;
 	}
 }
+
+cObject * cObject::AutoRelease()
+{
+	g_pAutoReleasePool->AddObject(this);
+
+	return nullptr;
+}
