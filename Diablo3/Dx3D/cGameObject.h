@@ -5,14 +5,8 @@
 #include "cSkinnedMesh.h"
 #include "cAnimation.h"
 
-
 class cOBB;
-
-<<<<<<< HEAD
-class cGameObject : public cObject//, public iActionDelegate
-=======
 template<typename T> class cStateMachine;
-
 struct ST_MONSTER_STAT
 {
 	float fHp;
@@ -43,7 +37,6 @@ struct ST_MONSTER_STAT
 };
 
 class cGameObject : public cObject, public iActionDelegate
->>>>>>> fd0862dac1e580af3d9fcbc3a09f36f02618a17e
 {
 public:
 	SYNTHESIZE_PASS_BY_REF(ST_MONSTER_STAT, m_stStat, Stat);
@@ -69,14 +62,9 @@ protected:
 
 	SYNTHESIZE_ADD_REF(cAction*, m_pAction, Action);
 	SYNTHESIZE(cSkinnedMesh*, m_pMesh, Mesh);
-<<<<<<< HEAD
 
-	cStateMachine<cGameObject>* m_pSateMachnie;
-=======
-	
 	LPD3DXMESH	m_pSphere;
 	
->>>>>>> a92f904585193e08f4a3926ef12cc30cc0d46eab
 public:
 	cGameObject();
 	virtual ~cGameObject();

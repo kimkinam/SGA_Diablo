@@ -11,11 +11,8 @@ private:
 	T*	m_pOwner;
 	SYNTHESIZE(State*, m_pCurState, CurState);
 	SYNTHESIZE(State*, m_pPreState, PreState);
-<<<<<<< HEAD
-	 SYNTHESIZE(State*, m_pGlobalState, GlobalState);
-=======
+	//SYNTHESIZE(State*, m_pGlobalState, GlobalState);
 	SYNTHESIZE(iState<cGameObject>*, m_pGlobalState, GlobalState);
->>>>>>> fd0862dac1e580af3d9fcbc3a09f36f02618a17e
 
 public:
 	cStateMachine(T* owner)
