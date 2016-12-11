@@ -2,42 +2,58 @@
 #include "cMonsterDetecting.h"
 #include "cMonster.h"
 #include "cMonsterTrace.h"
+#include "cActionMove.h"
 
 
 void cMonsterDetecting::Enter(cMonster * pOwner)
 {
-	if (pOwner)
-	{
-		pOwner->GetMesh()->SetAnimationIndex("idle");
-	}
+	
+	//if(pOwner->IsDoneCurAni())
+	pOwner->GetMesh()->SetAnimationIndex("idle");
+
+	//if (pOwner->GetAction())
+	//	pOwner->SetAction(NULL);
+
 }
 
 void cMonsterDetecting::Execute(cMonster * pOwner)
 {
-	//if (!pOwner->GetTarget()) return;
-	//
-	//D3DXVECTOR3 vLength = pOwner->GetTarget()->GetPosition()
-	//	- pOwner->GetPosition();
-	//
-	//float distance = D3DXVec3Length(&vLength);
-	//
-	//if (distance < pOwner->GetStat().fTraceRange)
-	//{
-	//	pOwner->m_pSateMachnie->ChangeState(cMonsterTrace::Instance());
-	//}
+	if (!pOwner->GetTarget()) return;
+	
+	D3DXVECTOR3 vLength = pOwner->GetTarget()->GetPosition()
+		- pOwner->GetPosition();
+	float distance = D3DXVec3Length(&vLength);
+
+	if (distance < pOwner->GetStat().fTraceRange)
+	{
+		this->Exit(pOwner);
+		g_pMessageManager->MessageSend(0.0f, pOwner->GetID(), pOwner->GetID(),
+			MESSAGE_TYPE::MSG_RUN, NULL);
+	}
 }
 
 void cMonsterDetecting::Exit(cMonster * pOwner)
 {
+	D3DXVECTOR3 vLength = pOwner->GetTarget()->GetPosition()
+		- pOwner->GetPosition();
+
+	D3DXVECTOR3 vDir;
+	D3DXVec3Normalize(&vDir, &vLength);
+	pOwner->SetNewDirection(vDir);
 }
 
 bool cMonsterDetecting::OnMessage(cMonster* pOwner, const Telegram& msg)
 {
+	if (pOwner->GetStat().fHp <= 0) return false;
+
 	switch (msg.emMessageType)
 	{
 	case MSG_RUN:
-		break;
-	case MSG_IDLE:
+	{
+		pOwner->m_pSateMachnie->ChangeState(cMonsterTrace::Instance());
+
+		return true;
+	}
 		break;
 	case MSG_ATTACK:
 		break;

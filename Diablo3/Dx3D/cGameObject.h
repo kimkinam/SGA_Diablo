@@ -51,7 +51,7 @@ private:
 
 protected:
 	//cStateMachine<cGameObject>* m_pSateMachnie;
-	SYNTHESIZE_ADD_REF(cGameObject*, m_pTarget, Target);
+	
 
 	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
 	SYNTHESIZE(D3DXVECTOR3, m_vDirection, Direction);
@@ -63,7 +63,10 @@ protected:
 	SYNTHESIZE_PASS_BY_REF(D3DXMATRIX, m_matWorld, WorldTM);
 
 	SYNTHESIZE_ADD_REF(cAction*, m_pAction, Action);
+	SYNTHESIZE(cGameObject*, m_pTarget, Target);
 	SYNTHESIZE(cSkinnedMesh*, m_pMesh, Mesh);
+	SYNTHESIZE_PASS_BY_REF(std::vector<cOBB*>, m_vecBoundBox, BoundBox);
+
 	
 	LPD3DXMESH	m_pSphere;
 	
@@ -83,14 +86,16 @@ public:
 
 	void SetNewDirection(D3DXVECTOR3 vDirection);
 	D3DXVECTOR3* GetPtPosition(){ return &m_vPosition; }
-
-	LPD3DXANIMATIONSET GetCurAnimation();
+	
 	
 
 	//애니메이션 관련
 	bool IsDoneCurAni();
 	double GetCurAniTime();
-	
+	double GetAniTimeWithName(string szAniName);
+	LPD3DXANIMATIONSET GetCurAnimation();
+	void SetAnimation(int nIndex);
+	void SetAnimation(string szAniName);
 };
 
 

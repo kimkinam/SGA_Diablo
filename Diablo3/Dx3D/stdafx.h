@@ -232,6 +232,9 @@ typedef struct ST_SAVEOBJECT
 #include "cAIManager.h"
 #include "cMessageManager.h"
 
+#include "cAutoReleasePool.h"
+#include "cObjectPool.h"
+
 //Interface
 #include "cObject.h"
 #include "cUIObject.h"
@@ -241,6 +244,7 @@ typedef struct ST_SAVEOBJECT
 #include "cSceneObject.h"
 
 //전역 클래스
+#include "cObject.h"
 #include "cRay.h"
 #include "cBoundBox.h"
 #include "cOBB.h"

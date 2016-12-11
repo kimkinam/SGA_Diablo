@@ -29,16 +29,11 @@ cMonster::~cMonster()
 {
 	SAFE_RELEASE(m_pAttackSphere);
 	SAFE_RELEASE(m_pTraceSphere);
-	SAFE_RELEASE(m_pTarget);
 }
 
 void cMonster::Setup(char * szMonsterName, D3DXVECTOR3* vLookAt)
 {
-	
-
 	m_sObjName = szMonsterName;
-	//string MonsterName = string(szMonsterName);
-	//string fileName = MonsterName + ".x";
 	m_pMesh = new cSkinnedMesh("./Resources/Monster/", StringToChar(m_sObjName));
 	m_pMesh->SetAnimationIndex("idle");
 
@@ -48,6 +43,8 @@ void cMonster::Setup(char * szMonsterName, D3DXVECTOR3* vLookAt)
 	D3DXCreateSphere(g_pD3DDevice, m_stStat.fTraceRange, 20, 20, &m_pTraceSphere, NULL);
 
 	cGameObject::Setup(vLookAt);
+
+	m_pSateMachnie->ChangeState(cMonsterDetecting::Instance());
 }
 
 void cMonster::Setup(ST_SAVEOBJECT wObj)
@@ -56,7 +53,6 @@ void cMonster::Setup(ST_SAVEOBJECT wObj)
 	m_sFolderName = wObj.szFolderName;
 
 	m_vPosition = wObj.vPosition;
-	
 
 	m_pMesh = new cSkinnedMesh("./Resources/Monster/", StringToChar(m_sObjName));
 	m_pMesh->SetAnimationIndex("idle");
@@ -67,7 +63,6 @@ void cMonster::Setup(ST_SAVEOBJECT wObj)
 	D3DXCreateSphere(g_pD3DDevice, m_stStat.fTraceRange, 20, 20, &m_pTraceSphere, NULL);
 
 	cGameObject::Setup(&wObj.vForward);
-
 }
 
 void cMonster::Update()
@@ -143,12 +138,6 @@ void cMonster::Render()
 //
 //}
 
-void cMonster::OnActionFinish(cAction * pSender)
-{
-	SAFE_RELEASE(pSender);
-	m_pAction = NULL;
-
-}
 
 bool cMonster::HandleMessage(const Telegram& msg)
 {

@@ -95,6 +95,7 @@
     <ClInclude Include="cAllocateHierarchy.h" />
     <ClInclude Include="cAnimation.h" />
     <ClInclude Include="cAseLoader.h" />
+    <ClInclude Include="cAutoReleasePool.h" />
     <ClInclude Include="cBoss.h" />
     <ClInclude Include="cBossScene.h" />
     <ClInclude Include="cBoundBox.h" />
@@ -128,6 +129,7 @@
     <ClInclude Include="cOBB.h" />
     <ClInclude Include="cObj.h" />
     <ClInclude Include="cObject.h" />
+    <ClInclude Include="cObjectPool.h" />
     <ClInclude Include="cObjLoader.h" />
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cPlayerAttackState.h" />
@@ -181,6 +183,7 @@
     <ClCompile Include="cAllocateHierarchy.cpp" />
     <ClCompile Include="cAnimation.cpp" />
     <ClCompile Include="cAseLoader.cpp" />
+    <ClCompile Include="cAutoReleasePool.cpp" />
     <ClCompile Include="cBoss.cpp" />
     <ClCompile Include="cBossScene.cpp" />
     <ClCompile Include="cBoundBox.cpp" />
@@ -214,6 +217,7 @@
     <ClCompile Include="cOBB.cpp" />
     <ClCompile Include="cObj.cpp" />
     <ClCompile Include="cObject.cpp" />
+    <ClCompile Include="cObjectPool.cpp" />
     <ClCompile Include="cObjLoader.cpp" />
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cPlayerAttackState.cpp" />

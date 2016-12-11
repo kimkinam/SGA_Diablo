@@ -119,6 +119,7 @@ void cSkinnedMesh::UpdateAndRender(D3DXMATRIX* pMat)
 				m_isAnimBlend = false;
 				m_pAnimController->SetTrackWeight(0, 1.0f);
 				m_pAnimController->SetTrackEnable(1, false);
+				//m_pAnimController->SetTrackSpeed(0, 0.5f);
 			}
 			else
 			{

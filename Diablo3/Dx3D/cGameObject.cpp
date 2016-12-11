@@ -27,7 +27,7 @@ cGameObject::~cGameObject()
 {
 	SAFE_RELEASE(m_pAction);
 	SAFE_RELEASE(m_pSphere);
-	SAFE_RELEASE(m_pTarget);
+	//SAFE_DELETE(m_pTarget);
 	SAFE_DELETE(m_pMesh);
 	SAFE_DELETE(m_pOBB);
 
@@ -72,7 +72,7 @@ void cGameObject::Update()
 {
 	if (m_pAction)
 	{
-		m_pAction->Update();
+ 		m_pAction->Update();
 	}
 
 	m_pMesh->GetBoundingSphere()->vCenter = m_vPosition;
@@ -87,14 +87,18 @@ void cGameObject::Render()
 	//D3DXMatrixIdentity(&matT);
 	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matT);
-	if (m_pSphere)
-		m_pSphere->DrawSubset(0);
-	if (m_pOBB)
-		m_pOBB->DebugRender(D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
+	//if (m_pSphere)
+	//	m_pSphere->DrawSubset(0);
+	//if (m_pOBB)
+	//	m_pOBB->DebugRender(D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
 }
 
 void cGameObject::OnActionFinish(cAction * pSender)
 {
+	m_pAction = NULL;
+	
+	//g_pMessageManager->MessageSend(0.0f, this->GetID(), this->GetID(), MESSAGE_TYPE::MSG_IDLE, NULL);
+	m_pMesh->SetAnimationIndex("idle");
 }
 
 void cGameObject::SetNewDirection(D3DXVECTOR3 vDirection)
@@ -131,6 +135,15 @@ LPD3DXANIMATIONSET cGameObject::GetCurAnimation()
 	return pCurAS;
 }
 
+void cGameObject::SetAnimation(int nIndex)
+{
+	m_pMesh->SetAnimationIndex(nIndex);
+}
+void cGameObject::SetAnimation(string szAniName)
+{
+	m_pMesh->SetAnimationIndex(StringToChar(szAniName));
+}
+
 bool cGameObject::IsDoneCurAni()
 {
 	LPD3DXANIMATIONSET pCurAS = this->GetCurAnimation();
@@ -142,7 +155,7 @@ bool cGameObject::IsDoneCurAni()
 	double dTotalTime = pCurAS->GetPeriod();
 	double dPercent = dCurTime / dTotalTime;
 
-	if (dPercent > dTotalTime) return true;
+	if (dPercent > dTotalTime - dTotalTime  * 0.1f) return true;
 
 	return false;
 }
@@ -150,6 +163,14 @@ bool cGameObject::IsDoneCurAni()
 double cGameObject::GetCurAniTime()
 {
 	LPD3DXANIMATIONSET pCurAS = this->GetCurAnimation();
+
+	return pCurAS->GetPeriod();
+}
+
+double cGameObject::GetAniTimeWithName(string szAniName)
+{
+	LPD3DXANIMATIONSET pCurAS = NULL;
+	m_pMesh->GetAnimController()->GetAnimationSetByName(StringToChar(szAniName), &pCurAS);
 
 	return pCurAS->GetPeriod();
 }

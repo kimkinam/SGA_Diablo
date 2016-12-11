@@ -28,5 +28,5 @@ void cAction::Update()
 
 cAction* cAction::Create()
 {
-	return new cAction;
+	return new cAction();
 }

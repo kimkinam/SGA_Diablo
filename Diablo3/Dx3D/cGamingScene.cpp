@@ -9,9 +9,14 @@
 #include "cPlayer.h"
 #include "cActionMove.h"
 
+#include "cFetish.h"	
+#include "cSkeleton.h"
+#include "cSkeletonArcher.h"
+
 cGamingScene::cGamingScene()
 	: m_pGrid(NULL)
 	, m_pPlayer(NULL)
+	//, m_pCurMonster(NULL)
 {
 	
 }
@@ -19,9 +24,10 @@ cGamingScene::cGamingScene()
 
 cGamingScene::~cGamingScene()
 {
+	g_pAIManager->Destroy();
+
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
-	//m_pPlayer->Release();
 	SAFE_RELEASE(m_pPlayer);
 
 	for each(auto c in m_vecMap)
@@ -40,9 +46,9 @@ cGamingScene::~cGamingScene()
 		SAFE_RELEASE(c);
 	}
 
-	int a = 0;
-
 	
+
+	int a = 0;
 }
 
 
@@ -77,6 +83,13 @@ HRESULT cGamingScene::SetUp()
 	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, -120), c));
 	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, 120), c));
 
+	LoadMap("map1");
+
+	m_pPlayer->SetBoundBox(m_vecBoundBox);
+	for (size_t i = 0; i < m_vecMonster.size(); ++i)
+	{
+		m_vecMonster[i]->SetBoundBox(m_vecBoundBox);
+	}
 	g_pAIManager->RegisterAIBase(m_pPlayer);
 
 	return S_OK;
@@ -84,22 +97,24 @@ HRESULT cGamingScene::SetUp()
 
 void cGamingScene::Update()
 {
+	//assert(m_pPlayer->GetAction() && "wss");
+	
 	g_pMessageManager->MessageDelayedSend();
 
 	for (m_vecMonsterIter = m_vecMonster.begin(); m_vecMonsterIter != m_vecMonster.end();)
 	{
-		if ((*m_vecMonsterIter)->GetStat().fHp < 0)
+		//if ((*m_vecMonsterIter)->GetStat().fHp <= 0 && (*m_vecMonsterIter)->IsDoneCurAni())
+		if((*m_vecMonsterIter)->GetRefCount() == 1)
 		{
 			(*m_vecMonsterIter)->Release();
 			m_vecMonsterIter = m_vecMonster.erase(m_vecMonsterIter);
 		}
-			
 		else
 			++m_vecMonsterIter;
 	}
 
-	if(g_pKeyManager->isOnceKeyDown('L'))
-		LoadMap("map1");
+	//if(g_pKeyManager->isOnceKeyDown('L'))
+	//	LoadMap("map1");
 
 	PlayerMoveTest();
 
@@ -112,13 +127,6 @@ void cGamingScene::Update()
 
 		m_pPlayer->GetMesh()->SetAnimationIndex("whirlwinding");
 	}
-
-
-
-	/*for each(auto c in g_pAIManager->GetAImap())
-	{
-	c.second->Update();
-	}*/
 
 
 	if (m_pPlayer)
@@ -142,6 +150,7 @@ void cGamingScene::Update()
 		m_pCamera->Update(NULL);
 	}
 	
+	
 }
 
 void cGamingScene::Render()
@@ -149,10 +158,10 @@ void cGamingScene::Render()
 	if (m_pGrid)
 		m_pGrid->Render();
 
-	/*for each(auto c in g_pAIManager->GetAImap())
-	{
-		c.second->Render();
-	}*/
+	//for each(auto c in g_pAIManager->GetAImap())
+	//{
+	//	c.second->Render();
+	//}
 
 	if (m_pPlayer)
 		m_pPlayer->Render();
@@ -177,21 +186,21 @@ void cGamingScene::Render()
 		m_pCamera->Render();
 
 
-	//if (m_pPlayer->GetTarget())
+	//if (m_pCurMonster)
 	//{
-	//	LPD3DXFONT font;
-	//	font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
-	//
-	//	char temp[128];
-	//	sprintf_s(temp, "hp : %f",g_pAIManager->GetAIBaseFromID(m_pPlayer->GetTarget()->GetID())->GetStat().fHp,128);
-	//	RECT rc;
-	//	SetRect(&rc, DEBUG_STARTX, DEBUG_STARTY + 100, DEBUG_STARTX + 250, DEBUG_STARTY + 115);
-	//	font->DrawText(NULL,
-	//		temp,
-	//		128,
-	//		&rc,
-	//		DT_LEFT,
-	//		D3DCOLOR_XRGB(255, 255, 255));
+		LPD3DXFONT font;
+		font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
+	
+		char temp[128];
+		sprintf_s(temp, "hp : %f", m_pPlayer->GetCurAniTime(),128);
+		RECT rc;
+		SetRect(&rc, DEBUG_STARTX, DEBUG_STARTY + 100, DEBUG_STARTX + 250, DEBUG_STARTY + 115);
+		font->DrawText(NULL,
+			temp,
+			128,
+			&rc,
+			DT_LEFT,
+			D3DCOLOR_XRGB(255, 255, 255));
 	//}
 	
 
@@ -241,7 +250,6 @@ void cGamingScene::LoadMap(string fileName)
 	fread(&nBoxCount, sizeof(int), 1, fp);
 	for (size_t i = 0; i < nBoxCount; ++i)
 	{
-
 		D3DXVECTOR3 vMin;
 		D3DXVECTOR3 vMax;
 
@@ -263,7 +271,35 @@ void cGamingScene::LoadMap(string fileName)
 		ST_MONSTER_STAT st;
 		fread(&st, sizeof(ST_MONSTER_STAT), 1, fp);
 
-		cMonster* monster = new cMonster;
+		string name = wObj.szfileName;
+		cMonster* monster = NULL;
+
+		if (name == "Fetish.x")
+		{
+			monster = new cFetish;
+		}
+		else if (name == "Skeleton.x")
+		{
+			monster = new cSkeleton;
+		}
+		else if (name == "SkeletonArcher.x")
+		{
+			monster = new cSkeletonArcher;
+		}
+		
+		//else if (name == "ZombieDog.x")
+		//{
+		//
+		//}
+		//else if (name == "Gargantuan.x")
+		//{
+		//
+		//}
+		//else if (name == "Stich.x")
+		//{
+		//
+		//}
+		assert(monster != NULL && "몬스터 x");
 
 		monster->SetStat(st);
 		monster->Setup(wObj);
@@ -273,15 +309,31 @@ void cGamingScene::LoadMap(string fileName)
 
 	for (size_t i = 0; i < m_vecMonster.size(); ++i)
 	{
+		//m_vecMonster[i]->set
+		m_vecMonster[i]->SetTarget(m_pPlayer);
 		g_pAIManager->RegisterAIBase(m_vecMonster[i]);
 	}
+
 	fclose(fp);
 }
 
 void cGamingScene::PlayerMoveTest()
 {
+	cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
+
+	//몬스터를 클릭할 경우
+	//for (size_t i = 0; i < m_vecMonster.size(); ++i)
+	//{
+	//	if (r.IntersectShpere(m_vecMonster[i]->GetMesh()->GetBoundingSphere()))
+	//	{
+	//		//m_pCurMonster = m_vecMonster[i];
+	//		break;
+	//	}
+	//	else
+	//		//m_pCurMonster = NULL;
+	//}
 	//플레이어 피킹
-	if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
+	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
 	{
 		//충돌처리 해야할 박스정보와 플레이어 스피드를 메시지에 포함한다.
 		ST_RUN_EXTRAINFO MSG;
@@ -290,7 +342,7 @@ void cGamingScene::PlayerMoveTest()
 		MSG.fSpeed = m_pPlayer->GetStat().fSpeed;
 
 		//레이를 월드좌표로 변환한다.
-		cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
+		//cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
 
 		//몬스터를 클릭할 경우
 		for (size_t i = 0; i < m_vecMonster.size(); ++i)
@@ -323,7 +375,6 @@ void cGamingScene::PlayerMoveTest()
 				}
 				g_pMessageManager->MessageSend(0.0f, 0, 0, MESSAGE_TYPE::MSG_RUN, &MSG);
 				
-
 				//몬스터를 클릭한 경우 바닥과의 피킹처리는 하지 않는다.
 				return;
 			}

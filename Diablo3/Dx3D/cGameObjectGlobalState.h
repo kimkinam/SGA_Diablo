@@ -6,6 +6,8 @@ class cGameObject;
 class cGameObjectGlobalState :
 	public iState<cGameObject>
 {
+public:
+	double	m_dDeadTime;
 private:
 	cGameObjectGlobalState() {}
 	virtual ~cGameObjectGlobalState() {}

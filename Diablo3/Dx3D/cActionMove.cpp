@@ -33,7 +33,7 @@ void cActionMove::Update()
 	D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 
 	position = position + m_vDirection * m_fSpeed;
-
+	
 
 	if (!m_vecOBB.empty())
 		{
@@ -71,5 +71,5 @@ void cActionMove::Update()
 
 cAction * cActionMove::Create()
 {
-	return nullptr;
+	return new cActionMove;
 }

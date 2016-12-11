@@ -249,13 +249,6 @@ void cPlayer::Render()
 	
 }
 
-void cPlayer::OnActionFinish(cAction * pSender)
-{
-	SAFE_RELEASE(pSender);
-	m_pAction = NULL;
-	m_pMesh->SetAnimationIndex("idle");
-}
-
 void cPlayer::PlayerPosition()
 {
 	//m_pPosition = &cGameObject::GetPosition();

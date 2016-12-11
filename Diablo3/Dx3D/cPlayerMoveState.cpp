@@ -46,7 +46,11 @@ bool cPlayerMoveState::OnMessage(cPlayer * pOwner, const Telegram & msg)
 			MSG = *(ST_RUN_EXTRAINFO*)msg.ExtraInfo;
 
 			if (MSG.nTarget != pOwner->GetID())
+			{
+				//SAFE_ADDREF(g_pAIManager->GetAIBaseFromID(MSG.nTarget));
 				pOwner->SetTarget(g_pAIManager->GetAIBaseFromID(MSG.nTarget));
+			}
+				
 			else
 				pOwner->SetTarget(NULL);
 
@@ -59,21 +63,19 @@ bool cPlayerMoveState::OnMessage(cPlayer * pOwner, const Telegram & msg)
 			pAction->SetOBB(MSG.vecBox);
 			pAction->Start();
 			pOwner->SetAction(pAction);
+
 		}
 	
+		
 		break;
 		case MSG_IDLE:
 			pOwner->m_pSateMachnie->ChangeState(cPlayerIdleState::Instance());
 		break;
 		case MSG_ATTACK:
-		{
 			pOwner->m_pSateMachnie->ChangeState(cPlayerAttackState::Instance());
-
-		}
 		break;
 		default:
 		break;
 	}
-
 	return true;
 }
