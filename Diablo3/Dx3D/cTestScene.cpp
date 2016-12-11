@@ -729,7 +729,7 @@ void cTestScene::PlayerMoveTest()
 			{
 				cActionMove* pAction = new cActionMove;
 
-				m_pPlayer->SetIsMove(true);
+				//m_pPlayer->SetIsMove(true);
 				pAction->SetTo(pickPos);
 				pAction->SetFrom(m_pPlayer->GetPosition());
 				pAction->SetTarget(m_pPlayer);
@@ -903,7 +903,7 @@ bool cTestScene::CollisionTest()
 	{
 		if (cOBB::IsCollision(m_pPlayer->GetOBB(), m_vecBoundBox[i]))
 		{
-			m_pPlayer->SetIsMove(false);
+			//m_pPlayer->SetIsMove(false);
 			return true;
 			break;
 		}

@@ -18,6 +18,7 @@ private:
 	std::vector<cMap*>		m_vecMap;
 	std::vector<cOBB*>		m_vecBoundBox;
 	std::vector<cMonster*>	m_vecMonster;
+	std::vector<cMonster*>::iterator	m_vecMonsterIter;
 
 	std::vector<ST_PC_VERTEX>	m_vecTiles;
 
@@ -28,7 +29,6 @@ public:
 	void LoadMap(string fileName);
 	void PlayerMoveTest();
 	bool CollisionTest();
-	void SetupVertexFog(DWORD color, DWORD Mode, BOOL UseRange, FLOAT Density);
 
 	//cScene override;
 	virtual HRESULT SetUp()	override;

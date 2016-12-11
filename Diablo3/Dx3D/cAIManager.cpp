@@ -31,7 +31,7 @@ static cAIManager* Instance()
 
 void cAIManager::RegisterAIBase(cGameObject* NewAIBase)
 {
-	//SAFE_ADDREF(NewAIBase);
+	SAFE_ADDREF(NewAIBase);
 	m_AImap[NewAIBase->GetID()] = NewAIBase;
 }
 

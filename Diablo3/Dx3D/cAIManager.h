@@ -9,7 +9,7 @@ private:
 	typedef std::map<int, cGameObject*>				AIMap;
 	typedef std::map<int, cGameObject*>::iterator	iter;
 
-	AIMap	m_AImap;
+	SYNTHESIZE(AIMap, m_AImap, AImap);
 	iter	m_iter;
 
 public:

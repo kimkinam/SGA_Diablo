@@ -16,8 +16,6 @@ private:
 	SYNTHESIZE(cAction*, m_pAction, Action);
 
 public:
-	SYNTHESIZE(PLAYER_STATE, m_emState, State);
-public:
 	cCharController(void);
 	~cCharController(void);
 

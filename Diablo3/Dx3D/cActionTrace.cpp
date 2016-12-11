@@ -58,10 +58,6 @@ void cActionTrace::Update()
 
 	matW = matR * matT;
 
-	D3DXMATRIXA16 localmatR;
-	D3DXMatrixRotationY(&localmatR, m_pTarget->GetAngle());
-
-	matW = localmatR * matW;
 
 	m_pTarget->SetPosition(position);
 	m_pTarget->SetDirection(dir);
@@ -74,7 +70,7 @@ void cActionTrace::Update()
 	if (m_fAttackRange > m_fDistance)
 	{
 		m_pTarget->SetPosition(m_pTarget->GetPosition());
-		m_pTarget->SetIsAtk(true);
+		//m_pTarget->SetIsAtk(true);
 		m_pDelegate->OnActionFinish(this);
 
 	}
@@ -82,7 +78,7 @@ void cActionTrace::Update()
 	if (m_fTraceRange < m_fDistance)
 	{
 		m_pTarget->SetPosition(m_pTarget->GetPosition());
-		m_pTarget->SetIsAtk(false);
+		//m_pTarget->SetIsAtk(false);
 		m_pDelegate->OnActionFinish(this);
 	}
 

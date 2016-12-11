@@ -46,7 +46,7 @@ public:
 			atk->Start();
 			pOwner->SetAction(atk);
 
-			pOwner->SetIsAtk(true);
+			//pOwner->SetIsAtk(true);
 
 			SAFE_RELEASE(atk);
 
@@ -74,7 +74,7 @@ public:
 				if (td.Position > pCurAS->GetPeriod() - EPSILON - 0.2f)
 				{
 					//상태를 변화시켜준다.
-					pOwner->SetIsAtk(false);
+					//pOwner->SetIsAtk(false);
 					pOwner->OnActionFinish(pOwner->GetAction());
 					pOwner->m_pSateMachnie->ChangeState(cMonsterDetecting::Instance());
 				}
@@ -91,7 +91,7 @@ public:
 	//GameObject의 HandleMessage로부터 메시지를 접수하면 이 부분이 실행
 	virtual bool OnMessage(cMonster* pOwner, const Telegram& msg)
 	{
-		switch (msg.Msg)
+		switch (msg.emMessageType)
 		{
 		case MSG_RUN:
 			// 행동 처리

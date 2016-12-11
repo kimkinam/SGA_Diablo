@@ -33,11 +33,9 @@ private:
 	ST_HPSPHERE					m_Mp;
 	LPDIRECT3DTEXTURE9			m_pMpTex;
 	
-	SYNTHESIZE(bool, m_bIsAtk, IsAtk);
 	
 	//SYNTHESIZE(PLAYER_STATE, m_emState, State);
 	SYNTHESIZE(int, m_nCurMap, CurMap);
-	SYNTHESIZE(D3DXVECTOR3, m_pPosition, m_pPos);
 
 	cTrailRenderer* m_pTrailRenderer;
 
@@ -55,8 +53,6 @@ public:
 	virtual void Setup(D3DXVECTOR3* vLook = NULL);
 	virtual void Update();
 	virtual void Render();
-	virtual void AniControl();
-	virtual void Picking();
 	virtual void PlayerPosition();
 
 	virtual void OnActionFinish(cAction* pSender) override;
