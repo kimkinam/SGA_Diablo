@@ -41,7 +41,7 @@ void cActionMove::Update()
 			{
 				cOBB& temp = *(m_pTarget->GetOBB());
 
-				temp.GetCenterPos() = position + m_vDirection * m_fSpeed / 2;
+				temp.GetCenterPos() = position + m_vDirection * m_fSpeed;
 
 			if (cOBB::IsCollision(&temp, m_vecOBB[i]))
 				{

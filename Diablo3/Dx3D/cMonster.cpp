@@ -39,6 +39,7 @@ void cMonster::Setup(char * szMonsterName, D3DXVECTOR3* vLookAt)
 
 	m_stStat.fAttackRange = D3DXVec3Length(&(m_pMesh->GetMax() + m_pMesh->GetMin()));
 	//m_pMesh->GetMin();
+
 	D3DXCreateSphere(g_pD3DDevice, m_stStat.fAttackRange, 20, 20, &m_pAttackSphere, NULL);
 	D3DXCreateSphere(g_pD3DDevice, m_stStat.fTraceRange, 20, 20, &m_pTraceSphere, NULL);
 
@@ -57,8 +58,11 @@ void cMonster::Setup(ST_SAVEOBJECT wObj)
 	m_pMesh = new cSkinnedMesh("./Resources/Monster/", StringToChar(m_sObjName));
 	m_pMesh->SetAnimationIndex("idle");
 
-	m_stStat.fAttackRange = D3DXVec3Length(&(m_pMesh->GetMax() + m_pMesh->GetMin()));
+	//m_stStat.fAttackRange = D3DXVec3Length(&(m_pMesh->GetMax() + m_pMesh->GetMin()));
 	//m_pMesh->GetMin();
+	m_stStat.fAttackRange = 0.6f;
+	m_stStat.fTraceRange = 2.5f;
+	m_stStat.fAtk = 10.0f;
 	D3DXCreateSphere(g_pD3DDevice, m_stStat.fAttackRange, 20, 20, &m_pAttackSphere, NULL);
 	D3DXCreateSphere(g_pD3DDevice, m_stStat.fTraceRange, 20, 20, &m_pTraceSphere, NULL);
 
@@ -67,7 +71,9 @@ void cMonster::Setup(ST_SAVEOBJECT wObj)
 
 void cMonster::Update()
 {
-	cGameObject::Update();
+	if(m_stStat.fHp > 0)
+		cGameObject::Update();
+
 	if (m_pSateMachnie)
 		m_pSateMachnie->Update();
 }
@@ -97,11 +103,11 @@ void cMonster::Render()
 		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	
 		
-		//if (m_pAttackSphere)
-		//	m_pAttackSphere->DrawSubset(0);
-		//
-		//if (m_pTraceSphere)
-		//	m_pTraceSphere->DrawSubset(0);
+		if (m_pAttackSphere)
+			m_pAttackSphere->DrawSubset(0);
+		
+		if (m_pTraceSphere)
+			m_pTraceSphere->DrawSubset(0);
 	//}
 	
 		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
@@ -115,7 +121,9 @@ void cMonster::Render()
 
 	if (m_pAction)
 	{
-		sprintf_s(temp, "CurAnimation : %f", m_pAction->GetDistance(), 128);//m_pMesh->GetCurAnimationName().c_str(), 128);
+		//D3DXVECTOR3 v = ((cActionTrace*)m_pAction)->GetDirToTargetX();
+		sprintf_s(temp, "dX : %f, %f, %f", m_vPosition.x, m_vPosition.y, m_vPosition.z
+			, 128);//m_pMesh->GetCurAnimationName().c_str(), 128);
 		rc = { DEBUG_STARTX, DEBUG_STARTY + 300, DEBUG_STARTX + 250, DEBUG_STARTY + 415 };
 		font->DrawText(NULL,
 			temp,

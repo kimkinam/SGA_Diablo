@@ -9,6 +9,8 @@ class cOBB;
 template<typename T> class cStateMachine;
 struct ST_MONSTER_STAT
 {
+	float fMaxHp;
+	float fMaxMp;
 	float fHp;
 	float fMp;
 	float fAtk;

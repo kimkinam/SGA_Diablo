@@ -46,21 +46,22 @@ void cActionAtk::Update()
 	
 	if (p > pCurAS->GetPeriod() - 0.2f)
 	{
-		D3DXVECTOR3 vDir = m_pTarget->GetPosition() - m_pAttakTarget->GetPosition();
+		D3DXVECTOR3 vDir = m_pAttakTarget->GetPosition() - m_pTarget->GetPosition();
 		D3DXVec3Normalize(&vDir, &vDir);
-	
-		D3DXMATRIXA16 matR, matT, matW;
-		D3DXMatrixLookAtLH(&matR,
-			&D3DXVECTOR3(0, 0, 0),
-			&vDir,
-			&D3DXVECTOR3(0, 1, 0));
-		D3DXMatrixTranspose(&matR, &matR);
-		D3DXMatrixTranslation(&matT, m_pTarget->GetPosition().x, 
-			m_pTarget->GetPosition().y, m_pTarget->GetPosition().z);
-	
-		matW = matR * matT;
-	
-		m_pTarget->SetWorldTM(matW);
+		
+		m_pTarget->SetNewDirection(vDir);
+		//D3DXMATRIXA16 matR, matT, matW;
+		//D3DXMatrixLookAtLH(&matR,
+		//	&D3DXVECTOR3(0, 0, 0),
+		//	&vDir,
+		//	&D3DXVECTOR3(0, 1, 0));
+		//D3DXMatrixTranspose(&matR, &matR);
+		//D3DXMatrixTranslation(&matT, m_pTarget->GetPosition().x, 
+		//	m_pTarget->GetPosition().y, m_pTarget->GetPosition().z);
+		//
+		//matW = matR * matT;
+		//
+		//m_pTarget->SetWorldTM(matW);
 	}
 	
 

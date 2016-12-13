@@ -2,6 +2,7 @@
 #include "cMonsterTrace.h"
 #include "cMonster.h"
 #include "cActionMove.h"
+#include "cActionTrace.h"
 #include "cMonsterDetecting.h"
 #include "cMonsterAttack.h"
 
@@ -9,14 +10,30 @@ void cMonsterTrace::Enter(cMonster * pOwner)
 {
 	if (pOwner)
 	{
-		cActionMove* pAction = new cActionMove;
+		cActionTrace* pAction = new cActionTrace;
 
-		pAction->SetTo(pOwner->GetTarget()->GetPosition());
-		pAction->SetFrom(pOwner->GetPosition());
+		pAction->SetTraceTarget(pOwner->GetTarget());
 		pAction->SetTarget(pOwner);
 		pAction->SetDelegate(pOwner);
-		pAction->SetSpeed(0.02f);
+		pAction->SetSpeed(0.03f);
 		pAction->SetOBB(pOwner->GetBoundBox());
+		
+		std::map<int, cGameObject*> map;
+		std::map<int, cGameObject*>::iterator iter;
+		
+		map = g_pAIManager->GetAImap();
+		
+		for (iter = map.begin(); iter != map.end();++iter)
+		{
+			if (iter->first == 0 || iter->first == pOwner->GetID()) continue;
+			pAction->GetMonster().push_back((iter->second));
+		}
+
+		for (iter = map.begin(); iter != map.end(); ++iter)
+		{
+			if (iter->first == 0 || iter->first == pOwner->GetID()) continue;
+			pAction->GetOBB().push_back((iter->second->GetOBB()));
+		}
 		pAction->Start();
 		pOwner->SetAction(pAction);
 	}
@@ -29,6 +46,36 @@ void cMonsterTrace::Execute(cMonster * pOwner)
 		- pOwner->GetPosition();
 
 	float distance = D3DXVec3Length(&vLength);
+
+	std::map<int, cGameObject*> map;
+	std::map<int, cGameObject*>::iterator iter;
+
+	map = g_pAIManager->GetAImap();
+
+	//for (iter = map.begin(); iter != map.end();)
+	//{
+	//	if (iter->first == 0 || iter->first == pOwner->GetID())
+	//	{
+	//		++iter;
+	//		continue;
+	//	}
+	//
+	//	ST_SPHERE temp = *(iter->second->GetMesh()->GetBoundingSphere());
+	//	ST_SPHERE owner = *(pOwner->GetMesh()->GetBoundingSphere());
+	//
+	//	D3DXVECTOR3 vDir = iter->second->GetPosition() - pOwner->GetPosition();
+	//	float fLength = D3DXVec3Length(&vDir);
+	//
+	//	if (fLength <= temp.fRadius + owner.fRadius)
+	//	{
+	//		pOwner->SetAction(NULL);
+	//		break;
+	//		int a = 0;
+	//	}
+	//	else
+	//		++iter;
+	//}
+	
 
 	//공격 사거리 안에 들어오면 공격상태로 바꿔준다.
 	if (distance < pOwner->GetStat().fAttackRange)
@@ -45,7 +92,7 @@ void cMonsterTrace::Execute(cMonster * pOwner)
 
 void cMonsterTrace::Exit(cMonster * pOwner)
 {
-	//pOwner->SetAction(NULL);
+	pOwner->SetAction(NULL);
 }
 
 bool cMonsterTrace::OnMessage(cMonster* pOwner, const Telegram& msg)
@@ -54,6 +101,10 @@ bool cMonsterTrace::OnMessage(cMonster* pOwner, const Telegram& msg)
 
 	switch (msg.emMessageType)
 	{
+	case MSG_IDLE:
+		pOwner->m_pSateMachnie->ChangeState(cMonsterDetecting::Instance());
+		return true;
+		break;
 	case MSG_RUN:
 		// 행동 처리
 		return true;

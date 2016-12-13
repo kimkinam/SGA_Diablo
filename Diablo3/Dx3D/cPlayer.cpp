@@ -16,10 +16,7 @@ cPlayer::cPlayer()
 	, m_dAttackTermTime(0.0f)
 	, m_pSword(NULL)
 	, m_nCurMap(0)
-	, m_pSprite(NULL)
 	, m_pSphere(NULL)
-	, m_pHpTex(NULL)
-	, m_pMpTex(NULL)
 {
 	m_pSateMachnie = new cStateMachine<cPlayer>(this);
 
@@ -32,10 +29,8 @@ cPlayer::cPlayer()
 
 cPlayer::~cPlayer()
 {
-	SAFE_RELEASE(m_pHpTex);
-	SAFE_RELEASE(m_pMpTex);
+	
 	SAFE_RELEASE(m_pSphere);
-	SAFE_RELEASE(m_pSprite);
 	SAFE_RELEASE(m_pSword);
 	SAFE_RELEASE(m_pTrailRenderer);
 }
@@ -70,8 +65,11 @@ void cPlayer::Setup(D3DXVECTOR3* vLook)
 	cGameObject::Setup(vLook);
 
 	m_stStat.fHp = 1000.0f;
-	m_stStat.fAtk = 50.0f;
-	m_stStat.fAttackRange = this->GetMesh()->GetBoundingSphere()->fRadius * 2;
+	m_stStat.fMaxHp = 1000.0f;
+	m_stStat.fMaxMp = 1000.0f;
+	
+	m_stStat.fAtk = 10.0f;
+	m_stStat.fAttackRange = this->GetMesh()->GetBoundingSphere()->fRadius * 4.0f;
 	m_stStat.fSpeed = 0.1f;
 
 	this->TrailTexSetUp("./Resources/Images/Trail/Trail_angelic.dds");
@@ -107,26 +105,9 @@ void cPlayer::Setup(D3DXVECTOR3* vLook)
 	);
 	//m_pTrailRenderer->SetTrailTexture(m_vecTrailTex[3]);
 
-	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
 
 
-	D3DXCreateTextureFromFileEx(g_pD3DDevice,
-		"./Resources/UI/Hp_Sphere.png",
-		2048 * HP_SPHERE_SCALE, 128 * HP_SPHERE_SCALE, 0, 0, D3DFMT_UNKNOWN,
-		D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT,
-		D3DCOLOR_XRGB(0, 0, 0), 0, 0, &m_pHpTex);
-
-	D3DXCreateTextureFromFileEx(g_pD3DDevice,
-		"./Resources/UI/Mp_Sphere.png",
-		2048 * HP_SPHERE_SCALE, 128 * HP_SPHERE_SCALE, 0, 0, D3DFMT_UNKNOWN,
-		D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT,
-		D3DCOLOR_XRGB(0, 0, 0), 0, 0, &m_pMpTex);
-	//m_pSphere = new cUIImage;
 	
-	//m_pSphere->SetTexture("./Resources/UI/Hp_Shpere.png");
-
-	SetSphere(m_Hp);
-	SetSphere(m_Mp);
 
 	m_pSateMachnie->ChangeState(cPlayerIdleState::Instance());
 }
@@ -141,42 +122,17 @@ void cPlayer::Update()
 	if (m_pSateMachnie)
 		m_pSateMachnie->Update();
 
-	if (g_pKeyManager->isOnceKeyDown(VK_UP))
-	{
-		g_pMessageManager->MessageSend(0.0f, this->GetID(), this->GetID(),
-			MESSAGE_TYPE::MSG_ATTACK, NULL);
-	}
-	DWORD dwCurTime = g_pTimeManager->GetTotalSec();
-	if (dwCurTime - m_Hp.dwOldAniTime >= m_Hp.dwAniTime)
-	{
-		m_Hp.dwOldAniTime = dwCurTime;
-		m_Hp.nIndex = ++m_Hp.nIndex % m_Hp.nCount;
-	}
+	//if (g_pKeyManager->isOnceKeyDown(VK_UP))
+	//{
+	//	//g_pAIManager->GetAIBaseFromID(0)->GetStat().fHp -= 100.0f;
+	//	
+	//	m_stStat.fHp -= 100.0f;
+	//	g_pMessageManager->MessageSend(0.0f, this->GetID(), this->GetID(),
+	//		MESSAGE_TYPE::MSG_ATTACK, NULL);
+	//}
+	
 
-	dwCurTime = g_pTimeManager->GetTotalSec();
-	if (dwCurTime - m_Mp.dwOldAniTime >= m_Mp.dwAniTime)
-	{
-		m_Mp.dwOldAniTime = dwCurTime;
-		m_Mp.nIndex = ++m_Mp.nIndex % m_Mp.nCount;
-	}
-
-	if (g_pKeyManager->isOnceKeyDown('B'))
-	{
-		for (size_t i = 0; i < 60; ++i)
-		{
-			m_Hp.pRect[i].top += 10;
-			m_Hp.pCenter[i].y -= 10;
-		}
-	}
-	if (g_pKeyManager->isOnceKeyDown('H'))
-	{
-		for (size_t i = 0; i < 60; ++i)
-		{
-			m_Hp.pRect[i].top -= 10;
-			m_Hp.pCenter[i].y += 10;
-		}
-
-	}
+	
 
 
 
@@ -201,20 +157,7 @@ void cPlayer::Render()
 {
 	cGameObject::Render();
 	
-	//m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
-	//m_pSprite->Draw(m_pHpTex,
-	//	&m_Hp.pRect[m_Hp.nIndex],
-	//	&m_Hp.pCenter[m_Hp.nIndex],
-	//	&D3DXVECTOR3(700, 200, 0), 
-	//	D3DCOLOR_XRGB(255, 255, 255));
-	//
-	//m_pSprite->Draw(m_pMpTex,
-	//	&m_Mp.pRect[m_Mp.nIndex],
-	//	&m_Mp.pCenter[m_Mp.nIndex],
-	//	&D3DXVECTOR3(600, 200, 0), 
-	//	D3DCOLOR_XRGB(255, 255, 255));
-	//
-	//m_pSprite->End();
+	
 
 	if (m_pMesh)
 		m_pMesh->UpdateAndRender(&m_matWorld);
@@ -244,7 +187,7 @@ void cPlayer::Render()
 				0xffffff00);
 		}
 	}
-	this->m_pTrailRenderer->Render();
+	
 
 	
 }
@@ -252,6 +195,11 @@ void cPlayer::Render()
 void cPlayer::PlayerPosition()
 {
 	//m_pPosition = &cGameObject::GetPosition();
+}
+
+void cPlayer::TrailRender()
+{
+	this->m_pTrailRenderer->Render();
 }
 
 void cPlayer::TrailUpdate()
@@ -289,33 +237,7 @@ void cPlayer::TrailTexSetUp(const char * texFileName)
 		m_vecTrailTex.push_back(tex);
 }
 
-void cPlayer::SetSphere(ST_HPSPHERE & sphere)
-{
 
-	for (size_t i = 0; i < 2; ++i)
-	{
-		for (size_t j = 0; j < 42; ++j)
-		{
-			if (i == 1 && j == 18) break;
-			RECT rc;
-			SetRect(&rc, j * HP_SPHERE_SIZE_X, i * HP_SPHERE_SIZE_Y,
-					(j + 1) * HP_SPHERE_SIZE_X, i * HP_SPHERE_SIZE_Y + HP_SPHERE_SIZE_Y);
-			D3DXVECTOR3 vCenter;
-			vCenter = D3DXVECTOR3(HP_SPHERE_SIZE_X / 2, HP_SPHERE_SIZE_Y / 2, 0);
-			
-			sphere.pRect.push_back(rc);
-			sphere.pCenter.push_back(vCenter);
-			
-			
-		}
-	}
-
-	sphere.nCount = 60;
-	sphere.nIndex = 0;
-	sphere.dwAniTime = g_pTimeManager->GetDeltaTime();
-	sphere.dwOldAniTime = g_pTimeManager->GetTotalSec();
-
-}
 
 bool cPlayer::HandleMessage(const Telegram & msg)
 {

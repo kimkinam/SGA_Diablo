@@ -11,6 +11,7 @@ private:
 
 	SYNTHESIZE(AIMap, m_AImap, AImap);
 	iter	m_iter;
+	
 
 public:
 	cAIManager();

@@ -19,7 +19,8 @@ private:
 	std::vector<cOBB*>					m_vecBoundBox;
 	std::vector<cMonster*>				m_vecMonster;
 	std::vector<cMonster*>::iterator	m_vecMonsterIter;
-	//cMonster*							m_pCurMonster;
+	cUiManager*							m_pUI;
+	cMonster*							m_pCurMonster;
 
 	std::vector<ST_PC_VERTEX>			m_vecTiles;
 
@@ -28,9 +29,10 @@ public:
 	virtual ~cGamingScene();
 
 	void LoadMap(string fileName);
+	void UISetting();
 	void PlayerMoveTest();
 	bool CollisionTest();
-
+	
 	//cScene override;
 	virtual HRESULT SetUp()	override;
 	virtual void Update()	override;

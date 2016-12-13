@@ -105,8 +105,8 @@ HRESULT cTestScene::SetUp()
 	m_pGrid->Setup(120);
 
 	//플레이어
-	m_pPlayer = new cPlayer;
-	m_pPlayer->Setup();
+	//m_pPlayer = new cPlayer;
+	//m_pPlayer->Setup();
 
 	//몬스터
 	cFetish* Fetish = new cFetish;
@@ -142,23 +142,23 @@ HRESULT cTestScene::SetUp()
 
 
 	////완전한 맵
-	//cMap* obj1 = new cMap;
-	//obj1->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
-	//obj1->Setup("a1dun_01_test.objobj", "./Resources/Object/");
-	//obj1->SetSumNailName("a1Dun_01.jpg");
-	//m_vecObj.push_back(obj1);
+	cMap* obj1 = new cMap;
+	obj1->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
+	obj1->Setup("a1dun_01_test.objobj", "./Resources/Object/");
+	obj1->SetSumNailName("a1Dun_01.jpg");
+	m_vecObj.push_back(obj1);
 	
-	//cMap* obj2 = new cMap;
-	//obj2->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
-	//obj2->Setup("a1dun_02_test.objobj", "./Resources/Object/");
-	//obj2->SetSumNailName("a1Dun_02.jpg");
-	//m_vecObj.push_back(obj2);
-	//
-	//cMap* obj3 = new cMap;
-	//obj3->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
-	//obj3->Setup("a1dun_03_test.objobj", "./Resources/Object/");
-	//obj3->SetSumNailName("a1Dun_03.jpg");
-	//m_vecObj.push_back(obj3);
+	cMap* obj2 = new cMap;
+	obj2->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
+	obj2->Setup("a1dun_02_test.objobj", "./Resources/Object/");
+	obj2->SetSumNailName("a1Dun_02.jpg");
+	m_vecObj.push_back(obj2);
+	
+	cMap* obj3 = new cMap;
+	obj3->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
+	obj3->Setup("a1dun_03_test.objobj", "./Resources/Object/");
+	obj3->SetSumNailName("a1Dun_03.jpg");
+	m_vecObj.push_back(obj3);
 
 
 	ST_PC_VERTEX v;
@@ -580,7 +580,7 @@ void cTestScene::SetMap()
 			if (m_pCurMonster)
 			{
 				cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
-				D3DXVECTOR3 pickPos;
+				D3DXVECTOR3 pickPos = D3DXVECTOR3(0, 0, 0);
 				for (size_t i = 0; i < m_vecTiles.size(); i += 3)
 				{
 					if (r.IntersectTri(m_vecTiles[i].p,
@@ -591,6 +591,7 @@ void cTestScene::SetMap()
 						if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
 						{
 							//m_pCurMonster->Setup()
+							pickPos.y = 0.0f;
 							m_pCurMonster->SetPosition(pickPos);
 
 							m_vecOutMonster.push_back(m_pCurMonster);
@@ -674,10 +675,14 @@ void cTestScene::SetMap()
 			SetBoundBox();
 		break;
 		case SET_DONE:
-			PlayerMoveTest();
+			
 
 			if (m_pPlayer)
+			{
 				m_pPlayer->Update();
+				PlayerMoveTest();
+			}
+				
 		break;
 		default:
 		break;

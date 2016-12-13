@@ -51,7 +51,7 @@ void cUISkill::Update()
 	SetRect(&rc_cooltime, 0, 0, Skill_CoolTime, -9);
 
 
-		if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON)&& m_SkillState == S_normal)
+		if (g_pKeyManager->isOnceKeyDown(VK_NUMPAD0)&& m_SkillState == S_normal)
 		{
 			m_SkillState = S_Clicked;
 			m_fUsedTime = g_pTimeManager->GetTotalSec();

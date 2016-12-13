@@ -10,11 +10,8 @@ void cGameObjectGlobalState::Enter(cGameObject * pOwner)
 
 void cGameObjectGlobalState::Execute(cGameObject * pOwner)
 {
-	//assert(pOwner->GetStat().fHp > 0 && "ав╬З╫ю╢о╢ы.");
-
 	if (pOwner->GetStat().fHp <= 0)
 	{
-		//SAFE_RELEASE(pOwner);
 		string name = pOwner->GetCurAnimation()->GetName();
 
 		if (name == "stunned")
@@ -40,13 +37,11 @@ void cGameObjectGlobalState::Execute(cGameObject * pOwner)
 
 void cGameObjectGlobalState::Exit(cGameObject * pOwner)
 {
-	//SAFE_RELEASE(pOwner);
-	m_dDeadTime = 0.0f;
-	//int a = 0;
 }
 
 bool cGameObjectGlobalState::OnMessage(cGameObject* pOwner, const Telegram& msg)
 {
+	//if (pOwner->GetStat().fHp <= 0) return false;
 	switch (msg.emMessageType)
 	{
 		case MSG_RUN:
@@ -60,11 +55,12 @@ bool cGameObjectGlobalState::OnMessage(cGameObject* pOwner, const Telegram& msg)
 			float hp = pOwner->GetStat().fHp;
 			float atk = g_pAIManager->GetAIBaseFromID(msg.nSender)->GetStat().fAtk;
 			pOwner->GetStat().fHp -= g_pAIManager->GetAIBaseFromID(msg.nSender)->GetStat().fAtk;
-
 		}
+		return true;
 		break;
 		case MSG_DEAD:
 			m_dDeadTime = *(double*)msg.ExtraInfo;
+			return true;
 			break;
 		case MSG_NONE:
 		break;
