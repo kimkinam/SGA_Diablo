@@ -7,15 +7,14 @@
 #include "cActionMove.h"
 #include "cActionTrace.h"
 #include "cSkinnedMesh.h"
-#include "cSkeleton.h"
 #include "cBoss.h"
+#include "cMap.h"
+
 
 cBossScene::cBossScene()
 	: m_pGrid(NULL)
 	, m_pBoss(NULL)
-	, m_pBoss2(NULL)
 	, m_pPlayer(NULL)
-	, m_pSkeleton(NULL)
 	, m_vpickPos(0, 0, 0)
 {
 }
@@ -26,9 +25,7 @@ cBossScene::~cBossScene()
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pCamera);
 	SAFE_RELEASE(m_pBoss);
-	SAFE_RELEASE(m_pBoss2);
 	SAFE_RELEASE(m_pPlayer);
-	SAFE_RELEASE(m_pSkeleton);
 
 }
 
@@ -64,20 +61,10 @@ HRESULT cBossScene::SetUp()
 	m_pBoss->SetPosition(D3DXVECTOR3(10, 0, 10));
 	m_pBoss->Setup(&D3DXVECTOR3(1,0,0));
 	m_pBoss->SetID(1);
-	
-	m_pBoss2 = new cBoss;
-	m_pBoss2->SetTarget(m_pPlayer);
-	m_pBoss2->SetPosition(D3DXVECTOR3(-10, 0, 10));
-	m_pBoss2->Setup(&D3DXVECTOR3(1, 0, 0));
-	m_pBoss2->SetID(1);
 
-	//
-	//m_pSkeleton = new cSkeleton;
-	//m_pSkeleton->SetTarget(m_pPlayer);
-	//m_pSkeleton->SetPosition(D3DXVECTOR3(-10, 0, 10));
-	//m_pSkeleton->Setup();
+	//m_pMap = new cMap;
+	//m_pMap->Setup("DiabloMap.obj", "")
 	
-
 }
 
 HRESULT cBossScene::Reset()
@@ -102,11 +89,6 @@ void cBossScene::Update()
 	if (m_pBoss)
 		m_pBoss->Update();
 
-	if (m_pBoss2)
-		m_pBoss2->Update();
-
-
-
 	if (m_pCamera)
 		m_pCamera->Update();
 
@@ -126,9 +108,6 @@ void cBossScene::Render()
 	
 	if (m_pBoss)
 		m_pBoss->Render();
-
-	if (m_pBoss2)
-		m_pBoss2->Render();
 
 }
 
@@ -179,10 +158,8 @@ void cBossScene::PlayerMove()
 				pAction->SetSpeed(0.05f);
 				pAction->Start();
 				m_pPlayer->SetAction(pAction);
-				//m_pPlayer->GetAni()->Play("run");
 				m_pPlayer->GetMesh()->SetAnimationIndex("run");
 
-				SAFE_RELEASE(pAction);
 			}
 		}
 	}

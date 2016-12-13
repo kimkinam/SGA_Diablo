@@ -296,7 +296,6 @@ void cGamingScene::LoadMap(string fileName)
 		{
 			monster = new cSkeletonArcher;
 		}
-		
 		//else if (name == "ZombieDog.x")
 		//{
 		//

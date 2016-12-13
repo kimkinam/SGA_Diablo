@@ -45,11 +45,17 @@ void cActionTrace::Update()
 	{
 		for (size_t i = 0; i < m_vecMonster.size(); ++i)
 		{
-			cOBB& temp = *(m_pTarget->GetOBB());
+			cOBB* temp = (m_pTarget->GetOBB());
 			
-			temp.GetCenterPos() = position + m_vDirection * m_fSpeed;
+			if (!temp || !m_vecMonster[i]->GetOBB()) continue;
 
+			temp->GetCenterPos() = position + m_vDirection * m_fSpeed;
+
+<<<<<<< HEAD
 			if (m_vecMonster[i]->GetOBB())
+=======
+			if (cOBB::IsCollision(temp, m_vecMonster[i]->GetOBB()))
+>>>>>>> 14956df22ecbe102ed2cb3c41a0ad90efba52a98
 			{
 				if (cOBB::IsCollision(&temp, m_vecMonster[i]->GetOBB()))
 				{

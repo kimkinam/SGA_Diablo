@@ -29,11 +29,11 @@ void cMonsterTrace::Enter(cMonster * pOwner)
 			pAction->GetMonster().push_back((iter->second));
 		}
 
-		for (iter = map.begin(); iter != map.end(); ++iter)
-		{
-			if (iter->first == 0 || iter->first == pOwner->GetID()) continue;
-			pAction->GetOBB().push_back((iter->second->GetOBB()));
-		}
+		//for (iter = map.begin(); iter != map.end(); ++iter)
+		//{
+		//	if (iter->first == 0 || iter->first == pOwner->GetID()) continue;
+		//	pAction->GetOBB().push_back((iter->second->GetOBB()));
+		//}
 		pAction->Start();
 		pOwner->SetAction(pAction);
 	}
