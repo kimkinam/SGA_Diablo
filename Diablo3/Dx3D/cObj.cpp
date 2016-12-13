@@ -8,6 +8,7 @@ cObj::cObj()
 	: m_matWorld(NULL)
 	, m_pMesh(NULL)
 	, m_vPosition(0, 0, 0)
+	, m_pEffect(NULL)
 {
 	m_sSumNailName = m_sObjName = "";
 
@@ -17,6 +18,7 @@ cObj::cObj()
 cObj::~cObj()
 {
 	SAFE_RELEASE(m_pMesh);
+	SAFE_RELEASE(m_pEffect);
 
 	for each(auto c in m_vecMtl)
 	{
@@ -44,6 +46,7 @@ void cObj::SetUp(char * szFileName, char* szFolderName)
 	m_sObjName = szFileName;
 	m_pMesh = loader.Load(szFileName, szFolderName, m_vecMtl, NULL);
 
+	m_pEffect = LoadEffect("./Resources/Shaders/heatHaze.fx");
 	//loader.Load(szFileName, szFolderName, NULL,
 	//	m_vecMtl, m_pMesh, m_vecHiddenMtl, m_vecHiddenObj);
 
@@ -95,24 +98,67 @@ void cObj::Render()
 		matW = matS * matR * matT;
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matW);
 
-	}
+		for (size_t i = 0; i < m_vecMtl.size(); ++i)
+		{
+			g_pD3DDevice->SetMaterial(&m_vecMtl[i]->GetMtl());
+			g_pD3DDevice->SetTexture(0, m_vecMtl[i]->GetTexture());
 
-	for (size_t i = 0; i < m_vecMtl.size(); ++i)
-	{
-		g_pD3DDevice->SetMaterial(&m_vecMtl[i]->GetMtl());
-		g_pD3DDevice->SetTexture(0, m_vecMtl[i]->GetTexture());
-		m_pMesh->DrawSubset(i);
-	}
-	
-	//D3DXMATRIX matW;
-	//D3DXMatrixIdentity(&matW);
-	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matW);
-	
-		
+			if (m_vecMtl[i]->GetIsHiddenObj())
+			{
+				g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+				g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+				g_pD3DDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+				g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+				g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+				//g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
 
-	//if (m_pMesh)
-	//{
-	
+			}
+
+			if (i == 8)
+			{
+				ULONGLONG tick = GetTickCount64();
+
+				g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+				g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+				g_pD3DDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+				g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+				g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+
+				D3DXMATRIXA16 matView, matProj;
+				g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+				g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+
+				m_pEffect->SetMatrix("matWorld", &matW);
+				m_pEffect->SetMatrix("matWorldViewProjection", &(matW * matView * matProj));
+				m_pEffect->SetFloat("fSpeed", 0.5f);
+				m_pEffect->SetFloat("uvspeed", -1.0f);
+				m_pEffect->SetFloat("fTime", g_pTimeManager->GetDeltaTime());
+				m_pEffect->SetTexture("DiffuseMap_Tex", m_vecMtl[i]->GetTexture());
+
+				UINT numPasses = 0;
+				m_pEffect->Begin(&numPasses, NULL);
+
+				for (UINT j = 0; j < numPasses; j++)
+				{
+					m_pEffect->BeginPass(j);
+					m_pMesh->DrawSubset(i);
+					m_pEffect->EndPass();
+
+				}
+				m_pEffect->End();
+			}
+			else
+			
+				m_pMesh->DrawSubset(i);
+
+			if (m_vecMtl[i]->GetIsHiddenObj())
+			{
+				//g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
+				g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+				g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+			}
+		}
+	}
 
 }
 

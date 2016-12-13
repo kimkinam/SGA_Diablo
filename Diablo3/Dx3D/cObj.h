@@ -20,6 +20,8 @@ private:
 	SYNTHESIZE(string, m_sSumNailName, SumNailName);
 	SYNTHESIZE(string, m_sObjName, ObjName);
 
+	LPD3DXEFFECT m_pEffect;
+
 public:
 	cObj();
 	virtual ~cObj();

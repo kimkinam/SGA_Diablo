@@ -3,14 +3,14 @@
 class cGrid;
 class cBoss;
 class cPlayer;
-class cMap;
+class cObj;
 
 class cBossScene :
 	public cSceneObject
 {
 private:
 	cGrid*			m_pGrid;
-	cMap*			m_pMap;
+	cObj*			m_pMap;
 	cBoss*			m_pBoss; // º¸½º
 	cPlayer*		m_pPlayer;
 
