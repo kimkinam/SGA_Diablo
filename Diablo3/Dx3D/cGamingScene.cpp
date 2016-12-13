@@ -125,7 +125,7 @@ void cGamingScene::Update()
 	{
 		m_pPlayer->GetMesh()->SetAnimationIndex("attack");
 	}
-	if (g_pKeyManager->isOnceKeyDown('1'))
+	if (g_pKeyManager->isOnceKeyDown(VK_OEM_COMMA))
 	{
 
 		m_pPlayer->GetMesh()->SetAnimationIndex("whirlwinding");

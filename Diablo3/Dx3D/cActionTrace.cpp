@@ -49,40 +49,44 @@ void cActionTrace::Update()
 			
 			temp.GetCenterPos() = position + m_vDirection * m_fSpeed;
 
-			if (cOBB::IsCollision(&temp, m_vecMonster[i]->GetOBB()))
+			if (m_vecMonster[i]->GetOBB())
 			{
-				D3DXVECTOR3 vRright = m_vecMonster[i]->GetRight();
-
-				D3DXVECTOR3 vNewDir = m_vecMonster[i]->GetPosition() - m_pTarget->GetPosition();
-				D3DXVec3Normalize(&vNewDir, &vNewDir);
-
-				float a = D3DXVec3Dot(&vRright, &m_vecMonster[i]->GetDirection());
-
-				float distance = D3DXVec3Length(&(position - m_pTraceTarget->GetPosition()));
-				float distance2 = D3DXVec3Length(&(m_vecMonster[i]->GetPosition() - m_pTraceTarget->GetPosition()));
-
-				if (distance > distance2)
+				if (cOBB::IsCollision(&temp, m_vecMonster[i]->GetOBB()))
 				{
-					if (D3DXVec3Dot(&vRright, &vNewDir) > 0)
-					{
-						m_vDirection = -vRright * m_pTarget->GetStat().fAttackRange * 2;
-					}
-					else
-					{
-						m_vDirection =  + vRright * m_pTarget->GetStat().fAttackRange * 2;
-					}
-				}
+					D3DXVECTOR3 vRright = m_vecMonster[i]->GetRight();
 
-				D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-				position = m_pTarget->GetPosition();
-				position += m_vDirection * m_fSpeed;
-				m_vDirection = m_pTraceTarget->GetPosition() - m_pTarget->GetPosition();
-				D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-				m_pTarget->SetNewDirection(m_vDirection);
-				m_pTarget->SetPosition(position);
-				return;
-				
+					D3DXVECTOR3 vNewDir = m_vecMonster[i]->GetPosition() - m_pTarget->GetPosition();
+					D3DXVec3Normalize(&vNewDir, &vNewDir);
+
+					float a = D3DXVec3Dot(&vRright, &m_vecMonster[i]->GetDirection());
+
+					float distance = D3DXVec3Length(&(position - m_pTraceTarget->GetPosition()));
+					float distance2 = D3DXVec3Length(&(m_vecMonster[i]->GetPosition() - m_pTraceTarget->GetPosition()));
+
+					if (distance > distance2)
+					{
+						if (D3DXVec3Dot(&vRright, &vNewDir) > 0)
+						{
+							m_vDirection = -vRright * m_pTarget->GetStat().fAttackRange * 2;
+						}
+						else
+						{
+							m_vDirection = +vRright * m_pTarget->GetStat().fAttackRange * 2;
+						}
+					}
+
+					D3DXVec3Normalize(&m_vDirection, &m_vDirection);
+					position = m_pTarget->GetPosition();
+					position += m_vDirection * m_fSpeed;
+					m_vDirection = m_pTraceTarget->GetPosition() - m_pTarget->GetPosition();
+					D3DXVec3Normalize(&m_vDirection, &m_vDirection);
+					m_pTarget->SetNewDirection(m_vDirection);
+					m_pTarget->SetPosition(position);
+					return;
+
+				}
 			}
+		
 
 		}
 	}
