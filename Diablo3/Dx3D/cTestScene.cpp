@@ -148,17 +148,17 @@ HRESULT cTestScene::SetUp()
 	obj1->SetSumNailName("a1Dun_01.jpg");
 	m_vecObj.push_back(obj1);
 	
-	cMap* obj2 = new cMap;
-	obj2->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
-	obj2->Setup("a1dun_02_test.objobj", "./Resources/Object/");
-	obj2->SetSumNailName("a1Dun_02.jpg");
-	m_vecObj.push_back(obj2);
-	
-	cMap* obj3 = new cMap;
-	obj3->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
-	obj3->Setup("a1dun_03_test.objobj", "./Resources/Object/");
-	obj3->SetSumNailName("a1Dun_03.jpg");
-	m_vecObj.push_back(obj3);
+	//cMap* obj2 = new cMap;
+	//obj2->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
+	//obj2->Setup("a1dun_02_test.objobj", "./Resources/Object/");
+	//obj2->SetSumNailName("a1Dun_02.jpg");
+	//m_vecObj.push_back(obj2);
+	//
+	//cMap* obj3 = new cMap;
+	//obj3->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
+	//obj3->Setup("a1dun_03_test.objobj", "./Resources/Object/");
+	//obj3->SetSumNailName("a1Dun_03.jpg");
+	//m_vecObj.push_back(obj3);
 
 
 	ST_PC_VERTEX v;

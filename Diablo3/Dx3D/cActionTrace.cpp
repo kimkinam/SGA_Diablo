@@ -45,11 +45,13 @@ void cActionTrace::Update()
 	{
 		for (size_t i = 0; i < m_vecMonster.size(); ++i)
 		{
-			cOBB& temp = *(m_pTarget->GetOBB());
+			cOBB* temp = (m_pTarget->GetOBB());
 			
-			temp.GetCenterPos() = position + m_vDirection * m_fSpeed;
+			if (!temp || !m_vecMonster[i]->GetOBB()) continue;
 
-			if (cOBB::IsCollision(&temp, m_vecMonster[i]->GetOBB()))
+			temp->GetCenterPos() = position + m_vDirection * m_fSpeed;
+
+			if (cOBB::IsCollision(temp, m_vecMonster[i]->GetOBB()))
 			{
 				D3DXVECTOR3 vRright = m_vecMonster[i]->GetRight();
 

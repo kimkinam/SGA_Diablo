@@ -2,22 +2,17 @@
 
 class cGrid;
 class cBoss;
-class cSkeleton;
 class cPlayer;
-class cActionTrace;
-class cMonster;
+class cMap;
 
 class cBossScene :
 	public cSceneObject
 {
 private:
 	cGrid*			m_pGrid;
+	cMap*			m_pMap;
 	cBoss*			m_pBoss; // º¸½º
-	cBoss*			m_pBoss2;
 	cPlayer*		m_pPlayer;
-	cSkeleton*		m_pSkeleton;
-
-	std::vector<cMonster*>		m_vecMonster;
 
 	std::vector<ST_PC_VERTEX>	m_vecTiles;
 	D3DXVECTOR3					m_vpickPos;
