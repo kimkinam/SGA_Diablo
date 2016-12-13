@@ -63,13 +63,10 @@ protected:
 	SYNTHESIZE_ADD_REF(cAction*, m_pAction, Action);
 	SYNTHESIZE(cGameObject*, m_pTarget, Target);
 	SYNTHESIZE(cSkinnedMesh*, m_pMesh, Mesh);
-<<<<<<< HEAD
 
-=======
 	SYNTHESIZE_PASS_BY_REF(std::vector<cOBB*>, m_vecBoundBox, BoundBox);
 
 	
->>>>>>> 9ca1f0a3d9ceb5c78a50937e94d08d213acccdf3
 	LPD3DXMESH	m_pSphere;
 	
 public:
