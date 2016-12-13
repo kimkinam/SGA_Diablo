@@ -13,7 +13,7 @@ cFetish::~cFetish()
 
 void cFetish::Setup(D3DXVECTOR3 * vLookAt)
 {	 
-	m_stStat = ST_MONSTER_STAT(100, 0, 10, 5, 0.05f, 2.0f, 3.0f);
+	m_stStat = ST_MONSTER_STAT(100, 0, 10, 5, 0.05f, 1.0f, 4.0f, CHARACTER_FETISH);
 
 	cMonster::Setup("Fetish.x");
 

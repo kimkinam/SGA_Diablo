@@ -31,23 +31,48 @@ public:
 	virtual void Enter(cMonster* pOwner)
 	{
 		if (pOwner->GetStat().fHp <= 0) return;
-		if (pOwner)
+
+		if (pOwner->GetStat().chType == CHARACTER_STITCH)
 		{
-			pOwner->GetMesh()->SetAnimationIndex("attack");
+			if (pOwner)
+			{
+				pOwner->GetMesh()->SetAnimationIndex("attackPunch");
 
-			cActionAtk* atk = new cActionAtk;
-			LPD3DXANIMATIONSET pAtk;
-			pOwner->GetMesh()->GetAnimController()->GetAnimationSetByName("attack", &pAtk);
+				cActionAtk* atk = new cActionAtk;
+				LPD3DXANIMATIONSET pAtk;
+				pOwner->GetMesh()->GetAnimController()->GetAnimationSetByName("attackPunch", &pAtk);
 
-			atk->SetActionTime(pAtk->GetPeriod());
-			atk->SetTarget(pOwner);
-			atk->SetDelegate(pOwner);
-			atk->SetAtkRange(pOwner->GetStat().fAttackRange);
-			atk->SetAttackTarget(pOwner->GetTarget());
-			atk->Start();
-			pOwner->SetAction(atk);
+				atk->SetActionTime(pAtk->GetPeriod());
+				atk->SetTarget(pOwner);
+				atk->SetDelegate(pOwner);
+				atk->SetAtkRange(pOwner->GetStat().fAttackRange);
+				atk->SetAttackTarget(pOwner->GetTarget());
+				atk->Start();
+				pOwner->SetAction(atk);
 
+			}
 		}
+		else
+		{
+			if (pOwner)
+			{
+				pOwner->GetMesh()->SetAnimationIndex("attack");
+
+				cActionAtk* atk = new cActionAtk;
+				LPD3DXANIMATIONSET pAtk;
+				pOwner->GetMesh()->GetAnimController()->GetAnimationSetByName("attack", &pAtk);
+
+				atk->SetActionTime(pAtk->GetPeriod());
+				atk->SetTarget(pOwner);
+				atk->SetDelegate(pOwner);
+				atk->SetAtkRange(pOwner->GetStat().fAttackRange);
+				atk->SetAttackTarget(pOwner->GetTarget());
+				atk->Start();
+				pOwner->SetAction(atk);
+
+			}
+		}
+		
 
 		double totalTime = pOwner->GetCurAniTime();
 		g_pMessageManager->MessageSend(totalTime * 2 / 3, pOwner->GetID(), pOwner->GetTarget()->GetID(),

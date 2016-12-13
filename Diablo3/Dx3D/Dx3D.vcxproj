@@ -103,6 +103,7 @@
     <ClInclude Include="cCharController.h" />
     <ClInclude Include="cCube.h" />
     <ClInclude Include="cFetish.h" />
+    <ClInclude Include="cGargantuan.h" />
     <ClInclude Include="cMessageManager.h" />
     <ClInclude Include="cMonsterAttack.h" />
     <ClInclude Include="cMonsterDetecting.h" />
@@ -144,6 +145,7 @@
     <ClInclude Include="cSkeletonArcher.h" />
     <ClInclude Include="cSkinnedMesh.h" />
     <ClInclude Include="cSkinnedMeshManager.h" />
+    <ClInclude Include="cStitch.h" />
     <ClInclude Include="cTrailRenderer.h" />
     <ClInclude Include="iState.h" />
     <ClInclude Include="cStateMachine.h" />
@@ -171,6 +173,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="MessageTypes.h" />
+    <ClInclude Include="cZombieDog.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cAction.cpp" />
@@ -191,6 +194,7 @@
     <ClCompile Include="cCharController.cpp" />
     <ClCompile Include="cCube.cpp" />
     <ClCompile Include="cFetish.cpp" />
+    <ClCompile Include="cGargantuan.cpp" />
     <ClCompile Include="cMessageManager.cpp" />
     <ClCompile Include="cMonsterAttack.cpp" />
     <ClCompile Include="cMonsterDetecting.cpp" />
@@ -232,6 +236,7 @@
     <ClCompile Include="cSkeletonArcher.cpp" />
     <ClCompile Include="cSkinnedMesh.cpp" />
     <ClCompile Include="cSkinnedMeshManager.cpp" />
+    <ClCompile Include="cStitch.cpp" />
     <ClCompile Include="cTrailRenderer.cpp" />
     <ClCompile Include="iState.cpp" />
     <ClCompile Include="cStateMachine.cpp" />
@@ -254,6 +259,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="cZombieDog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dx3D.rc" />

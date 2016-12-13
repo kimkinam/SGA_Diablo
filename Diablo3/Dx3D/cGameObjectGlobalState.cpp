@@ -10,28 +10,97 @@ void cGameObjectGlobalState::Enter(cGameObject * pOwner)
 
 void cGameObjectGlobalState::Execute(cGameObject * pOwner)
 {
+	string name = pOwner->GetCurAnimation()->GetName();
+
 	if (pOwner->GetStat().fHp <= 0)
 	{
-		string name = pOwner->GetCurAnimation()->GetName();
+		pOwner->GetStat().bIsDead = true;
 
-		if (name == "stunned")
+		if (pOwner->GetStat().chType == CHARACTER_SKELETON ||
+			pOwner->GetStat().chType == CHARACTER_ZOMBIEDOG)
 		{
-			m_dDeadTime -= g_pTimeManager->GetDeltaTime();
-			if(m_dDeadTime < 0)
+			if (name == "death")
 			{
-				g_pAIManager->RemoveAIBase(pOwner);
-				this->Exit(pOwner);
+				m_dDeadTime -= g_pTimeManager->GetDeltaTime();
+				if (m_dDeadTime < 0)
+				{
+					g_pAIManager->RemoveAIBase(pOwner);
+					this->Exit(pOwner);
+				}
+			}
+			else
+			{
+				pOwner->SetAnimation("death");
+
+				double totalTime = pOwner->GetCurAniTime();
+				g_pMessageManager->MessageSend(0.0f, pOwner->GetID(), pOwner->GetID(),
+					MESSAGE_TYPE::MSG_DEAD, &(double)totalTime);
+			}
+		}
+		else if(pOwner->GetStat().chType == CHARACTER_SKELETONARCHER ||
+			pOwner->GetStat().chType == CHARACTER_GARHANTUAN)
+		{
+			if (name == "hit")
+			{
+				m_dDeadTime -= g_pTimeManager->GetDeltaTime();
+				if (m_dDeadTime < 0)
+				{
+					g_pAIManager->RemoveAIBase(pOwner);
+					this->Exit(pOwner);
+				}
+			}
+			else
+			{
+				pOwner->SetAnimation("hit");
+
+				double totalTime = pOwner->GetCurAniTime();
+				g_pMessageManager->MessageSend(0.0f, pOwner->GetID(), pOwner->GetID(),
+					MESSAGE_TYPE::MSG_DEAD, &(double)totalTime);
+			}
+		}
+		else if (pOwner->GetStat().chType == CHARACTER_STITCH)
+		{
+			if (name == "bomb")
+			{
+				m_dDeadTime -= g_pTimeManager->GetDeltaTime();
+				if (m_dDeadTime < 0)
+				{
+					g_pAIManager->RemoveAIBase(pOwner);
+					this->Exit(pOwner);
+				}
+			}
+			else
+			{
+				pOwner->SetAnimation("bomb");
+
+				double totalTime = pOwner->GetCurAniTime();
+				g_pMessageManager->MessageSend(0.0f, pOwner->GetID(), pOwner->GetID(),
+					MESSAGE_TYPE::MSG_DEAD, &(double)totalTime);
 			}
 		}
 		else
 		{
-			pOwner->SetAnimation("stunned");
+			if (name == "stunned")
+			{
+				m_dDeadTime -= g_pTimeManager->GetDeltaTime();
+				if (m_dDeadTime < 0)
+				{
+					g_pAIManager->RemoveAIBase(pOwner);
+					this->Exit(pOwner);
+				}
+			}
+			else
+			{
+				pOwner->SetAnimation("stunned");
 
-			double totalTime = pOwner->GetCurAniTime();
-			g_pMessageManager->MessageSend(0.0f, pOwner->GetID(), pOwner->GetID(),
-				MESSAGE_TYPE::MSG_DEAD, &(double)totalTime);
+				double totalTime = pOwner->GetCurAniTime();
+				g_pMessageManager->MessageSend(0.0f, pOwner->GetID(), pOwner->GetID(),
+					MESSAGE_TYPE::MSG_DEAD, &(double)totalTime);
+			}
 		}
+		
 	}
+
 
 }
 
