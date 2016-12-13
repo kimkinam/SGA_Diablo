@@ -185,6 +185,85 @@ namespace MyUtil
 		int a = 0;
 	}
 
+	bool CollisionRayToOBB(D3DXVECTOR3 vSrc, D3DXVECTOR3 vDest,
+		D3DXVECTOR3 vObbPos, D3DXVECTOR3 vMin, D3DXVECTOR3 vMax
+		, D3DXMATRIXA16* pMatWorld)
+	{
+		D3DXVECTOR3 vTemp1, vTemp2, vOrigin;
+		D3DXMATRIXA16 matInv;
+
+		D3DXMatrixInverse(&matInv, 0, pMatWorld);
+
+		vTemp1	= vSrc;
+		vTemp2	= vDest;
+		vOrigin = vObbPos;
+
+		D3DXVec3TransformCoord(&vTemp1, &vTemp1, &matInv);
+		D3DXVec3TransformCoord(&vTemp2, &vTemp2, &matInv);
+		D3DXVec3TransformCoord(&vOrigin, &vOrigin, &matInv);
+
+		return CollisionRayToABB(vTemp1, vTemp2, vOrigin, vMin, vMax);
+	}
+
+	bool CollisionRayToABB(D3DXVECTOR3 vSrc, D3DXVECTOR3 vDest, D3DXVECTOR3 vAbbPos,
+		D3DXVECTOR3 vMin, D3DXVECTOR3 vMax)
+	{
+		D3DXVECTOR3 BoxMin = vAbbPos + vMin;
+		D3DXVECTOR3 BoxMax = vAbbPos + vMax;
+
+		D3DXVECTOR3 d = vSrc - vDest;
+
+		float t1, t2, tmin, tmax, temp;
+
+		tmin = INT_MIN;
+		tmax = INT_MAX;
+
+		bool bInBox1 = vSrc.x > BoxMin.x && vSrc.x < BoxMax.x &&
+			vSrc.y > BoxMin.y && vSrc.y < BoxMax.y &&
+			vSrc.z > BoxMin.z && vSrc.z < BoxMax.z;
+
+		bool bInBox2 = vDest.x > BoxMin.x && vDest.x < BoxMax.x &&
+			vDest.y > BoxMin.y && vDest.y < BoxMax.y &&
+			vDest.z > BoxMin.z && vDest.z < BoxMax.z;
+
+		if (bInBox1 && bInBox2)
+			return false;
+		else if (bInBox1 != bInBox2)
+			return true;
+
+		if (abs(d.x) < EPSILON)
+		{
+			if (vSrc.x < BoxMin.x || vSrc.x > BoxMax.x)
+				return false;
+		}
+		else
+		{
+			t1 = (BoxMin.x - vSrc.x) / d.x;
+			t2 = (BoxMax.x - vSrc.x) / d.x;
+
+			if (t1 > t2)
+			{
+				temp = t1;
+				t1 = t2;
+				t2 = temp;
+			}
+
+			if (t1 > tmin)
+				tmin = t1;
+			if (t2 > tmax)
+				tmax = t2;
+			if (tmin > tmax)
+				return false;
+
+			if (tmax < 0.0f)
+				return false;
+			if (tmin > 1.0f)
+				return false;
+		}
+
+		return true;
+	}
+
 	LPD3DXEFFECT LoadEffect(const char * szFileName)
 	{
 		LPD3DXEFFECT pEffect = NULL;

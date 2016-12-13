@@ -7,7 +7,8 @@ public:
 	cSkeletonArcher();
 	virtual ~cSkeletonArcher();
 
-	virtual void Setup();
+	virtual void Setup(D3DXVECTOR3* vLookAt = NULL);
+	virtual void Setup(ST_SAVEOBJECT wObj);
 	virtual void Update();
 	virtual void Render();
 

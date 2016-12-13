@@ -22,7 +22,12 @@ namespace MyUtil
 
 	void MakeBoundBox(D3DXVECTOR3 vMin, D3DXVECTOR3 vMax, std::vector<ST_PC_VERTEX>& vecVertex);
 
-
+	bool CollisionRayToOBB(D3DXVECTOR3 vSrc, D3DXVECTOR3 vDest, 
+		D3DXVECTOR3 vObbPos, D3DXVECTOR3 vMin, D3DXVECTOR3 vMax
+		, D3DXMATRIXA16* pMatWorld = NULL);
+	
+	bool CollisionRayToABB(D3DXVECTOR3 vSrc, D3DXVECTOR3 vDest, D3DXVECTOR3 vAbbPos, 
+		D3DXVECTOR3 vMin, D3DXVECTOR3 vMax);
 	
 	LPD3DXEFFECT LoadEffect(const char* szFileName);
 }

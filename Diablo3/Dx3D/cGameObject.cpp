@@ -86,11 +86,11 @@ void cGameObject::Render()
 	D3DXMATRIXA16 matT;
 	//D3DXMatrixIdentity(&matT);
 	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matT);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 	//if (m_pSphere)
 	//	m_pSphere->DrawSubset(0);
-	//if (m_pOBB)
-	//	m_pOBB->DebugRender(D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
+	if (m_pOBB)
+		m_pOBB->DebugRender(D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
 }
 
 void cGameObject::OnActionFinish(cAction * pSender)

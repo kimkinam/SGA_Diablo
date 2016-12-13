@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #include "cActionTrace.h"
-
+#include "cMonster.h"
 
 cActionTrace::cActionTrace()
-	: m_tFrom(NULL)
-	, m_tTo(NULL)
-	, m_vPosition(NULL)
+	: m_pTraceTarget(NULL)
 	, m_fSpeed(0.0f)
 	, m_fTraceRange(0.0f)
 	, m_fAttackRange(0.0f)
@@ -17,9 +15,7 @@ cActionTrace::cActionTrace()
 
 cActionTrace::~cActionTrace()
 {
-	//SAFE_DELETE(m_tFrom);
-	//SAFE_DELETE(m_tTo);
-	//SAFE_DELETE(m_vPosition);
+	SAFE_DELETE(m_pTraceTarget)
 }
 
 cAction * cActionTrace::Create()
@@ -31,9 +27,6 @@ void cActionTrace::Start()
 {
 	cAction::Start();
 
-	//D3DXVECTOR3 Dir = (*m_tFrom) - (*m_tTo);
-	//D3DXVec3Normalize(&Dir, &Dir);
-	//m_pTarget->SetDirection(Dir);
 }
 
 
@@ -41,45 +34,125 @@ void cActionTrace::Update()
 {
 	cAction::Update();
 
-	D3DXVECTOR3 dir = (*m_tTo) - (*m_tFrom);
-	D3DXVec3Normalize(&dir, &dir);
+	m_vDirection = (*m_pTraceTarget->GetPtPosition()) - (*m_pTarget->GetPtPosition());
+	D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 
 	D3DXVECTOR3 position = m_pTarget->GetPosition();
 
-	position = position + dir * m_fSpeed;
+	position = position + m_vDirection * m_fSpeed;
 
-	D3DXMATRIXA16 matR, matT, matW;
-	D3DXMatrixLookAtLH(&matR,
-		&D3DXVECTOR3(0, 0, 0),
-		&-dir,
-		&D3DXVECTOR3(0, 1, 0));
-	D3DXMatrixTranspose(&matR, &matR);
-	D3DXMatrixTranslation(&matT, position.x, position.y, position.z);
-
-	matW = matR * matT;
-
-
-	m_pTarget->SetPosition(position);
-	m_pTarget->SetDirection(dir);
-	m_pTarget->SetWorldTM(matW);
-
-	//타겟과의 거리
-	m_fDistance = D3DXVec3Length(&((*m_tFrom) - (*m_tTo)));
-
-	//공격할 상황
-	if (m_fAttackRange > m_fDistance)
+	if (!m_vecMonster.empty())
 	{
-		m_pTarget->SetPosition(m_pTarget->GetPosition());
-		//m_pTarget->SetIsAtk(true);
-		m_pDelegate->OnActionFinish(this);
+		for (size_t i = 0; i < m_vecMonster.size(); ++i)
+		{
+			cOBB& temp = *(m_pTarget->GetOBB());
+			
+			temp.GetCenterPos() = position + m_vDirection * m_fSpeed;
+
+			if (cOBB::IsCollision(&temp, m_vecMonster[i]->GetOBB()))
+			{
+				D3DXVECTOR3 vRright = m_vecMonster[i]->GetRight();
+
+				D3DXVECTOR3 vNewDir = m_vecMonster[i]->GetPosition() - m_pTarget->GetPosition();
+				D3DXVec3Normalize(&vNewDir, &vNewDir);
+
+				float a = D3DXVec3Dot(&vRright, &m_vecMonster[i]->GetDirection());
+
+				float distance = D3DXVec3Length(&(position - m_pTraceTarget->GetPosition()));
+				float distance2 = D3DXVec3Length(&(m_vecMonster[i]->GetPosition() - m_pTraceTarget->GetPosition()));
+
+				if (distance > distance2)
+				{
+					if (D3DXVec3Dot(&vRright, &vNewDir) > 0)
+					{
+						m_vDirection = -vRright * m_pTarget->GetStat().fAttackRange * 2;
+					}
+					else
+					{
+						m_vDirection =  + vRright * m_pTarget->GetStat().fAttackRange * 2;
+					}
+				}
+
+				D3DXVec3Normalize(&m_vDirection, &m_vDirection);
+				position = m_pTarget->GetPosition();
+				position += m_vDirection * m_fSpeed;
+				m_vDirection = m_pTraceTarget->GetPosition() - m_pTarget->GetPosition();
+				D3DXVec3Normalize(&m_vDirection, &m_vDirection);
+				m_pTarget->SetNewDirection(m_vDirection);
+				m_pTarget->SetPosition(position);
+				return;
+				
+			}
+
+		}
+	}
+
+	if (!m_vecOBB.empty())
+	{
+		for (size_t i = 0; i < m_vecOBB.size(); ++i)
+		{
+			cOBB& temp = *(m_pTarget->GetOBB());
+
+			temp.GetCenterPos() = position + m_vDirection * m_fSpeed;
+
+			if (cOBB::IsCollision(&temp, m_vecOBB[i]))
+			{
+				D3DXVECTOR3 vTargetDir = m_pTraceTarget->GetDirection();
+				D3DXVec3Normalize(&vTargetDir, &vTargetDir);
+				
+				D3DXVECTOR3 vPosition = m_pTarget->GetPosition();
+				angle = D3DXToDegree(D3DXVec3Dot(&vTargetDir, &m_vDirection));
+			
+				m_vDirection -= vTargetDir;
+				D3DXVec3Normalize(&m_vDirection, &m_vDirection);
+				vPosition += m_vDirection * m_fSpeed;
+				m_vDirection = m_pTraceTarget->GetPosition() - vPosition;
+				
+				D3DXVec3Normalize(&m_vDirection, &m_vDirection);
+
+				temp.GetCenterPos() = vPosition;// +m_vDirection * m_fSpeed;
+				if (cOBB::IsCollision(&temp, m_vecOBB[i]))
+				{
+					D3DXVECTOR3 vDir = m_pTraceTarget->GetDirection();
+
+					if (D3DXVec3Dot(&vDir, &m_vDirection) < 0)
+					{
+						D3DXVECTOR3 vPos = m_pTarget->GetPosition();
+						m_vDirection = m_pTraceTarget->GetPosition() - m_pTarget->GetPosition();
+						D3DXVec3Normalize(&m_vDirection, &m_vDirection);
+
+						m_vDirection += m_pTraceTarget->GetDirection();
+						D3DXVec3Normalize(&m_vDirection, &m_vDirection);
+
+						vPos += m_vDirection * m_fSpeed;
+						m_pTarget->SetNewDirection(m_vDirection);
+						m_pTarget->SetPosition(vPos);
+					}
+					else
+					{
+						D3DXVECTOR3 vPos = m_pTarget->GetPosition();
+						D3DXVECTOR3 vDir = m_pTraceTarget->GetPosition() - vPos;
+						D3DXVec3Normalize(&vDir, &vDir);
+						m_pTarget->SetNewDirection(vDir);
+						m_pTarget->SetPosition(vPos);
+
+					}
+					return;
+				}
+				else
+				{
+					m_pTarget->SetNewDirection(m_vDirection);
+					m_pTarget->SetPosition(vPosition);
+					return;
+				}
+			}
+			
+		}
 
 	}
-	//추적포기 상황
-	if (m_fTraceRange < m_fDistance)
-	{
-		m_pTarget->SetPosition(m_pTarget->GetPosition());
-		//m_pTarget->SetIsAtk(false);
-		m_pDelegate->OnActionFinish(this);
-	}
+
+		m_pTarget->SetPosition(position);
+		m_pTarget->SetNewDirection(m_vDirection);
+	
 
 }

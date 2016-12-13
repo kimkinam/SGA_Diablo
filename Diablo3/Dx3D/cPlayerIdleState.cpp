@@ -14,10 +14,11 @@ void cPlayerIdleState::Enter(cPlayer * pOwner)
 
 void cPlayerIdleState::Execute(cPlayer * pOwner)
 {
-	if (g_pTimeManager->GetTotalSec() - m_fLastHittedTime > 3.0f)
-	{
-		pOwner->GetStat().fHp += 5;
-	}
+	//if (g_pTimeManager->GetTotalSec() - m_fLastHittedTime > 3.0f)
+	//{
+	//	if (pOwner->GetStat().fHp > pOwner->GetStat().fMaxHp) return;
+	//	pOwner->GetStat().fHp += 1;
+	//}
 }
 
 void cPlayerIdleState::Exit(cPlayer * pOwner)
@@ -31,6 +32,9 @@ bool cPlayerIdleState::OnMessage(cPlayer * pOwner, const Telegram & msg)
 	
 	switch (msg.emMessageType)
 	{
+	case MSG_HITTED:
+		return false;
+		break;
 	case MSG_IDLE:
 		//공격타겟을 초기화 한다.
 		pOwner->SetTarget(NULL);
@@ -71,9 +75,10 @@ bool cPlayerIdleState::OnMessage(cPlayer * pOwner, const Telegram & msg)
 
 		//return true;
 	}
-		
+	return true;
 	break;
 	case MSG_ATTACK:
+		if (!pOwner->GetTarget()) return false;
 		pOwner->m_pSateMachnie->ChangeState(cPlayerAttackState::Instance());
 		return true;
 		break;

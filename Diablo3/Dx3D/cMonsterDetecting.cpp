@@ -8,11 +8,7 @@
 void cMonsterDetecting::Enter(cMonster * pOwner)
 {
 	
-	//if(pOwner->IsDoneCurAni())
 	pOwner->GetMesh()->SetAnimationIndex("idle");
-
-	//if (pOwner->GetAction())
-	//	pOwner->SetAction(NULL);
 
 }
 
@@ -34,6 +30,7 @@ void cMonsterDetecting::Execute(cMonster * pOwner)
 
 void cMonsterDetecting::Exit(cMonster * pOwner)
 {
+	if (!pOwner->GetTarget()) return;
 	D3DXVECTOR3 vLength = pOwner->GetTarget()->GetPosition()
 		- pOwner->GetPosition();
 

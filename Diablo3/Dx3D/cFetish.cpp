@@ -23,10 +23,13 @@ void cFetish::Setup(D3DXVECTOR3 * vLookAt)
 	vMin = m_pMesh->GetMin();
 	vMax = m_pMesh->GetMax();
 	
-	vMin.x += 0.2f;
-	vMax.x -= 0.2f;
-	vMax.y -= 0.2f;
+	vMin.x += 0.4f;
+	vMax.x -= 0.4f;
+	vMin.y -= 0.4f;
+	vMax.y -= 0.6f;
+	vMax.z -= 0.4f;
 	
+
 	m_pOBB->Setup(vMin, vMax);
 }
 
@@ -40,10 +43,14 @@ void cFetish::Setup(ST_SAVEOBJECT wObj)
 	vMin = m_pMesh->GetMin();
 	vMax = m_pMesh->GetMax();
 
-	vMin.x += 0.2f;
-	vMax.x -= 0.2f;
-	vMax.y -= 0.2f;
+	vMin.x += 0.4f;
+	vMax.x -= 0.4f;
+	vMin.y -= 0.4f;
+	vMax.y -= 0.6f;
+	vMax.z -= 0.4f;
+	//vMax.y -= 0.6f;
 
+	
 	m_pOBB->Setup(vMin, vMax);
 }
 
@@ -55,5 +62,9 @@ void cFetish::Update()
 void cFetish::Render()
 {
 	cMonster::Render();
+}
+
+void cFetish::OnActionFinish(cAction * pSender)
+{
 }
 

@@ -30,6 +30,7 @@ public:
 	//상태에 진입
 	virtual void Enter(cMonster* pOwner)
 	{
+		if (pOwner->GetStat().fHp <= 0) return;
 		if (pOwner)
 		{
 			pOwner->GetMesh()->SetAnimationIndex("attack");
@@ -47,11 +48,17 @@ public:
 			pOwner->SetAction(atk);
 
 		}
+
+		double totalTime = pOwner->GetCurAniTime();
+		g_pMessageManager->MessageSend(totalTime * 2 / 3, pOwner->GetID(), pOwner->GetTarget()->GetID(),
+			MESSAGE_TYPE::MSG_HITTED, &(float)pOwner->GetStat().fAtk);
 	}
 
 	//상태에 진입해서 갱신
 	virtual void Execute(cMonster* pOwner)
 	{
+		if (pOwner->GetStat().fHp <= 0) return;
+
 		D3DXVECTOR3 vDir = pOwner->GetTarget()->GetPosition() - pOwner->GetPosition();
 		float distance = D3DXVec3Length(&vDir);
 		D3DXVec3Normalize(&vDir, &vDir);
@@ -71,8 +78,8 @@ public:
 				pOwner->GetMesh()->GetAnimController()->GetTrackDesc(0, &td);
 
 				//현재 애니메이션의 전체 길이를 실행하고
-				if(pOwner->IsDoneCurAni())
-				//if (td.Position > pCurAS->GetPeriod() - EPSILON - 0.2f)
+				//if(pOwner->IsDoneCurAni())
+				if (td.Position > pCurAS->GetPeriod() - EPSILON - 0.2f)
 				{
 					//상태를 변화시켜준다.
 					//pOwner->SetIsAtk(false);
@@ -84,20 +91,34 @@ public:
 			}
 		}
 
+		else
+		{
+			if (pOwner->IsDoneCurAni())
+			{
+				g_pMessageManager->MessageSend(0.0f, pOwner->GetID(), pOwner->GetID(),
+					MESSAGE_TYPE::MSG_ATTACK, NULL);
+				//double totalTime = pOwner->GetCurAniTime();
+				//g_pMessageManager->MessageSend(totalTime / 2, pOwner->GetID(), pOwner->GetTarget()->GetID(),
+				//	MESSAGE_TYPE::MSG_HITTED, &(float)pOwner->GetStat().fAtk);
+			}
+		}
 	}
 
 	//상태에서 퇴장
 	virtual void Exit(cMonster* pOwner)
 	{
-		
-		int a = 0;
+
 	}
 
 	//GameObject의 HandleMessage로부터 메시지를 접수하면 이 부분이 실행
 	virtual bool OnMessage(cMonster* pOwner, const Telegram& msg)
 	{
+		if (pOwner->GetStat().fHp <= 0) return false;
 		switch (msg.emMessageType)
 		{
+		case MSG_ATTACK:
+			pOwner->m_pSateMachnie->ChangeState(cMonsterAttack::Instance());
+			return true;
 		case MSG_RUN:
 			// 행동 처리
 			return true;

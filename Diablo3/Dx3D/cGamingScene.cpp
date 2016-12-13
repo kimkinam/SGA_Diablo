@@ -13,10 +13,13 @@
 #include "cSkeleton.h"
 #include "cSkeletonArcher.h"
 
+#include "cUIImage.h"
+
 cGamingScene::cGamingScene()
 	: m_pGrid(NULL)
 	, m_pPlayer(NULL)
-	//, m_pCurMonster(NULL)
+	, m_pUI(NULL)
+	, m_pCurMonster(NULL)
 {
 	
 }
@@ -29,6 +32,7 @@ cGamingScene::~cGamingScene()
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
 	SAFE_RELEASE(m_pPlayer);
+	SAFE_DELETE(m_pUI);
 
 	for each(auto c in m_vecMap)
 	{
@@ -46,11 +50,7 @@ cGamingScene::~cGamingScene()
 		SAFE_RELEASE(c);
 	}
 
-	
-
-	int a = 0;
 }
-
 
 
 HRESULT cGamingScene::SetUp()
@@ -91,6 +91,9 @@ HRESULT cGamingScene::SetUp()
 		m_vecMonster[i]->SetBoundBox(m_vecBoundBox);
 	}
 	g_pAIManager->RegisterAIBase(m_pPlayer);
+
+
+	UISetting();
 
 	return S_OK;
 }
@@ -150,6 +153,8 @@ void cGamingScene::Update()
 		m_pCamera->Update(NULL);
 	}
 	
+	if (m_pUI)
+		m_pUI->Update();
 	
 }
 
@@ -185,14 +190,19 @@ void cGamingScene::Render()
 	if (m_pCamera)
 		m_pCamera->Render();
 
+	if (m_pPlayer)
+		m_pPlayer->TrailRender();
 
-	//if (m_pCurMonster)
-	//{
+	if (m_pUI)
+		m_pUI->Render();
+
+	if (m_pCurMonster)
+	{
 		LPD3DXFONT font;
 		font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
 	
 		char temp[128];
-		sprintf_s(temp, "hp : %f", m_pPlayer->GetCurAniTime(),128);
+		sprintf_s(temp, "hp :%f", m_pCurMonster->GetStat().fHp, 128);
 		RECT rc;
 		SetRect(&rc, DEBUG_STARTX, DEBUG_STARTY + 100, DEBUG_STARTX + 250, DEBUG_STARTY + 115);
 		font->DrawText(NULL,
@@ -201,7 +211,7 @@ void cGamingScene::Render()
 			&rc,
 			DT_LEFT,
 			D3DCOLOR_XRGB(255, 255, 255));
-	//}
+	}
 	
 
 }
@@ -317,21 +327,30 @@ void cGamingScene::LoadMap(string fileName)
 	fclose(fp);
 }
 
+void cGamingScene::UISetting()
+{
+	m_pUI = new cUiManager;
+	m_pUI->SetAddressLink(m_pPlayer);
+	m_pUI->SetUp();
+
+	
+}
+
 void cGamingScene::PlayerMoveTest()
 {
 	cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
 
 	//몬스터를 클릭할 경우
-	//for (size_t i = 0; i < m_vecMonster.size(); ++i)
-	//{
-	//	if (r.IntersectShpere(m_vecMonster[i]->GetMesh()->GetBoundingSphere()))
-	//	{
-	//		//m_pCurMonster = m_vecMonster[i];
-	//		break;
-	//	}
-	//	else
-	//		//m_pCurMonster = NULL;
-	//}
+	for (size_t i = 0; i < m_vecMonster.size(); ++i)
+	{
+		if (r.IntersectShpere(m_vecMonster[i]->GetMesh()->GetBoundingSphere()))
+		{
+			m_pCurMonster = m_vecMonster[i];
+			break;
+		}
+		else
+			m_pCurMonster = NULL;
+	}
 	//플레이어 피킹
 	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
 	{
@@ -349,6 +368,7 @@ void cGamingScene::PlayerMoveTest()
 		{
 			if (r.IntersectShpere(m_vecMonster[i]->GetMesh()->GetBoundingSphere()))
 			{
+				if (m_vecMonster[i]->GetStat().fHp <= 0) return;
 				//공격할 타겟을 메세지에 담는다.
 				MSG.nTarget = m_vecMonster[i]->GetID();
 
