@@ -16,8 +16,7 @@ void cGameObjectGlobalState::Execute(cGameObject * pOwner)
 	{
 		pOwner->GetStat().bIsDead = true;
 
-		if (pOwner->GetStat().chType == CHARACTER_SKELETON ||
-			pOwner->GetStat().chType == CHARACTER_ZOMBIEDOG)
+		if (pOwner->GetStat().chType == CHARACTER_ZOMBIEDOG)
 		{
 			if (name == "death")
 			{
@@ -37,8 +36,28 @@ void cGameObjectGlobalState::Execute(cGameObject * pOwner)
 					MESSAGE_TYPE::MSG_DEAD, &(double)totalTime);
 			}
 		}
-		else if(pOwner->GetStat().chType == CHARACTER_SKELETONARCHER ||
-			pOwner->GetStat().chType == CHARACTER_GARHANTUAN)
+		else if (pOwner->GetStat().chType == CHARACTER_SKELETON)
+		{
+			if (name == "death")
+			{
+				m_dDeadTime -= g_pTimeManager->GetDeltaTime();
+				if (m_dDeadTime < 0)
+				{
+					g_pAIManager->RemoveAIBase(pOwner);
+					this->Exit(pOwner);
+				}
+			}
+			else
+			{
+				pOwner->SetAnimation("death");
+
+				double totalTime = pOwner->GetCurAniTime() - 0.2f;
+				g_pMessageManager->MessageSend(0.0f, pOwner->GetID(), pOwner->GetID(),
+					MESSAGE_TYPE::MSG_DEAD, &(double)totalTime);
+			}
+
+		}
+		else if (pOwner->GetStat().chType == CHARACTER_GARHANTUAN)
 		{
 			if (name == "hit")
 			{

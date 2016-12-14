@@ -41,6 +41,15 @@ void cActionTrace::Update()
 
 	position = position + m_vDirection * m_fSpeed;
 
+	for (m_vecMonsterIter = m_vecMonster.begin(); m_vecMonsterIter != m_vecMonster.end();)
+	{
+		if ((*m_vecMonsterIter)->GetStat().fHp <= 0)
+		{
+			m_vecMonsterIter = m_vecMonster.erase(m_vecMonsterIter);
+		}
+		else
+			++m_vecMonsterIter;
+	}
 	if (!m_vecMonster.empty())
 	{
 		for (size_t i = 0; i < m_vecMonster.size(); ++i)

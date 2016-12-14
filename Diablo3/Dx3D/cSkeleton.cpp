@@ -43,12 +43,12 @@ void cSkeleton::Setup(ST_SAVEOBJECT wObj)
 	vMin = m_pMesh->GetMin();
 	vMax = m_pMesh->GetMax();
 
-	vMin.x += 0.4f;
-	vMax.x -= 0.4f;
+	vMin.x += 0.7f;
+	vMax.x -= 0.6f;
 	vMin.y -= 0.4f;
 	vMax.y -= 0.6f;
 	vMax.z -= 0.1f;
-	vMin.z += 0.6f;
+	vMin.z += 0.8f;
 
 	//vMax.y -= 0.6f;
 

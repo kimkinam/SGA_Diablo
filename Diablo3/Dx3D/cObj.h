@@ -6,7 +6,6 @@ class cObj : public cObject
 {
 private:
 	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vPosition, Position);
-
 	SYNTHESIZE_PASS_BY_REF(LPD3DXMESH, m_pMesh, Mesh);
 	SYNTHESIZE_PASS_BY_REF(std::vector<cMtlTex*>, m_vecMtl, Mtl);
 

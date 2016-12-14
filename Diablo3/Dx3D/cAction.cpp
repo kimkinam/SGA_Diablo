@@ -8,6 +8,7 @@ cAction::cAction()
 	, m_pTarget(NULL)
 	, m_pDelegate(NULL)
 	, m_vDirection(0, 0, 0)
+	, m_fDistance(0.0f)
 {
 }
 

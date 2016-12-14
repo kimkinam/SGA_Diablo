@@ -7,7 +7,8 @@ class cActionTrace : public cAction
 public:
 	float angle;
 private:
-	SYNTHESIZE_PASS_BY_REF(std::vector<cOBB*>, m_vecOBB, OBB);
+	std::vector<cGameObject*>::iterator	 m_vecMonsterIter;
+	SYNTHESIZE(std::vector<cOBB*>, m_vecOBB, OBB);
 	SYNTHESIZE_PASS_BY_REF(std::vector<cGameObject*>, m_vecMonster, Monster);
 	SYNTHESIZE(float, m_fSpeed, Speed);
 	//추적사거리

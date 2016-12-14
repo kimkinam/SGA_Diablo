@@ -113,6 +113,7 @@ public:
 
 	//애니메이션 관련
 	bool IsDoneCurAni();
+	bool IsPassedTime(float fPassTime);
 	double GetCurAniTime();
 	double GetAniTimeWithName(string szAniName);
 	LPD3DXANIMATIONSET GetCurAnimation();

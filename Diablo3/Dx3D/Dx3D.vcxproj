@@ -94,6 +94,7 @@
     <ClInclude Include="cAIManager.h" />
     <ClInclude Include="cAllocateHierarchy.h" />
     <ClInclude Include="cAnimation.h" />
+    <ClInclude Include="cArrow.h" />
     <ClInclude Include="cAseLoader.h" />
     <ClInclude Include="cAutoReleasePool.h" />
     <ClInclude Include="cBoss.h" />
@@ -185,6 +186,7 @@
     <ClCompile Include="cAIManager.cpp" />
     <ClCompile Include="cAllocateHierarchy.cpp" />
     <ClCompile Include="cAnimation.cpp" />
+    <ClCompile Include="cArrow.cpp" />
     <ClCompile Include="cAseLoader.cpp" />
     <ClCompile Include="cAutoReleasePool.cpp" />
     <ClCompile Include="cBoss.cpp" />

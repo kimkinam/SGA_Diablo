@@ -396,7 +396,7 @@ void cGamingScene::PlayerMoveTest()
 				{
 					MSG.vDest = m_pPlayer->GetPosition();
 				}
-				g_pMessageManager->MessageSend(0.0f, 0, 0, MESSAGE_TYPE::MSG_RUN, &MSG);
+				g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_RUN, &MSG);
 				
 				//몬스터를 클릭한 경우 바닥과의 피킹처리는 하지 않는다.
 				return;
@@ -416,7 +416,7 @@ void cGamingScene::PlayerMoveTest()
 				MSG.nTarget = m_pPlayer->GetID();
 				MSG.vDest = vPickPos;
 
-				g_pMessageManager->MessageSend(0.0f, 0, 0, MESSAGE_TYPE::MSG_RUN, &MSG);
+				g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_RUN, &MSG);
 			}
 		}
 	}
