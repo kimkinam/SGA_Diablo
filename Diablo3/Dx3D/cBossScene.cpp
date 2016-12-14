@@ -8,13 +8,14 @@
 #include "cActionTrace.h"
 #include "cSkinnedMesh.h"
 #include "cBoss.h"
-#include "cMap.h"
+#include "cObj.h"
 
 
 cBossScene::cBossScene()
 	: m_pGrid(NULL)
 	, m_pBoss(NULL)
 	, m_pPlayer(NULL)
+	, m_pMap(NULL)
 	, m_vpickPos(0, 0, 0)
 {
 }
@@ -24,6 +25,7 @@ cBossScene::~cBossScene()
 {
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pCamera);
+	SAFE_RELEASE(m_pMap);
 	SAFE_RELEASE(m_pBoss);
 	SAFE_RELEASE(m_pPlayer);
 
@@ -62,9 +64,9 @@ HRESULT cBossScene::SetUp()
 	m_pBoss->Setup(&D3DXVECTOR3(1,0,0));
 	m_pBoss->SetID(1);
 
-	//m_pMap = new cMap;
-	//m_pMap->Setup("DiabloMap.obj", "")
-	
+	m_pMap = new cObj;
+	m_pMap->SetUp("DiabloMap2.objobj", "./Resources/Object/");
+
 }
 
 HRESULT cBossScene::Reset()
@@ -92,6 +94,8 @@ void cBossScene::Update()
 	if (m_pCamera)
 		m_pCamera->Update();
 
+
+
 }
 
 void cBossScene::Render()
@@ -106,8 +110,27 @@ void cBossScene::Render()
 		m_pPlayer->Render();
 
 	
+
 	if (m_pBoss)
 		m_pBoss->Render();
+
+	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	//g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	//g_pD3DDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	//g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	//g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	//g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
+
+	if (m_pMap)
+		m_pMap->Render();
+	//g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
+	//g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+
+
+
+
+
 
 }
 

@@ -75,6 +75,8 @@ void cMap::Setup(char * szFileName, char * szForlderName)
 
 	loader.Load(szFileName, szForlderName, &m_matLocal,
 		m_vecMtl, m_pMesh,
+
+
 		m_vecHiddenMtl, m_vecHiddenObj);
 
 	cObjLoader loader2;

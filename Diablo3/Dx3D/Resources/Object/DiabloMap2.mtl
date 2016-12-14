@@ -1,0 +1,190 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 13.12.2016 16:59:56
+
+newmtl Hidden_02
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_Crystal_Arch_Bphase3.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_Crystal_Arch_Bphase3.dds
+	map_Ke C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_Crystal_Arch_A_Phase3_Glow.dds
+	map_d C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_Crystal_Arch_Bphase3.dds
+
+newmtl 21___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_Arena_Alphas_A.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_Arena_Alphas_A.dds
+
+newmtl Material__26
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_Arena_CrystalFloor_dark_phase3.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_Arena_CrystalFloor_dark_phase3.dds
+
+newmtl Hidden_01
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_decals_A.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_decals_A.dds
+	map_d C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_decals_A.dds
+
+newmtl 07___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_Arena_Floor_Decals_B.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_Arena_Floor_Decals_B.dds
+
+newmtl wire_038113028
+	Ns 32
+	d 1
+	Tr 0
+	Tf 1 1 1
+	illum 2
+	Ka 0.1490 0.4431 0.1098
+	Kd 0.1490 0.4431 0.1098
+	Ks 0.3500 0.3500 0.3500
+
+newmtl wire_033084029
+	Ns 32
+	d 1
+	Tr 0
+	Tf 1 1 1
+	illum 2
+	Ka 0.1294 0.3294 0.1137
+	Kd 0.1294 0.3294 0.1137
+	Ks 0.3500 0.3500 0.3500
+
+newmtl 02___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_Railings_A.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_Railings_A.dds
+
+newmtl headHaze_01
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_Crystal_Arch_Wings.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_Crystal_Arch_Wings.dds
+	map_d C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_Crystal_Arch_Wings.dds
+
+newmtl 13___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_decals_A.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_decals_A.dds
+
+newmtl 14___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_DemonSpikes_A.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_DemonSpikes_A.dds
+
+newmtl 08___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a4dun_spire_Decorations_A_Gold_A_Corrupted.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a4dun_spire_Decorations_A_Gold_A_Corrupted.dds
+
+newmtl 09___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a4dun_spire_Walls_A_White_A_Corrupted.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a4dun_spire_Walls_A_White_A_Corrupted.dds
+
+newmtl wire_002139003
+	Ns 32
+	d 1
+	Tr 0
+	Tf 1 1 1
+	illum 2
+	Ka 0.0078 0.5451 0.0118
+	Kd 0.0078 0.5451 0.0118
+	Ks 0.3500 0.3500 0.3500

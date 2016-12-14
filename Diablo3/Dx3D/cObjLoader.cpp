@@ -553,6 +553,10 @@ void cObjLoader::LoadMtlLib(IN char* szFilename, OUT std::vector<cMtlTex*>& vecM
 			sMtlName = std::string(szMtlName);
 			m_mapMtlTex[sMtlName] = new cMtlTex;
 			m_mapMtlTex[sMtlName]->SetAttrID(vecMtlTex.size());
+			if (StartsWith(StringToChar(sMtlName), "Hidden"))
+			{
+				m_mapMtlTex[sMtlName]->SetIsHiddenObj(true);
+			}
 				
 			vecMtlTex.push_back(m_mapMtlTex[sMtlName]);
 
