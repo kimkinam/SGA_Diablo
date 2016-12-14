@@ -9,6 +9,7 @@
 #include "cSkinnedMesh.h"
 #include "cBoss.h"
 #include "cObj.h"
+#include "cObjLoader.h"
 
 
 cBossScene::cBossScene()
@@ -48,25 +49,44 @@ HRESULT cBossScene::SetUp()
 	D3DXCOLOR c;
 	c = D3DCOLOR_XRGB(255, 255, 255);
 	m_vecTiles.reserve(sizeof(ST_PC_VERTEX) * 6);
-	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, 120), c));
-	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(120, 0, 120), c));
-	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(120, 0, -120), c));
-	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(120, 0, -120), c));
-	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, -120), c));
-	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, 120), c));
+	//m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, 120), c));
+	//m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(120, 0, 120), c));
+	//m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(120, 0, -120), c));
+	//m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(120, 0, -120), c));
+	//m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, -120), c));
+	//m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, 120), c));
+	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(0,  3.4f,   0), c));
+	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(20, 3.4f,   0), c));
+	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(20, 3.4f, -20), c));
+	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(20, 3.4f, -20), c));
+	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(0,  3.4f, -20), c));
+	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(0,  3.4f,   0), c));
 
 	m_pPlayer = new cPlayer;
-	m_pPlayer->Setup();
+	m_pPlayer->SetPosition(D3DXVECTOR3(18, 3.4f, -18));
+	D3DXVECTOR3 vDirection = D3DXVECTOR3(-1, 0, 1);
+	D3DXVec3Normalize(&vDirection, &vDirection);
+	m_pPlayer->Setup(&vDirection);
 	
 	m_pBoss = new cBoss;
 	m_pBoss->SetTarget(m_pPlayer);
-	m_pBoss->SetPosition(D3DXVECTOR3(10, 0, 10));
+	m_pBoss->SetPosition(D3DXVECTOR3(10, 3.4f, -10));
 	m_pBoss->Setup(&D3DXVECTOR3(1,0,0));
 	m_pBoss->SetID(1);
 
 	m_pMap = new cObj;
 	m_pMap->SetUp("DiabloMap2.objobj", "./Resources/Object/");
 
+	g_pAIManager->RegisterAIBase(m_pPlayer);
+	
+	D3DXVECTOR3 vDir;
+	vDir = m_pPlayer->GetPosition() - BOSSSCENE_CAMERAPOS;/*D3DXVECTOR3(24, 10, -17)*/;
+	D3DXVec3Normalize(&vDir, &vDir);
+	
+	float distance = 9.0f;
+	
+	m_pCamera->SetEye(m_pPlayer->GetPosition() - vDir * distance);
+	m_pCamera->SetNewDirection(vDir);
 }
 
 HRESULT cBossScene::Reset()
@@ -92,9 +112,11 @@ void cBossScene::Update()
 		m_pBoss->Update();
 
 	if (m_pCamera)
-		m_pCamera->Update();
-
-
+	{
+		m_pCamera->Update(m_pPlayer->GetPtPosition());
+		//m_pCamera->Update();
+	}
+		
 
 }
 
@@ -103,34 +125,24 @@ void cBossScene::Render()
 	if (m_pGrid)
 		m_pGrid->Render();
 
-	if (m_pCamera)
-		m_pCamera->Render();
 
 	if (m_pPlayer)
 		m_pPlayer->Render();
+
+	if (m_pMap)
+		m_pMap->Render();
 
 	
 
 	if (m_pBoss)
 		m_pBoss->Render();
 
-	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
-	//g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
-	//g_pD3DDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	//g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	//g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-	//g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
-
-	if (m_pMap)
-		m_pMap->Render();
-	//g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
-	//g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
-	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	if (m_pPlayer)
+		m_pPlayer->TrailRender();
 
 
-
-
-
+	if (m_pCamera)
+		m_pCamera->Render();
 
 }
 
@@ -164,24 +176,33 @@ void cBossScene::PlayerMove()
 	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
 	{
 		cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
-		D3DXVECTOR3 pickPos;
+		D3DXVECTOR3 vPickPos;
 		for (size_t i = 0; i < m_vecTiles.size(); i += 3)
 		{
 			if (r.IntersectTri(m_vecTiles[i].p,
 				m_vecTiles[i + 1].p,
 				m_vecTiles[i + 2].p,
-				pickPos))
+				vPickPos))
 			{
-				cActionMove* pAction = new cActionMove;
+				//cActionMove* pAction = new cActionMove;
+				//
+				//pAction->SetTo(pickPos);
+				//pAction->SetFrom(m_pPlayer->GetPosition());
+				//pAction->SetTarget(m_pPlayer);
+				//pAction->SetDelegate(m_pPlayer);
+				//pAction->SetSpeed(0.05f);
+				//pAction->Start();
+				//m_pPlayer->SetAction(pAction);
+				//m_pPlayer->GetMesh()->SetAnimationIndex("run");
+				ST_RUN_EXTRAINFO MSG;
+				//MSG.nBoxCount = m_vecBoundBox.size();
+				//MSG.vecBox = m_vecBoundBox;
+				MSG.fSpeed = m_pPlayer->GetStat().fSpeed;
+				
+				MSG.nTarget = m_pPlayer->GetID();
+				MSG.vDest = vPickPos;
 
-				pAction->SetTo(pickPos);
-				pAction->SetFrom(m_pPlayer->GetPosition());
-				pAction->SetTarget(m_pPlayer);
-				pAction->SetDelegate(m_pPlayer);
-				pAction->SetSpeed(0.05f);
-				pAction->Start();
-				m_pPlayer->SetAction(pAction);
-				m_pPlayer->GetMesh()->SetAnimationIndex("run");
+				g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_RUN, &MSG);
 
 			}
 		}

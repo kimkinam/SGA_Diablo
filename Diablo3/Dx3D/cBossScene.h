@@ -17,6 +17,7 @@ private:
 	std::vector<ST_PC_VERTEX>	m_vecTiles;
 	D3DXVECTOR3					m_vpickPos;
 
+
 public:
 	cBossScene();
 	virtual ~cBossScene();

@@ -83,9 +83,6 @@ void cGameObject::Render()
 	if (m_pOBB)
 		m_pOBB->Update(&m_matWorld);
 
-	D3DXMATRIXA16 matT;
-	//D3DXMatrixIdentity(&matT);
-	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 	//if (m_pSphere)
 	//	m_pSphere->DrawSubset(0);

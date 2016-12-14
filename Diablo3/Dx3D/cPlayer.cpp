@@ -69,7 +69,7 @@ void cPlayer::Setup(D3DXVECTOR3* vLook)
 	m_stStat.fMaxMp = 1000.0f;
 	
 	m_stStat.fAtk = 10.0f;
-	m_stStat.fAttackRange = this->GetMesh()->GetBoundingSphere()->fRadius * 4.0f;
+	m_stStat.fAttackRange = this->GetMesh()->GetBoundingSphere()->fRadius * 3.0f;
 	m_stStat.fSpeed = 0.1f;
 
 	this->TrailTexSetUp("./Resources/Images/Trail/Trail_angelic.dds");
@@ -157,11 +157,10 @@ void cPlayer::Render()
 {
 	cGameObject::Render();
 	
-	
-
 	if (m_pMesh)
 		m_pMesh->UpdateAndRender(&m_matWorld);
-
+	
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	if (m_pSword)
 		m_pSword->Render();
 	

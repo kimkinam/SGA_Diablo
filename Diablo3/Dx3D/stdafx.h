@@ -260,3 +260,6 @@ typedef struct ST_SAVEOBJECT
 #include "Monster.h"
 
 using namespace MyUtil;
+
+#define BOSSSCENE_CAMERAPOS D3DXVECTOR3(20, 8, -20)
+#define GAMINGSCENE_CAMERAPOS D3DXVECTOR3(3.46, 6.79, -2.96)

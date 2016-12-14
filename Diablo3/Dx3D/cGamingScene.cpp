@@ -92,6 +92,14 @@ HRESULT cGamingScene::SetUp()
 	}
 	g_pAIManager->RegisterAIBase(m_pPlayer);
 
+	D3DXVECTOR3 vDir;
+	vDir = m_pPlayer->GetPosition() - GAMINGSCENE_CAMERAPOS;/*D3DXVECTOR3(24, 10, -17)*/;
+	D3DXVec3Normalize(&vDir, &vDir);
+	
+	float distance = 8.67f;
+	
+	m_pCamera->SetEye(m_pPlayer->GetPosition() - vDir * distance);
+	m_pCamera->SetNewDirection(vDir);
 
 	UISetting();
 
@@ -150,7 +158,7 @@ void cGamingScene::Update()
 
 	if (m_pCamera)
 	{
-		m_pCamera->Update(NULL);
+		m_pCamera->Update(m_pPlayer->GetPtPosition());
 	}
 	
 	if (m_pUI)
@@ -162,11 +170,6 @@ void cGamingScene::Render()
 {
 	if (m_pGrid)
 		m_pGrid->Render();
-
-	//for each(auto c in g_pAIManager->GetAImap())
-	//{
-	//	c.second->Render();
-	//}
 
 	if (m_pPlayer)
 		m_pPlayer->Render();
@@ -392,7 +395,7 @@ void cGamingScene::PlayerMoveTest()
 				{
 					MSG.vDest = m_pPlayer->GetPosition();
 				}
-				g_pMessageManager->MessageSend(0.0f, 0, 0, MESSAGE_TYPE::MSG_RUN, &MSG);
+				g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_RUN, &MSG);
 				
 				//몬스터를 클릭한 경우 바닥과의 피킹처리는 하지 않는다.
 				return;
@@ -412,7 +415,7 @@ void cGamingScene::PlayerMoveTest()
 				MSG.nTarget = m_pPlayer->GetID();
 				MSG.vDest = vPickPos;
 
-				g_pMessageManager->MessageSend(0.0f, 0, 0, MESSAGE_TYPE::MSG_RUN, &MSG);
+				g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_RUN, &MSG);
 			}
 		}
 	}
