@@ -14,7 +14,7 @@ cBoss::~cBoss()
 void cBoss::Setup(D3DXVECTOR3* vLookAt)
 {
 	
-	m_stStat = ST_MONSTER_STAT(100, 0, 10, 5, 0.05f, 2.0f, 5.0f);
+	m_stStat = ST_MONSTER_STAT(100, 0, 10, 5, 0.05f, 2.0f, 5.0f, CHARACTER_DIABLO);
 
 
 	cMonster::Setup("diablo.x", vLookAt);

@@ -6,11 +6,24 @@
 #include "cAnimation.h"
 
 class cOBB;
-
 template<typename T> class cStateMachine;
+enum CHARACTER_TYPE
+{
+	CHARACTER_BARBARIAN,
+	CHARACTER_DIABLO,
+	CHARACTER_FETISH,
+	CHARACTER_SKELETON,
+	CHARACTER_SKELETONARCHER,
+	CHARACTER_STITCH,
+	CHARACTER_GARHANTUAN,
+	CHARACTER_ZOMBIEDOG,
+	CHARACTER_NONE
+};
 
 struct ST_MONSTER_STAT
 {
+	CHARACTER_TYPE chType;
+
 	float fMaxHp;
 	float fMaxMp;
 	float fHp;
@@ -22,13 +35,17 @@ struct ST_MONSTER_STAT
 	float fAttackRange;
 	float fTraceRange;
 
+	bool bIsDead;
+
 	ST_MONSTER_STAT() {
 		fHp = fMp = fAtk = fDef
 			= fSpeed = fAttackRange = fTraceRange = 0.0f;
+		chType = CHARACTER_NONE;
+		bIsDead = false;
 	}
 
 	ST_MONSTER_STAT(float _fHp, float _fMp, float _fAtk, float _fDef,
-		float _fSpeed, float _fAttackRange, float _fTraceRange)
+		float _fSpeed, float _fAttackRange, float _fTraceRange, CHARACTER_TYPE _chType)
 	{
 		fHp = _fHp;
 		fMp = _fMp;
@@ -37,6 +54,8 @@ struct ST_MONSTER_STAT
 		fSpeed = _fSpeed;
 		fAttackRange = _fAttackRange;
 		fTraceRange = _fTraceRange;
+		chType = _chType;
+		bIsDead = false;
 	}
 };
 
@@ -67,6 +86,7 @@ protected:
 	SYNTHESIZE_ADD_REF(cAction*, m_pAction, Action);
 	SYNTHESIZE(cGameObject*, m_pTarget, Target);
 	SYNTHESIZE(cSkinnedMesh*, m_pMesh, Mesh);
+
 	SYNTHESIZE_PASS_BY_REF(std::vector<cOBB*>, m_vecBoundBox, BoundBox);
 
 	
@@ -93,6 +113,7 @@ public:
 
 	//애니메이션 관련
 	bool IsDoneCurAni();
+	bool IsPassedTime(float fPassTime);
 	double GetCurAniTime();
 	double GetAniTimeWithName(string szAniName);
 	LPD3DXANIMATIONSET GetCurAnimation();

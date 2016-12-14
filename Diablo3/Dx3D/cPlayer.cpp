@@ -37,8 +37,6 @@ cPlayer::~cPlayer()
 
 void cPlayer::Setup(D3DXVECTOR3* vLook)
 {
-
-	
 	//¹Ù¹Ù
 	m_pMesh = new cSkinnedMesh("./Resources/Player/", "babarian.X");
 
@@ -55,6 +53,8 @@ void cPlayer::Setup(D3DXVECTOR3* vLook)
 	vMax.y -= 0.2f;
 
 	m_pOBB->Setup(vMin, vMax);
+
+	this->GetStat().chType = CHARACTER_BARBARIAN;
 
 	//Ä®
 	m_pSword = new cObj;

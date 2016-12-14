@@ -64,8 +64,12 @@ void cGameObject::Setup(D3DXVECTOR3* vLook)
 
 	m_matWorld = m_matLocal;
 
-	m_pMesh->GetBoundingSphere()->vCenter = m_vPosition;
-	D3DXCreateSphere(g_pD3DDevice, m_pMesh->GetBoundingSphere()->fRadius, 20, 20, &m_pSphere, NULL);
+	if (m_pMesh)
+	{
+		m_pMesh->GetBoundingSphere()->vCenter = m_vPosition;
+		D3DXCreateSphere(g_pD3DDevice, m_pMesh->GetBoundingSphere()->fRadius, 20, 20, &m_pSphere, NULL);
+	}
+
 }
 
 void cGameObject::Update()
@@ -75,7 +79,8 @@ void cGameObject::Update()
  		m_pAction->Update();
 	}
 
-	m_pMesh->GetBoundingSphere()->vCenter = m_vPosition;
+	if (m_pMesh)
+		m_pMesh->GetBoundingSphere()->vCenter = m_vPosition;
 }
 
 void cGameObject::Render()
@@ -83,6 +88,10 @@ void cGameObject::Render()
 	if (m_pOBB)
 		m_pOBB->Update(&m_matWorld);
 
+<<<<<<< HEAD
+=======
+	
+>>>>>>> 4919fb120ebbf365861133aa6644e8d7d85b7393
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 	//if (m_pSphere)
 	//	m_pSphere->DrawSubset(0);
@@ -95,6 +104,11 @@ void cGameObject::OnActionFinish(cAction * pSender)
 	m_pAction = NULL;
 	
 	//g_pMessageManager->MessageSend(0.0f, this->GetID(), this->GetID(), MESSAGE_TYPE::MSG_IDLE, NULL);
+
+	//if (this->GetStat().chType == CHARACTER_SKELETONARCHER)
+	//{
+	//	g_pMessageManager->MessageSend(0.0f, this->GetID(), this->GetTarget()->GetID(), MESSAGE_TYPE::MSG_ATTACK, &(float)this->GetStat().fAtk);
+	//}
 	m_pMesh->SetAnimationIndex("idle");
 }
 
@@ -121,6 +135,7 @@ void cGameObject::SetNewDirection(D3DXVECTOR3 vDirection)
 	m_matLocal._31 = m_vDirection.x;	m_matLocal._32 = m_vDirection.y;	m_matLocal._33 = m_vDirection.z;
 	m_matLocal._41 = 0;					m_matLocal._42 = 0;					m_matLocal._43 = 0;
 
+	int a = 0;
 	
 }
 
@@ -152,11 +167,26 @@ bool cGameObject::IsDoneCurAni()
 	double dTotalTime = pCurAS->GetPeriod();
 	double dPercent = dCurTime / dTotalTime;
 
-	if (dPercent > dTotalTime - dTotalTime  * 0.1f) return true;
+	if (dPercent > dTotalTime/* - dTotalTime  * 0.1f*/) return true;
 
 	return false;
 }
 
+bool cGameObject::IsPassedTime(float fPassTime)
+{
+	LPD3DXANIMATIONSET pCurAS = this->GetCurAnimation();
+
+	D3DXTRACK_DESC td;
+	this->m_pMesh->GetAnimController()->GetTrackDesc(0, &td);
+
+	double dCurTime = pCurAS->GetPeriodicPosition(td.Position);
+	double dTotalTime = pCurAS->GetPeriod();
+	double dPercent = dCurTime / dTotalTime;
+
+	if (dPercent > fPassTime) return true;
+
+	return false;
+}
 double cGameObject::GetCurAniTime()
 {
 	LPD3DXANIMATIONSET pCurAS = this->GetCurAnimation();

@@ -1,8 +1,14 @@
 #pragma once
 #include "cMonster.h"
+
+class cArrow;
+
 class cSkeletonArcher :
 	public cMonster
 {
+private:
+	SYNTHESIZE_PASS_BY_REF(std::vector<cArrow*>, m_vecArrow, Arrow);
+	SYNTHESIZE(bool, m_bIsFire, IsFire);
 public:
 	cSkeletonArcher();
 	virtual ~cSkeletonArcher();

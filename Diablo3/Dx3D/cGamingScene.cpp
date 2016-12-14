@@ -12,6 +12,9 @@
 #include "cFetish.h"	
 #include "cSkeleton.h"
 #include "cSkeletonArcher.h"
+#include "cStitch.h"
+#include "cZombieDog.h"
+#include "cGargantuan.h"
 
 #include "cUIImage.h"
 
@@ -299,18 +302,19 @@ void cGamingScene::LoadMap(string fileName)
 		{
 			monster = new cSkeletonArcher;
 		}
-		//else if (name == "ZombieDog.x")
-		//{
-		//
-		//}
-		//else if (name == "Gargantuan.x")
-		//{
-		//
-		//}
-		//else if (name == "Stich.x")
-		//{
-		//
-		//}
+		else if (name == "stitch.x")
+		{
+			monster = new cStitch;
+		}
+		else if (name == "ZombieDog.x")
+		{
+			monster = new cZombieDog;
+		}
+		else if (name == "Gargantuan.x")
+		{
+			monster = new cGargantuan;
+		}
+		
 		assert(monster != NULL && "몬스터 x");
 
 		monster->SetStat(st);
@@ -368,7 +372,7 @@ void cGamingScene::PlayerMoveTest()
 		//몬스터를 클릭할 경우
 		for (size_t i = 0; i < m_vecMonster.size(); ++i)
 		{
-			if (r.IntersectShpere(m_vecMonster[i]->GetMesh()->GetBoundingSphere()))
+			if (r.IntersectShpere(m_vecMonster[i]->GetMesh()->GetBoundingSphere()) && !m_vecMonster[i]->GetStat().bIsDead)
 			{
 				if (m_vecMonster[i]->GetStat().fHp <= 0) return;
 				//공격할 타겟을 메세지에 담는다.

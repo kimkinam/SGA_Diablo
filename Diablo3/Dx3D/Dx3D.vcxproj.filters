@@ -337,7 +337,7 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="cTrailRenderer.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="cGameObjectGlobalState.h">
       <Filter>AI\Sates</Filter>
@@ -367,6 +367,18 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="cObjectPool.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cStitch.h">
+      <Filter>Scene\GamingScene\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="cZombieDog.h">
+      <Filter>Scene\GamingScene\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="cGargantuan.h">
+      <Filter>Scene\GamingScene\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="cArrow.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -603,6 +615,18 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cObjectPool.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cStitch.cpp">
+      <Filter>Scene\GamingScene\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="cZombieDog.cpp">
+      <Filter>Scene\GamingScene\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="cGargantuan.cpp">
+      <Filter>Scene\GamingScene\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="cArrow.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

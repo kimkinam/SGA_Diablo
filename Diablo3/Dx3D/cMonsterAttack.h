@@ -3,6 +3,8 @@
 #include "cMonster.h"	
 #include "cActionAtk.h"
 #include "cMonsterDetecting.h"
+#include "cArrow.h"
+#include "cSkeletonArcher.h"
 
 class cMonster;
 
@@ -31,27 +33,26 @@ public:
 	virtual void Enter(cMonster* pOwner)
 	{
 		if (pOwner->GetStat().fHp <= 0) return;
-		if (pOwner)
+
+		if (pOwner->GetStat().chType == CHARACTER_STITCH)
 		{
-			pOwner->GetMesh()->SetAnimationIndex("attack");
-
-			cActionAtk* atk = new cActionAtk;
-			LPD3DXANIMATIONSET pAtk;
-			pOwner->GetMesh()->GetAnimController()->GetAnimationSetByName("attack", &pAtk);
-
-			atk->SetActionTime(pAtk->GetPeriod());
-			atk->SetTarget(pOwner);
-			atk->SetDelegate(pOwner);
-			atk->SetAtkRange(pOwner->GetStat().fAttackRange);
-			atk->SetAttackTarget(pOwner->GetTarget());
-			atk->Start();
-			pOwner->SetAction(atk);
-
+			if (pOwner)
+			{
+				pOwner->GetMesh()->SetAnimationIndex("attackPunch");
+			}
 		}
+		else
+		{
+			if (pOwner)
+			{
+				pOwner->GetMesh()->SetAnimationIndex("attack");
+			}
+		}
+		
 
 		double totalTime = pOwner->GetCurAniTime();
-		g_pMessageManager->MessageSend(totalTime * 2 / 3, pOwner->GetID(), pOwner->GetTarget()->GetID(),
-			MESSAGE_TYPE::MSG_HITTED, &(float)pOwner->GetStat().fAtk);
+		/*g_pMessageManager->MessageSend(totalTime * 2 / 3, pOwner->GetID(), pOwner->GetTarget()->GetID(),
+			MESSAGE_TYPE::MSG_HITTED, &(float)pOwner->GetStat().fAtk);*/
 	}
 
 	//상태에 진입해서 갱신
@@ -63,8 +64,9 @@ public:
 		float distance = D3DXVec3Length(&vDir);
 		D3DXVec3Normalize(&vDir, &vDir);
 
-		if(pOwner->IsDoneCurAni())
+		if (pOwner->IsDoneCurAni())
 			pOwner->SetNewDirection(vDir);
+			
 
 		//공격사거리 밖으로 나가면
 		if (distance > pOwner->GetStat().fAttackRange)
@@ -88,18 +90,6 @@ public:
 					//pOwner->OnActionFinish(pOwner->GetAction());
 					pOwner->m_pSateMachnie->ChangeState(cMonsterDetecting::Instance());
 				}
-			}
-		}
-
-		else
-		{
-			if (pOwner->IsDoneCurAni())
-			{
-				g_pMessageManager->MessageSend(0.0f, pOwner->GetID(), pOwner->GetID(),
-					MESSAGE_TYPE::MSG_ATTACK, NULL);
-				//double totalTime = pOwner->GetCurAniTime();
-				//g_pMessageManager->MessageSend(totalTime / 2, pOwner->GetID(), pOwner->GetTarget()->GetID(),
-				//	MESSAGE_TYPE::MSG_HITTED, &(float)pOwner->GetStat().fAtk);
 			}
 		}
 	}

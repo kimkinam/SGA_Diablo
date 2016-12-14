@@ -17,6 +17,9 @@
 #include "cFetish.h"
 #include "cSkeleton.h"
 #include "cSkeletonArcher.h"
+#include "cStitch.h"
+#include "cZombieDog.h"
+#include "cGargantuan.h"
 
 cTestScene::cTestScene()
 	: m_pGrid(NULL)
@@ -124,18 +127,18 @@ HRESULT cTestScene::SetUp()
 	SkeletonArcher->SetSumNailName("skeletonArcher.png");
 	m_vecMonster.push_back(SkeletonArcher);
 
-	cMonster* Gargantuan = new cMonster;
-	Gargantuan->Setup("Gargantuan.x");
+	cGargantuan* Gargantuan = new cGargantuan;
+	Gargantuan->Setup();
 	Gargantuan->SetSumNailName("Gargantuan.png");
 	m_vecMonster.push_back(Gargantuan);
 
-	cMonster* ZombieDog = new cMonster;
-	ZombieDog->Setup("ZombieDog.x");
+	cZombieDog* ZombieDog = new cZombieDog;
+	ZombieDog->Setup();
 	ZombieDog->SetSumNailName("ZombieDog.png");
 	m_vecMonster.push_back(ZombieDog);
 
-	cMonster* Stitch = new cMonster;
-	Stitch->Setup("Stitch.x");
+	cStitch* Stitch = new cStitch;
+	Stitch->Setup();
 	Stitch->SetSumNailName("Stitch.png");
 	m_vecMonster.push_back(Stitch);
 
