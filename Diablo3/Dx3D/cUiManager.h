@@ -3,7 +3,7 @@
 class cUISkill;
 class cUIImage;
 class cInventory;
-
+class cGamingScene;
 
 #define HP_SPHERE_SCALE	 2
 #define HP_SPHERE_SIZE_X 48 * HP_SPHERE_SCALE
@@ -24,15 +24,23 @@ class cUiManager : public iButtonDelegate
 {
 private:
 	cPlayer*			m_pPlayer;
+
+	cGamingScene*		m_pScene;
+
 	//cInventory*			Inventory;
 	cUIObject*			m_pHpBar;
 	//cUIObject*			m_pInven;
 	cUIObject*			HP_sphere;
 	cUIObject*			MP_sphere;
+
+	cUIObject*			m_pEnemyBarBG;
+
 	cUISkill*			pBaba_skill_1;
 	POINT				m_ptClickPoint;
+
 	SYNTHESIZE(LPD3DXSPRITE, m_pSprite, Sprite);
 	SYNTHESIZE(bool,	m_IsClick, IsClick);
+	SYNTHESIZE(cUIObject*, m_pEnemyBar, pEnemyBar);
 
 	//==인벤 무기이미지==//
 	/*	Inven_shoulder,
@@ -59,12 +67,12 @@ private:
 	LPDIRECT3DTEXTURE9			m_pHpTex;
 	ST_HPSPHERE					m_Mp;
 	LPDIRECT3DTEXTURE9			m_pMpTex;
+
 	float						m_fCurHp;
 	float						m_fMinusHp;
 	float						m_fMaxHp;
 
-
-
+	bool						m_bIsEnemyBar;
 
 	char* Skill_FileName;
 public:
@@ -73,6 +81,7 @@ public:
 
 	void SetUp();
 	void SetUpHpBar(RECT rc);
+	void SetUpEnemyBar(RECT rc);
 	void Update();
 	void Render();
 

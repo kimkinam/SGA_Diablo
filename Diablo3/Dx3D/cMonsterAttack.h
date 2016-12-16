@@ -46,6 +46,7 @@ public:
 			if (pOwner)
 			{
 				pOwner->GetMesh()->SetAnimationIndex("attack");
+				
 			}
 		}
 		

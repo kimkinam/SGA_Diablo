@@ -1,7 +1,6 @@
 #pragma once
 
 class cPlayer;
-
 class cPlayerMoveState :
 	public iState<cPlayer>
 {
@@ -9,12 +8,14 @@ private:
 	cPlayerMoveState() {}
 	virtual ~cPlayerMoveState() {}
 
+	
 public:
 	static cPlayerMoveState* Instance()
 	{
 		static cPlayerMoveState instance;
 		return &instance;
 	}
+
 
 	//상태에 진입
 	virtual void Enter(cPlayer* pOwner);

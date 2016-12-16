@@ -54,6 +54,7 @@ void cMonster::Setup(ST_SAVEOBJECT wObj)
 	m_sFolderName = wObj.szFolderName;
 
 	m_vPosition = wObj.vPosition;
+	m_stStat.fMaxHp = m_stStat.fHp;
 
 	m_pMesh = new cSkinnedMesh("./Resources/Monster/", StringToChar(m_sObjName));
 	m_pMesh->SetAnimationIndex("idle");
@@ -133,6 +134,7 @@ void cMonster::Render()
 			DT_LEFT,
 			D3DCOLOR_XRGB(255, 255, 255));
 	}
+
 }
 
 

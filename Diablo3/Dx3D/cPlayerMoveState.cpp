@@ -3,11 +3,14 @@
 #include "cPlayer.h"
 #include "cActionMove.h"
 #include "cPlayerIdleState.h"
-
+#include "cPlayerWarCryState.h"
 void cPlayerMoveState::Enter(cPlayer * pOwner)
 {
 	if (!pOwner) return;
+	
 	pOwner->GetMesh()->SetAnimationIndex("run");
+	SOUNDMANAGER->play("FootStep", 0.3f);
+
 }
 
 void cPlayerMoveState::Execute(cPlayer * pOwner)
@@ -17,19 +20,22 @@ void cPlayerMoveState::Execute(cPlayer * pOwner)
 	{
 		if (pOwner->GetTarget())
 		{
+			SOUNDMANAGER->stop("FootStep");
 			g_pMessageManager->MessageSend(0.0f, pOwner->GetID(), pOwner->GetID(),
 				MESSAGE_TYPE::MSG_ATTACK, NULL);
 		}
 			
 		else
+		{
+			SOUNDMANAGER->stop("FootStep");
 			g_pMessageManager->MessageSend(0.0f, pOwner->GetID(), pOwner->GetID(),
 				MESSAGE_TYPE::MSG_IDLE, NULL);
+		}
 	}
 }
 
 void cPlayerMoveState::Exit(cPlayer * pOwner)
 {
-	//pOwner->SetTarget(NULL);
 }
 
 //매세지를 처리한다.
@@ -39,6 +45,7 @@ bool cPlayerMoveState::OnMessage(cPlayer * pOwner, const Telegram & msg)
 	{
 		case MSG_RUN:
 		{
+		
 			if (!msg.ExtraInfo) return false;
 
 			ST_RUN_EXTRAINFO MSG;
@@ -55,6 +62,8 @@ bool cPlayerMoveState::OnMessage(cPlayer * pOwner, const Telegram & msg)
 				pOwner->SetTarget(NULL);
 
 			cActionMove* pAction = new cActionMove;
+			SOUNDMANAGER->stop("FootStep");
+			SOUNDMANAGER->play("FootStep", 0.2f);
 			pAction->SetTo(MSG.vDest);
 			pAction->SetFrom(pOwner->GetPosition());
 			pAction->SetTarget(pOwner);
@@ -65,14 +74,17 @@ bool cPlayerMoveState::OnMessage(cPlayer * pOwner, const Telegram & msg)
 			pOwner->SetAction(pAction);
 
 		}
-	
-		
 		break;
 		case MSG_IDLE:
 			pOwner->m_pSateMachnie->ChangeState(cPlayerIdleState::Instance());
 		break;
 		case MSG_ATTACK:
 			pOwner->m_pSateMachnie->ChangeState(cPlayerAttackState::Instance());
+		break;
+		case MSG_WARCRY:
+		{
+			pOwner->m_pSateMachnie->ChangeState(cPlayerWarCryState::Instance());
+		}
 		break;
 		default:
 		break;

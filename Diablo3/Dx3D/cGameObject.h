@@ -24,6 +24,8 @@ struct ST_MONSTER_STAT
 {
 	CHARACTER_TYPE chType;
 
+	//std::string chName;
+
 	float fMaxHp;
 	float fMaxMp;
 	float fHp;
@@ -42,12 +44,14 @@ struct ST_MONSTER_STAT
 			= fSpeed = fAttackRange = fTraceRange = 0.0f;
 		chType = CHARACTER_NONE;
 		bIsDead = false;
+		//chName = "";
 	}
 
 	ST_MONSTER_STAT(float _fHp, float _fMp, float _fAtk, float _fDef,
-		float _fSpeed, float _fAttackRange, float _fTraceRange, CHARACTER_TYPE _chType)
+		float _fSpeed, float _fAttackRange, float _fTraceRange, CHARACTER_TYPE _chType)//, std::string _chName)
 	{
 		fHp = _fHp;
+		fMaxHp = _fHp;
 		fMp = _fMp;
 		fAtk = _fAtk;
 		fDef = _fDef;
@@ -56,6 +60,7 @@ struct ST_MONSTER_STAT
 		fTraceRange = _fTraceRange;
 		chType = _chType;
 		bIsDead = false;
+		//chName = _chName;
 	}
 };
 

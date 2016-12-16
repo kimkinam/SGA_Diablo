@@ -10,6 +10,7 @@ private:
 	SYNTHESIZE(float, m_fSpeed, Speed);
 	SYNTHESIZE(std::vector<cOBB*>, m_vecOBB, OBB);
 
+
 public:
 	cActionMove();
 	virtual ~cActionMove();
