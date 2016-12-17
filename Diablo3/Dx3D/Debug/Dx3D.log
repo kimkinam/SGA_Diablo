@@ -1,0 +1,3 @@
+﻿  cBossScene.cpp
+c:\users\000\desktop\지빠귀\sga_diablo\diablo3\dx3d\cbossscene.cpp(85): warning C4715: 'cBossScene::SetUp' : 모든 제어 경로에서 값을 반환하지는 않습니다.
+  Dx3D.vcxproj -> C:\Users\000\Desktop\지빠귀\SGA_Diablo\Diablo3\Debug\Dx3D.exe
