@@ -30,4 +30,6 @@ namespace MyUtil
 		D3DXVECTOR3 vMin, D3DXVECTOR3 vMax);
 	
 	LPD3DXEFFECT LoadEffect(const char* szFileName);
+
+	void SetupVertexFog(DWORD dwColor, DWORD dwMode, BOOL bUseRange, FLOAT fDensity);
 }

@@ -96,21 +96,21 @@ void cMonster::Render()
 		m_pMesh->UpdateAndRender(&m_matWorld);
 
 	//공격사거리 그리는 부분
-	//if (g_pKeyManager->isToggleKey('1'))
-	//{
+	if (g_pKeyManager->isToggleKey('1'))
+	{
 		D3DXMATRIXA16 mat;
 		D3DXMatrixTranslation(&mat, 0, m_stStat.fAttackRange / 2, 0);
 		m_matWorld *= mat;
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	
-		
+
+
 		if (m_pAttackSphere)
 			m_pAttackSphere->DrawSubset(0);
-		
+
 		if (m_pTraceSphere)
 			m_pTraceSphere->DrawSubset(0);
-	//}
+	}
 	
 		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 

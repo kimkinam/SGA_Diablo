@@ -18,7 +18,6 @@ cMainGame::~cMainGame(void)
 	g_pFontManger->Destroy();
 	g_pSkinnedMeshManager->Destroy();
 	g_pDeviceManager->Destroy();
-	g_pObjectPool->Destroy();
 	
 	SOUNDMANAGER->release();
 

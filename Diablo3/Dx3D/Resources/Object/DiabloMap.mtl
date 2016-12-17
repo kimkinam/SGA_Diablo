@@ -1,7 +1,7 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 24.11.2016 14:30:52
+# File Created: 17.12.2016 21:43:44
 
-newmtl 15___Default
+newmtl Hidden_02
 	Ns 10.0000
 	Ni 1.5000
 	d 1.0000
@@ -45,7 +45,7 @@ newmtl Material__26
 	map_Ka C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_Arena_CrystalFloor_dark_phase3.dds
 	map_Kd C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_Arena_CrystalFloor_dark_phase3.dds
 
-newmtl Material__25
+newmtl Hidden_01
 	Ns 10.0000
 	Ni 1.5000
 	d 1.0000
@@ -108,7 +108,7 @@ newmtl 02___Default
 	map_Ka C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_Railings_A.dds
 	map_Kd C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_Railings_A.dds
 
-newmtl 19___Default
+newmtl headHaze_01
 	Ns 10.0000
 	Ni 1.5000
 	d 1.0000
@@ -134,8 +134,8 @@ newmtl 13___Default
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka C:\Users\000\Desktop\Test2\Textures\a4dun_spire_Floor_Stairs_A_Corrupted.dds
-	map_Kd C:\Users\000\Desktop\Test2\Textures\a4dun_spire_Floor_Stairs_A_Corrupted.dds
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_decals_A.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a4dun_Diablo_decals_A.dds
 
 newmtl 14___Default
 	Ns 10.0000
@@ -164,6 +164,20 @@ newmtl 08___Default
 	Ke 0.0000 0.0000 0.0000
 	map_Ka C:\Users\000\Desktop\Test2\Textures\a4dun_spire_Decorations_A_Gold_A_Corrupted.dds
 	map_Kd C:\Users\000\Desktop\Test2\Textures\a4dun_spire_Decorations_A_Gold_A_Corrupted.dds
+
+newmtl 23___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\000\Desktop\Test2\Textures\a4dun_spire_Floor_Stairs_A_Corrupted.dds
+	map_Kd C:\Users\000\Desktop\Test2\Textures\a4dun_spire_Floor_Stairs_A_Corrupted.dds
 
 newmtl 09___Default
 	Ns 10.0000

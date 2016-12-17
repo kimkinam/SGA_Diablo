@@ -12,6 +12,5 @@ public:
 	virtual void AddRef();
 	virtual void Release();
 
-	cObject* AutoRelease();
 };
 

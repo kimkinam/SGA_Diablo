@@ -17,6 +17,8 @@ public:
 		return &instance;
 	}
 
+	LPD3DXEFFECT m_pEffect;
+
 	//상태에 진입
 	virtual void Enter(cPlayer* pOwner);
 

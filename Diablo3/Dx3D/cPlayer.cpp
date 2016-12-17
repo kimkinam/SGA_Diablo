@@ -71,29 +71,29 @@ void cPlayer::Setup(D3DXVECTOR3* vLook)
 	m_stStat.fMaxMp = 1000.0f;
 	
 	m_stStat.fAtk = 10.0f;
-	m_stStat.fAttackRange = this->GetMesh()->GetBoundingSphere()->fRadius * 4.0f;
+	m_stStat.fAttackRange = this->GetMesh()->GetBoundingSphere()->fRadius * 3.0f;
 	m_stStat.fSpeed = 0.1f;
 
-	this->TrailTexSetUp("./Resources/Images/Trail/Trail_angelic.dds");
-	this->TrailTexSetUp("./Resources/Images/Trail/Trail_arcane.dds");
-	this->TrailTexSetUp("./Resources/Images/Trail/Trail_attack.dds");
-	this->TrailTexSetUp("./Resources/Images/Trail/Trail_basic_sharp.dds");
-	this->TrailTexSetUp("./Resources/Images/Trail/Trail_blood.dds");
-	this->TrailTexSetUp("./Resources/Images/Trail/Trail_cold.dds");
-	this->TrailTexSetUp("./Resources/Images/Trail/Trail_fire.dds");
-	this->TrailTexSetUp("./Resources/Images/Trail/Trail_gold_01.dds");
-	this->TrailTexSetUp("./Resources/Images/Trail/trail_holy.dds");
-	this->TrailTexSetUp("./Resources/Images/Trail/Trail_lightning.dds");
-	this->TrailTexSetUp("./Resources/Images/Trail/Trail_magicFind.dds");
-	this->TrailTexSetUp("./Resources/Images/Trail/Trail_mana.dds");
-	this->TrailTexSetUp("./Resources/Images/Trail/Trail_phys.dds");
-	this->TrailTexSetUp("./Resources/Images/Trail/Trail_phys_sharp.dds");
-	this->TrailTexSetUp("./Resources/Images/Trail/Trail_poison.dds");
-	this->TrailTexSetUp("./Resources/Images/Trail/Trail_rainbow.dds");
-	this->TrailTexSetUp("./Resources/Images/Trail/Trail_spellDamage.dds");
-	this->TrailTexSetUp("./Resources/Images/Trail/TrailTest.png");
+	//this->TrailTexSetUp("./Resources/Images/Trail/Trail_angelic.dds");
+	//this->TrailTexSetUp("./Resources/Images/Trail/Trail_arcane.dds");
+	//this->TrailTexSetUp("./Resources/Images/Trail/Trail_attack.dds");
+	//this->TrailTexSetUp("./Resources/Images/Trail/Trail_basic_sharp.dds");
+	//this->TrailTexSetUp("./Resources/Images/Trail/Trail_blood.dds");
+	//this->TrailTexSetUp("./Resources/Images/Trail/Trail_cold.dds");
+	//this->TrailTexSetUp("./Resources/Images/Trail/Trail_fire.dds");
+	//this->TrailTexSetUp("./Resources/Images/Trail/Trail_gold_01.dds");
+	//this->TrailTexSetUp("./Resources/Images/Trail/trail_holy.dds");
+	//this->TrailTexSetUp("./Resources/Images/Trail/Trail_lightning.dds");
+	//this->TrailTexSetUp("./Resources/Images/Trail/Trail_magicFind.dds");
+	//this->TrailTexSetUp("./Resources/Images/Trail/Trail_mana.dds");
+	//this->TrailTexSetUp("./Resources/Images/Trail/Trail_phys.dds");
+	//this->TrailTexSetUp("./Resources/Images/Trail/Trail_phys_sharp.dds");
+	//this->TrailTexSetUp("./Resources/Images/Trail/Trail_poison.dds");
+	//this->TrailTexSetUp("./Resources/Images/Trail/Trail_rainbow.dds");
+	//this->TrailTexSetUp("./Resources/Images/Trail/Trail_spellDamage.dds");
+	//this->TrailTexSetUp("./Resources/Images/Trail/TrailTest.png");
 
-	this->m_pTrailRenderer = new cTrailRenderer();
+	this->m_pTrailRenderer = new cTrailRenderer;
 	m_pTrailRenderer->SetParent((D3DXMATRIXA16*)m_pSword->GetWorldTM()); //m_pMesh->AttachItem16("right_weapon"));
 	m_nTrailIndex = 0;
 
@@ -103,13 +103,8 @@ void cPlayer::Setup(D3DXVECTOR3* vLook)
 		0.8f,					//폭
 		g_pTextureManager->GetTexture("./Resources/Images/Trail/Trail_basic_sharp.dds"),	//메인 Texture
 		D3DXCOLOR(1, 1, 1, 1),												//메인 Texture 로 그릴때 컬러
-		g_pTextureManager->GetTexture("./Resources/Images/Trail/TrailTest.png")	//외곡 그릴때 외곡 노말
+		NULL	//외곡 그릴때 외곡 노말
 	);
-	//m_pTrailRenderer->SetTrailTexture(m_vecTrailTex[3]);
-
-
-
-	
 
 	m_pSateMachnie->ChangeState(cPlayerIdleState::Instance());
 }
@@ -123,6 +118,15 @@ void cPlayer::Update()
 	//m_pMesh->GetBoundingSphere()->vCenter.y += 1.5f;
 	if (m_pSateMachnie)
 		m_pSateMachnie->Update();
+
+	if (g_pKeyManager->isOnceKeyDown(VK_OEM_PERIOD))
+	{
+		this->m_pSateMachnie->ChangeState(cPlayerAttackState::Instance());
+	}
+	if (g_pKeyManager->isOnceKeyDown(VK_OEM_COMMA))
+	{
+		this->SetAnimation("whirlwinding");
+	}
 
 	//if (g_pKeyManager->isOnceKeyDown(VK_UP))
 	//{
@@ -160,14 +164,15 @@ void cPlayer::Render()
 	cGameObject::Render();
 	
 	
-
 	if (m_pMesh)
 		m_pMesh->UpdateAndRender(&m_matWorld);
-
+	
+	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	if (m_pSword)
 		m_pSword->Render();
 	
 	int animMaxCount = m_pMesh->GetAnimController()->GetNumAnimationSets();
+
 
 	if (g_pKeyManager->isToggleKey(VK_OEM_1))
 	{

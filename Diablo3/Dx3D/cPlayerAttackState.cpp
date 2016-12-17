@@ -16,8 +16,10 @@ void cPlayerAttackState::Enter(cPlayer * pOwner)
 	SOUNDMANAGER->play("SwordSwing", 0.6f);
 }
 
+
 void cPlayerAttackState::Execute(cPlayer * pOwner)
 {
+	if (!pOwner->GetTarget()) return;
 	D3DXVECTOR3 vDir = pOwner->GetTarget()->GetPosition() - pOwner->GetPosition();
 	D3DXVec3Normalize(&vDir, &vDir);
 
