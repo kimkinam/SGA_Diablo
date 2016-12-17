@@ -34,11 +34,11 @@ void cMainGame::Setup()
 
 	SOUNDMANAGER->addSound("GamingSceneBGM", "Sound/GamingScene_BGM.mp3", true, true);
 
-	g_pSceneManager->changeScene("GamingScene");
-
-	SOUNDMANAGER->addSound("SwordSwing", "Sound/Sword_Swing.mp3", false, false);
+	SOUNDMANAGER->addSound("SwordSwing", "Sound/Sword_Swing.mp3", false, true);
 	SOUNDMANAGER->addSound("FootStep", "Sound/Foot_Step.mp3", false, true);
 	SOUNDMANAGER->addSound("WarCay", "Sound/War_Cay.mp3", false, true);
+	SOUNDMANAGER->addSound("WhirlWind", "Sound/Whirl_Wind.mp3", false, true);
+	
 
 	SOUNDMANAGER->addSound("SkeletonAttack", "Sound/Skeleton_Attack.mp3", false, false);
 	SOUNDMANAGER->addSound("SkeletonGetHit", "Sound/Skeleton_GetHit.mp3", false, false);
@@ -60,7 +60,8 @@ void cMainGame::Setup()
 	SOUNDMANAGER->addSound("ZombieDogGetHit", "Sound/ZombieDog_GetHit.mp3", false, false);
 	SOUNDMANAGER->addSound("ZombieDogDead", "Sound/ZombieDog_Dead.mp3", false, false);
 	
-	SetLight();
+	g_pSceneManager->changeScene("GamingScene");
+	//SetLight();
 }
 
 void cMainGame::Update()

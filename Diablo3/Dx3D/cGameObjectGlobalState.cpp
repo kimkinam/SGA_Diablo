@@ -12,6 +12,14 @@ void cGameObjectGlobalState::Execute(cGameObject * pOwner)
 {
 	string name = pOwner->GetCurAnimation()->GetName();
 
+	m_dHitTime -= g_pTimeManager->GetDeltaTime();
+
+	if (pOwner->GetIsHit() && m_dHitTime < 0.0f)
+	{
+		pOwner->SetIsHit(false);
+		m_dHitTime = 0.0f;
+	}
+
 	if (pOwner->GetStat().fHp <= 0)
 	{
 		pOwner->GetStat().bIsDead = true;
@@ -156,22 +164,51 @@ bool cGameObjectGlobalState::OnMessage(cGameObject* pOwner, const Telegram& msg)
 		break;
 		case MSG_HITTED:
 		{
-		
-			float hp = pOwner->GetStat().fHp;
-			float atk = g_pAIManager->GetAIBaseFromID(msg.nSender)->GetStat().fAtk;
-			pOwner->GetStat().fHp -= g_pAIManager->GetAIBaseFromID(msg.nSender)->GetStat().fAtk;
+			ST_HIT_EXTRAINFO msgHit = *(ST_HIT_EXTRAINFO*)msg.ExtraInfo;
+
+			if (msgHit.dwHitType == 0)
+			{
+				if (pOwner->GetIsHit())
+				{
+					m_dHitTime = 1.0f;
+
+					float hp = pOwner->GetStat().fHp;
+					float atk = g_pAIManager->GetAIBaseFromID(msg.nSender)->GetStat().fAtk;
+					pOwner->GetStat().fHp -= g_pAIManager->GetAIBaseFromID(msg.nSender)->GetStat().fAtk;
+
+					if (pOwner->GetStat().chType == CHARACTER_SKELETON)
+						SOUNDMANAGER->play("SkeletonGetHit", 0.35f);
+					else if (pOwner->GetStat().chType == CHARACTER_STITCH)
+						SOUNDMANAGER->play("StitchGetHit", 0.35f);
+					else if (pOwner->GetStat().chType == CHARACTER_GARHANTUAN)
+						SOUNDMANAGER->play("GargantuanGetHit", 0.35f);
+					else if (pOwner->GetStat().chType == CHARACTER_FETISH)
+						SOUNDMANAGER->play("FetishGetHit", 0.35f);
+					else if (pOwner->GetStat().chType == CHARACTER_ZOMBIEDOG)
+						SOUNDMANAGER->play("ZombieDogGetHit", 0.35f);
+
+				}
+			}
+			else
+			{
+				float hp = pOwner->GetStat().fHp;
+				float atk = g_pAIManager->GetAIBaseFromID(msg.nSender)->GetStat().fAtk;
+				pOwner->GetStat().fHp -= g_pAIManager->GetAIBaseFromID(msg.nSender)->GetStat().fAtk;
 
 
-			if (pOwner->GetStat().chType == CHARACTER_SKELETON)
-				SOUNDMANAGER->play("SkeletonGetHit", 0.4f);
-			else if (pOwner->GetStat().chType == CHARACTER_STITCH)
-				SOUNDMANAGER->play("StitchGetHit", 0.4f);
-			else if (pOwner->GetStat().chType == CHARACTER_GARHANTUAN)
-				SOUNDMANAGER->play("GargantuanGetHit", 0.4f);
-			else if (pOwner->GetStat().chType == CHARACTER_FETISH)
-				SOUNDMANAGER->play("FetishGetHit", 0.4f);
-			else if (pOwner->GetStat().chType == CHARACTER_ZOMBIEDOG)
-				SOUNDMANAGER->play("ZombieDogGetHit", 0.4f);
+				if (pOwner->GetStat().chType == CHARACTER_SKELETON)
+					SOUNDMANAGER->play("SkeletonGetHit", 0.4f);
+				else if (pOwner->GetStat().chType == CHARACTER_STITCH)
+					SOUNDMANAGER->play("StitchGetHit", 0.4f);
+				else if (pOwner->GetStat().chType == CHARACTER_GARHANTUAN)
+					SOUNDMANAGER->play("GargantuanGetHit", 0.4f);
+				else if (pOwner->GetStat().chType == CHARACTER_FETISH)
+					SOUNDMANAGER->play("FetishGetHit", 0.4f);
+				else if (pOwner->GetStat().chType == CHARACTER_ZOMBIEDOG)
+					SOUNDMANAGER->play("ZombieDogGetHit", 0.4f);
+			}
+			
+			
 			
 		}
 		return true;

@@ -3,6 +3,7 @@
 #include "cPlayer.h"
 #include "cActionMove.h"
 #include "cPlayerWarCryState.h"
+#include "cWhirlwindState.h"
 
 void cPlayerIdleState::Enter(cPlayer * pOwner)
 {
@@ -78,6 +79,27 @@ bool cPlayerIdleState::OnMessage(cPlayer * pOwner, const Telegram & msg)
 	}
 	return true;
 	break;
+	case MSG_WHIRLWIND:
+	{
+		ST_RUN_EXTRAINFO message;
+		message = *(ST_RUN_EXTRAINFO*)msg.ExtraInfo;
+
+		cActionMove* pAction = new cActionMove;
+		SOUNDMANAGER->stop("FootStep");
+		SOUNDMANAGER->play("FootStep", 0.2f);
+		pAction->SetTo(message.vDest);
+		pAction->SetFrom(pOwner->GetPosition());
+		pAction->SetTarget(pOwner);
+		pAction->SetDelegate(pOwner);
+		pAction->SetSpeed(0.05f);
+		pAction->SetOBB(pOwner->GetBoundBox());
+		pAction->Start();
+		pOwner->SetAction(pAction);
+
+		pOwner->m_pSateMachnie->ChangeState(cWhirlwindState::Instance());
+	}
+	return true;
+		break;
 	case MSG_ATTACK:
 		if (!pOwner->GetTarget()) return false;
 		pOwner->m_pSateMachnie->ChangeState(cPlayerAttackState::Instance());

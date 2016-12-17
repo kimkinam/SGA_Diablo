@@ -126,6 +126,9 @@ bool cMonsterTrace::OnMessage(cMonster* pOwner, const Telegram& msg)
 		// 행동 처리
 		return true;
 		break;
+	case MSG_HITTED:
+		return false;
+		break;
 	}
 
 	return false;

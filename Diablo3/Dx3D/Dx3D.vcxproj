@@ -148,6 +148,7 @@
     <ClInclude Include="cSkinnedMeshManager.h" />
     <ClInclude Include="cStitch.h" />
     <ClInclude Include="cTrailRenderer.h" />
+    <ClInclude Include="cWhirlwindState.h" />
     <ClInclude Include="iState.h" />
     <ClInclude Include="cStateMachine.h" />
     <ClInclude Include="cTestScene.h" />
@@ -242,6 +243,7 @@
     <ClCompile Include="cSkinnedMeshManager.cpp" />
     <ClCompile Include="cStitch.cpp" />
     <ClCompile Include="cTrailRenderer.cpp" />
+    <ClCompile Include="cWhirlwindState.cpp" />
     <ClCompile Include="iState.cpp" />
     <ClCompile Include="cStateMachine.cpp" />
     <ClCompile Include="cTestScene.cpp" />

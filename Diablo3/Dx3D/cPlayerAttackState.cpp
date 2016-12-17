@@ -2,18 +2,26 @@
 #include "cPlayerAttackState.h"
 #include "cPlayer.h"
 #include "cPlayerWarCryState.h"
+
 void cPlayerAttackState::Enter(cPlayer * pOwner)
 {
 	if (!pOwner) return;
 	if (!pOwner->GetTarget()) return;
-
+	SOUNDMANAGER->play("SwordSwing", 0.8f);
 	pOwner->GetMesh()->SetAnimationIndex("attack");
 
 	double totalTime = pOwner->GetCurAniTime();
-	g_pMessageManager->MessageSend(totalTime / 2, pOwner->GetID(), pOwner->GetTarget()->GetID(),
-		MESSAGE_TYPE::MSG_HITTED, &(float)pOwner->GetStat().fAtk);
+	pOwner->GetTarget()->SetIsHit(true);
 
-	SOUNDMANAGER->play("SwordSwing", 0.6f);
+	ST_HIT_EXTRAINFO msgHit;
+	msgHit.dwHitType = 1;
+	msgHit.fDamage = pOwner->GetStat().fAtk;
+
+	
+
+	g_pMessageManager->MessageSend(totalTime / 2, pOwner->GetID(), pOwner->GetTarget()->GetID(),
+		MESSAGE_TYPE::MSG_HITTED, &msgHit);
+
 }
 
 
@@ -24,6 +32,7 @@ void cPlayerAttackState::Execute(cPlayer * pOwner)
 	D3DXVec3Normalize(&vDir, &vDir);
 
 	pOwner->SetNewDirection(vDir);
+
 	if (pOwner->IsDoneCurAni())
 	{
 		g_pMessageManager->MessageSend(0.0f, pOwner->GetID(),

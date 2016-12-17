@@ -8,14 +8,16 @@ enum MESSAGE_TYPE
 	MSG_IDLE,
 	MSG_ATTACK,
 	MSG_WARCRY,
+	MSG_WHIRLWIND,
 	MSG_HITTED,
 	MSG_DEAD,
 	MSG_NONE,	//1
 };
 
-struct ST_ATK_EXTRAINFO
+struct ST_HIT_EXTRAINFO
 {
-	UINT	nTarget;
+	DWORD dwHitType;
+	float fDamage;
 };
 
 

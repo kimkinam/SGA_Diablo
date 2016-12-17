@@ -25,7 +25,6 @@ private:
 
 	vector <LPDIRECT3DTEXTURE9> m_vecTrailTex;
 	int m_nTrailIndex;
-	bool m_bIsWhirl;
 	
 	cUIImage*					m_pSphere;
 

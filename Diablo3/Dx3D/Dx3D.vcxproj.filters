@@ -1,654 +1,193 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Loader">
-      <UniqueIdentifier>{4c5e4355-2f19-4eee-ac05-8b7cc5af2a43}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Manager">
-      <UniqueIdentifier>{527ef9c2-2b35-4f0a-a259-2a8c4ff22d41}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Loader\ASE">
-      <UniqueIdentifier>{51e9400f-d2a6-421a-b672-ecf8651d7a44}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Loader\OBJ">
-      <UniqueIdentifier>{a9a5f5d5-1163-49a4-8e48-dc5e7260ab18}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility">
-      <UniqueIdentifier>{34d1cc9d-afdd-4d74-9fd2-3b6e56afcb0c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Controller">
-      <UniqueIdentifier>{4cde08b6-b193-42f6-889c-8dca3bf7b582}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject">
-      <UniqueIdentifier>{b0db729f-e824-41af-a8f5-094215d20488}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Loader\Map">
-      <UniqueIdentifier>{05718c6c-dd6d-4cb9-af1f-93450f0a1ecf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Mesh">
-      <UniqueIdentifier>{d50fbaed-0ae0-44d4-bd34-589c82de5df5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene">
-      <UniqueIdentifier>{7ee5fea1-a772-4f98-a96e-de56639f6b19}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\LoadingScene">
-      <UniqueIdentifier>{9df22f82-1785-428c-8e74-989962bb0b86}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\GamingScene">
-      <UniqueIdentifier>{402ebe3b-6b53-4354-b6c2-a349c0b401be}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\GamingScene\Monster">
-      <UniqueIdentifier>{83bb447e-2712-44cb-b18a-00f83d039cf3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\GamingScene\Action">
-      <UniqueIdentifier>{c6f9b790-bc1e-43d9-ad54-189dd58726fe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\UI">
-      <UniqueIdentifier>{3a1ddccb-0d8e-4840-b306-d4875a3a2fa0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\TestScene">
-      <UniqueIdentifier>{17ecfc80-9c8e-4aef-b6cc-50678891ef9c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\GameManagers">
-      <UniqueIdentifier>{04b6c5aa-4557-4a16-ad5f-b3d94eeb9409}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\GamingScene\Player">
-      <UniqueIdentifier>{74b0ad92-3e31-4262-9990-7b797a91a32e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\BossScene">
-      <UniqueIdentifier>{5658f148-2e88-4bec-9ada-e6d8f4073598}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="AI">
-      <UniqueIdentifier>{45625169-da39-4b8f-935b-3ccb2acd0cf7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="AI\SateMachine">
-      <UniqueIdentifier>{3137dee0-fc9f-4061-ad5f-420a95df36fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="AI\Sates">
-      <UniqueIdentifier>{17a20249-9b92-4203-9bad-85350b865f78}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Collision">
-      <UniqueIdentifier>{f3927c31-397f-4de2-98d9-0fc2862b1ab9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Collision\OBB">
-      <UniqueIdentifier>{c936f1da-8e21-4706-93ea-3b80f64a0cf2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Animation">
-      <UniqueIdentifier>{d5944461-ef22-4604-831e-31f08b9ce8d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\GamingScene\Monster\MonsterBase">
-      <UniqueIdentifier>{dd4990f6-5415-457b-b2d8-c95b90ed0d2c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="AI\Sates\Player">
-      <UniqueIdentifier>{64aa2b83-e9b4-45a8-b061-776d26335501}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="AI\Sates\Monster">
-      <UniqueIdentifier>{e723c48f-426d-4f8b-bd24-0c7aa88f4c66}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sound">
-      <UniqueIdentifier>{a0169be6-9f85-4b5e-baff-0e8985734917}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="cAction.cpp" />
+    <ClCompile Include="cActionAtk.cpp" />
+    <ClCompile Include="cActionFalling.cpp" />
+    <ClCompile Include="cActionJump.cpp" />
+    <ClCompile Include="cActionMove.cpp" />
+    <ClCompile Include="cActionTrace.cpp" />
+    <ClCompile Include="cAIManager.cpp" />
+    <ClCompile Include="cAllocateHierarchy.cpp" />
+    <ClCompile Include="cAnimation.cpp" />
+    <ClCompile Include="cArrow.cpp" />
+    <ClCompile Include="cAseLoader.cpp" />
+    <ClCompile Include="cBoss.cpp" />
+    <ClCompile Include="cBossScene.cpp" />
+    <ClCompile Include="cBoundBox.cpp" />
+    <ClCompile Include="cCamera.cpp" />
+    <ClCompile Include="cCharController.cpp" />
+    <ClCompile Include="cCube.cpp" />
+    <ClCompile Include="cFetish.cpp" />
+    <ClCompile Include="cGargantuan.cpp" />
+    <ClCompile Include="cLighting.cpp" />
+    <ClCompile Include="cMessageManager.cpp" />
+    <ClCompile Include="cMonsterAttack.cpp" />
+    <ClCompile Include="cMonsterDetecting.cpp" />
+    <ClCompile Include="cDeviceManager.cpp" />
+    <ClCompile Include="cFontManager.cpp" />
+    <ClCompile Include="cGameManager.cpp" />
+    <ClCompile Include="cGameObject.cpp" />
+    <ClCompile Include="cGamingScene.cpp" />
+    <ClCompile Include="cGrid.cpp" />
+    <ClCompile Include="cGroup.cpp" />
+    <ClCompile Include="cInventory.cpp" />
+    <ClCompile Include="cItem.cpp" />
+    <ClCompile Include="cKeyManager.cpp" />
+    <ClCompile Include="cLoadingScene.cpp" />
+    <ClCompile Include="cLogManager.cpp" />
+    <ClCompile Include="cMainGame.cpp" />
+    <ClCompile Include="cMap.cpp" />
+    <ClCompile Include="cMonster.cpp" />
+    <ClCompile Include="cGameObjectGlobalState.cpp" />
+    <ClCompile Include="cMonsterManager.cpp" />
+    <ClCompile Include="cMonsterTrace.cpp" />
+    <ClCompile Include="cMtlTex.cpp" />
+    <ClCompile Include="cNode.cpp" />
+    <ClCompile Include="cOBB.cpp" />
+    <ClCompile Include="cObj.cpp" />
+    <ClCompile Include="cObject.cpp" />
+    <ClCompile Include="cObjLoader.cpp" />
+    <ClCompile Include="cPlayer.cpp" />
+    <ClCompile Include="cPlayerAttackState.cpp" />
+    <ClCompile Include="cPlayerIdleState.cpp" />
+    <ClCompile Include="cPlayerManager.cpp" />
+    <ClCompile Include="cPlayerMoveState.cpp" />
+    <ClCompile Include="cPlayerWarCryState.cpp" />
+    <ClCompile Include="cPyramid.cpp" />
+    <ClCompile Include="cRay.cpp" />
+    <ClCompile Include="cSceneManager.cpp" />
+    <ClCompile Include="cSceneObject.cpp" />
+    <ClCompile Include="cSkeleton.cpp" />
+    <ClCompile Include="cSkeletonArcher.cpp" />
+    <ClCompile Include="cSkinnedMesh.cpp" />
+    <ClCompile Include="cSkinnedMeshManager.cpp" />
+    <ClCompile Include="cStitch.cpp" />
+    <ClCompile Include="cTrailRenderer.cpp" />
+    <ClCompile Include="iState.cpp" />
+    <ClCompile Include="cStateMachine.cpp" />
+    <ClCompile Include="cTestScene.cpp" />
+    <ClCompile Include="cTextureManager.cpp" />
+    <ClCompile Include="cTimeManager.cpp" />
+    <ClCompile Include="cUIButton.cpp" />
+    <ClCompile Include="cUIImage.cpp" />
+    <ClCompile Include="cUIItem.cpp" />
+    <ClCompile Include="cUiManager.cpp" />
+    <ClCompile Include="cUIObject.cpp" />
+    <ClCompile Include="cUISkill.cpp" />
+    <ClCompile Include="cUIText.cpp" />
+    <ClCompile Include="cUtility.cpp" />
+    <ClCompile Include="Dx3D.cpp" />
+    <ClCompile Include="iAI_Base.cpp" />
+    <ClCompile Include="iMap.cpp" />
+    <ClCompile Include="MyUtil.cpp" />
+    <ClCompile Include="soundManager.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="cZombieDog.cpp" />
+    <ClCompile Include="cWhirlwindState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Asciitok.h" />
+    <ClInclude Include="cAction.h" />
+    <ClInclude Include="cActionAtk.h" />
+    <ClInclude Include="cActionFalling.h" />
+    <ClInclude Include="cActionJump.h" />
+    <ClInclude Include="cActionMove.h" />
+    <ClInclude Include="cActionTrace.h" />
+    <ClInclude Include="cAIManager.h" />
+    <ClInclude Include="cAllocateHierarchy.h" />
+    <ClInclude Include="cAnimation.h" />
+    <ClInclude Include="cArrow.h" />
+    <ClInclude Include="cAseLoader.h" />
+    <ClInclude Include="cBoss.h" />
+    <ClInclude Include="cBossScene.h" />
+    <ClInclude Include="cBoundBox.h" />
+    <ClInclude Include="cCamera.h" />
+    <ClInclude Include="cCharController.h" />
+    <ClInclude Include="cCube.h" />
+    <ClInclude Include="cFetish.h" />
+    <ClInclude Include="cGargantuan.h" />
+    <ClInclude Include="cLighting.h" />
+    <ClInclude Include="cMessageManager.h" />
+    <ClInclude Include="cMonsterAttack.h" />
+    <ClInclude Include="cMonsterDetecting.h" />
+    <ClInclude Include="cDeviceManager.h" />
+    <ClInclude Include="cFontManager.h" />
+    <ClInclude Include="cGameManager.h" />
+    <ClInclude Include="cGameObject.h" />
+    <ClInclude Include="cGamingScene.h" />
+    <ClInclude Include="cGrid.h" />
+    <ClInclude Include="cGroup.h" />
+    <ClInclude Include="cInventory.h" />
+    <ClInclude Include="cItem.h" />
+    <ClInclude Include="cKeyManager.h" />
+    <ClInclude Include="cLoadingScene.h" />
+    <ClInclude Include="cLogManager.h" />
+    <ClInclude Include="cMainGame.h" />
+    <ClInclude Include="cMap.h" />
+    <ClInclude Include="cMonster.h" />
+    <ClInclude Include="cGameObjectGlobalState.h" />
+    <ClInclude Include="cMonsterManager.h" />
+    <ClInclude Include="cMonsterTrace.h" />
+    <ClInclude Include="cMtlTex.h" />
+    <ClInclude Include="cNode.h" />
+    <ClInclude Include="cOBB.h" />
+    <ClInclude Include="cObj.h" />
+    <ClInclude Include="cObject.h" />
+    <ClInclude Include="cObjLoader.h" />
+    <ClInclude Include="cPlayer.h" />
+    <ClInclude Include="cPlayerAttackState.h" />
+    <ClInclude Include="cPlayerIdleState.h" />
+    <ClInclude Include="cPlayerManager.h" />
+    <ClInclude Include="cPlayerMoveState.h" />
+    <ClInclude Include="cPlayerWarCryState.h" />
+    <ClInclude Include="cPyramid.h" />
+    <ClInclude Include="cRay.h" />
+    <ClInclude Include="cSceneManager.h" />
+    <ClInclude Include="cSceneObject.h" />
+    <ClInclude Include="cSkeleton.h" />
+    <ClInclude Include="cSkeletonArcher.h" />
+    <ClInclude Include="cSkinnedMesh.h" />
+    <ClInclude Include="cSkinnedMeshManager.h" />
+    <ClInclude Include="cStitch.h" />
+    <ClInclude Include="cTrailRenderer.h" />
+    <ClInclude Include="iState.h" />
+    <ClInclude Include="cStateMachine.h" />
+    <ClInclude Include="cTestScene.h" />
+    <ClInclude Include="cTextureManager.h" />
+    <ClInclude Include="cTimeManager.h" />
+    <ClInclude Include="cUIButton.h" />
+    <ClInclude Include="cUIImage.h" />
+    <ClInclude Include="cUIItem.h" />
+    <ClInclude Include="cUiManager.h" />
+    <ClInclude Include="cUIObject.h" />
+    <ClInclude Include="cUISkill.h" />
+    <ClInclude Include="cUIText.h" />
+    <ClInclude Include="cUtility.h" />
+    <ClInclude Include="Dx3D.h" />
+    <ClInclude Include="iActionDelegate.h" />
+    <ClInclude Include="iAI_Base.h" />
+    <ClInclude Include="iButtonDelegate.h" />
+    <ClInclude Include="iMap.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="Monster.h" />
+    <ClInclude Include="MyUtil.h" />
+    <ClInclude Include="playerState.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="singletonBase.h" />
+    <ClInclude Include="soundManager.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="MessageTypes.h" />
+    <ClInclude Include="cZombieDog.h" />
+    <ClInclude Include="cWhirlwindState.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Dx3D.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Dx3D.ico" />
     <None Include="ReadMe.txt" />
-    <None Include="small.ico">
-      <Filter>리소스 파일</Filter>
-    </None>
-    <None Include="Dx3D.ico">
-      <Filter>리소스 파일</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Dx3D.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cMainGame.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Asciitok.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cDeviceManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="cTextureManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="cTimeManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="cFontManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="cAseLoader.h">
-      <Filter>Loader\ASE</Filter>
-    </ClInclude>
-    <ClInclude Include="cNode.h">
-      <Filter>Loader\ASE</Filter>
-    </ClInclude>
-    <ClInclude Include="cObjLoader.h">
-      <Filter>Loader\OBJ</Filter>
-    </ClInclude>
-    <ClInclude Include="cGroup.h">
-      <Filter>Loader\OBJ</Filter>
-    </ClInclude>
-    <ClInclude Include="cCube.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="cGrid.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="cCamera.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="cMtlTex.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="cObject.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="cPyramid.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="cCharController.h">
-      <Filter>Controller</Filter>
-    </ClInclude>
-    <ClInclude Include="cGameObject.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="iActionDelegate.h">
-      <Filter>Scene\GamingScene\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="cAction.h">
-      <Filter>Scene\GamingScene\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="iMap.h">
-      <Filter>Loader\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="cKeyManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="cActionJump.h">
-      <Filter>Scene\GamingScene\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="cActionFalling.h">
-      <Filter>Scene\GamingScene\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="cActionMove.h">
-      <Filter>Scene\GamingScene\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="cRay.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="cUIObject.h">
-      <Filter>Scene\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="cUIImage.h">
-      <Filter>Scene\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="iButtonDelegate.h">
-      <Filter>Scene\GamingScene\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="cUIText.h">
-      <Filter>Scene\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="cUIButton.h">
-      <Filter>Scene\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="cSkinnedMesh.h">
-      <Filter>Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="cAllocateHierarchy.h">
-      <Filter>Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="cGamingScene.h">
-      <Filter>Scene\GamingScene</Filter>
-    </ClInclude>
-    <ClInclude Include="cLoadingScene.h">
-      <Filter>Scene\LoadingScene</Filter>
-    </ClInclude>
-    <ClInclude Include="cMonsterManager.h">
-      <Filter>Scene\GameManagers</Filter>
-    </ClInclude>
-    <ClInclude Include="cGameManager.h">
-      <Filter>Scene\GameManagers</Filter>
-    </ClInclude>
-    <ClInclude Include="cUiManager.h">
-      <Filter>Scene\GameManagers</Filter>
-    </ClInclude>
-    <ClInclude Include="cPlayerManager.h">
-      <Filter>Scene\GameManagers</Filter>
-    </ClInclude>
-    <ClInclude Include="cUtility.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="cUISkill.h">
-      <Filter>Scene\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="cTestScene.h">
-      <Filter>Scene\TestScene</Filter>
-    </ClInclude>
-    <ClInclude Include="cObj.h">
-      <Filter>Loader\OBJ</Filter>
-    </ClInclude>
-    <ClInclude Include="cSkinnedMeshManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="MyUtil.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cSceneManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="cLogManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="cSceneObject.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cUIItem.h">
-      <Filter>Scene\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="cPlayer.h">
-      <Filter>Scene\GamingScene\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Monster.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cBoss.h">
-      <Filter>Scene\GamingScene\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="cBoundBox.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="cMap.h">
-      <Filter>Loader\OBJ</Filter>
-    </ClInclude>
-    <ClInclude Include="cInventory.h">
-      <Filter>Scene\GamingScene</Filter>
-    </ClInclude>
-    <ClInclude Include="cItem.h">
-      <Filter>Scene\GamingScene</Filter>
-    </ClInclude>
-    <ClInclude Include="cBossScene.h">
-      <Filter>Scene\BossScene</Filter>
-    </ClInclude>
-    <ClInclude Include="cActionTrace.h">
-      <Filter>Scene\GamingScene\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="cSkeleton.h">
-      <Filter>Scene\GamingScene\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="iAI_Base.h">
-      <Filter>AI</Filter>
-    </ClInclude>
-    <ClInclude Include="cStateMachine.h">
-      <Filter>AI\SateMachine</Filter>
-    </ClInclude>
-    <ClInclude Include="iState.h">
-      <Filter>AI</Filter>
-    </ClInclude>
-    <ClInclude Include="cActionAtk.h">
-      <Filter>Scene\GamingScene\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="cOBB.h">
-      <Filter>Collision\OBB</Filter>
-    </ClInclude>
-    <ClInclude Include="cAnimation.h">
-      <Filter>Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="cSkeletonArcher.h">
-      <Filter>Scene\GamingScene\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="cFetish.h">
-      <Filter>Scene\GamingScene\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="cMonster.h">
-      <Filter>Scene\GamingScene\Monster\MonsterBase</Filter>
-    </ClInclude>
-    <ClInclude Include="cAIManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="cMessageManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="MessageTypes.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cTrailRenderer.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cGameObjectGlobalState.h">
-      <Filter>AI\Sates</Filter>
-    </ClInclude>
-    <ClInclude Include="playerState.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cMonsterAttack.h">
-      <Filter>AI\Sates\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="cMonsterDetecting.h">
-      <Filter>AI\Sates\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="cMonsterTrace.h">
-      <Filter>AI\Sates\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="cPlayerAttackState.h">
-      <Filter>AI\Sates\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="cPlayerIdleState.h">
-      <Filter>AI\Sates\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="cPlayerMoveState.h">
-      <Filter>AI\Sates\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="cStitch.h">
-      <Filter>Scene\GamingScene\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="cZombieDog.h">
-      <Filter>Scene\GamingScene\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="cGargantuan.h">
-      <Filter>Scene\GamingScene\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="cArrow.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="cLighting.h">
-      <Filter>헤더 파일</Filter>
-=======
-    <ClInclude Include="soundManager.h">
-      <Filter>Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="singletonBase.h">
-      <Filter>Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="cPlayerWarCryState.h">
-      <Filter>AI\Sates\Player</Filter>
->>>>>>> 93c2939fb996b6b468e0c083db9a5b702900a998
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Dx3D.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cMainGame.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cDeviceManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="cTextureManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="cTimeManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="cFontManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="cAseLoader.cpp">
-      <Filter>Loader\ASE</Filter>
-    </ClCompile>
-    <ClCompile Include="cNode.cpp">
-      <Filter>Loader\ASE</Filter>
-    </ClCompile>
-    <ClCompile Include="cObjLoader.cpp">
-      <Filter>Loader\OBJ</Filter>
-    </ClCompile>
-    <ClCompile Include="cGroup.cpp">
-      <Filter>Loader\OBJ</Filter>
-    </ClCompile>
-    <ClCompile Include="cCube.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="cGrid.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="cCamera.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="cObject.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="cPyramid.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="cMtlTex.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="cCharController.cpp">
-      <Filter>Controller</Filter>
-    </ClCompile>
-    <ClCompile Include="cGameObject.cpp">
-      <Filter>GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="cAction.cpp">
-      <Filter>Scene\GamingScene\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="iMap.cpp">
-      <Filter>Loader\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="cKeyManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="cActionJump.cpp">
-      <Filter>Scene\GamingScene\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="cActionFalling.cpp">
-      <Filter>Scene\GamingScene\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="cActionMove.cpp">
-      <Filter>Scene\GamingScene\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="cRay.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="cUIObject.cpp">
-      <Filter>Scene\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="cUIImage.cpp">
-      <Filter>Scene\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="cUIText.cpp">
-      <Filter>Scene\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="cUIButton.cpp">
-      <Filter>Scene\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="cSkinnedMesh.cpp">
-      <Filter>Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="cAllocateHierarchy.cpp">
-      <Filter>Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="cGamingScene.cpp">
-      <Filter>Scene\GamingScene</Filter>
-    </ClCompile>
-    <ClCompile Include="cLoadingScene.cpp">
-      <Filter>Scene\LoadingScene</Filter>
-    </ClCompile>
-    <ClCompile Include="cMonsterManager.cpp">
-      <Filter>Scene\GameManagers</Filter>
-    </ClCompile>
-    <ClCompile Include="cGameManager.cpp">
-      <Filter>Scene\GameManagers</Filter>
-    </ClCompile>
-    <ClCompile Include="cUiManager.cpp">
-      <Filter>Scene\GameManagers</Filter>
-    </ClCompile>
-    <ClCompile Include="cPlayerManager.cpp">
-      <Filter>Scene\GameManagers</Filter>
-    </ClCompile>
-    <ClCompile Include="cUtility.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="cUISkill.cpp">
-      <Filter>Scene\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="cTestScene.cpp">
-      <Filter>Scene\TestScene</Filter>
-    </ClCompile>
-    <ClCompile Include="cObj.cpp">
-      <Filter>Loader\OBJ</Filter>
-    </ClCompile>
-    <ClCompile Include="cSkinnedMeshManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="MyUtil.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cSceneManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="cLogManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="cSceneObject.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="cUIItem.cpp">
-      <Filter>Scene\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="cPlayer.cpp">
-      <Filter>Scene\GamingScene\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="cBoss.cpp">
-      <Filter>Scene\GamingScene\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="cBoundBox.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="cMap.cpp">
-      <Filter>Loader\OBJ</Filter>
-    </ClCompile>
-    <ClCompile Include="cInventory.cpp">
-      <Filter>Scene\GamingScene</Filter>
-    </ClCompile>
-    <ClCompile Include="cItem.cpp">
-      <Filter>Scene\GamingScene</Filter>
-    </ClCompile>
-    <ClCompile Include="cBossScene.cpp">
-      <Filter>Scene\BossScene</Filter>
-    </ClCompile>
-    <ClCompile Include="cActionTrace.cpp">
-      <Filter>Scene\GamingScene\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="cSkeleton.cpp">
-      <Filter>Scene\GamingScene\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="iAI_Base.cpp">
-      <Filter>AI</Filter>
-    </ClCompile>
-    <ClCompile Include="cStateMachine.cpp">
-      <Filter>AI\SateMachine</Filter>
-    </ClCompile>
-    <ClCompile Include="iState.cpp">
-      <Filter>AI</Filter>
-    </ClCompile>
-    <ClCompile Include="cActionAtk.cpp">
-      <Filter>Scene\GamingScene\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="cOBB.cpp">
-      <Filter>Collision\OBB</Filter>
-    </ClCompile>
-    <ClCompile Include="cAnimation.cpp">
-      <Filter>Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="cSkeletonArcher.cpp">
-      <Filter>Scene\GamingScene\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="cFetish.cpp">
-      <Filter>Scene\GamingScene\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="cMonster.cpp">
-      <Filter>Scene\GamingScene\Monster\MonsterBase</Filter>
-    </ClCompile>
-    <ClCompile Include="cAIManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="cMessageManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="cTrailRenderer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cGameObjectGlobalState.cpp">
-      <Filter>AI\Sates</Filter>
-    </ClCompile>
-    <ClCompile Include="cMonsterAttack.cpp">
-      <Filter>AI\Sates\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="cMonsterDetecting.cpp">
-      <Filter>AI\Sates\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="cMonsterTrace.cpp">
-      <Filter>AI\Sates\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="cPlayerAttackState.cpp">
-      <Filter>AI\Sates\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="cPlayerIdleState.cpp">
-      <Filter>AI\Sates\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="cPlayerMoveState.cpp">
-      <Filter>AI\Sates\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="cStitch.cpp">
-      <Filter>Scene\GamingScene\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="cZombieDog.cpp">
-      <Filter>Scene\GamingScene\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="cGargantuan.cpp">
-      <Filter>Scene\GamingScene\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="cArrow.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="cLighting.cpp">
-      <Filter>소스 파일</Filter>
-=======
-    <ClCompile Include="soundManager.cpp">
-      <Filter>Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="cPlayerWarCryState.cpp">
-      <Filter>AI\Sates\Player</Filter>
->>>>>>> 93c2939fb996b6b468e0c083db9a5b702900a998
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Dx3D.rc">
-      <Filter>리소스 파일</Filter>
-    </ResourceCompile>
+    <None Include="small.ico" />
   </ItemGroup>
 </Project>

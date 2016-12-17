@@ -14,6 +14,7 @@ cGameObject::cGameObject()
 	, m_pOBB(NULL)
 	, m_pTarget(NULL)
 	, m_pSphere(NULL)
+	, m_bIsHit(false)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&m_matLocal);
@@ -101,6 +102,16 @@ void cGameObject::Render()
 
 void cGameObject::OnActionFinish(cAction * pSender)
 {
+	if (!pSender->GetTarget()->GetTarget())
+	{
+		g_pMessageManager->MessageSend(0.0f, pSender->GetTarget()->GetID(), pSender->GetTarget()->GetID(),
+			MESSAGE_TYPE::MSG_IDLE, NULL);
+	}
+	else
+	{
+		g_pMessageManager->MessageSend(0.0f, pSender->GetTarget()->GetID(), pSender->GetTarget()->GetID(),
+			MESSAGE_TYPE::MSG_ATTACK, NULL);
+	}
 	m_pAction = NULL;
 	
 	//g_pMessageManager->MessageSend(0.0f, this->GetID(), this->GetID(), MESSAGE_TYPE::MSG_IDLE, NULL);
@@ -109,7 +120,7 @@ void cGameObject::OnActionFinish(cAction * pSender)
 	//{
 	//	g_pMessageManager->MessageSend(0.0f, this->GetID(), this->GetTarget()->GetID(), MESSAGE_TYPE::MSG_ATTACK, &(float)this->GetStat().fAtk);
 	//}
-	m_pMesh->SetAnimationIndex("idle");
+	//m_pMesh->SetAnimationIndex("idle");
 }
 
 void cGameObject::SetNewDirection(D3DXVECTOR3 vDirection)
@@ -167,7 +178,7 @@ bool cGameObject::IsDoneCurAni()
 	double dTotalTime = pCurAS->GetPeriod();
 	double dPercent = dCurTime / dTotalTime;
 
-	if (dPercent > dTotalTime/* - dTotalTime  * 0.1f*/) return true;
+	if (dPercent >= dTotalTime/* - dTotalTime  * 0.1f*/) return true;
 
 	return false;
 }

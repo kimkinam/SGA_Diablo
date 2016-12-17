@@ -4,19 +4,22 @@
 #include "cActionMove.h"
 #include "cPlayerIdleState.h"
 #include "cPlayerWarCryState.h"
+#include "cWhirlwindState.h"
+#include "cMonster.h"
+
 void cPlayerMoveState::Enter(cPlayer * pOwner)
 {
 	if (!pOwner) return;
 	
-	if (pOwner->m_bIsWhirl)
-	{
-		pOwner->GetMesh()->SetAnimationIndex("whirlwinding");
-	}
-	else
-	{
+	//if (pOwner->m_bIsWhirl)
+	//{
+	//	pOwner->GetMesh()->SetAnimationIndex("whirlwinding");
+	//}
+	//else
+	//{
 		pOwner->GetMesh()->SetAnimationIndex("run");
-		SOUNDMANAGER->play("FootStep", 0.3f);
-	}
+		SOUNDMANAGER->play("FootStep", 0.4f);
+	//}
 
 }
 
@@ -28,23 +31,22 @@ void cPlayerMoveState::Execute(cPlayer * pOwner)
 	{
 		if (pOwner->GetTarget())
 		{
-			SOUNDMANAGER->stop("FootStep");
+			
 			g_pMessageManager->MessageSend(0.0f, pOwner->GetID(), pOwner->GetID(),
 				MESSAGE_TYPE::MSG_ATTACK, NULL);
 		}
-			
 		else
 		{
-			SOUNDMANAGER->stop("FootStep");
+			//SOUNDMANAGER->stop("FootStep");
 			g_pMessageManager->MessageSend(0.0f, pOwner->GetID(), pOwner->GetID(),
 				MESSAGE_TYPE::MSG_IDLE, NULL);
-			pOwner->m_bIsWhirl = false;
 		}
 	}
 }
 
 void cPlayerMoveState::Exit(cPlayer * pOwner)
 {
+	SOUNDMANAGER->stop("FootStep");
 }
 
 //매세지를 처리한다.
@@ -70,8 +72,9 @@ bool cPlayerMoveState::OnMessage(cPlayer * pOwner, const Telegram & msg)
 				pOwner->SetTarget(NULL);
 
 			cActionMove* pAction = new cActionMove;
-			SOUNDMANAGER->stop("FootStep");
-			SOUNDMANAGER->play("FootStep", 0.2f);
+			//SOUNDMANAGER->stop("FootStep");
+			if (!SOUNDMANAGER->isPlaySound("FootStep"))
+				SOUNDMANAGER->play("FootStep", 0.4f);
 			pAction->SetTo(MSG.vDest);
 			pAction->SetFrom(pOwner->GetPosition());
 			pAction->SetTarget(pOwner);
@@ -85,15 +88,55 @@ bool cPlayerMoveState::OnMessage(cPlayer * pOwner, const Telegram & msg)
 		break;
 		case MSG_IDLE:
 			pOwner->m_pSateMachnie->ChangeState(cPlayerIdleState::Instance());
+			return true;
 		break;
 		case MSG_ATTACK:
 			pOwner->m_pSateMachnie->ChangeState(cPlayerAttackState::Instance());
+			return true;
 		break;
 		case MSG_WARCRY:
-		{
 			pOwner->m_pSateMachnie->ChangeState(cPlayerWarCryState::Instance());
-		}
+			return true;
 		break;
+		case MSG_WHIRLWIND:
+		{
+			ST_RUN_EXTRAINFO message;
+			message = *(ST_RUN_EXTRAINFO*)msg.ExtraInfo;
+			//
+			//message.fSpeed = pOwner->GetStat().fSpeed;
+			//
+			//std::map < int, cGameObject* > m_mapMonster;
+			//std::map<int, cGameObject*>::iterator m_mapMonsterIter;
+			//std::vector<cOBB*> vecMonsterOBB;
+			//
+			//for (m_mapMonsterIter = m_mapMonster.begin(); m_mapMonsterIter != m_mapMonster.end(); ++m_mapMonsterIter)
+			//{
+			//	cMonster* monster = (cMonster*)(m_mapMonsterIter)->second;
+			//	vecMonsterOBB.push_back(monster->GetOBB());
+			//}
+			//
+			//message.nBoxCount = vecMonsterOBB.size();
+			//message.vecBox = vecMonsterOBB;
+
+			cActionMove* pAction = new cActionMove;
+		
+			//SOUNDMANAGER->stop("FootStep");
+			//SOUNDMANAGER->play("FootStep", 0.2f);
+			pAction->SetTo(message.vDest);
+			pAction->SetFrom(pOwner->GetPosition());
+			pAction->SetTarget(pOwner);
+			pAction->SetDelegate(pOwner);
+			pAction->SetSpeed(0.05f);
+			pAction->SetOBB(pOwner->GetBoundBox());
+			pAction->Start();
+			pOwner->SetAction(pAction);
+
+			pOwner->m_pSateMachnie->ChangeState(cWhirlwindState::Instance());
+
+		}
+		return true;
+			
+			break;
 		default:
 		break;
 	}
