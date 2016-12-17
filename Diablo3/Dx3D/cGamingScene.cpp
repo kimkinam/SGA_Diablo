@@ -100,7 +100,18 @@ HRESULT cGamingScene::SetUp()
 	enemyBarRight = m_pUI->GetpEnemyBar()->GetDrawRc().right;
 	enemyBarLeft = m_pUI->GetpEnemyBar()->GetDrawRc().left;
 
+
+	//D3DXVECTOR3 vDir;
+	//vDir = m_pPlayer->GetPosition() - BOSSSCENE_CAMERAPOS;/*D3DXVECTOR3(24, 10, -17)*/;
+	//D3DXVec3Normalize(&vDir, &vDir);
+	//
+	//float distance = 9.0f;
+	//
+	//m_pCamera->SetEye(m_pPlayer->GetPosition() - vDir * distance);
+	//m_pCamera->SetNewDirection(vDir);
+
 	SOUNDMANAGER->play("GamingSceneBGM", 0.8f);
+
 
 	return S_OK;
 }
@@ -132,11 +143,7 @@ void cGamingScene::Update()
 	{
 		m_pPlayer->GetMesh()->SetAnimationIndex("attack");
 	}
-	if (g_pKeyManager->isOnceKeyDown(VK_OEM_COMMA))
-	{
-
-		m_pPlayer->GetMesh()->SetAnimationIndex("whirlwinding");
-	}
+	
 
 
 	if (g_pKeyManager->isOnceKeyDown('P'))
@@ -384,6 +391,8 @@ void cGamingScene::UISetting()
 void cGamingScene::PlayerMoveTest()
 {
 	cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
+	ST_RUN_EXTRAINFO MSG;
+	D3DXVECTOR3 vPickPos;
 
 	//몬스터를 클릭할 경우
 	//마우스 오버
@@ -410,7 +419,7 @@ void cGamingScene::PlayerMoveTest()
 	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
 	{
 		//충돌처리 해야할 박스정보와 플레이어 스피드를 메시지에 포함한다.
-		ST_RUN_EXTRAINFO MSG;
+		
 		MSG.nBoxCount = m_vecBoundBox.size();
 		MSG.vecBox = m_vecBoundBox;
 		MSG.fSpeed = m_pPlayer->GetStat().fSpeed;
@@ -455,7 +464,7 @@ void cGamingScene::PlayerMoveTest()
 			}
 		}
 		//바닥과의 피킹처리
-		D3DXVECTOR3 vPickPos;
+		
 		for (size_t i = 0; i < m_vecTiles.size(); i += 3)
 		{
 			if (r.IntersectTri(m_vecTiles[i].p,
@@ -465,6 +474,32 @@ void cGamingScene::PlayerMoveTest()
 			{
 				vPickPos.y = 0;
 				
+				MSG.nTarget = m_pPlayer->GetID();
+				MSG.vDest = vPickPos;
+
+				g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_RUN, &MSG);
+			}
+		}
+	}
+
+	if (g_pKeyManager->isOnceKeyDown('2'))
+	{
+		//m_pPlayer->GetMesh()->SetAnimationIndex("whirlwinding");
+		m_pPlayer->m_bIsWhirl = true;
+
+		MSG.nBoxCount = m_vecBoundBox.size();
+		MSG.vecBox = m_vecBoundBox;
+		MSG.fSpeed = m_pPlayer->GetStat().fSpeed;
+
+		for (size_t i = 0; i < m_vecTiles.size(); i += 3)
+		{
+			if (r.IntersectTri(m_vecTiles[i].p,
+				m_vecTiles[i + 1].p,
+				m_vecTiles[i + 2].p,
+				vPickPos) && !CollisionTest())
+			{
+				vPickPos.y = 0;
+
 				MSG.nTarget = m_pPlayer->GetID();
 				MSG.vDest = vPickPos;
 

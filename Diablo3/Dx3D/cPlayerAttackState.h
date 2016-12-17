@@ -9,6 +9,7 @@ private:
 	cPlayerAttackState() {}
 	virtual ~cPlayerAttackState() {}
 
+
 public:
 	static cPlayerAttackState* Instance()
 	{

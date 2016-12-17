@@ -8,14 +8,22 @@ void cPlayerMoveState::Enter(cPlayer * pOwner)
 {
 	if (!pOwner) return;
 	
-	pOwner->GetMesh()->SetAnimationIndex("run");
-	SOUNDMANAGER->play("FootStep", 0.3f);
+	if (pOwner->m_bIsWhirl)
+	{
+		pOwner->GetMesh()->SetAnimationIndex("whirlwinding");
+	}
+	else
+	{
+		pOwner->GetMesh()->SetAnimationIndex("run");
+		SOUNDMANAGER->play("FootStep", 0.3f);
+	}
 
 }
 
 void cPlayerMoveState::Execute(cPlayer * pOwner)
 {
 	//목적지까지 움직였다면 자기자신에게 다시 매세지를 보낸다.
+
 	if (!pOwner->GetAction())
 	{
 		if (pOwner->GetTarget())
@@ -30,6 +38,7 @@ void cPlayerMoveState::Execute(cPlayer * pOwner)
 			SOUNDMANAGER->stop("FootStep");
 			g_pMessageManager->MessageSend(0.0f, pOwner->GetID(), pOwner->GetID(),
 				MESSAGE_TYPE::MSG_IDLE, NULL);
+			pOwner->m_bIsWhirl = false;
 		}
 	}
 }
@@ -45,7 +54,6 @@ bool cPlayerMoveState::OnMessage(cPlayer * pOwner, const Telegram & msg)
 	{
 		case MSG_RUN:
 		{
-		
 			if (!msg.ExtraInfo) return false;
 
 			ST_RUN_EXTRAINFO MSG;

@@ -18,6 +18,7 @@ cPlayer::cPlayer()
 	, m_pSword(NULL)
 	, m_nCurMap(0)
 	, m_pSphere(NULL)
+	, m_bIsWhirl(false)
 {
 	m_pSateMachnie = new cStateMachine<cPlayer>(this);
 

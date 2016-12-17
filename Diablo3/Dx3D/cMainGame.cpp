@@ -33,15 +33,33 @@ void cMainGame::Setup()
 	g_pSceneManager->addScene("LoadingScene", new cLoadingScene);
 	g_pSceneManager->addScene("BossScene", new cBossScene);
 
-	SOUNDMANAGER->addSound("GamingSceneBGM", "./Sound/GamingScene_BGM.mp3", true, true);
-	SOUNDMANAGER->addSound("SwordSwing", "Sound/Sword_Swing.mp3", false, false);
-	SOUNDMANAGER->addSound("SkeletonAttack", "Sound/Skeleton_Attack.mp3", false, false);
-	SOUNDMANAGER->addSound("SkeletonDead", "Sound/Skeleton_Dead.mp3", false, false);
-	SOUNDMANAGER->addSound("FootStep", "Sound/Foot_Step.mp3", false, true);
-	SOUNDMANAGER->addSound("WarCay", "Sound/War_Cay.mp3", false, true);
-	SOUNDMANAGER->addSound("SkeletonGetHit", "Sound/Skeleton_GetHit.mp3", false, true);
+	SOUNDMANAGER->addSound("GamingSceneBGM", "Sound/GamingScene_BGM.mp3", true, true);
 
 	g_pSceneManager->changeScene("GamingScene");
+
+	SOUNDMANAGER->addSound("SwordSwing", "Sound/Sword_Swing.mp3", false, false);
+	SOUNDMANAGER->addSound("FootStep", "Sound/Foot_Step.mp3", false, true);
+	SOUNDMANAGER->addSound("WarCay", "Sound/War_Cay.mp3", false, true);
+
+	SOUNDMANAGER->addSound("SkeletonAttack", "Sound/Skeleton_Attack.mp3", false, false);
+	SOUNDMANAGER->addSound("SkeletonGetHit", "Sound/Skeleton_GetHit.mp3", false, false);
+	SOUNDMANAGER->addSound("SkeletonDead", "Sound/Skeleton_Dead.mp3", false, false);
+
+	SOUNDMANAGER->addSound("FetishAttack", "Sound/Fetish_Attack.mp3", false, false);
+	SOUNDMANAGER->addSound("FetishGetHit", "Sound/Fetish_GetHit.mp3", false, false);
+	SOUNDMANAGER->addSound("FetishDead", "Sound/Fetish_Dead.mp3", false, false);
+
+	SOUNDMANAGER->addSound("GargantuanAttack", "Sound/Gargantuan_Attack.mp3", false, false);
+	SOUNDMANAGER->addSound("GargantuanGetHit", "Sound/Gargantuan_GetHit.mp3", false, false);
+	SOUNDMANAGER->addSound("GargantuanDead", "Sound/Gargantuan_Dead.mp3", false, false);
+
+	SOUNDMANAGER->addSound("StitchAttack", "Sound/Stitch_Attack.mp3", false, false);
+	SOUNDMANAGER->addSound("StitchGetHit", "Sound/Stitch_GetHit.mp3", false, false);
+	SOUNDMANAGER->addSound("StitchDead", "Sound/Stitch_Dead.mp3", false, false);
+
+	SOUNDMANAGER->addSound("ZombieDogAttack", "Sound/ZombieDog_Attack.mp3", false, false);
+	SOUNDMANAGER->addSound("ZombieDogGetHit", "Sound/ZombieDog_GetHit.mp3", false, false);
+	SOUNDMANAGER->addSound("ZombieDogDead", "Sound/ZombieDog_Dead.mp3", false, false);
 	
 	SetLight();
 }
