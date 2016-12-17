@@ -215,7 +215,9 @@ typedef struct ST_SAVEOBJECT
 }ST_SAVEOBJECT, *LPST_SAVEOBJECT;
 
 
+#include "inc/fmod.hpp"
 
+#pragma comment (lib, "lib/fmodex_vc.lib")
 
 #define DEBUG_INTERVAL 5
 #define	DEBUG_STARTX 0
@@ -231,6 +233,9 @@ typedef struct ST_SAVEOBJECT
 #include "cSkinnedMeshManager.h"
 #include "cAIManager.h"
 #include "cMessageManager.h"
+#include "soundManager.h"
+
+#define SOUNDMANAGER soundManager::getSingleton()
 
 
 //Interface

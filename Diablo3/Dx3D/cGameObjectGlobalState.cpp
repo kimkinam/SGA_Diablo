@@ -40,15 +40,19 @@ void cGameObjectGlobalState::Execute(cGameObject * pOwner)
 		{
 			if (name == "death")
 			{
+				
 				m_dDeadTime -= g_pTimeManager->GetDeltaTime();
 				if (m_dDeadTime < 0)
 				{
+					SOUNDMANAGER->stop("SkeletonDead");
 					g_pAIManager->RemoveAIBase(pOwner);
 					this->Exit(pOwner);
 				}
 			}
 			else
 			{
+				SOUNDMANAGER->stop("SkeletonGetHit");
+				SOUNDMANAGER->play("SkeletonDead", 0.4f);
 				pOwner->SetAnimation("death");
 
 				double totalTime = pOwner->GetCurAniTime() - 0.2f;
@@ -143,6 +147,10 @@ bool cGameObjectGlobalState::OnMessage(cGameObject* pOwner, const Telegram& msg)
 			float hp = pOwner->GetStat().fHp;
 			float atk = g_pAIManager->GetAIBaseFromID(msg.nSender)->GetStat().fAtk;
 			pOwner->GetStat().fHp -= g_pAIManager->GetAIBaseFromID(msg.nSender)->GetStat().fAtk;
+
+			if (pOwner->GetStat().chType == CHARACTER_SKELETON)
+				SOUNDMANAGER->play("SkeletonGetHit", 0.4f);
+			
 		}
 		return true;
 		break;

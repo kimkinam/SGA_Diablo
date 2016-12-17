@@ -2,6 +2,7 @@
 #include "cPlayerIdleState.h"
 #include "cPlayer.h"
 #include "cActionMove.h"
+#include "cPlayerWarCryState.h"
 
 void cPlayerIdleState::Enter(cPlayer * pOwner)
 {
@@ -83,6 +84,9 @@ bool cPlayerIdleState::OnMessage(cPlayer * pOwner, const Telegram & msg)
 		return true;
 		break;
 	case MSG_NONE:
+		break;
+	case MSG_WARCRY:
+		pOwner->m_pSateMachnie->ChangeState(cPlayerWarCryState::Instance());
 		break;
 	default:
 		break;

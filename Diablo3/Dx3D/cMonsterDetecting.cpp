@@ -9,6 +9,7 @@ void cMonsterDetecting::Enter(cMonster * pOwner)
 {
 	
 	pOwner->GetMesh()->SetAnimationIndex("idle");
+	
 
 }
 
@@ -48,7 +49,7 @@ bool cMonsterDetecting::OnMessage(cMonster* pOwner, const Telegram& msg)
 	case MSG_RUN:
 	{
 		pOwner->m_pSateMachnie->ChangeState(cMonsterTrace::Instance());
-
+		SOUNDMANAGER->play("SkeletonAttack", 0.5f);
 		return true;
 	}
 		break;

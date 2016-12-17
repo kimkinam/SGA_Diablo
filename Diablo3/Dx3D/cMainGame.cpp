@@ -19,20 +19,28 @@ cMainGame::~cMainGame(void)
 	g_pSkinnedMeshManager->Destroy();
 	g_pDeviceManager->Destroy();
 	
+	SOUNDMANAGER->release();
 
 }
 
 void cMainGame::Setup()
 {
+	SOUNDMANAGER->init();
+
 	g_pSceneManager->addScene("GamingScene", new cGamingScene);
 	g_pSceneManager->addScene("TestScene", new cTestScene);
 	g_pSceneManager->addScene("LoadingScene", new cLoadingScene);
 	g_pSceneManager->addScene("BossScene", new cBossScene);
 
-	//m_pScene = new cBossScene;
-	//m_pScene->SetUp();
+	SOUNDMANAGER->addSound("GamingSceneBGM", "./Sound/GamingScene_BGM.mp3", true, true);
+	SOUNDMANAGER->addSound("SwordSwing", "Sound/Sword_Swing.mp3", false, false);
+	SOUNDMANAGER->addSound("SkeletonAttack", "Sound/Skeleton_Attack.mp3", false, false);
+	SOUNDMANAGER->addSound("SkeletonDead", "Sound/Skeleton_Dead.mp3", false, false);
+	SOUNDMANAGER->addSound("FootStep", "Sound/Foot_Step.mp3", false, true);
+	SOUNDMANAGER->addSound("WarCay", "Sound/War_Cay.mp3", false, true);
+	SOUNDMANAGER->addSound("SkeletonGetHit", "Sound/Skeleton_GetHit.mp3", false, true);
 
-	g_pSceneManager->changeScene("BossScene");
+	g_pSceneManager->changeScene("GamingScene");
 	
 	SetLight();
 }
@@ -51,7 +59,7 @@ void cMainGame::Update()
 		g_pSceneManager->changeScene("BossScene");
 	
 	g_pSceneManager->Update();
-
+	SOUNDMANAGER->update();
 	
 }
 

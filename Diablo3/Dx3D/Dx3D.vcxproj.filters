@@ -97,6 +97,9 @@
     <Filter Include="AI\Sates\Monster">
       <UniqueIdentifier>{e723c48f-426d-4f8b-bd24-0c7aa88f4c66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{a0169be6-9f85-4b5e-baff-0e8985734917}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -375,8 +378,19 @@
     <ClInclude Include="cArrow.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="cLighting.h">
       <Filter>헤더 파일</Filter>
+=======
+    <ClInclude Include="soundManager.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="singletonBase.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="cPlayerWarCryState.h">
+      <Filter>AI\Sates\Player</Filter>
+>>>>>>> 93c2939fb996b6b468e0c083db9a5b702900a998
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -620,8 +634,16 @@
     <ClCompile Include="cArrow.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="cLighting.cpp">
       <Filter>소스 파일</Filter>
+=======
+    <ClCompile Include="soundManager.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayerWarCryState.cpp">
+      <Filter>AI\Sates\Player</Filter>
+>>>>>>> 93c2939fb996b6b468e0c083db9a5b702900a998
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

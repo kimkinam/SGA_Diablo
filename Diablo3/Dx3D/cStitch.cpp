@@ -13,8 +13,8 @@ cStitch::~cStitch()
 
 void cStitch::Setup(D3DXVECTOR3* vLookAt)
 {
-	m_stStat = ST_MONSTER_STAT(100, 0, 10, 5, 0.05f, 1.0f, 4.0f, CHARACTER_STITCH);
-
+	m_stStat = ST_MONSTER_STAT(200, 0, 10, 5, 0.05f, 1.0f, 4.0f, CHARACTER_STITCH);
+	
 	cMonster::Setup("stitch.x");
 
 	m_pOBB = new cOBB;
@@ -51,6 +51,7 @@ void cStitch::Setup(ST_SAVEOBJECT wObj)
 	vMax.z += 0.0f;
 	vMin.z += 0.1f;
 
+	//m_stStat.fMaxHp = m_stStat.fHp;
 
 	m_pOBB->Setup(vMin, vMax);
 }

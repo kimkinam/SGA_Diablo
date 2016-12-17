@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "cPlayerAttackState.h"
 #include "cPlayer.h"
-
+#include "cPlayerWarCryState.h"
 void cPlayerAttackState::Enter(cPlayer * pOwner)
 {
 	if (!pOwner) return;
@@ -12,6 +12,8 @@ void cPlayerAttackState::Enter(cPlayer * pOwner)
 	double totalTime = pOwner->GetCurAniTime();
 	g_pMessageManager->MessageSend(totalTime / 2, pOwner->GetID(), pOwner->GetTarget()->GetID(),
 		MESSAGE_TYPE::MSG_HITTED, &(float)pOwner->GetStat().fAtk);
+
+	SOUNDMANAGER->play("SwordSwing", 0.6f);
 }
 
 
@@ -54,6 +56,9 @@ bool cPlayerAttackState::OnMessage(cPlayer * pOwner, const Telegram & msg)
 		if (pOwner->IsDoneCurAni())
 		pOwner->m_pSateMachnie->ChangeState(cPlayerIdleState::Instance());
 		return true;
+		break;
+	case MSG_WARCRY:
+		pOwner->m_pSateMachnie->ChangeState(cPlayerWarCryState::Instance());
 		break;
 	case MSG_NONE:
 		break;

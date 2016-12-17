@@ -11,6 +11,7 @@ public:
 	{
 		E_NORMAL,
 		E_CHAT,
+		E_DIABLO,
 	};
 private:
 	std::map<eFontType, LPD3DXFONT> m_mapFont;

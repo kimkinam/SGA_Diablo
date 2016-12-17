@@ -9,6 +9,7 @@
 #include "cUIImage.h"
 #include "cGameObjectGlobalState.h"
 #include "cPlayerIdleState.h"
+#include "cPlayerWarCryState.h"
 
 cPlayer::cPlayer()
 	//: m_emState(PLAYER_IDLE)

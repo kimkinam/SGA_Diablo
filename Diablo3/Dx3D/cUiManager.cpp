@@ -7,7 +7,7 @@
 #include "cUISkill.h"
 #include "cInventory.h"
 #include "cPlayer.h"
-
+#include "cGamingScene.h"
 cUiManager::cUiManager()
 	: m_pHpBar(NULL)
 	, m_pSprite(NULL)
@@ -22,6 +22,10 @@ cUiManager::cUiManager()
 	, m_fMaxHp(0.0f)
 	, m_fMinusHp(0.0f)
 	, m_pPlayer(NULL)
+	, m_pEnemyBar(NULL)
+	, m_bIsEnemyBar(NULL)
+	, m_pScene(NULL)
+	//, m_fEnemyHP(NULL)
 {
 	m_ptClickPoint.x = m_ptClickPoint.y = 0;
 }
@@ -42,6 +46,12 @@ cUiManager::~cUiManager()
 
 	if (pBaba_skill_1)
 		pBaba_skill_1->Destroy();
+
+	if (m_pEnemyBar)
+		m_pEnemyBar->Destroy();
+
+	if (m_pEnemyBarBG)
+		m_pEnemyBarBG->Destroy();
 
 
 	//SAFE_DELETE(m_pPlayerManager);
@@ -64,6 +74,7 @@ void cUiManager::SetUp()
 //================= HpBar =================================================================
 
 	SetUpHpBar(rc_win);
+	SetUpEnemyBar(rc_win);
 	
 ////================================스킬 ============================================
 	pBaba_skill_1 = new cUISkill;
@@ -89,11 +100,19 @@ void cUiManager::Update()
 	if (m_pHpBar)
 		m_pHpBar->Update(); // UI 틀
 	
+	if (m_pEnemyBar)
+		m_pEnemyBar->Update();
+
+	if (m_pEnemyBarBG)
+		m_pEnemyBarBG->Update();
+
+	//
 	//if (HP_sphere)
 	//	HP_sphere->Update(); // HP 구
 	//
 	//if (MP_sphere)
 	//	MP_sphere->Update(); // HP 구
+
 
 	if (pBaba_skill_1)
 		pBaba_skill_1->Update();
@@ -110,12 +129,19 @@ void cUiManager::Render()
 	//if (MP_sphere)
 	//	MP_sphere->Render(m_pSprite);
 	
-	
 	HpSphereRender();
 
 	if (m_pHpBar)
 		m_pHpBar->Render(m_pSprite);
 	
+	if (m_bIsEnemyBar)
+	{
+		if (m_pEnemyBarBG)
+			m_pEnemyBarBG->Render(m_pSprite);
+
+		if (m_pEnemyBar)
+			m_pEnemyBar->Render(m_pSprite);
+	}
 
 	if (pBaba_skill_1)
 		pBaba_skill_1->Render(m_pSprite);	
@@ -212,6 +238,29 @@ void cUiManager::OnClick(cUIButton * pSender)
 	
 }
 
+void cUiManager::SetUpEnemyBar(RECT rc)
+{
+	D3DXMATRIXA16 matS;
+
+	cUIImage* pEnemyBarBG = new cUIImage;
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.7f, 0.7f, 1);
+	pEnemyBarBG->SetmatS(matS);
+	pEnemyBarBG->SetTexture("./Resources/UI/Enemy_HPbar_BG.png");
+	pEnemyBarBG->SetPosition(rc.right / 2 - pEnemyBarBG->GetCollider().nWidth / 2,
+		rc.top + pEnemyBarBG->GetCollider().nHeight * 1.5f, 0);
+	m_pEnemyBarBG = pEnemyBarBG;
+
+	cUIImage* pEnemyBar = new cUIImage;
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.7f, 0.7f, 1);
+	pEnemyBar->SetmatS(matS);
+	pEnemyBar->SetTexture("./Resources/UI/Enemy_HPbar_Red.png");
+	pEnemyBar->SetPosition(rc.right / 2 - pEnemyBar->GetCollider().nWidth / 2 + 0.5,
+		rc.top + pEnemyBar->GetCollider().nHeight * 4.33f, 0);
+	m_pEnemyBar = pEnemyBar;
+}
+
 void cUiManager::SetUpHpBar(RECT rc)
 {
 	D3DXMATRIXA16 matS;
@@ -246,44 +295,6 @@ void cUiManager::SetUpHpBar(RECT rc)
 
 	m_fCurHp = m_pPlayer->GetStat().fHp;
 	m_fMaxHp = m_pPlayer->GetStat().fMaxHp;
-
-	//cUIImage* Hp_bar = new cUIImage; // 체력 글라스
-	//D3DXMatrixIdentity(&matS);
-	//D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
-	//Hp_bar->SetmatS(matS);
-	//Hp_bar->SetTexture("./Resources/UI/HP_G.png");
-	//Hp_bar->SetPosition(84, 3, 0);
-	//m_pHpBar->AddChild(Hp_bar);
-	//
-	//cUIImage* Hp_C = new cUIImage; // 체력 구 (빨간색)
-	//D3DXMatrixIdentity(&matS);
-	//D3DXMatrixScaling(&matS, 0.485f, 0.485f, 1);
-	//Hp_C->SetmatS(matS);
-	//Hp_C->SetTexture("./Resources/UI/HP_C.png");
-	//D3DXVECTOR3* HPSpear_Position;
-	//D3DXVECTOR3* back;
-	//back = &pBackGround->GetPosition();
-	//HPSpear_Position = &Hp_bar->GetPosition();
-	//Hp_C->SetPosition(*HPSpear_Position + *back);
-	//HP_sphere = Hp_C;
-	//
-	//cUIImage* Mp_bar = new cUIImage; // 마나 글라스
-	//D3DXMatrixIdentity(&matS);
-	//D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
-	//Mp_bar->SetmatS(matS);
-	//Mp_bar->SetTexture("./Resources/UI/MANA_G.png");
-	//Mp_bar->SetPosition(550, 3, 0);
-	//m_pHpBar->AddChild(Mp_bar);
-	//
-	//cUIImage* Mp_C = new cUIImage; // 마나 구 (파란색)
-	//D3DXMatrixIdentity(&matS);
-	//D3DXMatrixScaling(&matS, 0.48f, 0.48f, 1);
-	//Mp_C->SetmatS(matS);
-	//Mp_C->SetTexture("./Resources/UI/MANA_C.png");
-	//D3DXVECTOR3* MPSpear_Position;
-	//MPSpear_Position = &Mp_bar->GetPosition();
-	//Mp_C->SetPosition(*MPSpear_Position+*back);
-	//MP_sphere = Mp_C;
 
 }
 

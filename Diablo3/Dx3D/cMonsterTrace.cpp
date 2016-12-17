@@ -37,6 +37,7 @@ void cMonsterTrace::Enter(cMonster * pOwner)
 		pAction->Start();
 		pOwner->SetAction(pAction);
 	}
+	
 	pOwner->SetAnimation("run");
 }
 

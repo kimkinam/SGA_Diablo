@@ -95,6 +95,7 @@ HRESULT cGamingScene::SetUp()
 	}
 	g_pAIManager->RegisterAIBase(m_pPlayer);
 
+<<<<<<< HEAD
 	D3DXVECTOR3 vDir;
 	vDir = m_pPlayer->GetPosition() - GAMINGSCENE_CAMERAPOS;/*D3DXVECTOR3(24, 10, -17)*/;
 	D3DXVec3Normalize(&vDir, &vDir);
@@ -104,7 +105,14 @@ HRESULT cGamingScene::SetUp()
 	m_pCamera->SetEye(m_pPlayer->GetPosition() - vDir * distance);
 	m_pCamera->SetNewDirection(vDir);
 
+=======
+>>>>>>> 93c2939fb996b6b468e0c083db9a5b702900a998
 	UISetting();
+
+	enemyBarRight = m_pUI->GetpEnemyBar()->GetDrawRc().right;
+	enemyBarLeft = m_pUI->GetpEnemyBar()->GetDrawRc().left;
+
+	SOUNDMANAGER->play("GamingSceneBGM", 0.8f);
 
 	return S_OK;
 }
@@ -135,6 +143,15 @@ void cGamingScene::Update()
 	
 
 
+	if (g_pKeyManager->isOnceKeyDown('P'))
+	{
+		for (size_t i = 0; i < m_vecMonster.size(); ++i)
+		{
+			if (m_vecMonster[i]->GetStat().chType == CHARACTER_SKELETON)
+				m_vecMonster[i]->GetStat().fHp = 0.0f;
+		}
+	}
+
 	if (m_pPlayer)
 	{
 		m_pPlayer->Update();
@@ -158,6 +175,12 @@ void cGamingScene::Update()
 	
 	if (m_pUI)
 		m_pUI->Update();
+
+	if (g_pKeyManager->isOnceKeyDown('1'))
+	{
+		g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_WARCRY, NULL);
+	}
+
 	
 }
 
@@ -197,12 +220,35 @@ void cGamingScene::Render()
 	if (m_pCurMonster)
 	{
 		LPD3DXFONT font;
-		font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
-	
+		font = g_pFontManger->GetFont(cFontManager::E_CHAT);
+
+		LPD3DXFONT Damagefont;
+		Damagefont = g_pFontManger->GetFont(cFontManager::E_NORMAL);
+
 		char temp[128];
-		sprintf_s(temp, "hp :%f", m_pCurMonster->GetStat().fHp, 128);
 		RECT rc;
-		SetRect(&rc, DEBUG_STARTX, DEBUG_STARTY + 100, DEBUG_STARTX + 250, DEBUG_STARTY + 115);
+		sprintf_s(temp, "hp :%f", m_pCurMonster->GetStat().fHp, 128);
+		
+		SetRect(&rc, DEBUG_STARTX, DEBUG_STARTY + 100, DEBUG_STARTX + 550, DEBUG_STARTY + 315);
+		Damagefont->DrawText(NULL,
+			temp,
+			128,
+			&rc,
+			DT_LEFT,
+			D3DCOLOR_XRGB(255, 255, 255));
+
+		string name = m_pCurMonster->GetObjName();
+		int lastDotIndex = name.find_last_not_of(".");
+		string result = name.substr(0, lastDotIndex - 1);
+		sprintf_s(temp, "%s", result.c_str(), 128);
+
+		if (m_pCurMonster->GetStat().chType == CHARACTER_GARHANTUAN)
+			SetRect(&rc, DEBUG_STARTX + WINSIZE_X / 2.3f - result.length() - 12, DEBUG_STARTY - 22, DEBUG_STARTX + WINSIZE_X, DEBUG_STARTY + 315);
+		else if (m_pCurMonster->GetStat().chType == CHARACTER_SKELETON || m_pCurMonster->GetStat().chType == CHARACTER_ZOMBIEDOG)
+			SetRect(&rc, DEBUG_STARTX + WINSIZE_X / 2.3f - result.length(), DEBUG_STARTY - 22, DEBUG_STARTX + WINSIZE_X, DEBUG_STARTY + 315);
+		else
+			SetRect(&rc, DEBUG_STARTX + WINSIZE_X / 2.3f + result.length(), DEBUG_STARTY - 22, DEBUG_STARTX + WINSIZE_X, DEBUG_STARTY + 315);
+
 		font->DrawText(NULL,
 			temp,
 			128,
@@ -339,15 +385,25 @@ void cGamingScene::PlayerMoveTest()
 	cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
 
 	//몬스터를 클릭할 경우
+	//마우스 오버
 	for (size_t i = 0; i < m_vecMonster.size(); ++i)
 	{
 		if (r.IntersectShpere(m_vecMonster[i]->GetMesh()->GetBoundingSphere()))
 		{
+			m_pUI->m_bIsEnemyBar =	 true;
 			m_pCurMonster = m_vecMonster[i];
+			//m_pUI->SetfEnemyHP(m_vecMonster[i]->GetStat().fHp);
+			m_pUI->GetpEnemyBar()->GetDrawRc().right =
+				(m_vecMonster[i]->GetStat().fHp / m_vecMonster[i]->GetStat().fMaxHp) * //ENEMY_HPBAR_MAXLENGTH;
+				enemyBarRight - enemyBarLeft;
 			break;
 		}
 		else
+		{
+			m_pUI->m_bIsEnemyBar = false;
 			m_pCurMonster = NULL;
+		}
+			
 	}
 	//플레이어 피킹
 	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))

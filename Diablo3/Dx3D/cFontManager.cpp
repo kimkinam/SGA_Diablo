@@ -37,15 +37,15 @@ LPD3DXFONT cFontManager::GetFont(eFontType e)
 	{
 		D3DXFONT_DESC fd;
 		ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
-		fd.Height = 10;
-		fd.Width = 5;
+		fd.Height = 20;
+		fd.Width = 10;
 		fd.Weight = FW_BOLD;
 		fd.Italic = false;
 		fd.CharSet = DEFAULT_CHARSET;
 		fd.OutputPrecision = OUT_DEFAULT_PRECIS;
 		fd.PitchAndFamily = FF_DONTCARE;
 		//AddFontResource("umberto.ttf");
-		strcpy_s(fd.FaceName, "Arial");	//글꼴 스타일
+		strcpy_s(fd.FaceName, "Exocet");	//글꼴 스타일
 		D3DXCreateFontIndirect(g_pD3DDevice, &fd, &m_mapFont[e]);
 	}
 

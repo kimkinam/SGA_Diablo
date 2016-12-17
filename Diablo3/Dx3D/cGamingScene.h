@@ -9,7 +9,6 @@ class cMonster;
 class cPlayer;
 
 
-
 class cGamingScene : public cSceneObject
 {
 private:
@@ -17,12 +16,17 @@ private:
 	cPlayer*							m_pPlayer;
 	std::vector<cMap*>					m_vecMap;
 	std::vector<cOBB*>					m_vecBoundBox;
-	std::vector<cMonster*>				m_vecMonster;
+	//std::vector<cMonster*>				m_vecMonster;
 	std::vector<cMonster*>::iterator	m_vecMonsterIter;
 	cUiManager*							m_pUI;
 	cMonster*							m_pCurMonster;
 
+	LONG								enemyBarRight;
+	LONG								enemyBarLeft;
+
 	std::vector<ST_PC_VERTEX>			m_vecTiles;
+
+	SYNTHESIZE(std::vector<cMonster*>, m_vecMonster, vecMonster);
 
 public:
 	cGamingScene();

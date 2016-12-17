@@ -63,8 +63,8 @@ void cUIObject::Render(LPD3DXSPRITE pSprite)
 
 	
 
-	if (m_bIsDrawBorder)
-		DrawBorder();
+	//if (m_bIsDrawBorder)
+	//	DrawBorder();
 
 	
 }

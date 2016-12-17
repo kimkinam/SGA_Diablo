@@ -54,6 +54,7 @@ void cActionMove::Update()
 			}
 		}
 
+
 	m_pTarget->SetPosition(position);
 	m_pTarget->SetNewDirection(m_vDirection);
 
