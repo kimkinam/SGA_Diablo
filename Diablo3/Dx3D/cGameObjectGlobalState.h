@@ -8,6 +8,7 @@ class cGameObjectGlobalState :
 {
 public:
 	double	m_dDeadTime;
+	double	m_dHitTime;
 private:
 	cGameObjectGlobalState() {}
 	virtual ~cGameObjectGlobalState() {}

@@ -50,10 +50,13 @@ public:
 			}
 		}
 		
+		ST_HIT_EXTRAINFO msgHit;
+		msgHit.dwHitType = 1;
+		msgHit.fDamage = pOwner->GetStat().fAtk;
 
 		double totalTime = pOwner->GetCurAniTime();
-		/*g_pMessageManager->MessageSend(totalTime * 2 / 3, pOwner->GetID(), pOwner->GetTarget()->GetID(),
-			MESSAGE_TYPE::MSG_HITTED, &(float)pOwner->GetStat().fAtk);*/
+		g_pMessageManager->MessageSend(totalTime * 2 / 3, pOwner->GetID(), pOwner->GetTarget()->GetID(),
+			MESSAGE_TYPE::MSG_HITTED, &msgHit);
 	}
 
 	//상태에 진입해서 갱신
@@ -117,6 +120,8 @@ public:
 		case MSG_NONE:
 			// 행동 처리
 			return true;
+		case MSG_HITTED:
+			return false;
 			break;
 		}
 

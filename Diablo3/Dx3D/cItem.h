@@ -24,7 +24,8 @@ public:
 	cItem();
 	virtual ~cItem();
 
-	void Setup(char* szImageName, char* sumNailName, float fhp, float fmp, float fAtk, float fSpeed, E_ITEM Item_type);
+	void Setup(char* szImageName, char* sumNailName, float 
+		, float fmp, float fAtk, float fSpeed, E_ITEM Item_type);
 	void Update();
 	void Render(LPD3DXSPRITE pSprite);
 };

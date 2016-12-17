@@ -38,6 +38,7 @@ struct ST_MONSTER_STAT
 	float fTraceRange;
 
 	bool bIsDead;
+	bool bIsHit;
 
 	ST_MONSTER_STAT() {
 		fHp = fMp = fAtk = fDef
@@ -84,6 +85,7 @@ protected:
 	SYNTHESIZE(D3DXVECTOR3, m_vUp, UpVector);
 	SYNTHESIZE(D3DXVECTOR3, m_vRight, Right);
 	SYNTHESIZE(D3DXVECTOR3, m_vScale, Scale);
+	SYNTHESIZE(bool, m_bIsHit, IsHit);
 	SYNTHESIZE(cOBB*, m_pOBB, OBB);
 	SYNTHESIZE_PASS_BY_REF(D3DXMATRIX, m_matLocal, LocalTM);
 	SYNTHESIZE_PASS_BY_REF(D3DXMATRIX, m_matWorld, WorldTM);

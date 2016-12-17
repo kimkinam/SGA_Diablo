@@ -113,7 +113,9 @@ HRESULT cGamingScene::SetUp()
 	enemyBarRight = m_pUI->GetpEnemyBar()->GetDrawRc().right;
 	enemyBarLeft = m_pUI->GetpEnemyBar()->GetDrawRc().left;
 
+
 	SOUNDMANAGER->play("GamingSceneBGM", 0.8f);
+	//SOUNDMANAGER->play("WhirlWind", 0.8f);
 
 	m_Cloud = new cShaderManager;
 	m_Cloud->Setup("cloud.fx", "cloud.x", "cloud.dds", NULL, NULL);
@@ -150,6 +152,7 @@ void cGamingScene::Update()
 	{
 		m_pPlayer->GetMesh()->SetAnimationIndex("attack");
 	}
+	
 	if (g_pKeyManager->isStayKeyDown('2'))
 	{
 
@@ -186,7 +189,7 @@ void cGamingScene::Update()
 	if (m_pCamera)
 	{
 		//m_pCamera->Update(m_pPlayer->GetPtPosition());
-		m_pCamera->Update(NULL);
+		m_pCamera->Update(m_pPlayer->GetPtPosition());
 	}
 	
 	if (m_pUI)
@@ -212,7 +215,16 @@ void cGamingScene::Render()
 	{
 		m_vecMonster[i]->Render();
 	}
+	D3DLIGHT9 stLight;
+	stLight.Ambient = stLight.Diffuse = stLight.Specular = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
+	stLight.Type = D3DLIGHT_DIRECTIONAL;
+	D3DXVECTOR3 vDir(1, -1, 1);
+	D3DXVec3Normalize(&vDir, &vDir);
+	stLight.Direction = vDir;
+	g_pD3DDevice->SetLight(0, &stLight);
+	g_pD3DDevice->LightEnable(0, true);
 
+	g_pD3DDevice->SetRenderState(D3DRS_NORMALIZENORMALS, false);
 
 	for (size_t i = 0; i < m_vecMap.size(); ++i)
 	{
@@ -408,6 +420,8 @@ void cGamingScene::UISetting()
 void cGamingScene::PlayerMoveTest()
 {
 	cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
+	ST_RUN_EXTRAINFO MSG;
+	D3DXVECTOR3 vPickPos;
 
 	//몬스터를 클릭할 경우
 	//마우스 오버
@@ -415,13 +429,17 @@ void cGamingScene::PlayerMoveTest()
 	{
 		if (r.IntersectShpere(m_vecMonster[i]->GetMesh()->GetBoundingSphere()))
 		{
-			m_pUI->m_bIsEnemyBar =	 true;
-			m_pCurMonster = m_vecMonster[i];
-			//m_pUI->SetfEnemyHP(m_vecMonster[i]->GetStat().fHp);
-			m_pUI->GetpEnemyBar()->GetDrawRc().right =
-				(m_vecMonster[i]->GetStat().fHp / m_vecMonster[i]->GetStat().fMaxHp) * //ENEMY_HPBAR_MAXLENGTH;
-				enemyBarRight - enemyBarLeft;
-			break;
+			if (m_vecMonster[i]->GetStat().fHp >= 0)
+			{
+				m_pUI->m_bIsEnemyBar = true;
+				m_pCurMonster = m_vecMonster[i];
+				//m_pUI->SetfEnemyHP(m_vecMonster[i]->GetStat().fHp);
+				m_pUI->GetpEnemyBar()->GetDrawRc().right =
+					(m_vecMonster[i]->GetStat().fHp / m_vecMonster[i]->GetStat().fMaxHp) * //ENEMY_HPBAR_MAXLENGTH;
+					enemyBarRight - enemyBarLeft;
+				break;
+			}
+			
 		}
 		else
 		{
@@ -431,10 +449,10 @@ void cGamingScene::PlayerMoveTest()
 			
 	}
 	//플레이어 피킹
-	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
+	if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
 	{
 		//충돌처리 해야할 박스정보와 플레이어 스피드를 메시지에 포함한다.
-		ST_RUN_EXTRAINFO MSG;
+		
 		MSG.nBoxCount = m_vecBoundBox.size();
 		MSG.vecBox = m_vecBoundBox;
 		MSG.fSpeed = m_pPlayer->GetStat().fSpeed;
@@ -470,6 +488,7 @@ void cGamingScene::PlayerMoveTest()
 				//공격사거리 안쪽에 있는 경우.
 				else
 				{
+					//SOUNDMANAGER->play("SwordSwing", 0.8f);
 					MSG.vDest = m_pPlayer->GetPosition();
 				}
 				g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_RUN, &MSG);
@@ -479,7 +498,7 @@ void cGamingScene::PlayerMoveTest()
 			}
 		}
 		//바닥과의 피킹처리
-		D3DXVECTOR3 vPickPos;
+		
 		for (size_t i = 0; i < m_vecTiles.size(); i += 3)
 		{
 			if (r.IntersectTri(m_vecTiles[i].p,
@@ -495,6 +514,35 @@ void cGamingScene::PlayerMoveTest()
 				g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_RUN, &MSG);
 			}
 		}
+	}
+	if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
+	{
+
+		MSG.nBoxCount = m_vecBoundBox.size();
+		MSG.vecBox = m_vecBoundBox;
+		MSG.fSpeed = m_pPlayer->GetStat().fSpeed;
+
+		for (size_t i = 0; i < m_vecTiles.size(); i += 3)
+		{
+			if (r.IntersectTri(m_vecTiles[i].p,
+				m_vecTiles[i + 1].p,
+				m_vecTiles[i + 2].p,
+				vPickPos) && !CollisionTest())
+			{
+				vPickPos.y = 0;
+
+				MSG.nTarget = m_pPlayer->GetID();
+				MSG.vDest = vPickPos;
+
+				g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_WHIRLWIND, &MSG);
+			}
+		}
+	}
+
+	if (g_pKeyManager->isOnceKeyDown('2'))
+	{
+		//m_pPlayer->GetMesh()->SetAnimationIndex("whirlwinding");
+		
 	}
 
 	//플레이어 아이템 변화 테스트

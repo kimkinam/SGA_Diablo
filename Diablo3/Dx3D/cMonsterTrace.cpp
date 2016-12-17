@@ -36,6 +36,18 @@ void cMonsterTrace::Enter(cMonster * pOwner)
 		//}
 		pAction->Start();
 		pOwner->SetAction(pAction);
+
+		if (pOwner->GetStat().chType == CHARACTER_SKELETON)
+			SOUNDMANAGER->play("SkeletonAttack", 0.5f);
+		else if (pOwner->GetStat().chType == CHARACTER_STITCH)
+			SOUNDMANAGER->play("StitchAttack", 0.5f);
+		else if (pOwner->GetStat().chType == CHARACTER_FETISH)
+			SOUNDMANAGER->play("FetishAttack", 0.5f);
+		else if (pOwner->GetStat().chType == CHARACTER_GARHANTUAN)
+			SOUNDMANAGER->play("GargantuanAttack", 0.5f);
+		else if (pOwner->GetStat().chType == CHARACTER_ZOMBIEDOG)
+			SOUNDMANAGER->play("ZombieDogAttack", 0.5f);
+
 	}
 	
 	pOwner->SetAnimation("run");
@@ -113,6 +125,9 @@ bool cMonsterTrace::OnMessage(cMonster* pOwner, const Telegram& msg)
 	case MSG_NONE:
 		// 행동 처리
 		return true;
+		break;
+	case MSG_HITTED:
+		return false;
 		break;
 	}
 

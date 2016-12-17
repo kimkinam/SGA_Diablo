@@ -1,19 +1,23 @@
 #pragma once
 
 class cPlayer;
+class cMonster;
 
-class cPlayerAttackState :
+class cWhirlwindState :
 	public iState<cPlayer>
 {
 private:
-	cPlayerAttackState() {}
-	virtual ~cPlayerAttackState() {}
+	std::vector<cGameObject*>	m_vecMonster;
+	bool						m_bIsAtk;
+private:
+	cWhirlwindState() {}
+	virtual ~cWhirlwindState() {}
 
 
 public:
-	static cPlayerAttackState* Instance()
+	static cWhirlwindState* Instance()
 	{
-		static cPlayerAttackState instance;
+		static cWhirlwindState instance;
 		return &instance;
 	}
 
@@ -30,3 +34,4 @@ public:
 	//GameObject의 HandleMessage로부터 메시지를 접수하면 이 부분이 실행
 	virtual bool OnMessage(cPlayer* pOwner, const Telegram& msg);
 };
+
