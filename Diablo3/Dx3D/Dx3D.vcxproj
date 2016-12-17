@@ -132,6 +132,8 @@
     <ClInclude Include="cObj.h" />
     <ClInclude Include="cObject.h" />
     <ClInclude Include="cObjLoader.h" />
+    <ClInclude Include="cParticle.h" />
+    <ClInclude Include="cParticleEmitter.h" />
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cPlayerAttackState.h" />
     <ClInclude Include="cPlayerIdleState.h" />
@@ -227,6 +229,8 @@
     <ClCompile Include="cObj.cpp" />
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="cObjLoader.cpp" />
+    <ClCompile Include="cParticle.cpp" />
+    <ClCompile Include="cParticleEmitter.cpp" />
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cPlayerAttackState.cpp" />
     <ClCompile Include="cPlayerIdleState.cpp" />
