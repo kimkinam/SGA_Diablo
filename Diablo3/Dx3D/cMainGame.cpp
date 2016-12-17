@@ -61,11 +61,6 @@ void cMainGame::Setup()
 	SOUNDMANAGER->addSound("ZombieDogDead", "Sound/ZombieDog_Dead.mp3", false, false);
 	g_pSceneManager->changeScene("BossScene");
 	
-<<<<<<< HEAD
-=======
-	g_pSceneManager->changeScene("GamingScene");
->>>>>>> 5e0272c17f53c73622a73964dc87753a240e22bd
-	//SetLight();
 }
 
 void cMainGame::Update()
