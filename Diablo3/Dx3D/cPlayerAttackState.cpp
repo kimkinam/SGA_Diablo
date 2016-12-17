@@ -9,7 +9,7 @@ void cPlayerAttackState::Enter(cPlayer * pOwner)
 	if (!pOwner->GetTarget()) return;
 	SOUNDMANAGER->play("SwordSwing", 0.8f);
 	pOwner->GetMesh()->SetAnimationIndex("attack");
-
+	int a = 0;
 	double totalTime = pOwner->GetCurAniTime();
 	pOwner->GetTarget()->SetIsHit(true);
 
