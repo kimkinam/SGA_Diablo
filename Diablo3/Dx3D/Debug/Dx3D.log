@@ -1,0 +1,113 @@
+﻿빌드 시작: 2016-12-17 오후 9:29:39
+     1>2 노드의 "C:\Users\myungjin\Desktop\최종\SGA_Diablo\Diablo3\Dx3D\Dx3D.vcxproj" 프로젝트(Build 대상)입니다.
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Dx3D.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt cPlayer.cpp
+         cPlayer.cpp
+     1>c:\users\myungjin\desktop\최종\sga_diablo\diablo3\dx3d\cplayer.cpp(53): warning C4316: 'cOBB': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\myungjin\desktop\최종\sga_diablo\diablo3\dx3d\cplayer.cpp(102): warning C4316: 'cTrailRenderer': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\myungjin\desktop\최종\sga_diablo\diablo3\dx3d\cplayer.cpp(118): warning C4316: 'cShaderManager': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\myungjin\desktop\최종\sga_diablo\diablo3\dx3d\cplayer.cpp(121): warning C4316: 'cShaderManager': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+     1>c:\users\myungjin\desktop\최종\sga_diablo\diablo3\dx3d\cplayer.cpp(178): warning C4305: '+=' : 'double'에서 'float'(으)로 잘립니다.
+     1>c:\users\myungjin\desktop\최종\sga_diablo\diablo3\dx3d\cplayer.cpp(184): warning C4305: '+=' : 'double'에서 'float'(으)로 잘립니다.
+     1>c:\users\myungjin\desktop\최종\sga_diablo\diablo3\dx3d\cplayer.cpp(185): warning C4305: '+=' : 'double'에서 'float'(으)로 잘립니다.
+     1>c:\users\myungjin\desktop\최종\sga_diablo\diablo3\dx3d\cplayer.cpp(186): warning C4305: '+=' : 'double'에서 'float'(으)로 잘립니다.
+     1>c:\users\myungjin\desktop\최종\sga_diablo\diablo3\dx3d\cplayer.cpp(190): warning C4305: '=' : 'double'에서 'float'(으)로 잘립니다.
+     1>c:\users\myungjin\desktop\최종\sga_diablo\diablo3\dx3d\cplayer.cpp(192): warning C4305: '=' : 'double'에서 'float'(으)로 잘립니다.
+     1>c:\users\myungjin\desktop\최종\sga_diablo\diablo3\dx3d\cplayer.cpp(202): warning C4305: '-=' : 'double'에서 'float'(으)로 잘립니다.
+     1>c:\users\myungjin\desktop\최종\sga_diablo\diablo3\dx3d\cplayer.cpp(203): warning C4305: '-=' : 'double'에서 'float'(으)로 잘립니다.
+     1>c:\users\myungjin\desktop\최종\sga_diablo\diablo3\dx3d\cplayer.cpp(204): warning C4305: '-=' : 'double'에서 'float'(으)로 잘립니다.
+     1>c:\users\myungjin\desktop\최종\sga_diablo\diablo3\dx3d\cplayer.cpp(291): warning C4305: '인수' : 'double'에서 'float'(으)로 잘립니다.
+     1>c:\users\myungjin\desktop\최종\sga_diablo\diablo3\dx3d\cplayer.cpp(323): warning C4018: '>=' : signed 또는 unsigned가 일치하지 않습니다.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\myungjin\Desktop\최종\SGA_Diablo\Diablo3\Debug\Dx3D.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\myungjin\Desktop\최종\SGA_Diablo\Diablo3\Debug\Dx3D.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\myungjin\Desktop\최종\SGA_Diablo\Diablo3\Debug\Dx3D.lib" /MACHINE:X86 Debug\Dx3D.res
+         Debug\cAction.obj
+         Debug\cActionAtk.obj
+         Debug\cActionFalling.obj
+         Debug\cActionJump.obj
+         Debug\cActionMove.obj
+         Debug\cActionTrace.obj
+         Debug\cAIManager.obj
+         Debug\cAllocateHierarchy.obj
+         Debug\cAnimation.obj
+         Debug\cArrow.obj
+         Debug\cAseLoader.obj
+         Debug\cAutoReleasePool.obj
+         Debug\cBoss.obj
+         Debug\cBossScene.obj
+         Debug\cBoundBox.obj
+         Debug\cCamera.obj
+         Debug\cCharController.obj
+         Debug\cCube.obj
+         Debug\cFetish.obj
+         Debug\cGargantuan.obj
+         Debug\cMessageManager.obj
+         Debug\cMonsterAttack.obj
+         Debug\cMonsterDetecting.obj
+         Debug\cDeviceManager.obj
+         Debug\cFontManager.obj
+         Debug\cGameManager.obj
+         Debug\cGameObject.obj
+         Debug\cGamingScene.obj
+         Debug\cGrid.obj
+         Debug\cGroup.obj
+         Debug\cInventory.obj
+         Debug\cItem.obj
+         Debug\cKeyManager.obj
+         Debug\cLoadingScene.obj
+         Debug\cLogManager.obj
+         Debug\cMainGame.obj
+         Debug\cMap.obj
+         Debug\cMonster.obj
+         Debug\cGameObjectGlobalState.obj
+         Debug\cMonsterManager.obj
+         Debug\cMonsterTrace.obj
+         Debug\cMtlTex.obj
+         Debug\cNode.obj
+         Debug\cOBB.obj
+         Debug\cObj.obj
+         Debug\cObject.obj
+         Debug\cObjectPool.obj
+         Debug\cObjLoader.obj
+         Debug\cPlayer.obj
+         Debug\cPlayerAttackState.obj
+         Debug\cPlayerIdleState.obj
+         Debug\cPlayerManager.obj
+         Debug\cPlayerMoveState.obj
+         Debug\cPlayerWarCryState.obj
+         Debug\cPyramid.obj
+         Debug\cRay.obj
+         Debug\cSceneManager.obj
+         Debug\cSceneObject.obj
+         Debug\cShaderManager.obj
+         Debug\cSkeleton.obj
+         Debug\cSkeletonArcher.obj
+         Debug\cSkinnedMesh.obj
+         Debug\cSkinnedMeshManager.obj
+         Debug\cStitch.obj
+         Debug\cTrailRenderer.obj
+         Debug\iState.obj
+         Debug\cStateMachine.obj
+         Debug\cTestScene.obj
+         Debug\cTextureManager.obj
+         Debug\cTimeManager.obj
+         Debug\cUIButton.obj
+         Debug\cUIImage.obj
+         Debug\cUIItem.obj
+         Debug\cUiManager.obj
+         Debug\cUIObject.obj
+         Debug\cUISkill.obj
+         Debug\cUIText.obj
+         Debug\cUtility.obj
+         Debug\Dx3D.obj
+         Debug\iAI_Base.obj
+         Debug\iMap.obj
+         Debug\MyUtil.obj
+         Debug\soundManager.obj
+         Debug\stdafx.obj
+         Debug\cZombieDog.obj
+         Dx3D.vcxproj -> C:\Users\myungjin\Desktop\최종\SGA_Diablo\Diablo3\Debug\Dx3D.exe
+     1>"C:\Users\myungjin\Desktop\최종\SGA_Diablo\Diablo3\Dx3D\Dx3D.vcxproj" 프로젝트를 빌드했습니다(Build 대상).
+
+빌드했습니다.
+
+경과 시간: 00:00:00.99
