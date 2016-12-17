@@ -363,12 +363,6 @@
     <ClInclude Include="cPlayerMoveState.h">
       <Filter>AI\Sates\Player</Filter>
     </ClInclude>
-    <ClInclude Include="cAutoReleasePool.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cObjectPool.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="cStitch.h">
       <Filter>Scene\GamingScene\Monster</Filter>
     </ClInclude>
@@ -379,6 +373,9 @@
       <Filter>Scene\GamingScene\Monster</Filter>
     </ClInclude>
     <ClInclude Include="cArrow.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cLighting.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -611,12 +608,6 @@
     <ClCompile Include="cPlayerMoveState.cpp">
       <Filter>AI\Sates\Player</Filter>
     </ClCompile>
-    <ClCompile Include="cAutoReleasePool.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cObjectPool.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="cStitch.cpp">
       <Filter>Scene\GamingScene\Monster</Filter>
     </ClCompile>
@@ -627,6 +618,9 @@
       <Filter>Scene\GamingScene\Monster</Filter>
     </ClCompile>
     <ClCompile Include="cArrow.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cLighting.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -10,6 +10,7 @@ float4		vWorldCameraPos		= float4( -50.00, 50.00, -50.00, 1.00 );
 float4x4	g_mWorld			: WORLD;
 float4x4	g_mViewProj			: VIEWPROJECTION;
 texture		g_txScene;
+bool		g_bIsOver = false;
 
 //--------------------------------------------------------------------------------------
 // Texture samplers
@@ -104,19 +105,55 @@ float4 PixScene(
 	float3 specular		= 0;
 
 	float3 tangentNormal = tex2D(NormalSample, TexCoord);
+	float4 Color;
 
-	if(color.x > 0)
-	{
-		specular = saturate(dot(reflaction, -viewDir));
-		specular = pow(specular, 20.0f);	
-	}
+	//if (!g_bIsOver)
+	//{
+		if (color.x > 0)
+		{
+			specular = saturate(dot(reflaction, -viewDir));
+			specular = pow(specular, 20.0f);
 
- 
-	float4 albedo	= tex2D(DiffuseSample, TexCoord) * float4(color + specular, 1.0f);
-	float4 albedo1	= tex2D(EmissionSample, TexCoord ) * float4(color + specular, 1.0f);
-	float4 Color = albedo + albedo1;
+			float4 albedo = tex2D(DiffuseSample, TexCoord) * float4(color + specular, 1.0f);
+			float4 albedo1 = tex2D(EmissionSample, TexCoord) * float4(color + specular, 1.0f);
+			Color = albedo + albedo1;
+			
+		}
+	//}
+	//return float4(1.0f, 0.0f, 0.0f, 1.0f);
+		return Color;
+}
 
-	return Color;
+float4 PixScene2(
+	float4 Diffuse : COLOR0,
+	float2 TexCoord : TEXCOORD0,
+	float3 fDiffuse : TEXCOORD1,
+	float3 fViewDir : TEXCOORD2,
+	float3 fReflection : TEXCOORD3) : COLOR0
+{
+	float3 color = saturate(Diffuse);
+	float3 reflaction = normalize(fReflection);
+	float3 viewDir = normalize(fViewDir);
+	float3 specular = 0;
+	
+	float3 tangentNormal = tex2D(NormalSample, TexCoord);
+	float4 Color;
+	
+	//if (!g_bIsOver)
+	//{
+	//	if (color.x > 0)
+	//	{
+	//		specular = saturate(dot(reflaction, -viewDir));
+	//		specular = pow(specular, 20.0f);
+	//
+	//		float4 albedo = tex2D(DiffuseSample, TexCoord) * float4(color + specular, 1.0f);
+	//		float4 albedo1 = tex2D(EmissionSample, TexCoord) * float4(color + specular, 1.0f);
+	//		return Color = albedo + albedo1;
+	//
+	//	}
+	//}
+	return float4(1.0f, 0.0f, 0.0f, 1.0f);
+
 }
 
 
@@ -138,9 +175,15 @@ VS_OUTPUT VertSkinning( VS_INPUT Input, uniform int nNumBones )
 
 	// transform position from world space into view and then projection space
 	Output.Pos = mul( float4( vso.vPos.xyz, 1.0f ), g_mViewProj );
-
+	
 	// normalize normals
 	Normal = normalize( vso.vNor );
+
+	Normal = mul(Normal, g_mWorld);
+	Normal = mul(Normal, g_mViewProj);
+	Normal = normalize(Normal);
+
+	Output.Pos.xy += Normal.xy * 5.0f;
 
 	float3 lightDir = vso.vPos.xyz - vWorldLightPos.xyz;
 	lightDir = normalize(lightDir);
@@ -179,9 +222,18 @@ VertexShader vsArray20[ 4 ] = {
 
 technique Skinning20
 {
+	//red
 	pass p0
+	{
+		VertexShader = (vsArray20[CurNumBones]);
+		PixelShader = compile ps_2_0 PixScene2();
+	}
+
+	pass p1
 	{
 		VertexShader = ( vsArray20[ CurNumBones ] );
 		PixelShader = compile ps_2_0 PixScene();
 	}
+
+	
 }

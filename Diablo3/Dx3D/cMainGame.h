@@ -4,8 +4,8 @@ class cSceneObject;
 
 class cMainGame
 {
-private:
-
+public:
+	bool	m_bIsLoad;
 public:
 	cMainGame(void);
 	~cMainGame(void);
@@ -15,5 +15,7 @@ public:
 	void Render();
 	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	void SetLight();
+
+	static void LoadScenes(LPVOID IpParam);
 };
 

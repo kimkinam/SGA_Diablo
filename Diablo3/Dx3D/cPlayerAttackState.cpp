@@ -14,8 +14,10 @@ void cPlayerAttackState::Enter(cPlayer * pOwner)
 		MESSAGE_TYPE::MSG_HITTED, &(float)pOwner->GetStat().fAtk);
 }
 
+
 void cPlayerAttackState::Execute(cPlayer * pOwner)
 {
+	if (!pOwner->GetTarget()) return;
 	D3DXVECTOR3 vDir = pOwner->GetTarget()->GetPosition() - pOwner->GetPosition();
 	D3DXVec3Normalize(&vDir, &vDir);
 

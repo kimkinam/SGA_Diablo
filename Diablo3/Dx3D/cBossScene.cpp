@@ -18,6 +18,7 @@ cBossScene::cBossScene()
 	, m_pPlayer(NULL)
 	, m_pMap(NULL)
 	, m_vpickPos(0, 0, 0)
+	
 {
 }
 
@@ -29,6 +30,7 @@ cBossScene::~cBossScene()
 	SAFE_RELEASE(m_pMap);
 	SAFE_RELEASE(m_pBoss);
 	SAFE_RELEASE(m_pPlayer);
+
 
 }
 
@@ -49,12 +51,6 @@ HRESULT cBossScene::SetUp()
 	D3DXCOLOR c;
 	c = D3DCOLOR_XRGB(255, 255, 255);
 	m_vecTiles.reserve(sizeof(ST_PC_VERTEX) * 6);
-	//m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, 120), c));
-	//m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(120, 0, 120), c));
-	//m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(120, 0, -120), c));
-	//m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(120, 0, -120), c));
-	//m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, -120), c));
-	//m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(-120, 0, 120), c));
 	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(0,  3.4f,   0), c));
 	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(20, 3.4f,   0), c));
 	m_vecTiles.push_back(ST_PC_VERTEX(D3DXVECTOR3(20, 3.4f, -20), c));
@@ -68,6 +64,7 @@ HRESULT cBossScene::SetUp()
 	D3DXVec3Normalize(&vDirection, &vDirection);
 	m_pPlayer->Setup(&vDirection);
 	
+
 	m_pBoss = new cBoss;
 	m_pBoss->SetTarget(m_pPlayer);
 	m_pBoss->SetPosition(D3DXVECTOR3(10, 3.4f, -10));
@@ -87,6 +84,15 @@ HRESULT cBossScene::SetUp()
 	
 	m_pCamera->SetEye(m_pPlayer->GetPosition() - vDir * distance);
 	m_pCamera->SetNewDirection(vDir);
+
+
+	m_fLifeTime = 2.0f;
+	m_fLifeTimeDecrease = 0.01f;
+
+	m_fTotalFireTime = 5.0f;
+	m_fFireInterval = 0.2f;
+
+
 }
 
 HRESULT cBossScene::Reset()
@@ -108,39 +114,43 @@ void cBossScene::Update()
 	if (m_pPlayer)
 		m_pPlayer->Update();
 
+
 	if (m_pBoss)
 		m_pBoss->Update();
 
 	if (m_pCamera)
 	{
-		m_pCamera->Update(m_pPlayer->GetPtPosition());
-		//m_pCamera->Update();
+		//m_pCamera->Update(m_pPlayer->GetPtPosition());
+		m_pCamera->Update();
 	}
-		
 
+	
 }
 
 void cBossScene::Render()
 {
-	if (m_pGrid)
-		m_pGrid->Render();
+	//if (m_pGrid)
+	//	m_pGrid->Render();
 
 
 	if (m_pPlayer)
 		m_pPlayer->Render();
-
+	
+	
 	if (m_pMap)
 		m_pMap->Render();
-
 	
-
 	if (m_pBoss)
 		m_pBoss->Render();
-
+	
 	if (m_pPlayer)
-		m_pPlayer->TrailRender();
-
-
+	{
+		//if (m_pPlayer->m_pSateMachnie->GetCurState() == cPlayerAttackState::Instance())
+			m_pPlayer->TrailRender();
+	}
+		
+	
+	
 	if (m_pCamera)
 		m_pCamera->Render();
 
@@ -154,22 +164,6 @@ void cBossScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 }
 
 
-void cBossScene::BossMoveTest()
-{
-	//cActionTrace* trace = new cActionTrace;
-	//
-	//trace->SetTo(m_pPlayer->GetPtPosition());
-	//trace->SetFrom(m_pBoss->GetPtPosition());
-	//trace->SetTarget(m_pBoss);
-	//trace->SetDelegate(m_pBoss);
-	//trace->Start();
-	//m_pBoss->SetAction(trace);
-	////m_pBoss->GetAni()->Play("run");
-	//m_pBoss->GetMesh()->SetAnimationIndex("run");
-	//
-	//SAFE_RELEASE(trace);
-
-}
 
 void cBossScene::PlayerMove()
 {

@@ -14,11 +14,7 @@ cSkeleton::~cSkeleton()
 
 void cSkeleton::Setup()
 {
-<<<<<<< HEAD
-	m_stStat = ST_MONSTER_STAT(100, 0, 10, 5, 0.05f, 1.5f, 3.0f);
-=======
 	m_stStat = ST_MONSTER_STAT(100, 0, 10, 5, 0.05f, 1.0f, 4.0f, CHARACTER_SKELETON);
->>>>>>> 4919fb120ebbf365861133aa6644e8d7d85b7393
 
 	cMonster::Setup("Skeleton.x");
 

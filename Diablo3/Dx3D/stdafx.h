@@ -232,8 +232,6 @@ typedef struct ST_SAVEOBJECT
 #include "cAIManager.h"
 #include "cMessageManager.h"
 
-#include "cAutoReleasePool.h"
-#include "cObjectPool.h"
 
 //Interface
 #include "cObject.h"

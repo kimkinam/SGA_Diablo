@@ -31,6 +31,7 @@ cGameObject::~cGameObject()
 	SAFE_DELETE(m_pMesh);
 	SAFE_DELETE(m_pOBB);
 
+
 	m_INextID--;
 }
 
@@ -88,11 +89,10 @@ void cGameObject::Render()
 	if (m_pOBB)
 		m_pOBB->Update(&m_matWorld);
 
-<<<<<<< HEAD
-=======
-	
->>>>>>> 4919fb120ebbf365861133aa6644e8d7d85b7393
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+
+	//if (m_pMesh)
+	//	m_pMesh->UpdateAndRender(&m_matWorld);
 	//if (m_pSphere)
 	//	m_pSphere->DrawSubset(0);
 	if (m_pOBB)
@@ -128,7 +128,7 @@ void cGameObject::SetNewDirection(D3DXVECTOR3 vDirection)
 	//m_matWorld._11 = m_vRight.x;		m_matWorld._12 = m_vRight.y;		m_matWorld._13 = m_vRight.z;
 	//m_matWorld._21 = m_vUp.x;			m_matWorld._22 = m_vUp.y;			m_matWorld._23 = m_vUp.z;
 	//m_matWorld._31 = m_vDirection.x;	m_matWorld._32 = m_vDirection.y;	m_matWorld._33 = m_vDirection.z;
-	//m_matWorld._41 = 0;					m_matWorld._42 = 0;					m_matWorld._43 = 0;
+	//m_matWorld._41 = 0;				m_matWorld._42 = 0;					m_matWorld._43 = 0;
 
 	m_matLocal._11 = m_vRight.x;		m_matLocal._12 = m_vRight.y;		m_matLocal._13 = m_vRight.z;
 	m_matLocal._21 = m_vUp.x;			m_matLocal._22 = m_vUp.y;			m_matLocal._23 = m_vUp.z;

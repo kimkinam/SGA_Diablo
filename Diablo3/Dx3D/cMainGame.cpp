@@ -18,7 +18,6 @@ cMainGame::~cMainGame(void)
 	g_pFontManger->Destroy();
 	g_pSkinnedMeshManager->Destroy();
 	g_pDeviceManager->Destroy();
-	g_pObjectPool->Destroy();
 	
 
 }
@@ -33,7 +32,7 @@ void cMainGame::Setup()
 	//m_pScene = new cBossScene;
 	//m_pScene->SetUp();
 
-	g_pSceneManager->changeScene("GamingScene");
+	g_pSceneManager->changeScene("BossScene");
 	
 	SetLight();
 }

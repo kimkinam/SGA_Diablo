@@ -4,6 +4,7 @@ class cGrid;
 class cBoss;
 class cPlayer;
 class cObj;
+class cLighting;
 
 class cBossScene :
 	public cSceneObject
@@ -17,6 +18,11 @@ private:
 	std::vector<ST_PC_VERTEX>	m_vecTiles;
 	D3DXVECTOR3					m_vpickPos;
 
+	float						m_fLifeTime;
+	float						m_fLifeTimeDecrease;
+
+	float						m_fTotalFireTime;
+	float						m_fFireInterval;
 
 public:
 	cBossScene();
@@ -29,7 +35,6 @@ public:
 	virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;
 
 
-	void BossMoveTest();
 	void PlayerMove();
 };
 
