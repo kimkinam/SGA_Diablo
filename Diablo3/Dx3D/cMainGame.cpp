@@ -69,7 +69,7 @@ void cMainGame::Render()
 		NULL,
 		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
 		//D3DCOLOR_XRGB(20, 20, 20),
-		D3DCOLOR_XRGB(50, 50, 50),
+		D3DCOLOR_XRGB(0, 0, 0),
 		1.0f, 0);
 
 	g_pD3DDevice->BeginScene();
@@ -128,14 +128,13 @@ void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 void cMainGame::SetLight()
 {
 	D3DLIGHT9 stLight;
-	stLight.Ambient = stLight.Diffuse = stLight.Specular = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
+	stLight.Ambient = stLight.Diffuse = stLight.Specular = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
 	stLight.Type = D3DLIGHT_DIRECTIONAL;
-	D3DXVECTOR3 vDir(1, -1, 1);
+	D3DXVECTOR3 vDir(0, -1, 0);
 	D3DXVec3Normalize(&vDir, &vDir);
 	stLight.Direction = vDir;
 	g_pD3DDevice->SetLight(0, &stLight);
 	g_pD3DDevice->LightEnable(0, true);
-
 	g_pD3DDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 }
 

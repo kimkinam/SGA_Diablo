@@ -28,6 +28,7 @@ public:
 
 	void Shader_info_Set(float fSpeed, float fWaveH, float fWave, float vspeed);// 랜더에 가는거
 
+	void Shader_info_Set(float Red, float Yellow, float Alpha);
 	//	void Shader_Matrix_Set(D3DXMATRIXA16 matS); // 업데이트에 가는거 
 
 	void Update();

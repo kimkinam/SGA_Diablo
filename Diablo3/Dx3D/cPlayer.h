@@ -40,6 +40,8 @@ private:
 	D3DXVECTOR3             WarcryScaling;
 	bool					isWarcry;
 
+	D3DXVECTOR3 WarcryPos;
+
 public:
 	cPlayer();
 	virtual ~cPlayer();
@@ -54,6 +56,7 @@ public:
 	void TrailRender();
 	void TrailUpdate();
 	void TrailTexSetUp(const char* texFileName);
+	void SkillRender();
 
 
 	// 파생 클래스들은 메시지를 사용하여 통신할 수 있다

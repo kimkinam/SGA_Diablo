@@ -92,7 +92,7 @@ HRESULT cBossScene::SetUp()
 	m_fTotalFireTime = 5.0f;
 	m_fFireInterval = 0.2f;
 
-
+	SetLight();
 }
 
 HRESULT cBossScene::Reset()
@@ -123,7 +123,6 @@ void cBossScene::Update()
 		//m_pCamera->Update(m_pPlayer->GetPtPosition());
 		m_pCamera->Update();
 	}
-
 	
 }
 
@@ -133,10 +132,11 @@ void cBossScene::Render()
 	//	m_pGrid->Render();
 
 
+
+
 	if (m_pPlayer)
 		m_pPlayer->Render();
-	
-<<<<<<< HEAD
+
 
 	if (m_pBoss)
 		m_pBoss->Render();
@@ -158,26 +158,19 @@ void cBossScene::Render()
 
 
 
-=======
+
 	
 	if (m_pMap)
 		m_pMap->Render();
 	
-	if (m_pBoss)
-		m_pBoss->Render();
-	
+
 	if (m_pPlayer)
 	{
 		//if (m_pPlayer->m_pSateMachnie->GetCurState() == cPlayerAttackState::Instance())
 			m_pPlayer->TrailRender();
 	}
-		
-	
-	
-	if (m_pCamera)
-		m_pCamera->Render();
->>>>>>> 1bf220029047b1bf08afee5d244861599e92e20c
-
+	if (m_pPlayer)
+		m_pPlayer->SkillRender();
 }
 
 
@@ -227,4 +220,29 @@ void cBossScene::PlayerMove()
 	}
 }
 
+
+void cBossScene::SetLight()
+{
+	D3DMATERIAL9 Mtl;
+	ZeroMemory(&Mtl, sizeof(D3DMATERIAL9));
+	Mtl.Diffuse.r = 0.1;
+	Mtl.Diffuse.g = 0.1;
+	Mtl.Diffuse.b = 0.1;
+	g_pD3DDevice->SetMaterial(&Mtl);
+
+	D3DLIGHT9 stLight;
+	stLight.Ambient = D3DXCOLOR(0.01f, 0.01f, 0.01f, 1.0f);
+	stLight.Diffuse = D3DXCOLOR(0.01f, 0.01f, 0.01f, 1.0f);
+	stLight.Specular = D3DXCOLOR(0.01f, 0.01f, 0.01f, 1.0f);
+	stLight.Type = D3DLIGHT_DIRECTIONAL;
+	D3DXVECTOR3 vDir(1, -1, 1);
+	D3DXVec3Normalize(&vDir, &vDir);
+	stLight.Direction = vDir;
+	g_pD3DDevice->SetRenderState(D3DRS_AMBIENT, 0x00202020);
+	g_pD3DDevice->SetLight(2, &stLight);
+	g_pD3DDevice->LightEnable(2, true);
+	g_pD3DDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+
+}
 

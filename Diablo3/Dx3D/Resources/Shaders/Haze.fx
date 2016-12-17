@@ -20,7 +20,7 @@
 //--------------------------------------------------------------//
 // Pass 0
 //--------------------------------------------------------------//
-string Default_DirectX_Effect_Pass_0_Model : ModelData = ".\\Model.x";
+string Default_DirectX_Effect_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\PtT‘Å\\DÀ‘tx|.X";
 
 float4x4 matWorld : World;
 float4x4 matWorldViewProjection : WorldViewProjection;
@@ -32,7 +32,7 @@ float4   vLightPosition
    float4 UIMin = float4( -10.00, -10.00, -10.00, -10.00 );
    float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
    bool Normalize =  false;
-> = float4( 500.00, 500.00, 500.00, 1.00 );
+> = float4( 0.00, 0.00, 0.00, 0.00 );
 float4   vViewPosition : ViewPosition;
 
 
@@ -47,7 +47,7 @@ float    uvspeed
    bool UIVisible =  false;
    float UIMin = -1.00;
    float UIMax = 1.00;
-> = float( 0.05 );
+> = float( 0.20 );
 
 struct VS_INPUT 
 {
@@ -72,9 +72,9 @@ VS_OUTPUT Default_DirectX_Effect_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    VS_OUTPUT Output;
    
     float cosTime = fWaveH*cos(fTime*fSpeed+Input.TexCoord.x*fWaveF);
-   // Input.Position.y +=cosTime*5.0;
+   // Input.Position=fTime*fSpeed;
     Output.Position = mul(Input.Position,matWorldViewProjection);
-    Output.TexCoord = Input.TexCoord+float2(fTime*uvspeed,0);
+    Output.TexCoord = Input.TexCoord+float2(-fTime*uvspeed,0);
     float4 worldPosition = mul(Input.Position , matWorld); 
     float3 lightDir = worldPosition.xyz - vLightPosition.xyz;
     Output.LightDir = normalize(lightDir);
@@ -94,13 +94,27 @@ VS_OUTPUT Default_DirectX_Effect_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 
 texture DiffuseMap_Tex
 <
-   string ResourceName = "..\\..\\..\\..\\..\\..\\..\\PtT‘Å\\B_ShineMap011_emis.PNG";
+   string ResourceName = "..\\..\\..\\..\\..\\..\\PtT‘Å\\a4dun_Diablo_Crystal_Arch_Wings.dds";
 >;
 sampler2D Diffuse = sampler_state
 {
    Texture = (DiffuseMap_Tex);
 };
 
+
+float4 gaussFilter[7] = 
+{
+0.0,-3.0,0.0,1.0/64.0,
+0.0,-2.0,0.0,6.0/64.0,
+0.0,-1.0,0.0,15.0/64.0,
+0.0,0.0,0.0,20.0/64.0,
+0.0,1.0,0.0,15.0/64.0,
+0.0,2.0,0.0,6.0/64.0,
+0.0,3.0,0.0,1.0/64.0
+};
+
+float texScaler = 1.0/128.0;
+float texOffset = 0.0;
 
 
 
@@ -112,14 +126,22 @@ struct PS_INPUT
    float3 LightDir       : TEXCOORD2;  
 };
 
+
 float4 Default_DirectX_Effect_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR0
 {  
 
+float4 color =0.0;
+int i;
+for(i=0;i<7;i++)
+{
+color+=tex2D(Diffuse,float2(Input.TexCoord.x+gaussFilter[i].x*texScaler
+        +texOffset,Input.TexCoord.y 
+        +gaussFilter[i].y*texScaler+texOffset))*gaussFilter[i].w;
+}
+
+
+
    float4 albedo = tex2D(Diffuse, Input.TexCoord);
-
-
-
-
    float3 worldNormal = (0.1f,0.1f,0.1f);
    float3 worldlightDir = normalize(Input.LightDir);
    float3 diffuse = saturate(dot(worldNormal,-worldlightDir));
@@ -140,12 +162,12 @@ float4 Default_DirectX_Effect_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLO
      
    }
    
-   float3 ambient = float3(1.5f, 1.5f, 1.5f) * albedo;
+   float3 ambient = float3(1.0f, 1.0f, 1.0f)*albedo*albedo.a;
 
 
 
    
-   return (float4(ambient+ specular,0.5f));
+   return color*3.0*albedo.a;
 }
 
 
@@ -161,7 +183,6 @@ technique Default_DirectX_Effect
       DESTBLEND = ONE;
       BLENDOPALPHA = MAX;
       ZWRITEENABLE = FALSE;
-
       VertexShader = compile vs_2_0 Default_DirectX_Effect_Pass_0_Vertex_Shader_vs_main();
       PixelShader = compile ps_2_0 Default_DirectX_Effect_Pass_0_Pixel_Shader_ps_main();
    }

@@ -111,19 +111,17 @@ void cPlayer::Setup(D3DXVECTOR3* vLook)
 		D3DXCOLOR(1, 1, 1, 1),												//메인 Texture 로 그릴때 컬러
 		NULL	//외곡 그릴때 외곡 노말
 	);
-<<<<<<< HEAD
+
 	//m_pTrailRenderer->SetTrailTexture(m_vecTrailTex[3]);
 
 	//스킬
 
 	Whilwind = new cShaderManager;
-	Whilwind->Setup("Whilwind.fx", "Whilwind.x", "Whilwind_tex3.dds", "Whilwind_tex1.dds", "Whilwind_tex2.dds");
+	Whilwind->Setup("Whilwind.fx", "Whilwind.x", "Whilwind_tex2.dds", "Whilwind_tex1.dds", "Whilwind_tex3.dds");
 
 	Warcry = new cShaderManager;
 	Warcry->Setup("warcry.fx", "warcry.x", "warcry.png", NULL, NULL);
-	
-=======
->>>>>>> 1bf220029047b1bf08afee5d244861599e92e20c
+
 
 	m_pSateMachnie->ChangeState(cPlayerIdleState::Instance());
 }
@@ -187,21 +185,21 @@ void cPlayer::Update()
 	Whilwind->Update();
 	if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
 	{
-		Whilwind_Alpha += 0.1;
-		if (Whilwind_Alpha > 0.7f)
+		Whilwind_Alpha = 0.1;
+		if (Whilwind_Alpha > 0.5f)
 		{
-			Whilwind_Alpha = 0.7f;
+			Whilwind_Alpha = 0.5f;
 		}
 
-		WhilwindScaling.x += 0.05;
-		WhilwindScaling.y += 0.05;
-		WhilwindScaling.z += 0.05;
+		WhilwindScaling.x += 0.02;
+		WhilwindScaling.y += 0.02;
+		WhilwindScaling.z += 0.02;
 
-		if (WhilwindScaling.x > 1.1&& WhilwindScaling.y > 1.0&& WhilwindScaling.z > 1.1)
+		if (WhilwindScaling.x > 1.0&& WhilwindScaling.y > 1.0&& WhilwindScaling.z > 1.0)
 		{
-			WhilwindScaling.x = 1.2;
+			WhilwindScaling.x = 1.0;
 			WhilwindScaling.y = 1.0;
-			WhilwindScaling.z = 1.2;
+			WhilwindScaling.z = 1.0;
 		}
 
 		Whilwind->SetScaling_xyz(WhilwindScaling);
@@ -209,7 +207,7 @@ void cPlayer::Update()
 	}
 	else
 	{
-		Whilwind_Alpha = 0.0;
+		Whilwind_Alpha = 1.0;
 		
 		WhilwindScaling.x -= 0.03;
 		WhilwindScaling.y -= 0.007;
@@ -231,6 +229,8 @@ void cPlayer::Update()
 	}
 
 	// 워크라이
+	//D3DXVECTOR3 WarCryPos = SkillPosition;
+	//WarCryPos.y += 1.0f;
 	Warcry->SetPosition_xyz(SkillPosition);
 	Warcry->Update();
 	
@@ -241,15 +241,12 @@ void cPlayer::Update()
 	}
 	
 	if (isWarcry==true)
-	{
-		Warcry->SetAlpha_Down(1.0f);
-
-		WarcryScaling.x += 0.07f;
-		WarcryScaling.y +=  0.02f;
-		WarcryScaling.z += 0.07f;
-		Warcry->SetScaling_xyz(WarcryScaling);
-
-		if (WarcryScaling.x >= 2.0&& WarcryScaling.z >= 2.0)
+		{
+			WarcryScaling.x += 0.07f;
+			WarcryScaling.y = 0.02f;
+			WarcryScaling.z += 0.07f;
+		
+		if (WarcryScaling.x >= 5.0&& WarcryScaling.z >= 5.0)
 		{
 			WarcryScaling.x = 0;
 			WarcryScaling.y = 0;
@@ -271,7 +268,7 @@ void cPlayer::Render()
 	if (m_pMesh)
 		m_pMesh->UpdateAndRender(&m_matWorld);
 	
-	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	if (m_pSword)
 		m_pSword->Render();
 	
@@ -299,13 +296,8 @@ void cPlayer::Render()
 		}
 	}
 
+	
 
-	//스킬
-	Whilwind->Shader_info_Set(2.0, 0.1, 10.0, -0.75);
-	Whilwind->Render();
-
-	Warcry->Shader_info_Set(NULL, NULL, NULL, 0.25);
-	Warcry->Render();
 }
 
 void cPlayer::PlayerPosition()
@@ -358,5 +350,16 @@ void cPlayer::TrailTexSetUp(const char * texFileName)
 bool cPlayer::HandleMessage(const Telegram & msg)
 {
 	return m_pSateMachnie->HandleMessage(msg);
+}
+
+void cPlayer::SkillRender()
+{
+	//스킬
+	Warcry->Shader_info_Set(NULL, NULL, NULL, 0.25);
+	Warcry->Render();
+
+	Whilwind->Shader_info_Set(2.0, 0.05, 10.0, -0.75);
+	Whilwind->Render();
+
 }
 

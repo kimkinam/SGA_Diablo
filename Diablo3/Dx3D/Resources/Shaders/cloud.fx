@@ -20,7 +20,7 @@
 //--------------------------------------------------------------//
 // Pass 0
 //--------------------------------------------------------------//
-string Default_DirectX_Effect_Pass_0_Model : ModelData = ".\\Model.x";
+string Default_DirectX_Effect_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\..\\..\\Program Files (x86)\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Terrain.3ds";
 
 float4x4 matWorld : World;
 float4x4 matWorldViewProjection : WorldViewProjection;
@@ -37,9 +37,30 @@ float4   vViewPosition : ViewPosition;
 
 
 float    fTime : Time0_X;
-float    fSpeed;
-float    fWaveH;
-float    fWaveF;
+float    fSpeed
+<
+   string UIName = "fSpeed";
+   string UIWidget = "Numeric";
+   bool UIVisible =  false;
+   float UIMin = -1.00;
+   float UIMax = 1.00;
+> = float( 2.00 );
+float    fWaveH
+<
+   string UIName = "fWaveH";
+   string UIWidget = "Numeric";
+   bool UIVisible =  false;
+   float UIMin = -1.00;
+   float UIMax = 1.00;
+> = float( 2.00 );
+float    fWaveF
+<
+   string UIName = "fWaveF";
+   string UIWidget = "Numeric";
+   bool UIVisible =  false;
+   float UIMin = -1.00;
+   float UIMax = 1.00;
+> = float( 5.00 );
 float    uvspeed
 <
    string UIName = "uvspeed";
@@ -71,17 +92,21 @@ VS_OUTPUT Default_DirectX_Effect_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 {
    VS_OUTPUT Output;
    
-    float cosTime = fWaveH*cos(fTime*fSpeed+Input.TexCoord.x*fWaveF);
-   // Input.Position.y +=cosTime*5.0;
-    Output.Position = mul(Input.Position,matWorldViewProjection);
+    float cosTime = fWaveH*cos(fTime*fSpeed+Input.TexCoord.y*fWaveF);
+    //Input.Position.y *=cosTime;
+    Output.Position = mul(Input.Position, matWorldViewProjection);
+   
+    
+    float4 worldPosition = mul(Input.Position , matWorld);
     Output.TexCoord = Input.TexCoord+float2(fTime*uvspeed,0);
-    float4 worldPosition = mul(Input.Position , matWorld); 
+     
     float3 lightDir = worldPosition.xyz - vLightPosition.xyz;
     Output.LightDir = normalize(lightDir);
     
     float3 viewDir = normalize(worldPosition.xyz - vViewPosition.xyz );
     Output.ViewDirection = viewDir;
    
+ 
    
  
    
@@ -94,7 +119,7 @@ VS_OUTPUT Default_DirectX_Effect_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 
 texture DiffuseMap_Tex
 <
-   string ResourceName = "..\\..\\..\\..\\..\\..\\..\\PtT‘Å\\B_ShineMap011_emis.PNG";
+   string ResourceName = "..\\..\\..\\..\\..\\..\\..\\PtT‘Å\\fireball_boneyClouds_bright_diffAlpha.dds";
 >;
 sampler2D Diffuse = sampler_state
 {
@@ -132,20 +157,16 @@ float4 Default_DirectX_Effect_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLO
    {
       float3 reflection = reflect(worldlightDir , worldNormal);
       float3 viewDir = normalize(Input.ViewDirection);
-      
- 
-
       specular = saturate(dot(reflection , -viewDir));
-      specular = pow(specular, 20.0f);
-     
+      specular = pow(specular, 20.0f);    
    }
    
-   float3 ambient = float3(1.5f, 1.5f, 1.5f) * albedo;
+   float3 ambient = float3(0.01f, 0.01f, 0.01f) * albedo;
 
 
 
    
-   return (float4(ambient+ specular,0.5f));
+   return (float4(ambient+ diffuse + specular,0.5f));
 }
 
 
@@ -158,9 +179,12 @@ technique Default_DirectX_Effect
    {
       BLENDOP = MAX;
       ALPHABLENDENABLE = TRUE;
-      DESTBLEND = ONE;
+      ANTIALIASEDLINEENABLE = TRUE;
+      ALPHATESTENABLE = TRUE;
+      DESTBLEND = SRCCOLOR;
       BLENDOPALPHA = MAX;
-      ZWRITEENABLE = FALSE;
+      ALPHAFUNC = GREATEREQUAL;
+      SRCBLEND = ONE;
 
       VertexShader = compile vs_2_0 Default_DirectX_Effect_Pass_0_Vertex_Shader_vs_main();
       PixelShader = compile ps_2_0 Default_DirectX_Effect_Pass_0_Pixel_Shader_ps_main();

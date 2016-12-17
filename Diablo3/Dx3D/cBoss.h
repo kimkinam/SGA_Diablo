@@ -2,6 +2,8 @@
 #include "cMonster.h"
 
 class cLighting;
+class cShaderManager;
+class cPlayer;
 
 class cBoss :
 	public cMonster
@@ -13,6 +15,18 @@ private:
 
 	float		m_fLightingLifeTime;
 	float		m_fLightingDecrease;
+
+
+
+	cPlayer*				m_player;
+
+	cShaderManager*		FireBomb;
+	D3DXVECTOR3			cPlayerPosition;
+	float		Red;
+	float		Yellow;
+	float		Alpha;
+
+
 public:
 	cBoss();
 	virtual ~cBoss();

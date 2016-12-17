@@ -72,6 +72,9 @@ void cShaderManager::Render()
 
 
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	//g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
+
+	//g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pEffect->Begin(&numPasses, NULL);
 
 	for (int j = 0; j < 3; j++)
@@ -86,8 +89,10 @@ void cShaderManager::Render()
 
 		}
 	}
-	m_pEffect->End();
+	//g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	m_pEffect->End();
 }
 void cShaderManager::Update()
 {
@@ -123,6 +128,29 @@ void cShaderManager::Shader_info_Set(float fSpeed, float fWaveH, float fWave, fl
 	m_pEffect->SetTexture("Diablo_glow_Tex", m_Texture3);
 
 }
+void cShaderManager::Shader_info_Set(float Red, float Yellow, float Alpha)
+{
+	float fTime;
+	ULONGLONG tick = GetTickCount64();
+
+
+	D3DXMATRIXA16 matWorld, matR, matView, matProj;
+	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+
+	D3DXMatrixIdentity(&matWorld);
+
+	matWorld = matWorld*matS*matT;
+
+	m_pEffect->SetMatrix("matWorld", &matWorld);
+	m_pEffect->SetMatrix("matWorldViewProjection", &(matWorld*matView*matProj));
+	m_pEffect->SetFloat("RedTime", Red); //R
+	m_pEffect->SetFloat("YellowTime", Yellow);//G
+	m_pEffect->SetFloat("alpha", Alpha);
+	m_pEffect->SetFloat("fTime", tick / 1000.0f);
+	m_pEffect->SetTexture("DiffuseMap_Tex", m_Texture1);
+}
+
 
 
 LPD3DXEFFECT cShaderManager::LoadShader(const char* filename)
