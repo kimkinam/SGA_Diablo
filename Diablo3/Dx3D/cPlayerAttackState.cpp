@@ -11,7 +11,7 @@ void cPlayerAttackState::Enter(cPlayer * pOwner)
 	pOwner->GetMesh()->SetAnimationIndex("attack");
 	int a = 0;
 	double totalTime = pOwner->GetCurAniTime();
-	pOwner->GetTarget()->SetIsHit(true);
+	pOwner->GetTarget()->SetIsHit(false);
 
 	ST_HIT_EXTRAINFO msgHit;
 	msgHit.dwHitType = 1;

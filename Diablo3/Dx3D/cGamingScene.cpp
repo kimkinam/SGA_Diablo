@@ -145,25 +145,19 @@ void cGamingScene::Update()
 	//	LoadMap("map1");
 
 	PlayerMoveTest();
-<<<<<<< HEAD
-=======
 
 
->>>>>>> 4c3f7497ba3430f60885f40f70be1eabd4869b59
 	if (g_pKeyManager->isOnceKeyDown(VK_OEM_PERIOD))
 	{
 		m_pPlayer->GetMesh()->SetAnimationIndex("attack");
 	}
-<<<<<<< HEAD
 	
-=======
 	if (g_pKeyManager->isStayKeyDown('2'))
 	{
 
 		m_pPlayer->GetMesh()->SetAnimationIndex("whirlwinding");
 	}
 
->>>>>>> 4c3f7497ba3430f60885f40f70be1eabd4869b59
 
 
 	if (g_pKeyManager->isOnceKeyDown('P'))
@@ -194,7 +188,7 @@ void cGamingScene::Update()
 	if (m_pCamera)
 	{
 		//m_pCamera->Update(m_pPlayer->GetPtPosition());
-		m_pCamera->Update(NULL);
+		m_pCamera->Update(m_pPlayer->GetPtPosition());
 	}
 	
 	if (m_pUI)
@@ -520,7 +514,7 @@ void cGamingScene::PlayerMoveTest()
 			}
 		}
 	}
-	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
+	if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
 	{
 
 		MSG.nBoxCount = m_vecBoundBox.size();

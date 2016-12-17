@@ -113,7 +113,7 @@ void cGameObjectGlobalState::Execute(cGameObject * pOwner)
 				SOUNDMANAGER->play("StitchDead", 0.4f);
 				pOwner->SetAnimation("bomb");
 
-				double totalTime = pOwner->GetCurAniTime();
+				double totalTime = pOwner->GetCurAniTime() - 0.2f;
 				g_pMessageManager->MessageSend(0.0f, pOwner->GetID(), pOwner->GetID(),
 					MESSAGE_TYPE::MSG_DEAD, &(double)totalTime);
 			}
@@ -197,15 +197,15 @@ bool cGameObjectGlobalState::OnMessage(cGameObject* pOwner, const Telegram& msg)
 
 
 				if (pOwner->GetStat().chType == CHARACTER_SKELETON)
-					SOUNDMANAGER->play("SkeletonGetHit", 0.4f);
+					SOUNDMANAGER->play("SkeletonGetHit", 0.35f);
 				else if (pOwner->GetStat().chType == CHARACTER_STITCH)
-					SOUNDMANAGER->play("StitchGetHit", 0.4f);
+					SOUNDMANAGER->play("StitchGetHit", 0.35f);
 				else if (pOwner->GetStat().chType == CHARACTER_GARHANTUAN)
-					SOUNDMANAGER->play("GargantuanGetHit", 0.4f);
+					SOUNDMANAGER->play("GargantuanGetHit", 0.35f);
 				else if (pOwner->GetStat().chType == CHARACTER_FETISH)
-					SOUNDMANAGER->play("FetishGetHit", 0.4f);
+					SOUNDMANAGER->play("FetishGetHit", 0.35f);
 				else if (pOwner->GetStat().chType == CHARACTER_ZOMBIEDOG)
-					SOUNDMANAGER->play("ZombieDogGetHit", 0.4f);
+					SOUNDMANAGER->play("ZombieDogGetHit", 0.35f);
 			}
 			
 			

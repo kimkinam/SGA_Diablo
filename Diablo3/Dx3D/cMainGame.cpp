@@ -40,7 +40,6 @@ void cMainGame::Setup()
 	SOUNDMANAGER->addSound("WhirlWind", "Sound/Whirl_Wind.mp3", false, true);
 	
 
-<<<<<<< HEAD
 	SOUNDMANAGER->addSound("SkeletonAttack", "Sound/Skeleton_Attack.mp3", false, false);
 	SOUNDMANAGER->addSound("SkeletonGetHit", "Sound/Skeleton_GetHit.mp3", false, false);
 	SOUNDMANAGER->addSound("SkeletonDead", "Sound/Skeleton_Dead.mp3", false, false);
@@ -60,9 +59,7 @@ void cMainGame::Setup()
 	SOUNDMANAGER->addSound("ZombieDogAttack", "Sound/ZombieDog_Attack.mp3", false, false);
 	SOUNDMANAGER->addSound("ZombieDogGetHit", "Sound/ZombieDog_GetHit.mp3", false, false);
 	SOUNDMANAGER->addSound("ZombieDogDead", "Sound/ZombieDog_Dead.mp3", false, false);
-=======
 	g_pSceneManager->changeScene("BossScene");
->>>>>>> 4c3f7497ba3430f60885f40f70be1eabd4869b59
 	
 	g_pSceneManager->changeScene("GamingScene");
 	//SetLight();
