@@ -95,6 +95,15 @@ HRESULT cGamingScene::SetUp()
 	}
 	g_pAIManager->RegisterAIBase(m_pPlayer);
 
+	D3DXVECTOR3 vDir;
+	vDir = m_pPlayer->GetPosition() - GAMINGSCENE_CAMERAPOS;/*D3DXVECTOR3(24, 10, -17)*/;
+	D3DXVec3Normalize(&vDir, &vDir);
+	
+	float distance = 8.67f;
+	
+	m_pCamera->SetEye(m_pPlayer->GetPosition() - vDir * distance);
+	m_pCamera->SetNewDirection(vDir);
+
 	UISetting();
 
 	enemyBarRight = m_pUI->GetpEnemyBar()->GetDrawRc().right;
@@ -128,6 +137,7 @@ void cGamingScene::Update()
 
 	PlayerMoveTest();
 
+<<<<<<< HEAD
 	if (g_pKeyManager->isOnceKeyDown(VK_OEM_PERIOD))
 	{
 		m_pPlayer->GetMesh()->SetAnimationIndex("attack");
@@ -137,6 +147,9 @@ void cGamingScene::Update()
 
 		m_pPlayer->GetMesh()->SetAnimationIndex("whirlwinding");
 	}
+=======
+	
+>>>>>>> 1bf220029047b1bf08afee5d244861599e92e20c
 
 
 	if (g_pKeyManager->isOnceKeyDown('P'))
@@ -166,7 +179,7 @@ void cGamingScene::Update()
 
 	if (m_pCamera)
 	{
-		m_pCamera->Update(NULL);
+		m_pCamera->Update(m_pPlayer->GetPtPosition());
 	}
 	
 	if (m_pUI)
@@ -184,11 +197,6 @@ void cGamingScene::Render()
 {
 	if (m_pGrid)
 		m_pGrid->Render();
-
-	//for each(auto c in g_pAIManager->GetAImap())
-	//{
-	//	c.second->Render();
-	//}
 
 	if (m_pPlayer)
 		m_pPlayer->Render();

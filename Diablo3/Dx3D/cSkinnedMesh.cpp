@@ -11,9 +11,11 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 	, m_dwWorkingPaletteSize(0)
 	, m_pmWorkingPalette(NULL)
 	, m_pEffect(NULL)
+	, m_pEffectOutLine(NULL)
 	, m_fBlendTime(0.1f)
 	, m_fPassedBlendTime(0.0f)
 	, m_isAnimBlend(false)
+	, m_bIsOver(true)
 	, m_vMax(0, 0, 0)
 	, m_vMin(0, 0, 0)
 {
@@ -23,9 +25,11 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 	m_dwWorkingPaletteSize = pSkinnedMesh->m_dwWorkingPaletteSize;
 	m_pmWorkingPalette = pSkinnedMesh->m_pmWorkingPalette;
 	m_pEffect = pSkinnedMesh->m_pEffect;
+	m_pEffectOutLine = pSkinnedMesh->m_pEffectOutLine;
 	m_stBoundingSphere = pSkinnedMesh->m_stBoundingSphere;
 	m_vMin = pSkinnedMesh->GetMin();
 	m_vMax = pSkinnedMesh->GetMax();
+	m_matWorld = pSkinnedMesh->m_matWorld;
 
 	pSkinnedMesh->m_pAnimController->CloneAnimationController(
 		pSkinnedMesh->m_pAnimController->GetMaxNumAnimationOutputs(),
@@ -43,6 +47,7 @@ cSkinnedMesh::cSkinnedMesh()
 	, m_dwWorkingPaletteSize(0)
 	, m_pmWorkingPalette(NULL)
 	, m_pEffect(NULL)
+	, m_pEffectOutLine(NULL)
 {
 }
 
@@ -55,6 +60,9 @@ cSkinnedMesh::~cSkinnedMesh(void)
 void cSkinnedMesh::Load(char* szDirectory, char* szFilename)
 {
 	m_pEffect = LoadEffect("MultiAnimation.hpp");
+	m_pEffectOutLine = LoadEffect("./Resources/Shaders/OutLine.fx");
+
+	D3DXMatrixIdentity(&m_matWorld);
 
 	int nPaletteSize = 0;
 	m_pEffect->GetInt("MATRIX_PALETTE_SIZE", &nPaletteSize);
@@ -136,14 +144,14 @@ void cSkinnedMesh::UpdateAndRender(D3DXMATRIX* pMat)
 	{
 		D3DXMATRIXA16 matW;
 		D3DXMatrixIdentity(&matW);
-		D3DXMatrixRotationY(&matW, D3DXToRadian(180));
+		D3DXMatrixRotationY(&m_matWorld, D3DXToRadian(180));
 		if (pMat)
 		{
-			matW = matW * *pMat;
+			m_matWorld = m_matWorld * *pMat;
 		}
 		
 
-		Update(m_pRootFrame, &matW);
+		Update(m_pRootFrame, (D3DXMATRIXA16*)&m_matWorld);
 		Render(m_pRootFrame);
 
 		//if (pBoundingSphereMesh)
@@ -205,6 +213,7 @@ void cSkinnedMesh::Render(ST_BONE* pBone /*= NULL*/)
 				}
 			}
 
+			
 			// set the matrix palette into the effect
 			m_pEffect->SetMatrixArray("amPalette",
 				m_pmWorkingPalette,
@@ -248,14 +257,43 @@ void cSkinnedMesh::Render(ST_BONE* pBone /*= NULL*/)
 				m_pEffect->Begin(&uiPasses, 0);
 				for (uiPass = 0; uiPass < uiPasses; ++uiPass)
 				{
+
 					m_pEffect->BeginPass(uiPass);
 					pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
 					m_pEffect->EndPass();
+
 				}
 				m_pEffect->End();
 			}
+			//m_pEffect->SetBool("g_bIsOver", m_bIsOver);
+			//if (!pBoneMesh->vecDTexture.empty())
+			//{
+			//	// run through each pass and draw
+			//	m_pEffect->Begin(&uiPasses, 0);
+			//	for (uiPass = 0; uiPass < uiPasses; ++uiPass)
+			//	{
+			//		m_pEffect->BeginPass(uiPass);
+			//		pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
+			//		m_pEffect->EndPass();
+			//	}
+			//	m_pEffect->End();
+			//}
+
 			
 		}
+
+		//m_pEffectOutLine->SetMatrix("matWorld", (D3DXMATRIXA16*)(&pBone->CombinedTransformationMatrix));
+		//m_pEffectOutLine->SetMatrix("matViewProjection", &matViewProj);
+		//
+		//for (DWORD dwAttrib = 0; dwAttrib < pBoneMesh->dwNumAttrGroups; ++dwAttrib)
+		//{
+		//	UINT numPasses = 0;
+		//	m_pEffectOutLine->Begin(&numPasses, 0);
+		//	pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
+		//	m_pEffectOutLine->BeginPass(0);
+		//}
+		
+		
 	}
 
 	//재귀적으로 모든 프레임에 대해서 실행.
@@ -477,6 +515,7 @@ void cSkinnedMesh::Destroy()
 	D3DXFrameDestroy((LPD3DXFRAME)m_pRootFrame, &ah);
 	SAFE_DELETE_ARRAY(m_pmWorkingPalette);
 	SAFE_RELEASE(m_pEffect);
+	SAFE_RELEASE(m_pEffectOutLine);
 }
 
 void cSkinnedMesh::SetRandomTrackPosition()

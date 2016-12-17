@@ -369,12 +369,6 @@
     <ClInclude Include="cPlayerMoveState.h">
       <Filter>AI\Sates\Player</Filter>
     </ClInclude>
-    <ClInclude Include="cAutoReleasePool.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cObjectPool.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="cStitch.h">
       <Filter>Scene\GamingScene\Monster</Filter>
     </ClInclude>
@@ -387,6 +381,10 @@
     <ClInclude Include="cArrow.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="cLighting.h">
+      <Filter>헤더 파일</Filter>
+=======
     <ClInclude Include="soundManager.h">
       <Filter>Sound</Filter>
     </ClInclude>
@@ -395,6 +393,7 @@
     </ClInclude>
     <ClInclude Include="cPlayerWarCryState.h">
       <Filter>AI\Sates\Player</Filter>
+>>>>>>> 93c2939fb996b6b468e0c083db9a5b702900a998
     </ClInclude>
     <ClInclude Include="cShaderManager.h">
       <Filter>헤더 파일</Filter>
@@ -629,12 +628,6 @@
     <ClCompile Include="cPlayerMoveState.cpp">
       <Filter>AI\Sates\Player</Filter>
     </ClCompile>
-    <ClCompile Include="cAutoReleasePool.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cObjectPool.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="cStitch.cpp">
       <Filter>Scene\GamingScene\Monster</Filter>
     </ClCompile>
@@ -647,11 +640,16 @@
     <ClCompile Include="cArrow.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="cLighting.cpp">
+      <Filter>소스 파일</Filter>
+=======
     <ClCompile Include="soundManager.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
     <ClCompile Include="cPlayerWarCryState.cpp">
       <Filter>AI\Sates\Player</Filter>
+>>>>>>> 93c2939fb996b6b468e0c083db9a5b702900a998
     </ClCompile>
     <ClCompile Include="cShaderManager.cpp">
       <Filter>소스 파일</Filter>
