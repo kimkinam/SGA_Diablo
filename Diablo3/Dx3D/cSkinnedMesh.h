@@ -18,12 +18,17 @@ private:
 	DWORD						m_dwWorkingPaletteSize;
 	D3DXMATRIX*					m_pmWorkingPalette;
 	LPD3DXEFFECT				m_pEffect;
+	LPD3DXEFFECT				m_pEffectOutLine;
 	ST_SPHERE					m_stBoundingSphere;
+	D3DXMATRIXA16				m_matWorld;
+	
+	
 
 	// 객체마다 생성
 	SYNTHESIZE(LPD3DXANIMATIONCONTROLLER, m_pAnimController, AnimController);
 	SYNTHESIZE(D3DXVECTOR3, m_vMin, Min);
 	SYNTHESIZE(D3DXVECTOR3, m_vMax, Max);
+	SYNTHESIZE(bool, m_bIsOver, IsOver);
 
 public:
 	cSkinnedMesh(char* szFolder, char* szFilename);

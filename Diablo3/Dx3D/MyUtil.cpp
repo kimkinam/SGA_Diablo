@@ -312,4 +312,32 @@ namespace MyUtil
 		return pEffect;
 	}
 
+	void SetupVertexFog(DWORD dwColor, DWORD dwMode, BOOL bUseRange, FLOAT fDensity)
+	{
+		float fStart = 50.f;
+		float fEnd = 300.f;
+
+		g_pD3DDevice->SetFVF(ST_PN_VERTEX::FVF);
+		g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+		
+		g_pD3DDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
+		
+		g_pD3DDevice->SetRenderState(D3DRS_FOGCOLOR, dwColor);
+
+		if (D3DFOG_LINEAR == dwMode)
+		{
+			g_pD3DDevice->SetRenderState(D3DRS_FOGVERTEXMODE, dwMode);
+			g_pD3DDevice->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&fStart));
+			g_pD3DDevice->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&fEnd));
+		}
+		else
+		{
+			g_pD3DDevice->SetRenderState(D3DRS_FOGVERTEXMODE, dwMode);
+			g_pD3DDevice->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&fDensity));
+		}
+
+		//if (bUseRange)
+		//	g_pD3DDevice->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
+	}
+
 }

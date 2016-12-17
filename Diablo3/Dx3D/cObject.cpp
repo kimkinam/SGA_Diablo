@@ -25,9 +25,3 @@ void cObject::Release()
 	}
 }
 
-cObject * cObject::AutoRelease()
-{
-	g_pAutoReleasePool->AddObject(this);
-
-	return nullptr;
-}

@@ -1,8 +1,11 @@
 #pragma once
 
+class cGameObject;
+
 class cCamera
 {
 private:
+	SYNTHESIZE(D3DXVECTOR3*, m_pTarget, Target);
 	SYNTHESIZE(D3DXVECTOR3, m_vEye,		Eye);
 	SYNTHESIZE(D3DXVECTOR3, m_vForward, Forward);
 	SYNTHESIZE(D3DXVECTOR3, m_vRight,	Rright);
@@ -32,7 +35,10 @@ public:
 
 	void SetNewDirection(D3DXVECTOR3 vDirection);
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4c3f7497ba3430f60885f40f70be1eabd4869b59
 	void MoveForward(float fSpeed, float fY);
 	void MoveSideward(float fSpeed);
 	void MouseRotate();

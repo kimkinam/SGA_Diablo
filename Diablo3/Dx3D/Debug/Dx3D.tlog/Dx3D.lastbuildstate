@@ -1,2 +1,6 @@
 #TargetFrameworkVersion=v4.0:PlatformToolSet=v120:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit
+<<<<<<< HEAD
 Debug|Win32|C:\Users\000\Desktop\지빠귀\SGA_Diablo\Diablo3\|
+=======
+Debug|Win32|C:\Users\myungjin\Desktop\최종\SGA_Diablo\Diablo3\|
+>>>>>>> 4c3f7497ba3430f60885f40f70be1eabd4869b59

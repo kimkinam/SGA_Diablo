@@ -21,14 +21,15 @@ void cCube::Setup(D3DXMATRIXA16* pmat)
 	std::vector<D3DXVECTOR3>	vecVertex;
 
 	vecVertex.reserve(8);
-	vecVertex.push_back(D3DXVECTOR3(-1.0f, -1.0f, -1.0));
-	vecVertex.push_back(D3DXVECTOR3(-1.0f,  1.0f, -1.0));
-	vecVertex.push_back(D3DXVECTOR3( 1.0f,  1.0f, -1.0));
-	vecVertex.push_back(D3DXVECTOR3( 1.0f, -1.0f, -1.0));
-	vecVertex.push_back(D3DXVECTOR3(-1.0f, -1.0f,  1.0));
-	vecVertex.push_back(D3DXVECTOR3(-1.0f,  1.0f,  1.0));
-	vecVertex.push_back(D3DXVECTOR3( 1.0f,  1.0f,  1.0));
-	vecVertex.push_back(D3DXVECTOR3( 1.0f, -1.0f,  1.0));
+	vecVertex.push_back(D3DXVECTOR3(-1.0f, -1.0f, -1.0)); //0
+	vecVertex.push_back(D3DXVECTOR3(-1.0f,  1.0f, -1.0)); //1
+	vecVertex.push_back(D3DXVECTOR3( 1.0f,  1.0f, -1.0)); //2
+	vecVertex.push_back(D3DXVECTOR3( 1.0f, -1.0f, -1.0)); //3
+	vecVertex.push_back(D3DXVECTOR3(-1.0f, -1.0f,  1.0)); //4
+	vecVertex.push_back(D3DXVECTOR3(-1.0f,  1.0f,  1.0)); //5
+	vecVertex.push_back(D3DXVECTOR3( 1.0f,  1.0f,  1.0)); //6
+	vecVertex.push_back(D3DXVECTOR3( 1.0f, -1.0f,  1.0)); //7
+
 
 	std::vector<D3DXVECTOR2>	vecTexCoord;
 	vecTexCoord.push_back(D3DXVECTOR2(0, 1));

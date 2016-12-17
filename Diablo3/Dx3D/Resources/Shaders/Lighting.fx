@@ -22,7 +22,10 @@
 //--------------------------------------------------------------//
 string Textured_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files (x86)\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\LightingBreath.X";
 
+<<<<<<< HEAD
 float4x4 matWorld : World;
+=======
+>>>>>>> 4c3f7497ba3430f60885f40f70be1eabd4869b59
 float4x4 matViewProjection : ViewProjection;
 
 float fFrameFactor
@@ -69,6 +72,7 @@ VS_OUTPUT Textured_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 {
    VS_OUTPUT Output;
 
+<<<<<<< HEAD
    Output.Position = mul(Input.Position, matWorld);
    Output.Position = mul( Input.Position, matViewProjection );
    Output.Texcoord = Input.Texcoord;
@@ -78,6 +82,16 @@ VS_OUTPUT Textured_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    //int a = ceil(fFrameRate);
    
    //Output.Texcoord.x += fFrameFactor * a;
+=======
+   Output.Position = mul( Input.Position, matViewProjection );
+   Output.Texcoord = Input.Texcoord;
+
+   Output.Texcoord.x *= (nFrameIndex * fFrameFactor);
+   
+   int a = ceil(fFrameRate);
+   
+   Output.Texcoord.x += fFrameFactor * a;
+>>>>>>> 4c3f7497ba3430f60885f40f70be1eabd4869b59
    
    return( Output );
    

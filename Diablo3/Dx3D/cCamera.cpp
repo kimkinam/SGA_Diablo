@@ -9,9 +9,10 @@ cCamera::cCamera(void)
 	, m_isLButtonDown(false)
 	, m_fAngleX(0.0f)
 	, m_fAngleY(0.0f)
-	, m_fDistance(5.0f)
+	, m_fDistance(10.0f)
 	, m_vForward(0, 0, 1)
 	, m_vRight(1, 0, 0)
+	, m_pTarget(NULL)
 {
 	m_ptPrevMouse.x = 0;
 	m_ptPrevMouse.y = 0;
@@ -26,6 +27,7 @@ cCamera::cCamera(void)
 
 cCamera::~cCamera(void)
 {
+	SAFE_DELETE(m_pTarget);
 }
 
 void cCamera::Setup()
@@ -81,37 +83,77 @@ void cCamera::Render()
 
 void cCamera::Update(D3DXVECTOR3* pTarget)
 {
-
-	//if (g_pKeyManager->isStayKeyDown('W'))
-	//	m_vEye += m_vForward * 5.0f * g_pTimeManager->GetDeltaTime();
-	//if (g_pKeyManager->isStayKeyDown('S'))
-	//	m_vEye -= m_vForward * 5.0f * g_pTimeManager->GetDeltaTime();
-
-	if (g_pKeyManager->isStayKeyDown('D'))
-		m_vEye += m_vRight * 20.0f * g_pTimeManager->GetDeltaTime();
-	if (g_pKeyManager->isStayKeyDown('A'))
-		m_vEye -= m_vRight * 20.0f * g_pTimeManager->GetDeltaTime();
-
-	if (g_pKeyManager->isStayKeyDown('W'))
-		m_vEye += m_vUp * 20.0f * g_pTimeManager->GetDeltaTime();
-	if (g_pKeyManager->isStayKeyDown('S'))
-		m_vEye -= m_vUp * 20.0f * g_pTimeManager->GetDeltaTime();
-
-	if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
+	//D3DXMATRIXA16 matView;
+	//g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+	
+	if (pTarget)
 	{
-		m_ptPrevMouse = g_ptMouse;
+		m_vEye = *pTarget -m_vForward * 9.0f;
+		//m_vEye = *pTarget - m_vForward * 9.0f;
+		//m_vEye = *pTarget - vDir * distance;
+		
+		//D3DXVECTOR3 camDir(0.98,- 0.12,- 0.11);
+		//SetNewDirection(camDir);
+		D3DXMATRIXA16 matView;
+		m_vLookAt = m_vEye + m_vForward;
+		D3DXMatrixLookAtLH(&matView, &m_vEye, &(m_vLookAt), &m_vUp);
+		g_pD3DDevice->SetTransform(D3DTS_VIEW, &matView);
 	}
-	if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
+	else
 	{
-		MouseRotate();
+		//if (g_pKeyManager->isStayKeyDown('W'))
+		//	m_vEye += m_vForward * 5.0f * g_pTimeManager->GetDeltaTime();
+		//if (g_pKeyManager->isStayKeyDown('S'))
+		//	m_vEye -= m_vForward * 5.0f * g_pTimeManager->GetDeltaTime();
+
+		if (g_pKeyManager->isStayKeyDown('D'))
+			m_vEye += m_vRight * 20.0f * g_pTimeManager->GetDeltaTime();
+		if (g_pKeyManager->isStayKeyDown('A'))
+			m_vEye -= m_vRight * 20.0f * g_pTimeManager->GetDeltaTime();
+
+		if (g_pKeyManager->isStayKeyDown('W'))
+			m_vEye += m_vUp * 20.0f * g_pTimeManager->GetDeltaTime();
+		if (g_pKeyManager->isStayKeyDown('S'))
+			m_vEye -= m_vUp * 20.0f * g_pTimeManager->GetDeltaTime();
+
+		if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
+		{
+			m_ptPrevMouse = g_ptMouse;
+		}
+		if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
+		{
+			MouseRotate();
+		}
+
+		//m_vLookAt = m_vEye + m_vForward *30.0;
+
+		D3DXMATRIXA16 matView;
+		D3DXMatrixLookAtLH(&matView, &m_vEye, &m_vLookAt, &m_vUp);
+		g_pD3DDevice->SetTransform(D3DTS_VIEW, &matView);
 	}
-
-	m_vLookAt = m_vEye + m_vForward *30.0;
-
 	D3DXMATRIXA16 matView;
-	D3DXMatrixLookAtLH(&matView, &m_vEye, &m_vLookAt, &m_vUp);
+	m_vLookAt = m_vEye + m_vForward;
+	D3DXMatrixLookAtLH(&matView, &m_vEye, &(m_vLookAt), &m_vUp);
 	g_pD3DDevice->SetTransform(D3DTS_VIEW, &matView);
 
+}
+
+void cCamera::SetNewDirection(D3DXVECTOR3 vDirection)
+{
+	m_vForward = vDirection;
+
+	D3DXVECTOR3 vRight;
+	D3DXVECTOR3 vUp;
+
+	D3DXVec3Cross(&vRight, &D3DXVECTOR3(0, 1, 0), &m_vForward);
+	D3DXVec3Normalize(&m_vRight, &vRight);
+
+	D3DXVec3Cross(&vUp, &m_vForward, &m_vRight);
+	D3DXVec3Normalize(&m_vUp, &vUp);
+
+	D3DXMATRIXA16 matView;
+	D3DXMatrixLookAtLH(&matView, &m_vEye, &m_vForward, &m_vUp);
+	g_pD3DDevice->SetTransform(D3DTS_VIEW, &matView);
 
 }
 
@@ -174,45 +216,13 @@ void cCamera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_MOUSEWHEEL:
 	{
-		//m_fDistance -= GET_WHEEL_DELTA_WPARAM(wParam) / 1000.f;
-		//MoveForward(GET_WHEEL_DELTA_WPARAM(wParam) / 1000.f, 1.f);
-
-		m_vEye += m_vForward * GET_WHEEL_DELTA_WPARAM(wParam) * g_pTimeManager->GetDeltaTime();
+		m_vEye += m_vForward * GET_WHEEL_DELTA_WPARAM(wParam) / 2.0F * g_pTimeManager->GetDeltaTime();
 	}
 
 	break;
-	case WM_LBUTTONDOWN:
-		//m_ptPrevMouse.x = LOWORD(lParam);
-		//m_ptPrevMouse.y = HIWORD(lParam);
-		//m_isLButtonDown = true;
-		break;
-	case WM_LBUTTONUP:
-		//	m_isLButtonDown = false;
-		break;
 	case WM_MOUSEMOVE:
 		g_ptMouse.x = LOWORD(lParam);
 		g_ptMouse.y = HIWORD(lParam);
-		//if (m_isLButtonDown)
-		//{
-		//	POINT ptCurrMouse;
-		//	ptCurrMouse.x = LOWORD(lParam);
-		//	ptCurrMouse.y = HIWORD(lParam);
-		//
-		//	int nDeltaX = ptCurrMouse.x - m_ptPrevMouse.x;
-		//	int nDeltaY = ptCurrMouse.y - m_ptPrevMouse.y;
-		//
-		//	m_fAngleX += nDeltaY / 100.f;
-		//
-		//	if (m_fAngleX <= -D3DX_PI / 2 + EPSILON)
-		//		m_fAngleX = -D3DX_PI / 2 + EPSILON;
-		//
-		//	if (m_fAngleX >= D3DX_PI / 2 - EPSILON)
-		//		m_fAngleX = D3DX_PI / 2 - EPSILON;
-		//
-		//	m_fAngleY += nDeltaX / 100.f;
-		//
-		//	m_ptPrevMouse = ptCurrMouse;
-		//}
 		break;
 	}
 }

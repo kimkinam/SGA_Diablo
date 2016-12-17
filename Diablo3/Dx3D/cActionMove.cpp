@@ -19,7 +19,7 @@ void cActionMove::Start()
 {
 	m_fPassedTime = 0;
 
-	m_vTo.y = 0;
+	//m_vTo.y = 0;
 	
 }
 
