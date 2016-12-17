@@ -5,6 +5,7 @@ class cSkinnedMesh;
 class cObj;
 class cTrailRenderer;
 class cUIImage;
+class cShaderManager;
 
 
 class cPlayer : public cGameObject
@@ -29,6 +30,15 @@ private:
 	
 	cUIImage*					m_pSphere;
 
+	//스킬
+
+	//힐윈드
+	cShaderManager*			Whilwind;
+	D3DXVECTOR3 WhilwindScaling;
+	//워크라이
+	cShaderManager*			Warcry;
+	D3DXVECTOR3             WarcryScaling;
+	bool					isWarcry;
 
 public:
 	cPlayer();

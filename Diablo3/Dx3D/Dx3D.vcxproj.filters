@@ -100,6 +100,9 @@
     <Filter Include="Sound">
       <UniqueIdentifier>{a0169be6-9f85-4b5e-baff-0e8985734917}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{d79a5cf4-5912-4aaf-adb6-23ae76a3d7c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -393,6 +396,9 @@
     <ClInclude Include="cPlayerWarCryState.h">
       <Filter>AI\Sates\Player</Filter>
     </ClInclude>
+    <ClInclude Include="cShaderManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -646,6 +652,9 @@
     </ClCompile>
     <ClCompile Include="cPlayerWarCryState.cpp">
       <Filter>AI\Sates\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="cShaderManager.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

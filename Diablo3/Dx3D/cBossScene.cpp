@@ -121,8 +121,8 @@ void cBossScene::Render()
 	//g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 	//g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
 
-	if (m_pMap)
-		m_pMap->Render();
+	/*if (m_pMap)
+		m_pMap->Render();*/
 	//g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
 	//g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);

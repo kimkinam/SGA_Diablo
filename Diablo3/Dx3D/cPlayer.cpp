@@ -10,14 +10,18 @@
 #include "cGameObjectGlobalState.h"
 #include "cPlayerIdleState.h"
 #include "cPlayerWarCryState.h"
+#include "cShaderManager.h"
 
 cPlayer::cPlayer()
-	//: m_emState(PLAYER_IDLE)
-	: m_dAttackStartTime(0.0f)
-	, m_dAttackTermTime(0.0f)
-	, m_pSword(NULL)
-	, m_nCurMap(0)
-	, m_pSphere(NULL)
+//: m_emState(PLAYER_IDLE)
+: m_dAttackStartTime(0.0f)
+, m_dAttackTermTime(0.0f)
+, m_pSword(NULL)
+, m_nCurMap(0)
+, m_pSphere(NULL)
+, WhilwindScaling(0, 0, 0)
+, WarcryScaling(0, 0, 0)
+, isWarcry(false)
 {
 	m_pSateMachnie = new cStateMachine<cPlayer>(this);
 
@@ -34,6 +38,9 @@ cPlayer::~cPlayer()
 	SAFE_RELEASE(m_pSphere);
 	SAFE_RELEASE(m_pSword);
 	SAFE_RELEASE(m_pTrailRenderer);
+	SAFE_DELETE(Whilwind);
+	SAFE_DELETE(Warcry);
+
 }
 
 void cPlayer::Setup(D3DXVECTOR3* vLook)
@@ -106,8 +113,13 @@ void cPlayer::Setup(D3DXVECTOR3* vLook)
 	);
 	//m_pTrailRenderer->SetTrailTexture(m_vecTrailTex[3]);
 
+	//스킬
 
+	Whilwind = new cShaderManager;
+	Whilwind->Setup("Whilwind.fx", "Whilwind.x", "Whilwind_tex3.dds", "Whilwind_tex1.dds", "Whilwind_tex2.dds");
 
+	Warcry = new cShaderManager;
+	Warcry->Setup("warcry.fx", "warcry.x", "warcry.png", NULL, NULL);
 	
 
 	m_pSateMachnie->ChangeState(cPlayerIdleState::Instance());
@@ -133,7 +145,7 @@ void cPlayer::Update()
 	//}
 	
 
-	
+
 
 
 
@@ -150,7 +162,92 @@ void cPlayer::Update()
 	D3DXMatrixTranslation(&m_matWorld, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 
 	m_matWorld = m_matLocal * m_matWorld;
+
+
+	//스킬
+
+	//힐윈드
+	D3DXVECTOR3 SkillPosition(m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	float Whilwind_Alpha;
+	Whilwind_Alpha = 0;
+
+	Whilwind->SetPosition_xyz(SkillPosition);
+	Whilwind->Update();
+	if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
+	{
+		Whilwind_Alpha += 0.1;
+		if (Whilwind_Alpha > 0.7f)
+		{
+			Whilwind_Alpha = 0.7f;
+		}
+
+		WhilwindScaling.x += 0.05;
+		WhilwindScaling.y += 0.05;
+		WhilwindScaling.z += 0.05;
+
+		if (WhilwindScaling.x > 1.1&& WhilwindScaling.y > 1.0&& WhilwindScaling.z > 1.1)
+		{
+			WhilwindScaling.x = 1.2;
+			WhilwindScaling.y = 1.0;
+			WhilwindScaling.z = 1.2;
+		}
+
+		Whilwind->SetScaling_xyz(WhilwindScaling);
+		Whilwind->SetAlpha_Down(Whilwind_Alpha);
+	}
+	else
+	{
+		Whilwind_Alpha = 0.0;
+		
+		WhilwindScaling.x -= 0.03;
+		WhilwindScaling.y -= 0.007;
+		WhilwindScaling.z -= 0.03;
+
+
+		if (WhilwindScaling.y <= 0 )
+		{
+			WhilwindScaling.y = 0;
+		}
+		if (WhilwindScaling.x <=0 && WhilwindScaling.z <=0)
+		{
+			WhilwindScaling.x = 0;
+			WhilwindScaling.z = 0;
+		}
+		
+		Whilwind->SetScaling_xyz(WhilwindScaling);
+		Whilwind->SetAlpha_Down(Whilwind_Alpha); 
+	}
+
+	// 워크라이
+	Warcry->SetPosition_xyz(SkillPosition);
+	Warcry->Update();
 	
+
+	if (g_pKeyManager->isStayKeyDown('3'))
+	{
+		isWarcry = true;
+	}
+	
+	if (isWarcry==true)
+	{
+		Warcry->SetAlpha_Down(1.0f);
+
+		WarcryScaling.x += 0.07f;
+		WarcryScaling.y +=  0.02f;
+		WarcryScaling.z += 0.07f;
+		Warcry->SetScaling_xyz(WarcryScaling);
+
+		if (WarcryScaling.x >= 2.0&& WarcryScaling.z >= 2.0)
+		{
+			WarcryScaling.x = 0;
+			WarcryScaling.y = 0;
+			WarcryScaling.z = 0;
+			Warcry->SetScaling_xyz(WarcryScaling);
+			isWarcry = false;
+		}
+
+		
+	}
 	
 }
 
@@ -188,9 +285,14 @@ void cPlayer::Render()
 				0xffffff00);
 		}
 	}
-	
 
-	
+
+	//스킬
+	Whilwind->Shader_info_Set(2.0, 0.1, 10.0, -0.75);
+	Whilwind->Render();
+
+	Warcry->Shader_info_Set(NULL, NULL, NULL, 0.25);
+	Warcry->Render();
 }
 
 void cPlayer::PlayerPosition()

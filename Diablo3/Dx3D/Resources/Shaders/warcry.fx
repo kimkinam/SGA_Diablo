@@ -20,7 +20,7 @@
 //--------------------------------------------------------------//
 // Pass 0
 //--------------------------------------------------------------//
-string Default_DirectX_Effect_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\PtT‘Å\\DÀ‘tx|.X";
+string Default_DirectX_Effect_Pass_0_Model : ModelData = ".\\Model.x";
 
 float4x4 matWorld : World;
 float4x4 matWorldViewProjection : WorldViewProjection;
@@ -33,12 +33,13 @@ float4   vLightPosition
    float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
    bool Normalize =  false;
 > = float4( 500.00, 500.00, 500.00, 1.00 );
-
 float4   vViewPosition : ViewPosition;
 
 
 float    fTime : Time0_X;
 float    fSpeed;
+float    fWaveH;
+float    fWaveF;
 float    uvspeed
 <
    string UIName = "uvspeed";
@@ -46,7 +47,7 @@ float    uvspeed
    bool UIVisible =  false;
    float UIMin = -1.00;
    float UIMax = 1.00;
-> = float( 0.50 );
+> = float( 0.05 );
 
 struct VS_INPUT 
 {
@@ -61,21 +62,28 @@ struct VS_OUTPUT
    float3 ViewDirection  : TEXCOORD1;
    float3 LightDir       : TEXCOORD2;
  
+  
+   
+
 };
 
 VS_OUTPUT Default_DirectX_Effect_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 {
    VS_OUTPUT Output;
    
-    Output.Position = mul(Input.Position, matWorldViewProjection);
-    Output.TexCoord = Input.TexCoord + float2(fTime * uvspeed, 0);
-
+    float cosTime = fWaveH*cos(fTime*fSpeed+Input.TexCoord.x*fWaveF);
+   // Input.Position.y +=cosTime*5.0;
+    Output.Position = mul(Input.Position,matWorldViewProjection);
+    Output.TexCoord = Input.TexCoord+float2(fTime*uvspeed,0);
     float4 worldPosition = mul(Input.Position , matWorld); 
     float3 lightDir = worldPosition.xyz - vLightPosition.xyz;
     Output.LightDir = normalize(lightDir);
     
     float3 viewDir = normalize(worldPosition.xyz - vViewPosition.xyz );
     Output.ViewDirection = viewDir;
+   
+   
+ 
    
    return Output;
    
@@ -86,7 +94,7 @@ VS_OUTPUT Default_DirectX_Effect_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 
 texture DiffuseMap_Tex
 <
-   string ResourceName = "..\\..\\..\\..\\..\\..\\..\\PtT‘Å\\a4dun_Diablo_Crystal_Arch_Wings.dds";
+   string ResourceName = "..\\..\\..\\..\\..\\..\\..\\PtT‘Å\\B_ShineMap011_emis.PNG";
 >;
 sampler2D Diffuse = sampler_state
 {
@@ -132,12 +140,12 @@ float4 Default_DirectX_Effect_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLO
      
    }
    
-   float3 ambient = float3(1.0f, 1.0f, 1.0f) * albedo.a*albedo;
+   float3 ambient = float3(1.0f, 1.0f, 1.0f) * albedo.a;
 
 
 
    
-   return (float4(ambient+ diffuse + specular,1.0f));
+   return (float4(ambient+ specular,0.5f));
 }
 
 

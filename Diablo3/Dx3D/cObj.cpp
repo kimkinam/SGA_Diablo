@@ -77,6 +77,9 @@ void cObj::SetUp(char * szFileName, char* szFolderName)
 
 void cObj::Render()
 {
+
+	ULONGLONG tick = GetTickCount64();
+
 	g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 
@@ -116,7 +119,7 @@ void cObj::Render()
 
 			if (i == 8)
 			{
-				ULONGLONG tick = GetTickCount64();
+				
 
 				g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 				g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
@@ -131,8 +134,8 @@ void cObj::Render()
 				m_pEffect->SetMatrix("matWorld", &matW);
 				m_pEffect->SetMatrix("matWorldViewProjection", &(matW * matView * matProj));
 				m_pEffect->SetFloat("fSpeed", 0.5f);
-				m_pEffect->SetFloat("uvspeed", -1.0f);
-				m_pEffect->SetFloat("fTime", g_pTimeManager->GetDeltaTime());
+				m_pEffect->SetFloat("uvspeed", -0.25f);
+				m_pEffect->SetFloat("fTime", tick/1000.0f);
 				m_pEffect->SetTexture("DiffuseMap_Tex", m_vecMtl[i]->GetTexture());
 
 				UINT numPasses = 0;
