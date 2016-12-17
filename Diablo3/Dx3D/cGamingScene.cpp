@@ -95,7 +95,6 @@ HRESULT cGamingScene::SetUp()
 	}
 	g_pAIManager->RegisterAIBase(m_pPlayer);
 
-<<<<<<< HEAD
 	D3DXVECTOR3 vDir;
 	vDir = m_pPlayer->GetPosition() - GAMINGSCENE_CAMERAPOS;/*D3DXVECTOR3(24, 10, -17)*/;
 	D3DXVec3Normalize(&vDir, &vDir);
@@ -105,8 +104,6 @@ HRESULT cGamingScene::SetUp()
 	m_pCamera->SetEye(m_pPlayer->GetPosition() - vDir * distance);
 	m_pCamera->SetNewDirection(vDir);
 
-=======
->>>>>>> 93c2939fb996b6b468e0c083db9a5b702900a998
 	UISetting();
 
 	enemyBarRight = m_pUI->GetpEnemyBar()->GetDrawRc().right;

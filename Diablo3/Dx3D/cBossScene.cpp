@@ -67,8 +67,8 @@ HRESULT cBossScene::SetUp()
 
 	m_pBoss = new cBoss;
 	m_pBoss->SetTarget(m_pPlayer);
-	m_pBoss->SetPosition(D3DXVECTOR3(10, 3.4f, -10));
-	m_pBoss->Setup(&D3DXVECTOR3(1,0,0));
+	m_pBoss->SetPosition(D3DXVECTOR3(10, 0, 10));
+	m_pBoss->Setup(&D3DXVECTOR3(1, 0, 0)); 
 	m_pBoss->SetID(1);
 
 	m_pMap = new cObj;
