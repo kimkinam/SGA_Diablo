@@ -5,6 +5,7 @@ class cSkinnedMesh;
 class cObj;
 class cTrailRenderer;
 class cUIImage;
+class cShaderManager;
 
 
 class cPlayer : public cGameObject
@@ -28,6 +29,17 @@ private:
 	
 	cUIImage*					m_pSphere;
 
+	//스킬
+
+	//힐윈드
+	cShaderManager*			Whilwind;
+	D3DXVECTOR3 WhilwindScaling;
+	//워크라이
+	cShaderManager*			Warcry;
+	D3DXVECTOR3             WarcryScaling;
+	bool					isWarcry;
+
+	D3DXVECTOR3 WarcryPos;
 
 public:
 	cPlayer();
@@ -43,6 +55,7 @@ public:
 	void TrailRender();
 	void TrailUpdate();
 	void TrailTexSetUp(const char* texFileName);
+	void SkillRender();
 
 
 	// 파생 클래스들은 메시지를 사용하여 통신할 수 있다

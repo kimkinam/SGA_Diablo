@@ -137,14 +137,22 @@ void cMap::Setup(ST_SAVEOBJECT wObj)
 
 void cMap::Render()
 {
+
 	g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
+<<<<<<< HEAD
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 
+=======
+	g_pD3DDevice->LightEnable(1, true);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	
+>>>>>>> 4c3f7497ba3430f60885f40f70be1eabd4869b59
 	D3DXMatrixTranslation(&m_matWorld, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 
 	m_matWorld = m_matLocal * m_matWorld;
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 
+<<<<<<< HEAD
 	//m_pFogEffect->SetTechnique(m_hFogTechHandle);
 	//
 	//g_pD3DDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
@@ -162,6 +170,8 @@ void cMap::Render()
 	{
 		g_pD3DDevice->SetMaterial(&m_vecMtl[i]->GetMtl());
 		g_pD3DDevice->SetTexture(0, m_vecMtl[i]->GetTexture());
+=======
+>>>>>>> 4c3f7497ba3430f60885f40f70be1eabd4869b59
 
 		m_pMesh->DrawSubset(i);
 		//	}
@@ -169,12 +179,22 @@ void cMap::Render()
 		//}
 		//m_pFogEffect->End();
 
+<<<<<<< HEAD
 		
 
 		//D3DXMatrixIdentity(&m_matWorld);
 		//g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 		//RenderBoundBox();
 	}
+=======
+		for (size_t i = 0; i < m_vecMtl.size(); ++i)
+		{
+			g_pD3DDevice->SetMaterial(&m_vecMtl[i]->GetMtl());
+			g_pD3DDevice->SetTexture(0, m_vecMtl[i]->GetTexture());
+			m_pMesh->DrawSubset(i);
+		}
+
+>>>>>>> 4c3f7497ba3430f60885f40f70be1eabd4869b59
 
 	if (!m_vecHiddenObj.empty())
 	{
@@ -190,12 +210,21 @@ void cMap::Render()
 			}
 		}
 	}
+<<<<<<< HEAD
+=======
+
+	//D3DXMatrixIdentity(&m_matWorld);
+	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+	//RenderBoundBox();
+
+>>>>>>> 4c3f7497ba3430f60885f40f70be1eabd4869b59
 }
 
 void cMap::RenerComplete()
 {
 	g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	g_pD3DDevice->LightEnable(1, true);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	D3DXMatrixTranslation(&m_matWorld, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 	
 	m_matWorld = m_matLocal * m_matWorld;

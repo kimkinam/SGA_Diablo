@@ -35,6 +35,8 @@ public:
 	virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;
 
 
+
+	void SetLight();
 	void PlayerMove();
 };
 

@@ -132,7 +132,7 @@ float4 Default_DirectX_Effect_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLO
      
    }
    
-   float3 ambient = float3(1.0f, 1.0f, 1.0f) * albedo.a;
+   float3 ambient = float3(1.0f, 1.0f, 1.0f) * albedo.a*albedo;
 
 
 
@@ -150,11 +150,6 @@ technique Default_DirectX_Effect
    {
       BLENDOP = MAX;
       ALPHABLENDENABLE = TRUE;
-      ANTIALIASEDLINEENABLE = TRUE;
-      ALPHATESTENABLE = TRUE;
-      ALPHAFUNC = GREATEREQUAL;
-      MULTISAMPLEANTIALIAS = FALSE;
-      SHADEMODE = FLAT;
       DESTBLEND = ONE;
       BLENDOPALPHA = MAX;
       ZWRITEENABLE = FALSE;

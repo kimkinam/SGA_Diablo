@@ -2,13 +2,22 @@
 #include "cBoss.h"
 #include "cActionTrace.h"
 #include "cLighting.h"
+#include "cShaderManager.h"
+#include "cPlayer.h"
 
 cBoss::cBoss()
 	: m_fLightingTimer(0.0f)
 	, m_fLightingLifeTime(2.0f)
 	, m_fLightingDecrease(0.1f)
-{
-}
+	, FireBomb(NULL)
+	, Red(0)
+	, Yellow(0)
+	, Alpha(0)
+
+
+
+{	
+}	 
 
 
 cBoss::~cBoss()
@@ -19,6 +28,8 @@ cBoss::~cBoss()
 
 		SAFE_DELETE(c);
 	}
+	SAFE_DELETE(FireBomb);
+	SAFE_RELEASE(m_player);
 }
 
 void cBoss::Setup(D3DXVECTOR3* vLookAt)
@@ -28,13 +39,44 @@ void cBoss::Setup(D3DXVECTOR3* vLookAt)
 
 
 	cMonster::Setup("diablo.x", vLookAt);
-
+	FireBomb = new cShaderManager;
+	FireBomb->Setup("FireField.fx","Cube.x","불판.png",NULL,NULL);
+	m_player = new cPlayer;
+	m_player->Setup();
 }
 void cBoss::Update()
 {
 	cMonster::Update();
 
+	m_player->Update();
 	LightingBreathUpdate();
+
+
+	// 쉐이더 불판 업데이트
+	Red -= 0.03;
+	if (Red < 0.5)
+	{
+		Red = 1.2;
+	}
+
+	Alpha -= 0.002;//A
+	if (Alpha < 0)
+	{
+		Alpha = 1.0f;
+	}
+
+	Yellow -= 0.03;
+	if (Yellow<0.5f)
+	{
+		Yellow = 0.8f;
+	}
+	//cPlayerPosition = m_player->GetPosition();
+	//cPlayerPosition = D3DXVECTOR3(0, 5, -5);
+	FireBomb->SetPosition_xyz(cPlayerPosition); // 불판 포지션 
+	D3DXVECTOR3 FireBomgScaling(0.05, 0.001, 0.05);
+	FireBomb->SetScaling_xyz(FireBomgScaling);
+
+	FireBomb->Update();
 	
 }
 void cBoss::Render()
@@ -42,6 +84,11 @@ void cBoss::Render()
 	cMonster::Render();
 
 	LightingBreathRender();
+
+	FireBomb->Shader_info_Set(Red,Yellow,Alpha);
+	
+	
+	FireBomb->Render();
 }
 
 

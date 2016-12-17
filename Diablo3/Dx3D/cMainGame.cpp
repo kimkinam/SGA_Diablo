@@ -40,6 +40,7 @@ void cMainGame::Setup()
 	SOUNDMANAGER->addSound("WhirlWind", "Sound/Whirl_Wind.mp3", false, true);
 	
 
+<<<<<<< HEAD
 	SOUNDMANAGER->addSound("SkeletonAttack", "Sound/Skeleton_Attack.mp3", false, false);
 	SOUNDMANAGER->addSound("SkeletonGetHit", "Sound/Skeleton_GetHit.mp3", false, false);
 	SOUNDMANAGER->addSound("SkeletonDead", "Sound/Skeleton_Dead.mp3", false, false);
@@ -59,6 +60,9 @@ void cMainGame::Setup()
 	SOUNDMANAGER->addSound("ZombieDogAttack", "Sound/ZombieDog_Attack.mp3", false, false);
 	SOUNDMANAGER->addSound("ZombieDogGetHit", "Sound/ZombieDog_GetHit.mp3", false, false);
 	SOUNDMANAGER->addSound("ZombieDogDead", "Sound/ZombieDog_Dead.mp3", false, false);
+=======
+	g_pSceneManager->changeScene("BossScene");
+>>>>>>> 4c3f7497ba3430f60885f40f70be1eabd4869b59
 	
 	g_pSceneManager->changeScene("GamingScene");
 	//SetLight();
@@ -88,7 +92,7 @@ void cMainGame::Render()
 		NULL,
 		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
 		//D3DCOLOR_XRGB(20, 20, 20),
-		D3DCOLOR_XRGB(50, 50, 50),
+		D3DCOLOR_XRGB(0, 0, 0),
 		1.0f, 0);
 
 	g_pD3DDevice->BeginScene();
@@ -147,14 +151,13 @@ void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 void cMainGame::SetLight()
 {
 	D3DLIGHT9 stLight;
-	stLight.Ambient = stLight.Diffuse = stLight.Specular = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
+	stLight.Ambient = stLight.Diffuse = stLight.Specular = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
 	stLight.Type = D3DLIGHT_DIRECTIONAL;
-	D3DXVECTOR3 vDir(1, -1, 1);
+	D3DXVECTOR3 vDir(0, -1, 0);
 	D3DXVec3Normalize(&vDir, &vDir);
 	stLight.Direction = vDir;
 	g_pD3DDevice->SetLight(0, &stLight);
 	g_pD3DDevice->LightEnable(0, true);
-
 	g_pD3DDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 }
 

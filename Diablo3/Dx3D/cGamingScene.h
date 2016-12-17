@@ -7,6 +7,7 @@ class cMap;
 class cBoundBox;
 class cMonster;
 class cPlayer;
+class cShaderManager;
 
 
 class cGamingScene : public cSceneObject
@@ -28,6 +29,9 @@ private:
 
 	SYNTHESIZE(std::vector<cMonster*>, m_vecMonster, vecMonster);
 
+	cShaderManager*					   m_Cloud;
+
+
 public:
 	cGamingScene();
 	virtual ~cGamingScene();
@@ -36,6 +40,7 @@ public:
 	void UISetting();
 	void PlayerMoveTest();
 	bool CollisionTest();
+	void SetLight(); //Α¶Έν
 	
 	//cScene override;
 	virtual HRESULT SetUp()	override;

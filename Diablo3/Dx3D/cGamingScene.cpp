@@ -17,12 +17,14 @@
 #include "cGargantuan.h"
 
 #include "cUIImage.h"
+#include "cShaderManager.h"
 
 cGamingScene::cGamingScene()
 	: m_pGrid(NULL)
 	, m_pPlayer(NULL)
 	, m_pUI(NULL)
 	, m_pCurMonster(NULL)
+	, m_Cloud(NULL)
 {
 	
 }
@@ -36,6 +38,7 @@ cGamingScene::~cGamingScene()
 	SAFE_DELETE(m_pGrid);
 	SAFE_RELEASE(m_pPlayer);
 	SAFE_DELETE(m_pUI);
+	SAFE_DELETE(m_Cloud);
 
 	for each(auto c in m_vecMap)
 	{
@@ -113,6 +116,10 @@ HRESULT cGamingScene::SetUp()
 	SOUNDMANAGER->play("GamingSceneBGM", 0.8f);
 	//SOUNDMANAGER->play("WhirlWind", 0.8f);
 
+	m_Cloud = new cShaderManager;
+	m_Cloud->Setup("cloud.fx", "cloud.x", "cloud.dds", NULL, NULL);
+
+	SetLight();
 	return S_OK;
 }
 
@@ -138,11 +145,25 @@ void cGamingScene::Update()
 	//	LoadMap("map1");
 
 	PlayerMoveTest();
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 4c3f7497ba3430f60885f40f70be1eabd4869b59
 	if (g_pKeyManager->isOnceKeyDown(VK_OEM_PERIOD))
 	{
 		m_pPlayer->GetMesh()->SetAnimationIndex("attack");
 	}
+<<<<<<< HEAD
 	
+=======
+	if (g_pKeyManager->isStayKeyDown('2'))
+	{
+
+		m_pPlayer->GetMesh()->SetAnimationIndex("whirlwinding");
+	}
+
+>>>>>>> 4c3f7497ba3430f60885f40f70be1eabd4869b59
 
 
 	if (g_pKeyManager->isOnceKeyDown('P'))
@@ -172,7 +193,8 @@ void cGamingScene::Update()
 
 	if (m_pCamera)
 	{
-		m_pCamera->Update(m_pPlayer->GetPtPosition());
+		//m_pCamera->Update(m_pPlayer->GetPtPosition());
+		m_pCamera->Update(NULL);
 	}
 	
 	if (m_pUI)
@@ -267,8 +289,17 @@ void cGamingScene::Render()
 			DT_LEFT,
 			D3DCOLOR_XRGB(255, 255, 255));
 	}
-	
 
+	D3DXVECTOR3 CloudScaling(1.0f, 1.008f, 1.0f);
+	D3DXVECTOR3 CloudTranselation(0.0f, 0.8f, 0.0f);
+	m_Cloud->SetPosition_xyz(CloudTranselation);
+	m_Cloud->SetScaling_xyz(CloudScaling);
+	m_Cloud->Shader_info_Set(1.5f, NULL, NULL, 0.1f);
+	m_Cloud->Render();
+
+
+	if (m_pPlayer)
+		m_pPlayer->SkillRender();
 }
 
 void cGamingScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -606,3 +637,23 @@ bool cGamingScene::CollisionTest()
 	}
 }
 
+void cGamingScene::SetLight()
+{
+	D3DMATERIAL9 Mtl;
+	ZeroMemory(&Mtl, sizeof(D3DMATERIAL9));
+	Mtl.Diffuse.r = 0.1;
+	Mtl.Diffuse.g = 0.1;
+	Mtl.Diffuse.b = 0.1;
+	g_pD3DDevice->SetMaterial(&Mtl);
+
+	D3DLIGHT9 stLight;
+	stLight.Ambient = stLight.Diffuse = stLight.Specular = D3DXCOLOR(0.01f, 0.01f, 0.01f, 1.0f);
+	stLight.Type = D3DLIGHT_DIRECTIONAL;
+	D3DXVECTOR3 vDir(0, -1, 0);
+	D3DXVec3Normalize(&vDir, &vDir);
+	stLight.Direction = vDir;
+	g_pD3DDevice->SetLight(1, &stLight);
+	g_pD3DDevice->LightEnable(1, true);
+	g_pD3DDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+}
