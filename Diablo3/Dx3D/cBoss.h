@@ -4,10 +4,18 @@
 class cLighting;
 class cShaderManager;
 class cPlayer;
+class cParticleEmitter;
+
+class cMonsterGlobalState;
+class cMonsterTrace;
 
 class cBoss :
 	public cMonster
 {
+
+public:
+	cStateMachine<cMonster>* m_pSateMachnie;
+
 private:
 	std::vector<cLighting*> m_vecLights;
 
@@ -16,15 +24,20 @@ private:
 	float		m_fLightingLifeTime;
 	float		m_fLightingDecrease;
 
-
-
 	cPlayer*				m_player;
 
 	cShaderManager*		FireBomb;
 	D3DXVECTOR3			cPlayerPosition;
-	float		Red;
-	float		Yellow;
-	float		Alpha;
+	float				Red;
+	float				Yellow;
+	float				Alpha;
+
+
+	cParticleEmitter*		m_pFireTail;
+	D3DXMATRIXA16			m_matFire;
+
+	D3DXVECTOR3				m_vFirePos;
+	D3DXVECTOR3				m_vFireDir;
 
 
 public:
@@ -41,5 +54,9 @@ public:
 public:
 	void LightingBreathUpdate();
 	void LightingBreathRender();
+
+	void ParticleTestSetUp();
+	void ParticleTestUpdate();
+	void ParticleTestRender();
 };
 

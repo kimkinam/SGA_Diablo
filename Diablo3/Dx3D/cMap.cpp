@@ -131,9 +131,9 @@ void cMap::Setup(ST_SAVEOBJECT wObj)
 
 void cMap::Render()
 {
-
+	
 	g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
-	g_pD3DDevice->LightEnable(1, true);
+	g_pD3DDevice->LightEnable(0, true);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	
 	D3DXMatrixTranslation(&m_matWorld, m_vPosition.x, m_vPosition.y, m_vPosition.z);
@@ -141,24 +141,16 @@ void cMap::Render()
 	m_matWorld = m_matLocal * m_matWorld;
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 
-<<<<<<< HEAD
-=======
+	//g_pD3DDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	//g_pD3DDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	//g_pD3DDevice->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
-	g_pD3DDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-	g_pD3DDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	g_pD3DDevice->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
-
->>>>>>> 4c3f7497ba3430f60885f40f70be1eabd4869b59
-		for (size_t i = 0; i < m_vecMtl.size(); ++i)
-		{
-			g_pD3DDevice->SetMaterial(&m_vecMtl[i]->GetMtl());
-			g_pD3DDevice->SetTexture(0, m_vecMtl[i]->GetTexture());
-			m_pMesh->DrawSubset(i);
-		}
-<<<<<<< HEAD
-=======
-
->>>>>>> 4c3f7497ba3430f60885f40f70be1eabd4869b59
+	for (size_t i = 0; i < m_vecMtl.size(); ++i)
+	{
+		g_pD3DDevice->SetMaterial(&m_vecMtl[i]->GetMtl());
+		g_pD3DDevice->SetTexture(0, m_vecMtl[i]->GetTexture());
+		m_pMesh->DrawSubset(i);
+	}
 
 	if (!m_vecHiddenObj.empty())
 	{
@@ -178,6 +170,8 @@ void cMap::Render()
 	//D3DXMatrixIdentity(&m_matWorld);
 	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 	//RenderBoundBox();
+
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 
 }
 

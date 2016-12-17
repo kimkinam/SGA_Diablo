@@ -181,132 +181,270 @@ void cTrailRenderer::Update(float timeDelta)
 
 void cTrailRenderer::Render()
 {
-	DWORD triNum = 0;
-	DWORD verNum = 0;
+	//DWORD triNum = 0;
+	//DWORD verNum = 0;
 
-	int i = m_nHeadIndex - 1;
-	if (i < 0)
-		i = m_nTrailMaxNum - 1;
+	//int i = m_nHeadIndex - 1;
+	//if (i < 0)
+	//	i = m_nTrailMaxNum - 1;
 
-	//최초 정점 추가 ( 최초의 정점이 있어야 삼각형이 구성된다.
-	m_pTrailVertices[verNum].pos = m_pTrails[i].p0;
-	m_pTrailVertices[verNum].uv.y = 1;
-	m_pTrailVertices[verNum].uv.x = 0.0f;		//최초 정점은 UV.x 시작이다.
-	m_pTrailVertices[verNum].color = this->m_TrailColor;
-	verNum++;
+	////최초 정점 추가 ( 최초의 정점이 있어야 삼각형이 구성된다.
+	//m_pTrailVertices[verNum].pos = m_pTrails[i].p0;
+	//m_pTrailVertices[verNum].uv.y = 1;
+	//m_pTrailVertices[verNum].uv.x = 0.0f;		//최초 정점은 UV.x 시작이다.
+	//m_pTrailVertices[verNum].color = this->m_TrailColor;
+	//verNum++;
 
-	m_pTrailVertices[verNum].pos = m_pTrails[i].p1;
-	m_pTrailVertices[verNum].uv.y = 0;
-	m_pTrailVertices[verNum].uv.x = 0.0f;		//최초 정점은 UV.x 시작이다.
-	m_pTrailVertices[verNum].color = this->m_TrailColor;
-	verNum++;
+	//m_pTrailVertices[verNum].pos = m_pTrails[i].p1;
+	//m_pTrailVertices[verNum].uv.y = 0;
+	//m_pTrailVertices[verNum].uv.x = 0.0f;		//최초 정점은 UV.x 시작이다.
+	//m_pTrailVertices[verNum].color = this->m_TrailColor;
+	//verNum++;
 
-	//최초 정점 이전 부터 
-	i--;
-	if (i < 0)
-		i = m_nTrailMaxNum - 1;
+	////최초 정점 이전 부터 
+	//i--;
+	//if (i < 0)
+	//	i = m_nTrailMaxNum - 1;
 
-	while (true)
-	{
-		//하나라도 비활성화 된 정점을 만났다면...
-		if (m_pTrails[i].bLive == false)
-			break;
+	//while (true)
+	//{
+	//	//하나라도 비활성화 된 정점을 만났다면...
+	//	if (m_pTrails[i].bLive == false)
+	//		break;
 
-		float uvX = 1.0f - (m_pTrails[i].leftTime / m_fLineTime);		//UV의 x 는 남은 시간대비 계산된다.
+	//	float uvX = 1.0f - (m_pTrails[i].leftTime / m_fLineTime);		//UV의 x 는 남은 시간대비 계산된다.
 
-		m_pTrailVertices[verNum].pos = m_pTrails[i].p0;
-		m_pTrailVertices[verNum].uv.y = 1;
-		m_pTrailVertices[verNum].uv.x = uvX;
-		m_pTrailVertices[verNum].color = this->m_TrailColor;
+	//	m_pTrailVertices[verNum].pos = m_pTrails[i].p0;
+	//	m_pTrailVertices[verNum].uv.y = 1;
+	//	m_pTrailVertices[verNum].uv.x = uvX;
+	//	m_pTrailVertices[verNum].color = this->m_TrailColor;
 
-		verNum++;
+	//	verNum++;
 
-		m_pTrailVertices[verNum].pos = m_pTrails[i].p1;
-		m_pTrailVertices[verNum].uv.y = 0;
-		m_pTrailVertices[verNum].uv.x = uvX;		//최초 정점은 UV.x 시작이다.
-		m_pTrailVertices[verNum].color = this->m_TrailColor;
+	//	m_pTrailVertices[verNum].pos = m_pTrails[i].p1;
+	//	m_pTrailVertices[verNum].uv.y = 0;
+	//	m_pTrailVertices[verNum].uv.x = uvX;		//최초 정점은 UV.x 시작이다.
+	//	m_pTrailVertices[verNum].color = this->m_TrailColor;
 
-		verNum++;
+	//	verNum++;
 
-		m_pTrailIndices[triNum + 0] = TrailIndex(triNum + 0, triNum + 1, triNum + 2);
-		m_pTrailIndices[triNum + 1] = TrailIndex(triNum + 2, triNum + 1, triNum + 3);
-		triNum += 2;
+	//	m_pTrailIndices[triNum + 0] = TrailIndex(triNum + 0, triNum + 1, triNum + 2);
+	//	m_pTrailIndices[triNum + 1] = TrailIndex(triNum + 2, triNum + 1, triNum + 3);
+	//	triNum += 2;
 
-		if (i == m_nHeadIndex)
-			break;
+	//	if (i == m_nHeadIndex)
+	//		break;
 
-		i--;
-		if (i < 0)
-			i = m_nTrailMaxNum - 1;
-	}
+	//	i--;
+	//	if (i < 0)
+	//		i = m_nTrailMaxNum - 1;
+	//}
 
-	//정점의 위치가 월드 기준으로 만들어졌기 때문에 월드 행렬을 초기화 되어야 한다.
-	D3DXMATRIXA16	matWorld;
-	D3DXMatrixIdentity(&matWorld);
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	////정점의 위치가 월드 기준으로 만들어졌기 때문에 월드 행렬을 초기화 되어야 한다.
+	//D3DXMATRIXA16	matWorld;
+	//D3DXMatrixIdentity(&matWorld);
+	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
-	//양면 다그린다.
-	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	////양면 다그린다.
+	//g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	//Texture 셋팅
-	g_pD3DDevice->SetTexture(0, m_pTrailTexture);
-	//g_pD3DDevice->SetTextureStageState(0 , D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+	////Texture 셋팅
+	//g_pD3DDevice->SetTexture(0, m_pTrailTexture);
+	////g_pD3DDevice->SetTextureStageState(0 , D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+	////g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	////
+	////g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+	////g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	////
+	////
+	////g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
+	////g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	////
+	////g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
+	////g_pD3DDevice->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+	////
+	////g_pD3DDevice->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
+	////g_pD3DDevice->SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+
+
 	//g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-	//
-	//g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
-	//g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-	//
-	//
-	//g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
-	//g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-	//
-	//g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
-	//g_pD3DDevice->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-	//
-	//g_pD3DDevice->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
-	//g_pD3DDevice->SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+	//g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+
+	//g_pD3DDevice->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_RGBA(0, 0, 0, 127));
+	//g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_CURRENT);
+	//g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_TEXTURE);
+	//g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_BLENDFACTORALPHA);
 
 
-	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+	////광원 끈다.
+	//DWORD prevLight;
+	//g_pD3DDevice->GetRenderState(D3DRS_LIGHTING, &prevLight);
+	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-	g_pD3DDevice->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_RGBA(0, 0, 0, 127));
-	g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_CURRENT);
-	g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_TEXTURE);
-	g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_BLENDFACTORALPHA);
-
-
-	//광원 끈다.
-	DWORD prevLight;
-	g_pD3DDevice->GetRenderState(D3DRS_LIGHTING, &prevLight);
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-
-	//알파 블렌딩 활성화
-	g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-	g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	////알파 블렌딩 활성화
+	//g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	//g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	//g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	//g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 
-	//정점 그린다.
-	g_pD3DDevice->SetFVF(TrailVertex::FVF);
-	g_pD3DDevice->DrawIndexedPrimitiveUP(
-		D3DPT_TRIANGLELIST,
-		0,
-		verNum,
-		triNum,
-		m_pTrailIndices,
-		D3DFMT_INDEX32,
-		m_pTrailVertices,
-		sizeof(TrailVertex));
+	////정점 그린다.
+	//g_pD3DDevice->SetFVF(TrailVertex::FVF);
+	//g_pD3DDevice->DrawIndexedPrimitiveUP(
+	//	D3DPT_TRIANGLELIST,
+	//	0,
+	//	verNum,
+	//	triNum,
+	//	m_pTrailIndices,
+	//	D3DFMT_INDEX32,
+	//	m_pTrailVertices,
+	//	sizeof(TrailVertex));
 
 
-	//다시 돌려 놓는다.
-	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	g_pD3DDevice->SetTexture(0, NULL);
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, prevLight);
-	g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	////다시 돌려 놓는다.
+	//g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//g_pD3DDevice->SetTexture(0, NULL);
+	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, prevLight);
+	//g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	//g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+
+DWORD prevLight, prevAlphaBlend, prevCullmode, prevFVF, prevTextureFactor, prevZBuffer;
+   D3DXMATRIXA16 prevWorld;
+   g_pD3DDevice->GetRenderState(D3DRS_LIGHTING, &prevLight);
+   g_pD3DDevice->GetRenderState(D3DRS_ALPHABLENDENABLE, &prevAlphaBlend);
+   g_pD3DDevice->GetRenderState(D3DRS_CULLMODE, &prevCullmode);
+   g_pD3DDevice->GetFVF(&prevFVF);
+   g_pD3DDevice->GetRenderState(D3DRS_TEXTUREFACTOR, &prevTextureFactor);
+   g_pD3DDevice->GetRenderState(D3DRS_ZWRITEENABLE, &prevZBuffer);
+   g_pD3DDevice->GetTransform(D3DTS_WORLD, &prevWorld);
+
+   DWORD triNum = 0;
+   DWORD verNum = 0;
+
+   int i = m_nHeadIndex - 1;
+   if (i < 0)
+      i = m_nTrailMaxNum - 1;
+
+   //최초 정점 추가 ( 최초의 정점이 있어야 삼각형이 구성된다.
+   m_pTrailVertices[verNum].pos = m_pTrails[i].p0;
+   m_pTrailVertices[verNum].uv.y = 1;
+   m_pTrailVertices[verNum].uv.x = 0.0f;      //최초 정점은 UV.x 시작이다.
+   m_pTrailVertices[verNum].color = this->m_TrailColor;
+   verNum++;
+
+   m_pTrailVertices[verNum].pos = m_pTrails[i].p1;
+   m_pTrailVertices[verNum].uv.y = 0;
+   m_pTrailVertices[verNum].uv.x = 0.0f;      //최초 정점은 UV.x 시작이다.
+   m_pTrailVertices[verNum].color = this->m_TrailColor;
+   verNum++;
+
+   //최초 정점 이전 부터 
+   i--;
+   if (i < 0)
+      i = m_nTrailMaxNum - 1;
+
+   while (true)
+   {
+      //하나라도 비활성화 된 정점을 만났다면...
+      if (m_pTrails[i].bLive == false)
+         break;
+
+      float uvX = 1.0f - (m_pTrails[i].leftTime / m_fLineTime);      //UV의 x 는 남은 시간대비 계산된다.
+
+      m_pTrailVertices[verNum].pos = m_pTrails[i].p0;
+      m_pTrailVertices[verNum].uv.y = 1;
+      m_pTrailVertices[verNum].uv.x = uvX;
+      m_pTrailVertices[verNum].color = this->m_TrailColor;
+
+      verNum++;
+
+      m_pTrailVertices[verNum].pos = m_pTrails[i].p1;
+      m_pTrailVertices[verNum].uv.y = 0;
+      m_pTrailVertices[verNum].uv.x = uvX;      //최초 정점은 UV.x 시작이다.
+      m_pTrailVertices[verNum].color = this->m_TrailColor;
+
+      verNum++;
+
+      m_pTrailIndices[triNum + 0] = TrailIndex(triNum + 0, triNum + 1, triNum + 2);
+      m_pTrailIndices[triNum + 1] = TrailIndex(triNum + 2, triNum + 1, triNum + 3);
+      triNum += 2;
+
+      if (i == m_nHeadIndex)
+         break;
+
+      i--;
+      if (i < 0)
+         i = m_nTrailMaxNum - 1;
+   }
+
+   //정점의 위치가 월드 기준으로 만들어졌기 때문에 월드 행렬을 초기화 되어야 한다.
+   D3DXMATRIXA16   matWorld;
+   D3DXMatrixIdentity(&matWorld);
+   g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+
+   //양면 다그린다.
+   g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+   //Texture 셋팅
+   g_pD3DDevice->SetTexture(0, m_pTrailTexture);
+   //g_pD3DDevice->SetTextureStageState(0 , D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+   //g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+   //
+   //g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+   //g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+   //
+   //
+   //g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
+   //g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+   //
+   //g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
+   //g_pD3DDevice->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+   //
+   //g_pD3DDevice->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
+   //g_pD3DDevice->SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+
+
+   //g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+   //g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+   //
+   //g_pD3DDevice->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_RGBA(0, 0, 0, 127));
+   //g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_CURRENT);
+   //g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_TEXTURE);
+   //g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_BLENDFACTORALPHA);
+
+
+   //광원 끈다.
+   g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+   //알파 블렌딩 활성화
+   g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+   g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+   g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+   g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+
+
+   //정점 그린다.
+   g_pD3DDevice->SetFVF(TrailVertex::FVF);
+   g_pD3DDevice->DrawIndexedPrimitiveUP(
+      D3DPT_TRIANGLELIST,
+      0,
+      verNum,
+      triNum,
+      m_pTrailIndices,
+      D3DFMT_INDEX32,
+      m_pTrailVertices,
+      sizeof(TrailVertex));
+
+
+   //다시 돌려 놓는다.
+   g_pD3DDevice->SetTexture(0, NULL);
+   g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, prevLight);
+   g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, prevAlphaBlend);
+   g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, prevCullmode);
+   g_pD3DDevice->SetFVF(prevFVF);
+   g_pD3DDevice->SetRenderState(D3DRS_TEXTUREFACTOR, prevTextureFactor);
+   g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, prevZBuffer);
+   g_pD3DDevice->SetTransform(D3DTS_WORLD, &prevWorld);
 }
 
 void cTrailRenderer::RenderDistort(cCamera * pCam)

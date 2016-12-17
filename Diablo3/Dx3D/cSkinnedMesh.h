@@ -18,7 +18,6 @@ private:
 	DWORD						m_dwWorkingPaletteSize;
 	D3DXMATRIX*					m_pmWorkingPalette;
 	LPD3DXEFFECT				m_pEffect;
-	LPD3DXEFFECT				m_pEffectOutLine;
 	ST_SPHERE					m_stBoundingSphere;
 	D3DXMATRIXA16				m_matWorld;
 	

@@ -264,9 +264,5 @@ typedef struct ST_SAVEOBJECT
 
 using namespace MyUtil;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 4c3f7497ba3430f60885f40f70be1eabd4869b59
 #define BOSSSCENE_CAMERAPOS D3DXVECTOR3(20, 8, -20)
 #define GAMINGSCENE_CAMERAPOS D3DXVECTOR3(3.46, 6.79, -2.96)

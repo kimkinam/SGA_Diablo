@@ -107,10 +107,8 @@ float4 PixScene(
 	float3 tangentNormal = tex2D(NormalSample, TexCoord);
 	float4 Color;
 
-	//if (!g_bIsOver)
-	//{
-		if (color.x > 0)
-		{
+	if (color.x > 0)
+	{
 			specular = saturate(dot(reflaction, -viewDir));
 			specular = pow(specular, 20.0f);
 
@@ -118,10 +116,8 @@ float4 PixScene(
 			float4 albedo1 = tex2D(EmissionSample, TexCoord) * float4(color + specular, 1.0f);
 			Color = albedo + albedo1;
 			
-		}
-	//}
-	//return float4(1.0f, 0.0f, 0.0f, 1.0f);
-		return Color;
+	}
+	return Color;
 }
 
 float4 PixScene2(
@@ -183,7 +179,7 @@ VS_OUTPUT VertSkinning( VS_INPUT Input, uniform int nNumBones )
 	Normal = mul(Normal, g_mViewProj);
 	Normal = normalize(Normal);
 
-	Output.Pos.xy += Normal.xy * 5.0f;
+	Output.Pos.xy += Normal.xy * 20.0f;
 
 	float3 lightDir = vso.vPos.xyz - vWorldLightPos.xyz;
 	lightDir = normalize(lightDir);

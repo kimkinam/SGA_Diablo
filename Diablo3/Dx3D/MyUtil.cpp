@@ -340,4 +340,34 @@ namespace MyUtil
 		//	g_pD3DDevice->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
 	}
 
+	int RandomIntRange(int min, int max)
+	{
+		int delta = max - min;
+		return (rand() % delta) + min;
+	}
+
+
+	float RandomFloatRange(float min, float max)
+	{
+		//0 ~ 99999
+		// 0 ~ 1 까지의 실수
+
+		float factor = (rand() % 1001) * 0.001f;
+
+		float delta = (max - min);
+
+		float result = (delta * factor) + min;
+
+		return result;
+
+	}
+	//플룻의 비트값을 손실하지 않은체 DWORD 형으로 변환
+	DWORD FloatToDWORD(float f)
+	{
+		float* pFloat = &f;
+
+		DWORD* pDword = (DWORD*)pFloat;
+
+		return *pDword;
+	}
 }

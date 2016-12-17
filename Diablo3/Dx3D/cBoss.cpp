@@ -4,6 +4,13 @@
 #include "cLighting.h"
 #include "cShaderManager.h"
 #include "cPlayer.h"
+#include "cMonsterDetecting.h"
+#include "cGameObjectGlobalState.h"
+#include "cMonsterTrace.h"
+
+#include "cParticleEmitter.h"
+#include "cParticle.h"
+
 
 cBoss::cBoss()
 	: m_fLightingTimer(0.0f)
@@ -13,10 +20,16 @@ cBoss::cBoss()
 	, Red(0)
 	, Yellow(0)
 	, Alpha(0)
-
-
-
+	, m_pFireTail(NULL)
 {	
+
+	m_pSateMachnie = new cStateMachine<cMonster>(this);
+
+	m_pSateMachnie->SetCurState(cMonsterDetecting::Instance());
+	m_pSateMachnie->SetGlobalState(cGameObjectGlobalState::Instance());
+
+	m_stStat = ST_MONSTER_STAT();
+
 }	 
 
 
@@ -30,6 +43,10 @@ cBoss::~cBoss()
 	}
 	SAFE_DELETE(FireBomb);
 	SAFE_RELEASE(m_player);
+
+	if (m_pFireTail)
+		m_pFireTail->Release();
+	SAFE_DELETE(m_pFireTail);
 }
 
 void cBoss::Setup(D3DXVECTOR3* vLookAt)
@@ -43,13 +60,15 @@ void cBoss::Setup(D3DXVECTOR3* vLookAt)
 	FireBomb->Setup("FireField.fx","Cube.x","불판.png",NULL,NULL);
 	m_player = new cPlayer;
 	m_player->Setup();
+
+	ParticleTestSetUp();
 }
 void cBoss::Update()
 {
 	cMonster::Update();
 
 	m_player->Update();
-	LightingBreathUpdate();
+	//LightingBreathUpdate();
 
 
 	// 쉐이더 불판 업데이트
@@ -78,6 +97,8 @@ void cBoss::Update()
 
 	FireBomb->Update();
 	
+	ParticleTestUpdate();
+
 }
 void cBoss::Render()
 {
@@ -89,6 +110,8 @@ void cBoss::Render()
 	
 	
 	FireBomb->Render();
+
+	ParticleTestRender();
 }
 
 
@@ -164,4 +187,89 @@ void cBoss::LightingBreathRender()
 	{
 		m_vecLights[i]->Render();
 	}
+}
+
+void cBoss::ParticleTestSetUp()
+{
+
+	VEC_COLOR colors;
+	VEC_SCALE scales;
+
+	LPDIRECT3DTEXTURE9 pTex = g_pTextureManager->GetTexture(
+		"./Resources/Images/Trail/Whirlwind_spiral.dds");
+
+	//m_pFireParticle->SetParent(&m_matFire);
+
+	//불꽃 꼬리
+	m_pFireTail = new cParticleEmitter;
+	colors.clear();
+	colors.push_back(D3DXCOLOR(1.1f, 0.3f, 0.0f, 1.0f));
+	colors.push_back(D3DXCOLOR(1.2f, 0.3f, 0.0f, 1.0f));
+	colors.push_back(D3DXCOLOR(1.3f, 0.2f, 0.0f, 0.9f));
+	colors.push_back(D3DXCOLOR(1.7f, 0.1f, 0.0f, 0.5f));
+	colors.push_back(D3DXCOLOR(2.3f, 0.0f, 0.0f, 1.0f));
+	colors.push_back(D3DXCOLOR(3.5f, 0.0f, 0.0f, 1.0f));
+
+
+	scales.clear();
+	scales.push_back(0.5f * 2);
+	scales.push_back(0.3f * 2);
+	scales.push_back(0.2f * 2);
+	scales.push_back(0.2f * 2);
+	scales.push_back(0.05f * 2);
+	scales.push_back(0.01f * 2);
+
+	//LPDIRECT3DTEXTURE9 pTex = g_pTextureManager->GetTexture(
+	//	"./Resources/Images/Trail/particle_0.png" );
+
+
+	//pTex = g_pTextureManager->GetTexture(
+	//	"./Resources/Images/Trail/FireExplosionBlurredGray.png");
+
+	//파티클 랜더러 셋팅
+	m_pFireTail->Init(
+		10000,				//최대 파티클 수
+		20.0f,				//초당 파티클 발생 량
+		3,					//하나의 파티클 입자 라이프 최소값
+		5,					//하나의 파티클 입자 라이프 최대값
+		D3DXVECTOR3(0, 0, 0),	//파티클 입자 속도 최소값 ( 로컬기준 )
+		D3DXVECTOR3(0, 0, 0),	//파티클 입자 속도 최대값 ( 로컬기준 )
+		D3DXVECTOR3(1, 1, 1),	//파티클 입자 가속 최소값 ( 로컬기준 )
+		D3DXVECTOR3(-1, -1, -1), //파티클 입자 가속 최대값 ( 로컬기준 )
+		colors,				//컬러 배열
+		scales,				//스케일 배열
+		0.1f,				//입자크기 최소값
+		1.0f,				//최대값
+		pTex,				//텍스쳐
+		false);
+
+	D3DXMatrixIdentity(&m_matFire);
+	m_vFirePos = D3DXVECTOR3(0, 0, 0);
+	m_vFireDir = D3DXVECTOR3(1.0f, 0, 0);
+}
+
+void cBoss::ParticleTestUpdate()
+{
+	if (m_pFireTail)
+		m_pFireTail->BaseObjectUpdate(g_pTimeManager->GetDeltaTime());
+
+	if (g_pKeyManager->isOnceKeyDown(VK_RETURN))
+	{
+		m_vFirePos = D3DXVECTOR3(0, 0, 0);
+	}
+	if (g_pKeyManager->isStayKeyDown(VK_RETURN))
+	{
+		m_vFirePos += m_vFireDir*3.0f*g_pTimeManager->GetDeltaTime();
+		m_pFireTail->FireTail(50, m_vFirePos, 0.5f, 0.8f, 0.5f, 2.0f);
+	}
+
+	//m_vFirePos += m_vFireDir*3.0f*g_pTimeManager->GetDeltaTime();
+	//m_pFireTail->FireTail(50, m_vFirePos, 0.5f, 0.8f, 0.5f, 2.0f);
+
+}
+
+void cBoss::ParticleTestRender()
+{
+	if (m_pFireTail)
+		m_pFireTail->BaseObjectRender();
 }

@@ -32,4 +32,9 @@ namespace MyUtil
 	LPD3DXEFFECT LoadEffect(const char* szFileName);
 
 	void SetupVertexFog(DWORD dwColor, DWORD dwMode, BOOL bUseRange, FLOAT fDensity);
+
+	int RandomIntRange(int min, int max);
+
+	float RandomFloatRange(float min, float max);
+	DWORD FloatToDWORD(float f);
 }

@@ -17,7 +17,6 @@ private:
 
 	cCamera*			m_Camera;
 	LPD3DXEFFECT		m_pEffect;
-	LPD3DXEFFECT		m_pEffect_Normal;
 	LPDIRECT3DTEXTURE9	m_nTexture;
 	
 public:
@@ -25,7 +24,6 @@ public:
 	virtual ~cObj();
 
 	void SetUp(char* szFileName, char* szFolderName);
-	void Update();
 	void Render();
 
 	float GetRayDistance(int index, std::vector<ST_PC_VERTEX> vecVertex);

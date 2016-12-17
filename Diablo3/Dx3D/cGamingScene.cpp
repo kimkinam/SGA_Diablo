@@ -64,6 +64,7 @@ HRESULT cGamingScene::SetUp()
 	if (m_bIsLoad)
 	{
 		Reset();
+		SetLight();
 
 		return S_OK;
 	}
@@ -196,7 +197,7 @@ void cGamingScene::Update()
 		g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_WARCRY, NULL);
 	}
 
-	
+	SetLight();
 }
 
 void cGamingScene::Render()
@@ -236,10 +237,10 @@ void cGamingScene::Render()
 	{
 		LPD3DXFONT font;
 		font = g_pFontManger->GetFont(cFontManager::E_CHAT);
-
+	
 		LPD3DXFONT Damagefont;
 		Damagefont = g_pFontManger->GetFont(cFontManager::E_NORMAL);
-
+	
 		char temp[128];
 		RECT rc;
 		sprintf_s(temp, "hp :%f", m_pCurMonster->GetStat().fHp, 128);
@@ -251,19 +252,19 @@ void cGamingScene::Render()
 			&rc,
 			DT_LEFT,
 			D3DCOLOR_XRGB(255, 255, 255));
-
+	
 		string name = m_pCurMonster->GetObjName();
 		int lastDotIndex = name.find_last_not_of(".");
 		string result = name.substr(0, lastDotIndex - 1);
 		sprintf_s(temp, "%s", result.c_str(), 128);
-
+	
 		if (m_pCurMonster->GetStat().chType == CHARACTER_GARHANTUAN)
 			SetRect(&rc, DEBUG_STARTX + WINSIZE_X / 2.3f - result.length() - 12, DEBUG_STARTY - 22, DEBUG_STARTX + WINSIZE_X, DEBUG_STARTY + 315);
 		else if (m_pCurMonster->GetStat().chType == CHARACTER_SKELETON || m_pCurMonster->GetStat().chType == CHARACTER_ZOMBIEDOG)
 			SetRect(&rc, DEBUG_STARTX + WINSIZE_X / 2.3f - result.length(), DEBUG_STARTY - 22, DEBUG_STARTX + WINSIZE_X, DEBUG_STARTY + 315);
 		else
 			SetRect(&rc, DEBUG_STARTX + WINSIZE_X / 2.3f + result.length(), DEBUG_STARTY - 22, DEBUG_STARTX + WINSIZE_X, DEBUG_STARTY + 315);
-
+	
 		font->DrawText(NULL,
 			temp,
 			128,
@@ -271,7 +272,7 @@ void cGamingScene::Render()
 			DT_LEFT,
 			D3DCOLOR_XRGB(255, 255, 255));
 	}
-
+	
 	D3DXVECTOR3 CloudScaling(1.0f, 1.008f, 1.0f);
 	D3DXVECTOR3 CloudTranselation(0.0f, 0.8f, 0.0f);
 	m_Cloud->SetPosition_xyz(CloudTranselation);
@@ -585,21 +586,22 @@ bool cGamingScene::CollisionTest()
 
 void cGamingScene::SetLight()
 {
-	D3DMATERIAL9 Mtl;
-	ZeroMemory(&Mtl, sizeof(D3DMATERIAL9));
-	Mtl.Diffuse.r = 0.1;
-	Mtl.Diffuse.g = 0.1;
-	Mtl.Diffuse.b = 0.1;
-	g_pD3DDevice->SetMaterial(&Mtl);
+	//D3DMATERIAL9 Mtl;
+	//ZeroMemory(&Mtl, sizeof(D3DMATERIAL9));
+	//Mtl.Diffuse.r = 0.5;
+	//Mtl.Diffuse.g = 0.5;
+	//Mtl.Diffuse.b = 0.5;
+	//g_pD3DDevice->SetMaterial(&Mtl);
 
 	D3DLIGHT9 stLight;
-	stLight.Ambient = stLight.Diffuse = stLight.Specular = D3DXCOLOR(0.01f, 0.01f, 0.01f, 1.0f);
+	stLight.Diffuse = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f);
+	stLight.Ambient = stLight.Specular = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
 	stLight.Type = D3DLIGHT_DIRECTIONAL;
-	D3DXVECTOR3 vDir(0, -1, 0);
+	D3DXVECTOR3 vDir(1, -1, 0);
 	D3DXVec3Normalize(&vDir, &vDir);
 	stLight.Direction = vDir;
-	g_pD3DDevice->SetLight(1, &stLight);
-	g_pD3DDevice->LightEnable(1, true);
+	g_pD3DDevice->SetLight(0, &stLight);
+	g_pD3DDevice->LightEnable(0, true);
 	g_pD3DDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 }

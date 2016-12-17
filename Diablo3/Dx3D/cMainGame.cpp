@@ -42,7 +42,7 @@ void cMainGame::Setup()
 
 	g_pSceneManager->changeScene("BossScene");
 	
-	SetLight();
+	//SetLight();
 }
 
 void cMainGame::Update()

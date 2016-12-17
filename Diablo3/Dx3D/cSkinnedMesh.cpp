@@ -11,7 +11,6 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 	, m_dwWorkingPaletteSize(0)
 	, m_pmWorkingPalette(NULL)
 	, m_pEffect(NULL)
-	, m_pEffectOutLine(NULL)
 	, m_fBlendTime(0.1f)
 	, m_fPassedBlendTime(0.0f)
 	, m_isAnimBlend(false)
@@ -25,7 +24,6 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 	m_dwWorkingPaletteSize = pSkinnedMesh->m_dwWorkingPaletteSize;
 	m_pmWorkingPalette = pSkinnedMesh->m_pmWorkingPalette;
 	m_pEffect = pSkinnedMesh->m_pEffect;
-	m_pEffectOutLine = pSkinnedMesh->m_pEffectOutLine;
 	m_stBoundingSphere = pSkinnedMesh->m_stBoundingSphere;
 	m_vMin = pSkinnedMesh->GetMin();
 	m_vMax = pSkinnedMesh->GetMax();
@@ -47,7 +45,6 @@ cSkinnedMesh::cSkinnedMesh()
 	, m_dwWorkingPaletteSize(0)
 	, m_pmWorkingPalette(NULL)
 	, m_pEffect(NULL)
-	, m_pEffectOutLine(NULL)
 {
 }
 
@@ -60,7 +57,6 @@ cSkinnedMesh::~cSkinnedMesh(void)
 void cSkinnedMesh::Load(char* szDirectory, char* szFilename)
 {
 	m_pEffect = LoadEffect("MultiAnimation.hpp");
-	m_pEffectOutLine = LoadEffect("./Resources/Shaders/OutLine.fx");
 
 	D3DXMatrixIdentity(&m_matWorld);
 
@@ -223,8 +219,8 @@ void cSkinnedMesh::Render(ST_BONE* pBone /*= NULL*/)
 			m_pEffect->SetVector("vLightDiffuse", &D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f));
 			m_pEffect->SetVector("vWorldLightPos", &D3DXVECTOR4(500.0f, 500.0f, 500.0f, 1.0f));
 			m_pEffect->SetVector("vWorldCameraPos", &D3DXVECTOR4(vEye, 1.0f));
-			m_pEffect->SetVector("vMaterialAmbient", &D3DXVECTOR4(0.53f, 0.53f, 0.53f, 0.53f));
-			m_pEffect->SetVector("vMaterialDiffuse", &D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f));
+			m_pEffect->SetVector("vMaterialAmbient", &D3DXVECTOR4(0.23f, 0.23f, 0.23f, 0.23f));
+			m_pEffect->SetVector("vMaterialDiffuse", &D3DXVECTOR4(0.5f, 0.5f, 0.5f, 1.0f));
 
 			//m_pEffect->SetVector("vLightDiffuse", &D3DXVECTOR4(0.5f, 1.0f, 1.0f, 1.0f));
 			//m_pEffect->SetVector("vMaterialAmbient", &D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f));
@@ -257,10 +253,26 @@ void cSkinnedMesh::Render(ST_BONE* pBone /*= NULL*/)
 				m_pEffect->Begin(&uiPasses, 0);
 				for (uiPass = 0; uiPass < uiPasses; ++uiPass)
 				{
+					if (uiPass == 0)
+					{
+						g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
+						g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-					m_pEffect->BeginPass(uiPass);
-					pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
-					m_pEffect->EndPass();
+						m_pEffect->BeginPass(uiPass);
+						pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
+						m_pEffect->EndPass();
+					}
+					if (uiPass == 1)
+					{
+						g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+						g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+
+						m_pEffect->BeginPass(uiPass);
+						pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
+						m_pEffect->EndPass();
+					}
+					
+					
 
 				}
 				m_pEffect->End();
@@ -515,7 +527,6 @@ void cSkinnedMesh::Destroy()
 	D3DXFrameDestroy((LPD3DXFRAME)m_pRootFrame, &ah);
 	SAFE_DELETE_ARRAY(m_pmWorkingPalette);
 	SAFE_RELEASE(m_pEffect);
-	SAFE_RELEASE(m_pEffectOutLine);
 }
 
 void cSkinnedMesh::SetRandomTrackPosition()

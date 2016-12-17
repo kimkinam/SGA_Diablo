@@ -268,7 +268,7 @@ void cPlayer::Render()
 	if (m_pMesh)
 		m_pMesh->UpdateAndRender(&m_matWorld);
 	
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	
 	if (m_pSword)
 		m_pSword->Render();
 	
