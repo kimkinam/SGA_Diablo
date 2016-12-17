@@ -41,7 +41,7 @@ void cMainGame::Setup()
 	SOUNDMANAGER->addSound("WarCay", "Sound/War_Cay.mp3", false, true);
 	SOUNDMANAGER->addSound("SkeletonGetHit", "Sound/Skeleton_GetHit.mp3", false, true);
 
-	g_pSceneManager->changeScene("GamingScene");
+	g_pSceneManager->changeScene("BossScene");
 	
 	SetLight();
 }

@@ -216,3 +216,23 @@ void cCamera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 }
+
+
+void cCamera::SetNewDirection(D3DXVECTOR3 vDirection)
+{
+	m_vForward = vDirection;
+
+	D3DXVECTOR3 vRight;
+	D3DXVECTOR3 vUp;
+
+	D3DXVec3Cross(&vRight, &D3DXVECTOR3(0, 1, 0), &m_vForward);
+	D3DXVec3Normalize(&m_vRight, &vRight);
+
+	D3DXVec3Cross(&vUp, &m_vForward, &m_vRight);
+	D3DXVec3Normalize(&m_vUp, &vUp);
+
+	D3DXMATRIXA16 matView;
+	D3DXMatrixLookAtLH(&matView, &m_vEye, &m_vForward, &m_vUp);
+	g_pD3DDevice->SetTransform(D3DTS_VIEW, &matView);
+
+}

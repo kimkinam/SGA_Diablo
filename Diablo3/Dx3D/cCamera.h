@@ -30,6 +30,9 @@ public:
 	void Render();
 	void Update(D3DXVECTOR3* pTarget = NULL);
 
+	void SetNewDirection(D3DXVECTOR3 vDirection);
+
+
 	void MoveForward(float fSpeed, float fY);
 	void MoveSideward(float fSpeed);
 	void MouseRotate();

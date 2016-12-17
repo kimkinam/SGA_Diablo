@@ -35,8 +35,6 @@ private:
 	SYNTHESIZE(string, m_sObjName, ObjName);
 	SYNTHESIZE(string, m_sFolderName, FolderName);
 	
-	LPD3DXEFFECT	m_pFogEffect;
-	D3DXHANDLE		m_hFogTechHandle;
 public:
 	cMap();
 	virtual ~cMap();
