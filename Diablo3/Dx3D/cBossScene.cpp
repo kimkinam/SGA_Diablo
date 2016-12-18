@@ -10,6 +10,7 @@
 #include "cBoss.h"
 #include "cObj.h"
 #include "cObjLoader.h"
+#include "cUiManager.h"
 
 
 cBossScene::cBossScene()
@@ -18,9 +19,14 @@ cBossScene::cBossScene()
 	, m_pPlayer(NULL)
 	, m_pMap(NULL)
 	, m_vpickPos(0, 0, 0)
+<<<<<<< HEAD
 	, m_bIsCutScene(true)
 	, m_fCutSceneTimer(0)
 	, m_nBossTellCount(1)
+=======
+	, m_pUI(NULL)
+	
+>>>>>>> 2b6b7f0461585e1bec4175a4b088e0cb696d50c6
 {
 }
 
@@ -32,6 +38,7 @@ cBossScene::~cBossScene()
 	SAFE_RELEASE(m_pMap);
 	SAFE_RELEASE(m_pBoss);
 	SAFE_RELEASE(m_pPlayer);
+	SAFE_DELETE(m_pUI);
 
 }
 
@@ -47,6 +54,8 @@ HRESULT cBossScene::SetUp()
 
 	m_pGrid = new cGrid;
 	m_pGrid->Setup(30);
+
+	
 
 	ST_PC_VERTEX v;
 	D3DXCOLOR c;
@@ -76,8 +85,12 @@ HRESULT cBossScene::SetUp()
 	m_pMap = new cObj;
 	m_pMap->SetUp("DiabloMap.objobj", "./Resources/Object/");
 
+<<<<<<< HEAD
 	g_pAIManager->RegisterAIBase(m_pPlayer);
 	g_pAIManager->RegisterAIBase(m_pBoss);
+=======
+	
+>>>>>>> 2b6b7f0461585e1bec4175a4b088e0cb696d50c6
 
 	D3DXVECTOR3 vDir;
 	vDir = m_pPlayer->GetPosition() - BOSSSCENE_CAMERAPOS;/*D3DXVECTOR3(24, 10, -17)*/;
@@ -95,6 +108,13 @@ HRESULT cBossScene::SetUp()
 	m_fTotalFireTime = 5.0f;
 	m_fFireInterval = 0.2f;
 
+	g_pAIManager->RegisterAIBase(m_pPlayer);
+	g_pAIManager->RegisterAIBase(m_pBoss);
+
+	m_pPlayer->SetTarget(m_pBoss);
+	m_pBoss->SetTarget(m_pPlayer);
+
+	UISetting();
 	SetLight();
 
 	m_pPlayer->Update();
@@ -129,6 +149,8 @@ void cBossScene::Update()
 		if (!CutScene()) return;
 
 	PlayerMove();
+	if (m_pUI)
+		m_pUI->Update();
 
 	if (m_pPlayer)
 		m_pPlayer->Update();
@@ -139,14 +161,18 @@ void cBossScene::Update()
 
 	if (m_pCamera)
 	{
-		//m_pCamera->Update(m_pPlayer->GetPtPosition());
-		m_pCamera->Update();
+		m_pCamera->Update(m_pPlayer->GetPtPosition());
+		//m_pCamera->Update();
 	}
 
 	
 
 
 	SetLight();
+	SetPointLight();
+
+	if (m_pPlayer)
+		m_pPlayer->SkillRender();
 	
 }
 
@@ -155,7 +181,8 @@ void cBossScene::Render()
 	if (m_pGrid)
 		m_pGrid->Render();
 
-
+	if (m_pUI)
+		m_pUI->Render();
 
 	if (m_pCamera)
 		m_pCamera->Render();
@@ -169,18 +196,28 @@ void cBossScene::Render()
 	
 	if (m_pMap)
 		m_pMap->Render();
+<<<<<<< HEAD
 	
 	
+=======
+	//
+	//
+>>>>>>> 2b6b7f0461585e1bec4175a4b088e0cb696d50c6
 	if (m_pPlayer)
 	{
 	//if (m_pPlayer->m_pSateMachnie->GetCurState() == cPlayerAttackState::Instance())
 			m_pPlayer->TrailRender();
 	}
+<<<<<<< HEAD
 
 	if(m_pBoss)
 		m_pBoss->ParticleTestRender();
 	//if (m_pPlayer)
 	//	m_pPlayer->SkillRender();
+=======
+	if (m_pPlayer)
+		m_pPlayer->SkillRender();
+>>>>>>> 2b6b7f0461585e1bec4175a4b088e0cb696d50c6
 }
 
 
@@ -194,11 +231,58 @@ void cBossScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 void cBossScene::PlayerMove()
 {
-	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
-	{
+	cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
+	ST_RUN_EXTRAINFO MSG;
+	D3DXVECTOR3 vPickPos;
 
-		cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
-		D3DXVECTOR3 vPickPos;
+	////플레이어 피킹
+	if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
+	{
+		//충돌처리 해야할 박스정보와 플레이어 스피드를 메시지에 포함한다.
+
+		MSG.fSpeed = m_pPlayer->GetStat().fSpeed;
+
+		//레이를 월드좌표로 변환한다.
+		//cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
+
+		//몬스터를 클릭할 경우
+		
+		if (r.IntersectShpere(m_pBoss->GetMesh()->GetBoundingSphere()) && !m_pBoss->GetStat().bIsDead)
+		{
+			if (m_pBoss->GetStat().fHp <= 0) return;
+			//공격할 타겟을 메세지에 담는다.
+			MSG.nTarget = m_pBoss->GetID();
+
+			//몬스터까지의 방향을 구한다.
+			D3DXVECTOR3 vDir = m_pBoss->GetPosition() - m_pPlayer->GetPosition();
+
+			//몬스터까지의 거리를 구한다.
+			float fDisToMonster = D3DXVec3Length(&vDir);
+
+			//몬스터방향으로의 캐릭터 사거리를 구한다.
+			D3DXVec3Normalize(&vDir, &vDir);
+			float fRange = D3DXVec3Length(&(vDir * m_pPlayer->GetStat().fAttackRange));
+
+			//공격사거리보다 멀리 있는 경우
+			if (fRange < fDisToMonster)
+			{
+				MSG.vDest = m_pBoss->GetPosition() - vDir * m_pPlayer->GetStat().fAttackRange;
+
+			}
+			//공격사거리 안쪽에 있는 경우.
+			else
+			{
+				//SOUNDMANAGER->play("SwordSwing", 0.8f);
+				MSG.vDest = m_pPlayer->GetPosition();
+			}
+			g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_RUN, &MSG);
+
+			//몬스터를 클릭한 경우 바닥과의 피킹처리는 하지 않는다.
+			return;
+		}
+		
+		//바닥과의 피킹처리
+
 		for (size_t i = 0; i < m_vecTiles.size(); i += 3)
 		{
 			if (r.IntersectTri(m_vecTiles[i].p,
@@ -206,37 +290,80 @@ void cBossScene::PlayerMove()
 				m_vecTiles[i + 2].p,
 				vPickPos))
 			{
-				ST_RUN_EXTRAINFO msg;
-				msg.fSpeed = m_pPlayer->GetStat().fSpeed;
+				vPickPos.y = 3.4f;
 
-				msg.nTarget = m_pPlayer->GetID();
-				msg.vDest = vPickPos;
-				g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_RUN, &msg);
-				{
-					//cActionMove* pAction = new cActionMove;
-					//
-					//pAction->SetTo(pickPos);
-					//pAction->SetFrom(m_pPlayer->GetPosition());
-					//pAction->SetTarget(m_pPlayer);
-					//pAction->SetDelegate(m_pPlayer);
-					//pAction->SetSpeed(0.05f);
-					//pAction->Start();
-					//m_pPlayer->SetAction(pAction);
-					//m_pPlayer->GetMesh()->SetAnimationIndex("run");
-					ST_RUN_EXTRAINFO MSG;
-					//MSG.nBoxCount = m_vecBoundBox.size();
-					//MSG.vecBox = m_vecBoundBox;
-					MSG.fSpeed = m_pPlayer->GetStat().fSpeed;
+				MSG.nTarget = m_pBoss->GetID();
+				MSG.vDest = vPickPos;
 
-					MSG.nTarget = m_pPlayer->GetID();
-					MSG.vDest = vPickPos;
-
-					g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_RUN, &MSG);
-
-				}
+				g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_RUN, &MSG);
 			}
 		}
 	}
+	if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
+	{
+
+		MSG.fSpeed = m_pPlayer->GetStat().fSpeed;
+
+		for (size_t i = 0; i < m_vecTiles.size(); i += 3)
+		{
+			if (r.IntersectTri(m_vecTiles[i].p,
+				m_vecTiles[i + 1].p,
+				m_vecTiles[i + 2].p,
+				vPickPos))
+			{
+				vPickPos.y = 3.4f;
+
+				MSG.nTarget = m_pPlayer->GetID();
+				MSG.vDest = vPickPos;
+
+				g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_WHIRLWIND, &MSG);
+			}
+		}
+	}
+
+	//if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
+	//{
+	//
+	//	cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
+	//	D3DXVECTOR3 vPickPos;
+	//	for (size_t i = 0; i < m_vecTiles.size(); i += 3)
+	//	{
+	//		if (r.IntersectTri(m_vecTiles[i].p,
+	//			m_vecTiles[i + 1].p,
+	//			m_vecTiles[i + 2].p,
+	//			vPickPos))
+	//		{
+	//			ST_RUN_EXTRAINFO msg;
+	//			msg.fSpeed = m_pPlayer->GetStat().fSpeed;
+	//
+	//			msg.nTarget = m_pPlayer->GetID();
+	//			msg.vDest = vPickPos;
+	//			g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_RUN, &msg);
+	//			{
+	//				//cActionMove* pAction = new cActionMove;
+	//				//
+	//				//pAction->SetTo(pickPos);
+	//				//pAction->SetFrom(m_pPlayer->GetPosition());
+	//				//pAction->SetTarget(m_pPlayer);
+	//				//pAction->SetDelegate(m_pPlayer);
+	//				//pAction->SetSpeed(0.05f);
+	//				//pAction->Start();
+	//				//m_pPlayer->SetAction(pAction);
+	//				//m_pPlayer->GetMesh()->SetAnimationIndex("run");
+	//				ST_RUN_EXTRAINFO MSG;
+	//				//MSG.nBoxCount = m_vecBoundBox.size();
+	//				//MSG.vecBox = m_vecBoundBox;
+	//				MSG.fSpeed = m_pPlayer->GetStat().fSpeed;
+	//
+	//				MSG.nTarget = m_pPlayer->GetID();
+	//				MSG.vDest = vPickPos;
+	//
+	//				g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_RUN, &MSG);
+	//
+	//			}
+	//		}
+	//	}
+	//}
 }
 
 bool cBossScene::CutScene()
@@ -348,8 +475,13 @@ void cBossScene::SetLight()
 	//g_pD3DDevice->SetMaterial(&Mtl);
 
 	D3DLIGHT9 stLight;
+<<<<<<< HEAD
 	stLight.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	stLight.Ambient = stLight.Specular = D3DXCOLOR(0.3f, 0.3f, 0.3f, 1.0f);
+=======
+	stLight.Diffuse = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
+	stLight.Ambient = stLight.Specular = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
+>>>>>>> 2b6b7f0461585e1bec4175a4b088e0cb696d50c6
 	stLight.Type = D3DLIGHT_DIRECTIONAL;
 	D3DXVECTOR3 vDir(1, -1, 0);
 	D3DXVec3Normalize(&vDir, &vDir);
@@ -360,4 +492,77 @@ void cBossScene::SetLight()
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 
 }
+
+
+void cBossScene::SetPointLight()
+{
+	D3DMATERIAL9 mtrl;
+	ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
+	mtrl.Diffuse.r = mtrl.Ambient.r = 0.6f;
+	mtrl.Diffuse.g = mtrl.Ambient.g = 0.6;
+	mtrl.Diffuse.b = mtrl.Ambient.b = 0.6f;
+	g_pD3DDevice->SetMaterial(&mtrl);
+
+	D3DLIGHT9 st_pLight;
+	ZeroMemory(&st_pLight, sizeof(D3DLIGHT9));
+	st_pLight.Diffuse = D3DXCOLOR(0.05, 0.05, 0.05, 1.0f);
+	st_pLight.Type = D3DLIGHT_POINT;
+	PointLightWorldTM = m_pPlayer->GetMesh()->AttachItem("Spine2");
+	D3DXVECTOR3 vPosition = D3DXVECTOR3(0, 0, 0);
+	vPosition.x = PointLightWorldTM->_41;
+	vPosition.y = PointLightWorldTM->_42;
+	vPosition.z = PointLightWorldTM->_43;
+
+	st_pLight.Position = vPosition;
+	st_pLight.Range = 2.0f;
+	st_pLight.Attenuation0 = 0.1;
+	st_pLight.Attenuation1 = 0.001;
+	st_pLight.Attenuation1 = 0.0001;
+	g_pD3DDevice->SetLight(1, &st_pLight);
+	g_pD3DDevice->LightEnable(1, true);
+	g_pD3DDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	g_pD3DDevice->SetRenderState(D3DRS_AMBIENT, 0x00202020);
+
+	//---------------------------------------------
+	D3DMATERIAL9 mtrl2;
+	ZeroMemory(&mtrl2, sizeof(D3DMATERIAL9));
+	mtrl2.Diffuse.r = mtrl2.Ambient.r = 0.6f;
+	mtrl2.Diffuse.g = mtrl2.Ambient.g = 0.2;
+	mtrl2.Diffuse.b = mtrl2.Ambient.b = 0.2f;
+	g_pD3DDevice->SetMaterial(&mtrl2);
+
+	D3DLIGHT9 st_pLigh2t;
+	ZeroMemory(&st_pLigh2t, sizeof(D3DLIGHT9));
+	st_pLigh2t.Diffuse = D3DXCOLOR(0.4, 0.02, 0.03, 1.0f);
+	st_pLigh2t.Type = D3DLIGHT_POINT;
+
+	PointLightWorldTM = m_pBoss->GetMesh()->AttachItem("Spine2");
+	
+	vPosition = D3DXVECTOR3(0, 0, 0);
+
+	vPosition.x = PointLightWorldTM->_41;
+	vPosition.y = PointLightWorldTM->_42;
+	vPosition.z = PointLightWorldTM->_43;
+
+	st_pLigh2t.Position = vPosition;
+	st_pLigh2t.Range = 2.0f;
+	st_pLigh2t.Attenuation0 = 0.1;
+	st_pLigh2t.Attenuation1 = 0.001;
+	st_pLigh2t.Attenuation1 = 0.0001;
+	g_pD3DDevice->SetLight(2, &st_pLigh2t);
+	g_pD3DDevice->LightEnable(2, true);
+	g_pD3DDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	g_pD3DDevice->SetRenderState(D3DRS_AMBIENT, 0x00202020);
+}
+
+void cBossScene::UISetting()
+{
+	m_pUI = new cUiManager;
+	m_pUI->SetAddressLink(m_pPlayer);
+	m_pUI->SetUp();
+}
+
+
 

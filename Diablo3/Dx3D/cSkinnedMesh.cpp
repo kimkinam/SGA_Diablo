@@ -215,12 +215,17 @@ void cSkinnedMesh::Render(ST_BONE* pBone /*= NULL*/)
 				m_pmWorkingPalette,
 				pBoneMesh->dwNumPaletteEntries);
 
+<<<<<<< HEAD
 			//m_pEffect->SetMatrix("g_mViewProj", &matViewProj);
 			m_pEffect->SetVector("vLightDiffuse", &D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f));
+=======
+			m_pEffect->SetMatrix("g_mViewProj", &matViewProj);
+			m_pEffect->SetVector("vLightDiffuse", &D3DXVECTOR4(0.5f, 0.5f, 0.5f, 1.0f));
+>>>>>>> 2b6b7f0461585e1bec4175a4b088e0cb696d50c6
 			m_pEffect->SetVector("vWorldLightPos", &D3DXVECTOR4(500.0f, 500.0f, 500.0f, 1.0f));
 			m_pEffect->SetVector("vWorldCameraPos", &D3DXVECTOR4(vEye, 1.0f));
 			m_pEffect->SetVector("vMaterialAmbient", &D3DXVECTOR4(0.23f, 0.23f, 0.23f, 0.23f));
-			m_pEffect->SetVector("vMaterialDiffuse", &D3DXVECTOR4(0.5f, 0.5f, 0.5f, 1.0f));
+			m_pEffect->SetVector("vMaterialDiffuse", &D3DXVECTOR4(0.1f, 0.1f, 0.f, 1.0f));
 
 			//m_pEffect->SetVector("vLightDiffuse", &D3DXVECTOR4(0.5f, 1.0f, 1.0f, 1.0f));
 			//m_pEffect->SetVector("vMaterialAmbient", &D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f));

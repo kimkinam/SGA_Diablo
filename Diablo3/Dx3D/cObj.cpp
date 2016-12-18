@@ -85,7 +85,7 @@ void cObj::Render()
 	g_pD3DDevice->GetRenderState(D3DRS_ZWRITEENABLE, &prevZBuffer);
 	g_pD3DDevice->GetTransform(D3DTS_WORLD, &prevWorld);
 
-	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+
 	g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 
@@ -111,8 +111,8 @@ void cObj::Render()
 		g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
 		g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
 
-		//m_pEffect->SetMatrix("matWorld", &matW);
-		//m_pEffect->SetMatrix("matWorldViewProjection", &(matW * matView * matProj));
+			m_pEffect->SetMatrix("matWorld", &matW);
+			m_pEffect->SetMatrix("matWorldViewProjection", &(matW * matView * matProj));
 
 	}
 
@@ -144,7 +144,7 @@ void cObj::Render()
 		
 			
 			m_pEffect->SetFloat("fSpeed", 0.5f);
-			m_pEffect->SetFloat("uvspeed", -1.0f);
+			m_pEffect->SetFloat("uvspeed", -0.15f);
 			m_pEffect->SetFloat("fTime", tick / 1000.0f);
 			m_pEffect->SetTexture("DiffuseMap_Tex", m_vecMtl[i]->GetTexture());
 		

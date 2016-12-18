@@ -256,6 +256,18 @@ HRESULT cTestScene::SetUp()
 	m_pUIRoot->SetDraw(cUIObject::Ui_Tag::thumbnail_Monster, false);
 
 	m_bIsLoad = true;
+
+	D3DXVECTOR3 vDir;
+	vDir = D3DXVECTOR3(0,0,0) - TESTSCENE_CAMERAPOS;/*D3DXVECTOR3(24, 10, -17)*/;
+	D3DXVec3Normalize(&vDir, &vDir);
+
+	float distance = 30.0f;
+
+	m_pCamera->SetEye(D3DXVECTOR3(0, 0, 0) - vDir * distance);
+	m_pCamera->SetNewDirection(vDir);
+
+	SetLight();
+
 	return S_OK;
 }
 
@@ -288,11 +300,11 @@ void cTestScene::Update()
 	if (m_pUIRoot)
 		m_pUIRoot->Update();
 
-	if (g_pKeyManager->isOnceKeyDown('L'))
-	{
-		Save("map1");
-	}
-
+	//if (g_pKeyManager->isOnceKeyDown('L'))
+	//{
+	//	Save("map1");
+	//}
+	//
 	if (g_pKeyManager->isOnceKeyDown('P'))
 	{
 		Load("map1");
@@ -902,6 +914,10 @@ void cTestScene::SetBoundBox()
 		m_vecBoundBox.pop_back();
 	}
 
+	if (g_pKeyManager->isOnceKeyDown(VK_DELETE))
+	{
+		m_vecBoundBox.pop_back();
+	}
 }
 
 bool cTestScene::CollisionTest()
@@ -1077,5 +1093,18 @@ void cTestScene::Load(string fileName)
 
 	fclose(fp);
 
+}
+
+void cTestScene::SetLight()
+{
+	D3DLIGHT9 stLight;
+	stLight.Ambient = stLight.Diffuse = stLight.Specular = D3DXCOLOR(1.f, 1.0f, 1.0f, 1.0f);
+	stLight.Type = D3DLIGHT_DIRECTIONAL;
+	D3DXVECTOR3 vDir(0, -1, 0);
+	D3DXVec3Normalize(&vDir, &vDir);
+	stLight.Direction = vDir;
+	g_pD3DDevice->SetLight(0, &stLight);
+	g_pD3DDevice->LightEnable(0, true);
+	g_pD3DDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 }
 

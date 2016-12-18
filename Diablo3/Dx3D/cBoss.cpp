@@ -82,6 +82,7 @@ void cBoss::Update()
 	LightingBreathUpdate();
 
 	// 쉐이더 불판 업데이트
+<<<<<<< HEAD
 	//Red -= 0.03;
 	//if (Red < 0.5)
 	//{
@@ -99,6 +100,23 @@ void cBoss::Update()
 	//{
 	//	Yellow = 0.8f;
 	//}
+=======
+	Red -= 0.03;
+	if (Red < 0.5)
+	{
+		Red = 1.2;
+	}
+	Alpha -= 0.002;//A
+	if (Alpha < 0)
+	{
+		Alpha = 1.0f;
+	}
+	Yellow -= 0.03;
+	if (Yellow<0.5f)
+	{
+		Yellow = 0.8f;
+	}
+>>>>>>> 2b6b7f0461585e1bec4175a4b088e0cb696d50c6
 	//cPlayerPosition = m_player->GetPosition();
 	//cPlayerPosition = D3DXVECTOR3(0, 5, -5);
 	//FireBomb->SetPosition_xyz(cPlayerPosition); // 불판 포지션 

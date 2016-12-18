@@ -140,12 +140,12 @@ float4 Default_DirectX_Effect_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLO
      
    }
    
-   float3 ambient = float3(1.5f, 1.5f, 1.5f) * albedo;
+   float3 ambient = float3(0.2f, 0.2f, 0.2f) * albedo.a*0.5;
 
 
 
    
-   return (float4(ambient+ specular,0.5f));
+   return (float4(ambient +specular,0.5f));
 }
 
 
@@ -158,8 +158,10 @@ technique Default_DirectX_Effect
    {
       BLENDOP = MAX;
       ALPHABLENDENABLE = TRUE;
+      ANTIALIASEDLINEENABLE = TRUE;
+      ALPHATESTENABLE = TRUE;
+      ALPHAFUNC = GREATEREQUAL;
       DESTBLEND = ONE;
-      BLENDOPALPHA = MAX;
       ZWRITEENABLE = FALSE;
 
       VertexShader = compile vs_2_0 Default_DirectX_Effect_Pass_0_Vertex_Shader_vs_main();

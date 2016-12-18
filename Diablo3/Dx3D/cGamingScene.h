@@ -30,6 +30,10 @@ private:
 	SYNTHESIZE(std::vector<cMonster*>, m_vecMonster, vecMonster);
 
 	cShaderManager*					   m_Cloud;
+	D3DXVECTOR3              CloudTranselation;
+	D3DXVECTOR3					  CloudScaling;
+
+	D3DXMATRIX*						   PointLightWorldTM;
 
 
 public:
@@ -41,6 +45,7 @@ public:
 	void PlayerMoveTest();
 	bool CollisionTest();
 	void SetLight(); //Α¶Έν
+	void SetPointLight();
 	
 	//cScene override;
 	virtual HRESULT SetUp()	override;
