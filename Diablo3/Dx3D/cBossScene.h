@@ -5,6 +5,7 @@ class cBoss;
 class cPlayer;
 class cObj;
 class cLighting;
+class cUiManager;
 
 class cBossScene :
 	public cSceneObject
@@ -14,7 +15,7 @@ private:
 	cObj*			m_pMap;
 	cBoss*			m_pBoss; // º¸½º
 	cPlayer*		m_pPlayer;
-
+	cUiManager*		m_pUI;
 	std::vector<ST_PC_VERTEX>	m_vecTiles;
 	D3DXVECTOR3					m_vpickPos;
 
@@ -23,6 +24,10 @@ private:
 
 	float						m_fTotalFireTime;
 	float						m_fFireInterval;
+
+	D3DXMATRIX*					PointLightWorldTM;
+
+
 
 public:
 	cBossScene();
@@ -37,6 +42,8 @@ public:
 
 
 	void SetLight();
+	void SetPointLight();
 	void PlayerMove();
+	void UISetting();
 };
 

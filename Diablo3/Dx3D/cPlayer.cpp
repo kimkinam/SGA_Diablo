@@ -153,20 +153,20 @@ void cPlayer::Update()
 	//	g_pMessageManager->MessageSend(0.0f, this->GetID(), this->GetID(),
 	//		MESSAGE_TYPE::MSG_ATTACK, NULL);
 	//}
-	
 
 
 
 
 
-	//if (m_vPosition.x < 0 && m_vPosition.z < 0)	//왼쪽아래
-	//	m_nCurMap = 0;
-	//if (m_vPosition.x < 0 && m_vPosition.z > 0)	//왼쪽위
-	//	m_nCurMap = 1;
-	//if (m_vPosition.x > 0 && m_vPosition.z > 0)	//오른쪽위
-	//	m_nCurMap = 2;
-	//if (m_vPosition.x > 0 && m_vPosition.z < 0)	//오른쪽아래
-	//	m_nCurMap = 3;
+
+	if (m_vPosition.x < 0 && m_vPosition.z < 0)	//왼쪽아래
+		m_nCurMap = 0;
+	if (m_vPosition.x < 0 && m_vPosition.z > 0)	//왼쪽위
+		m_nCurMap = 1;
+	if (m_vPosition.x > 0 && m_vPosition.z > 0)	//오른쪽위
+		m_nCurMap = 2;
+	if (m_vPosition.x > 0 && m_vPosition.z < 0)	//오른쪽아래
+		m_nCurMap = 3;
 
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixTranslation(&m_matWorld, m_vPosition.x, m_vPosition.y, m_vPosition.z);
@@ -195,11 +195,11 @@ void cPlayer::Update()
 		WhilwindScaling.y += 0.02;
 		WhilwindScaling.z += 0.02;
 
-		if (WhilwindScaling.x > 1.0&& WhilwindScaling.y > 1.0&& WhilwindScaling.z > 1.0)
+		if (WhilwindScaling.x > 1.2&& WhilwindScaling.y > 1.2&& WhilwindScaling.z > 1.2)
 		{
-			WhilwindScaling.x = 1.0;
-			WhilwindScaling.y = 1.0;
-			WhilwindScaling.z = 1.0;
+			WhilwindScaling.x = 1.2;
+			WhilwindScaling.y = 1.2;
+			WhilwindScaling.z = 1.2;
 		}
 
 		Whilwind->SetScaling_xyz(WhilwindScaling);
@@ -208,24 +208,24 @@ void cPlayer::Update()
 	else
 	{
 		Whilwind_Alpha = 1.0;
-		
+
 		WhilwindScaling.x -= 0.03;
 		WhilwindScaling.y -= 0.007;
 		WhilwindScaling.z -= 0.03;
 
 
-		if (WhilwindScaling.y <= 0 )
+		if (WhilwindScaling.y <= 0)
 		{
 			WhilwindScaling.y = 0;
 		}
-		if (WhilwindScaling.x <=0 && WhilwindScaling.z <=0)
+		if (WhilwindScaling.x <= 0 && WhilwindScaling.z <= 0)
 		{
 			WhilwindScaling.x = 0;
 			WhilwindScaling.z = 0;
 		}
-		
+
 		Whilwind->SetScaling_xyz(WhilwindScaling);
-		Whilwind->SetAlpha_Down(Whilwind_Alpha); 
+		Whilwind->SetAlpha_Down(Whilwind_Alpha);
 	}
 
 	// 워크라이
@@ -233,20 +233,22 @@ void cPlayer::Update()
 	//WarCryPos.y += 1.0f;
 	Warcry->SetPosition_xyz(SkillPosition);
 	Warcry->Update();
-	
 
-	if (g_pKeyManager->isStayKeyDown('3'))
+
+	if (g_pKeyManager->isOnceKeyDown('1'))
 	{
 		isWarcry = true;
 	}
-	
-	if (isWarcry==true)
-		{
-			WarcryScaling.x += 0.07f;
-			WarcryScaling.y = 0.02f;
-			WarcryScaling.z += 0.07f;
-		
-		if (WarcryScaling.x >= 5.0&& WarcryScaling.z >= 5.0)
+
+	if (isWarcry == true)
+	{
+		WarcryScaling.x += 0.08f;
+		WarcryScaling.y += 0.015f;
+		WarcryScaling.z += 0.08f;
+		Warcry->SetScaling_xyz(WarcryScaling);
+
+
+		if (WarcryScaling.x > 1.5&& WarcryScaling.z >= 1.5f)
 		{
 			WarcryScaling.x = 0;
 			WarcryScaling.y = 0;
@@ -254,24 +256,26 @@ void cPlayer::Update()
 			Warcry->SetScaling_xyz(WarcryScaling);
 			isWarcry = false;
 		}
-
-		
+		if (WarcryScaling.y > 1.3)
+		{
+			WarcryScaling.y = 1.3;
+		}
 	}
-	
 }
+
 
 void cPlayer::Render()
 {
 	cGameObject::Render();
-	
-	
+
+
 	if (m_pMesh)
 		m_pMesh->UpdateAndRender(&m_matWorld);
-	
-	
+
+
 	if (m_pSword)
 		m_pSword->Render();
-	
+
 	int animMaxCount = m_pMesh->GetAnimController()->GetNumAnimationSets();
 
 
@@ -296,9 +300,9 @@ void cPlayer::Render()
 		}
 	}
 
-	
-
 }
+
+
 
 void cPlayer::PlayerPosition()
 {

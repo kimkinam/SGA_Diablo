@@ -27,10 +27,15 @@ void cWhirlwindState::Enter(cPlayer * pOwner)
 
 	m_bIsAtk = false;
 
-	for (m_mapMonsterIter = m_mapMonster.begin(); m_mapMonsterIter != m_mapMonster.end(); ++m_mapMonsterIter)
+	if (pOwner->GetTarget()->GetStat().chType != CHARACTER_DIABLO)
 	{
-		m_vecMonster.push_back(m_mapMonsterIter->second);
+		for (m_mapMonsterIter = m_mapMonster.begin(); m_mapMonsterIter != m_mapMonster.end(); ++m_mapMonsterIter)
+		{
+			m_vecMonster.push_back(m_mapMonsterIter->second);
+		}
 	}
+
+
 }
 
 
@@ -57,6 +62,8 @@ void cWhirlwindState::Execute(cPlayer * pOwner)
 
 	}
 	
+	if (m_vecMonster.empty()) return;
+
 	for (size_t i = 0; i < m_vecMonster.size(); ++i)
 	{
 		if (m_vecMonster[i]->GetID() == pOwner->GetID()) continue;

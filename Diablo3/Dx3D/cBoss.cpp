@@ -77,13 +77,11 @@ void cBoss::Update()
 	{
 		Red = 1.2;
 	}
-
 	Alpha -= 0.002;//A
 	if (Alpha < 0)
 	{
 		Alpha = 1.0f;
 	}
-
 	Yellow -= 0.03;
 	if (Yellow<0.5f)
 	{

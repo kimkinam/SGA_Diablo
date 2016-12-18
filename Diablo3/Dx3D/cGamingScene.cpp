@@ -25,6 +25,9 @@ cGamingScene::cGamingScene()
 	, m_pUI(NULL)
 	, m_pCurMonster(NULL)
 	, m_Cloud(NULL)
+	, PointLightWorldTM(NULL)
+	, CloudTranselation(0,0,0)
+	, CloudScaling(1,1,1)
 {
 	
 }
@@ -118,9 +121,12 @@ HRESULT cGamingScene::SetUp()
 	//SOUNDMANAGER->play("WhirlWind", 0.8f);
 
 	m_Cloud = new cShaderManager;
-	m_Cloud->Setup("cloud.fx", "cloud.x", "cloud.dds", NULL, NULL);
+	
 
 	SetLight();
+	SetPointLight();
+
+	m_Cloud->Setup("cloud.fx", "cloud.x", "cloud.dds", NULL, NULL);
 	return S_OK;
 }
 
@@ -174,6 +180,8 @@ void cGamingScene::Update()
 	{
 		m_pPlayer->Update();
 		m_pPlayer->TrailUpdate();
+		
+		//PointLightWorldTM = m_pPlayer->GetMesh()->AttachItem("HP_chest");
 	}
 		
 	for (size_t i = 0; i < m_vecMonster.size(); ++i)
@@ -188,63 +196,71 @@ void cGamingScene::Update()
 
 	if (m_pCamera)
 	{
-		//m_pCamera->Update(m_pPlayer->GetPtPosition());
 		m_pCamera->Update(m_pPlayer->GetPtPosition());
+		//m_pCamera->Update(NULL);
 	}
 	
 	if (m_pUI)
 		m_pUI->Update();
 
-	if (g_pKeyManager->isOnceKeyDown('1'))
+	if (g_pKeyManager->isOnceKeyDown('3'))
 	{
 		g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_WARCRY, NULL);
 	}
 
+	CloudScaling = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
+	CloudTranselation = D3DXVECTOR3(0.0f, 0.2f, 0.0f);
+	m_Cloud->SetPosition_xyz(CloudTranselation);
+	m_Cloud->SetScaling_xyz(CloudScaling);
+	m_Cloud->Update();
+
 	SetLight();
+	SetPointLight();
 }
 
 void cGamingScene::Render()
 {
+	//g_pD3DDevice->LightEnable(0, true);
+
 	if (m_pGrid)
 		m_pGrid->Render();
-
+	//
 	if (m_pPlayer)
 		m_pPlayer->Render();
-	
+
+
+
+
+
+	//
 	for (size_t i = 0; i < m_vecMonster.size(); ++i)
 	{
 		m_vecMonster[i]->Render();
 	}
-	D3DLIGHT9 stLight;
-	stLight.Ambient = stLight.Diffuse = stLight.Specular = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
-	stLight.Type = D3DLIGHT_DIRECTIONAL;
-	D3DXVECTOR3 vDir(1, -1, 1);
-	D3DXVec3Normalize(&vDir, &vDir);
-	stLight.Direction = vDir;
-	g_pD3DDevice->SetLight(0, &stLight);
-	g_pD3DDevice->LightEnable(0, true);
-
-	g_pD3DDevice->SetRenderState(D3DRS_NORMALIZENORMALS, false);
-
+	
 	for (size_t i = 0; i < m_vecMap.size(); ++i)
 	{
 		m_vecMap[i]->Render();
 	}
+	
+	
+	m_Cloud->Shader_info_Set(1.5f, NULL, NULL, 0.005f); // 구름 
+	m_Cloud->Render();
 
 	for (size_t i = 0; i < m_vecBoundBox.size(); ++i)
 	{
 		m_vecBoundBox[i]->DebugRender(D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
 	}
-
+	
 	if (m_pCamera)
 		m_pCamera->Render();
-
+	//
 	if (m_pPlayer)
 		m_pPlayer->TrailRender();
-
+	//
 	if (m_pUI)
 		m_pUI->Render();
-
+	
 	if (m_pCurMonster)
 	{
 		LPD3DXFONT font;
@@ -269,32 +285,33 @@ void cGamingScene::Render()
 		int lastDotIndex = name.find_last_not_of(".");
 		string result = name.substr(0, lastDotIndex - 1);
 		sprintf_s(temp, "%s", result.c_str(), 128);
+
+		RECT RC;
+		GetClientRect(g_hWnd, &RC);
+
+		
 	
 		if (m_pCurMonster->GetStat().chType == CHARACTER_GARHANTUAN)
-			SetRect(&rc, DEBUG_STARTX + WINSIZE_X / 2.3f - result.length() - 12, DEBUG_STARTY - 22, DEBUG_STARTX + WINSIZE_X, DEBUG_STARTY + 315);
+			SetRect(&rc, DEBUG_STARTX + WINSIZE_X / 2.3f - result.length() - 30, DEBUG_STARTY - 22, DEBUG_STARTX + WINSIZE_X, DEBUG_STARTY + 315);
 		else if (m_pCurMonster->GetStat().chType == CHARACTER_SKELETON || m_pCurMonster->GetStat().chType == CHARACTER_ZOMBIEDOG)
-			SetRect(&rc, DEBUG_STARTX + WINSIZE_X / 2.3f - result.length(), DEBUG_STARTY - 22, DEBUG_STARTX + WINSIZE_X, DEBUG_STARTY + 315);
+			SetRect(&rc, DEBUG_STARTX + WINSIZE_X / 2.3f - result.length() - 30, DEBUG_STARTY - 22, DEBUG_STARTX + WINSIZE_X, DEBUG_STARTY + 315);
 		else
-			SetRect(&rc, DEBUG_STARTX + WINSIZE_X / 2.3f + result.length(), DEBUG_STARTY - 22, DEBUG_STARTX + WINSIZE_X, DEBUG_STARTY + 315);
+			SetRect(&rc, DEBUG_STARTX + WINSIZE_X / 2.3f + result.length() - 25, DEBUG_STARTY - 22, DEBUG_STARTX + WINSIZE_X, DEBUG_STARTY + 315);
 	
 		font->DrawText(NULL,
 			temp,
 			128,
 			&rc,
-			DT_LEFT,
+			DT_LEFT ,
 			D3DCOLOR_XRGB(255, 255, 255));
 	}
 	
-	D3DXVECTOR3 CloudScaling(1.0f, 1.008f, 1.0f);
-	D3DXVECTOR3 CloudTranselation(0.0f, 0.8f, 0.0f);
-	m_Cloud->SetPosition_xyz(CloudTranselation);
-	m_Cloud->SetScaling_xyz(CloudScaling);
-	m_Cloud->Shader_info_Set(1.5f, NULL, NULL, 0.1f);
-	m_Cloud->Render();
-
-
 	if (m_pPlayer)
 		m_pPlayer->SkillRender();
+
+
+
+
 }
 
 void cGamingScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -539,11 +556,6 @@ void cGamingScene::PlayerMoveTest()
 		}
 	}
 
-	if (g_pKeyManager->isOnceKeyDown('2'))
-	{
-		//m_pPlayer->GetMesh()->SetAnimationIndex("whirlwinding");
-		
-	}
 
 	//플레이어 아이템 변화 테스트
 
@@ -634,15 +646,8 @@ bool cGamingScene::CollisionTest()
 
 void cGamingScene::SetLight()
 {
-	//D3DMATERIAL9 Mtl;
-	//ZeroMemory(&Mtl, sizeof(D3DMATERIAL9));
-	//Mtl.Diffuse.r = 0.5;
-	//Mtl.Diffuse.g = 0.5;
-	//Mtl.Diffuse.b = 0.5;
-	//g_pD3DDevice->SetMaterial(&Mtl);
-
 	D3DLIGHT9 stLight;
-	stLight.Diffuse = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f);
+	stLight.Diffuse = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
 	stLight.Ambient = stLight.Specular = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
 	stLight.Type = D3DLIGHT_DIRECTIONAL;
 	D3DXVECTOR3 vDir(1, -1, 0);
@@ -653,3 +658,35 @@ void cGamingScene::SetLight()
 	g_pD3DDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 }
+
+void cGamingScene::SetPointLight()
+{
+	D3DMATERIAL9 mtrl;
+	ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
+	mtrl.Diffuse.r = mtrl.Ambient.r = 0.6f;
+	mtrl.Diffuse.g = mtrl.Ambient.g = 0.6f;
+	mtrl.Diffuse.b = mtrl.Ambient.b = 0.6f;
+	g_pD3DDevice->SetMaterial(&mtrl);
+
+	D3DLIGHT9 st_pLight;
+	ZeroMemory(&st_pLight, sizeof(D3DLIGHT9));
+	st_pLight.Diffuse = D3DXCOLOR(0.05, 0.05, 0.05, 1.0f);
+	st_pLight.Type = D3DLIGHT_POINT;
+	PointLightWorldTM = m_pPlayer->GetMesh()->AttachItem("Spine2");
+	D3DXVECTOR3 vPosition = D3DXVECTOR3(0, 0, 0);
+	vPosition.x = PointLightWorldTM->_41;
+	vPosition.y = PointLightWorldTM->_42;
+	vPosition.z = PointLightWorldTM->_43;
+
+	st_pLight.Position = vPosition;
+	st_pLight.Range = 2.0f;
+	st_pLight.Attenuation0 = 0.1;
+	st_pLight.Attenuation1 = 0.001;
+	st_pLight.Attenuation1 = 0.0001;
+	g_pD3DDevice->SetLight(1, &st_pLight);
+	g_pD3DDevice->LightEnable(1, true);
+	g_pD3DDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	g_pD3DDevice->SetRenderState(D3DRS_AMBIENT, 0x00202020);
+}
+

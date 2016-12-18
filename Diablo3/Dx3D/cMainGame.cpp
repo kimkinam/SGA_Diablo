@@ -59,6 +59,7 @@ void cMainGame::Setup()
 	SOUNDMANAGER->addSound("ZombieDogAttack", "Sound/ZombieDog_Attack.mp3", false, false);
 	SOUNDMANAGER->addSound("ZombieDogGetHit", "Sound/ZombieDog_GetHit.mp3", false, false);
 	SOUNDMANAGER->addSound("ZombieDogDead", "Sound/ZombieDog_Dead.mp3", false, false);
+	
 	g_pSceneManager->changeScene("BossScene");
 	
 }

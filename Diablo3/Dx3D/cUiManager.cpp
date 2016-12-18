@@ -293,7 +293,10 @@ void cUiManager::SetUpHpBar(RECT rc)
 	SetSphere(m_Hp);
 	SetSphere(m_Mp);
 
+	if (m_fCurHp)
 	m_fCurHp = m_pPlayer->GetStat().fHp;
+
+	if (m_fMaxHp)
 	m_fMaxHp = m_pPlayer->GetStat().fMaxHp;
 
 }
