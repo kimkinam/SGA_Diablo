@@ -27,7 +27,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -102,6 +102,9 @@
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="cCharController.h" />
     <ClInclude Include="cCube.h" />
+    <ClInclude Include="cDiabloDetectingState.h" />
+    <ClInclude Include="cDiabloLightingBreath.h" />
+    <ClInclude Include="cDiabloStom.h" />
     <ClInclude Include="cFetish.h" />
     <ClInclude Include="cGargantuan.h" />
     <ClInclude Include="cLighting.h" />
@@ -200,6 +203,9 @@
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="cCharController.cpp" />
     <ClCompile Include="cCube.cpp" />
+    <ClCompile Include="cDiabloDetectingState.cpp" />
+    <ClCompile Include="cDiabloLightingBreath.cpp" />
+    <ClCompile Include="cDiabloStom.cpp" />
     <ClCompile Include="cFetish.cpp" />
     <ClCompile Include="cGargantuan.cpp" />
     <ClCompile Include="cLighting.cpp" />

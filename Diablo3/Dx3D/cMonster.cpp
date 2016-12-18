@@ -45,7 +45,8 @@ void cMonster::Setup(char * szMonsterName, D3DXVECTOR3* vLookAt)
 
 	cGameObject::Setup(vLookAt);
 
-	m_pSateMachnie->ChangeState(cMonsterDetecting::Instance());
+	if(m_pSateMachnie->GetCurState())
+		m_pSateMachnie->ChangeState(cMonsterDetecting::Instance());
 }
 
 void cMonster::Setup(ST_SAVEOBJECT wObj)

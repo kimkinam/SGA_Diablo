@@ -215,7 +215,7 @@ void cSkinnedMesh::Render(ST_BONE* pBone /*= NULL*/)
 				m_pmWorkingPalette,
 				pBoneMesh->dwNumPaletteEntries);
 
-			m_pEffect->SetMatrix("g_mViewProj", &matViewProj);
+			//m_pEffect->SetMatrix("g_mViewProj", &matViewProj);
 			m_pEffect->SetVector("vLightDiffuse", &D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f));
 			m_pEffect->SetVector("vWorldLightPos", &D3DXVECTOR4(500.0f, 500.0f, 500.0f, 1.0f));
 			m_pEffect->SetVector("vWorldCameraPos", &D3DXVECTOR4(vEye, 1.0f));
@@ -253,20 +253,28 @@ void cSkinnedMesh::Render(ST_BONE* pBone /*= NULL*/)
 				m_pEffect->Begin(&uiPasses, 0);
 				for (uiPass = 0; uiPass < uiPasses; ++uiPass)
 				{
-					if (uiPass == 0)
-					{
-						g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
-						g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-
-						m_pEffect->BeginPass(uiPass);
-						pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
-						m_pEffect->EndPass();
-					}
+					//if (uiPass == 0)
+					//{
+					//	D3DXMATRIX matS, matT;
+					//	D3DXMatrixScaling(&matS, 10.0f, 10.f, 10.f);
+					//	
+					//	//matView, matProj;
+					//
+					//	m_pEffect->SetMatrix("g_mViewProj", &(matView * matS * matProj));
+					//	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+					//	g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+					//
+					//	m_pEffect->BeginPass(uiPass);
+					//	pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
+					//	m_pEffect->EndPass();
+					//
+					//}
 					if (uiPass == 1)
 					{
+						m_pEffect->SetMatrix("g_mViewProj", &(matView * matProj));
 						g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 						g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-
+					
 						m_pEffect->BeginPass(uiPass);
 						pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
 						m_pEffect->EndPass();
@@ -307,6 +315,10 @@ void cSkinnedMesh::Render(ST_BONE* pBone /*= NULL*/)
 		
 		
 	}
+
+	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+
 
 	//재귀적으로 모든 프레임에 대해서 실행.
 	if (pBone->pFrameSibling)

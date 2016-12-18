@@ -18,7 +18,9 @@ cBossScene::cBossScene()
 	, m_pPlayer(NULL)
 	, m_pMap(NULL)
 	, m_vpickPos(0, 0, 0)
-	
+	, m_bIsCutScene(true)
+	, m_fCutSceneTimer(0)
+	, m_nBossTellCount(1)
 {
 }
 
@@ -64,27 +66,29 @@ HRESULT cBossScene::SetUp()
 	D3DXVec3Normalize(&vDirection, &vDirection);
 	m_pPlayer->Setup(&vDirection);
 
+	
+
 	m_pBoss = new cBoss;
 	m_pBoss->SetTarget(m_pPlayer);
 	m_pBoss->SetPosition(D3DXVECTOR3(10, 3.4f, -10));
-	m_pBoss->Setup(&D3DXVECTOR3(1, 0, 0));
-
+	m_pBoss->Setup(&(-vDirection));
+	m_pBoss->SetTarget(m_pPlayer);
 	m_pMap = new cObj;
 	m_pMap->SetUp("DiabloMap.objobj", "./Resources/Object/");
 
 	g_pAIManager->RegisterAIBase(m_pPlayer);
+	g_pAIManager->RegisterAIBase(m_pBoss);
 
 	D3DXVECTOR3 vDir;
 	vDir = m_pPlayer->GetPosition() - BOSSSCENE_CAMERAPOS;/*D3DXVECTOR3(24, 10, -17)*/;
 	D3DXVec3Normalize(&vDir, &vDir);
-
+	
 	float distance = 9.0f;
-
+	
 	m_pCamera->SetEye(m_pPlayer->GetPosition() - vDir * distance);
 	m_pCamera->SetNewDirection(vDir);
 
-
-
+	
 	m_fLifeTime = 2.0f;
 	m_fLifeTimeDecrease = 0.01f;
 
@@ -92,6 +96,18 @@ HRESULT cBossScene::SetUp()
 	m_fFireInterval = 0.2f;
 
 	SetLight();
+
+	m_pPlayer->Update();
+	m_pBoss->Update();
+
+	m_pBoss->SetState();
+
+	D3DXVECTOR3 cutSceneCamDir = D3DXVECTOR3(-0.65f, -0.4f, 0.65f);
+	D3DXVec3Normalize(&cutSceneCamDir, &cutSceneCamDir);
+	m_pCamera->SetEye(D3DXVECTOR3(22 ,7.5f ,-22));
+
+	m_pCamera->SetNewDirection(cutSceneCamDir);
+	
 }
 
 HRESULT cBossScene::Reset()
@@ -108,6 +124,10 @@ HRESULT cBossScene::Reset()
 void cBossScene::Update()
 {
 	//BossMoveTest();
+
+	if(!m_bIsCutScene)
+		if (!CutScene()) return;
+
 	PlayerMove();
 
 	if (m_pPlayer)
@@ -122,6 +142,9 @@ void cBossScene::Update()
 		//m_pCamera->Update(m_pPlayer->GetPtPosition());
 		m_pCamera->Update();
 	}
+
+	
+
 
 	SetLight();
 	
@@ -139,20 +162,23 @@ void cBossScene::Render()
 	
 	if (m_pPlayer)
 		m_pPlayer->Render();
-
+	
 	if (m_pBoss)
 		m_pBoss->Render();
 	//
-	//
+	
 	if (m_pMap)
 		m_pMap->Render();
-	//
-	//
-	//if (m_pPlayer)
-	//{
-	////if (m_pPlayer->m_pSateMachnie->GetCurState() == cPlayerAttackState::Instance())
-	//		m_pPlayer->TrailRender();
-	//}
+	
+	
+	if (m_pPlayer)
+	{
+	//if (m_pPlayer->m_pSateMachnie->GetCurState() == cPlayerAttackState::Instance())
+			m_pPlayer->TrailRender();
+	}
+
+	if(m_pBoss)
+		m_pBoss->ParticleTestRender();
 	//if (m_pPlayer)
 	//	m_pPlayer->SkillRender();
 }
@@ -213,6 +239,104 @@ void cBossScene::PlayerMove()
 	}
 }
 
+bool cBossScene::CutScene()
+{
+	m_fCutSceneTimer += g_pTimeManager->GetDeltaTime();
+	if (m_fCutSceneTimer <= 6.0f)
+	{
+		return false;
+	}
+
+	D3DXVECTOR3 vStart = m_pCamera->GetEye();
+	vStart.y = m_pBoss->GetPosition().y;
+
+	D3DXVECTOR3 vDir = vStart - m_pBoss->GetPosition();
+	D3DXVec3Normalize(&vDir, &vDir);
+	//
+	D3DXVECTOR3 vDest = m_pBoss->GetPosition() + vDir *5.0f;
+	//
+	//D3DXVECTOR3 vDest =   D3DXVECTOR3(13.58f,9.57f ,-13.95f);
+	D3DXVECTOR3 vPosition= vStart;// = m_pCamera->GetEye();
+	D3DXVec3Lerp(&vPosition, &vStart, &vDest, g_pTimeManager->GetDeltaTime()*0.3f);
+	if (D3DXVec3LengthSq(&D3DXVECTOR3(vPosition - vDest)) <= 0.5f*0.5f)
+	{
+		return CutScene2();
+	}
+
+
+	vPosition.y = m_pCamera->GetEye().y;
+
+	//vPosition += 3.0f * -vDir * g_pTimeManager->GetDeltaTime();
+	
+	D3DXVECTOR3 cutSceneCamDir = D3DXVECTOR3(-0.65f, -0.4f,	0.65f);
+	D3DXVec3Normalize(&cutSceneCamDir, &cutSceneCamDir);
+	
+	
+	m_pCamera->SetEye(vPosition);
+	m_pCamera->SetNewDirection(cutSceneCamDir);
+
+
+	//m_pCamera->Update();
+	//m_pPlayer->Update();
+	//m_pBoss->Update();
+	
+	//D3DXVECTOR3 vDir;
+	//vDir = m_pPlayer->GetPosition() - BOSSSCENE_CAMERAPOS;/*D3DXVECTOR3(24, 10, -17)*/;
+	//D3DXVec3Normalize(&vDir, &vDir);
+	//
+	//float distance = 9.0f;
+	//
+	//m_pCamera->SetEye(m_pPlayer->GetPosition() - vDir * distance);
+	//m_pCamera->SetNewDirection(vDir);
+
+	return false;
+}
+
+bool cBossScene::CutScene2()
+{
+	string name = m_pBoss->GetCurAnimation()->GetName();
+
+	if (name != "stom")
+		m_pBoss->SetAnimation("stom");
+	else
+	{
+		LPD3DXANIMATIONSET pCurAS = this->m_pBoss->GetCurAnimation();
+
+		D3DXTRACK_DESC td;
+		this->m_pBoss->GetMesh()->GetAnimController()->GetTrackDesc(0, &td);
+
+		double dCurTime = pCurAS->GetPeriodicPosition(td.Position);
+		double dTotalTime = pCurAS->GetPeriod();
+		double dPercent = dCurTime / dTotalTime;
+
+		//if (dPercent >= dTotalTime)
+		if (dPercent > 0.9f)
+		{
+			m_nBossTellCount--;
+			m_pBoss->SetAnimation("stom");
+			//return true;
+			return false;
+		}
+		if (m_nBossTellCount <= 0)
+		{
+			D3DXVECTOR3 vDir;
+			vDir = m_pPlayer->GetPosition() - BOSSSCENE_CAMERAPOS;/*D3DXVECTOR3(24, 10, -17)*/;
+			D3DXVec3Normalize(&vDir, &vDir);
+
+			float distance = 9.0f;
+
+			m_pCamera->SetEye(m_pPlayer->GetPosition() - vDir * distance);
+			m_pCamera->SetNewDirection(vDir);
+
+			m_pBoss->SetAnimation("idle");
+			m_bIsCutScene = true;
+			m_pBoss->SetState();
+			return true;
+		}
+	}
+	return false;
+}
+
 
 void cBossScene::SetLight()
 {
@@ -224,8 +348,8 @@ void cBossScene::SetLight()
 	//g_pD3DDevice->SetMaterial(&Mtl);
 
 	D3DLIGHT9 stLight;
-	stLight.Diffuse = D3DXCOLOR(0.6f, 0.6f, 0.6f, 1.0f);
-	stLight.Ambient = stLight.Specular = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
+	stLight.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	stLight.Ambient = stLight.Specular = D3DXCOLOR(0.3f, 0.3f, 0.3f, 1.0f);
 	stLight.Type = D3DLIGHT_DIRECTIONAL;
 	D3DXVECTOR3 vDir(1, -1, 0);
 	D3DXVec3Normalize(&vDir, &vDir);

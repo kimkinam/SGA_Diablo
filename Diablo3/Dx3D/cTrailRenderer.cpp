@@ -387,6 +387,7 @@ DWORD prevLight, prevAlphaBlend, prevCullmode, prevFVF, prevTextureFactor, prevZ
 
    //Texture ¼ÂÆÃ
    g_pD3DDevice->SetTexture(0, m_pTrailTexture);
+
    //g_pD3DDevice->SetTextureStageState(0 , D3DTSS_COLOROP, D3DTOP_SELECTARG1);
    //g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
    //

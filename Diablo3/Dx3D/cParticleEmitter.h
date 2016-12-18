@@ -107,6 +107,7 @@ public:
 	//사방 팔방으로 입자 퍼트린다.
 	void Fire(int num,D3DXVECTOR3 startPos, float minSpeed, float maxSpeed, float maxLife, float minLife);
 	void FireTail(int num, D3DXVECTOR3 startPos, float minSpeed, float maxSpeed, float maxLife, float minLife);
+	void LighteningBreath(int num, D3DXVECTOR3 startPos, D3DXVECTOR3 dir, float minSpeed, float maxSpeed, float minLife, float maxLife);
 
 
 	//void SetRenderLocal( bool bLocal ){
@@ -116,7 +117,7 @@ public:
 	
 	bool IsStarting(){return m_IsActvieAll;}
 	
-private:
+public:
 	void StartOneParticle();		//파티클 하나 생성
 
 	//파티클 하나 생성 ( 방향 넣어서 )

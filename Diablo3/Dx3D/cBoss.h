@@ -9,12 +9,19 @@ class cParticleEmitter;
 class cMonsterGlobalState;
 class cMonsterTrace;
 
+struct ST_STOM
+{
+	cParticleEmitter*		m_pFireParticle;
+	cParticleEmitter*		m_pFireTail;
+	D3DXMATRIXA16			m_pMat;
+
+	
+	float					fLiveTimer;
+};
+
 class cBoss :
 	public cMonster
 {
-
-public:
-	cStateMachine<cMonster>* m_pSateMachnie;
 
 private:
 	std::vector<cLighting*> m_vecLights;
@@ -24,22 +31,19 @@ private:
 	float		m_fLightingLifeTime;
 	float		m_fLightingDecrease;
 
-	cPlayer*				m_player;
-
+	SYNTHESIZE_PASS_BY_REF(cPlayer*, m_pTargetPlayer, TargetPlayer);
+	SYNTHESIZE(bool, m_bIsActive, IsActive);	//Stom;
+	SYNTHESIZE(bool, m_bIsBreathActive, IsBreathActive);	//Stom;
+	float		m_fBreathLifeTime;
+private:
 	cShaderManager*		FireBomb;
 	D3DXVECTOR3			cPlayerPosition;
 	float				Red;
 	float				Yellow;
 	float				Alpha;
 
-
-	cParticleEmitter*		m_pFireTail;
-	D3DXMATRIXA16			m_matFire;
-
-	D3DXVECTOR3				m_vFirePos;
-	D3DXVECTOR3				m_vFireDir;
-
-
+	ST_STOM				m_aryStoms[8];
+	cParticleEmitter*	m_pBreathParticle;
 public:
 	cBoss();
 	virtual ~cBoss();
@@ -58,5 +62,10 @@ public:
 	void ParticleTestSetUp();
 	void ParticleTestUpdate();
 	void ParticleTestRender();
+
+
+	void StomSkillStart(float liveTime);
+	void BreathSkillStart(float liveTime);
+	void SetState();
 };
 

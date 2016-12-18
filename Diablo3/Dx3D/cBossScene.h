@@ -24,6 +24,11 @@ private:
 	float						m_fTotalFireTime;
 	float						m_fFireInterval;
 
+	bool						m_bIsCutScene;
+
+	float						m_fCutSceneTimer;
+
+	int							m_nBossTellCount;
 public:
 	cBossScene();
 	virtual ~cBossScene();
@@ -38,5 +43,8 @@ public:
 
 	void SetLight();
 	void PlayerMove();
+
+	bool CutScene();
+	bool CutScene2();
 };
 

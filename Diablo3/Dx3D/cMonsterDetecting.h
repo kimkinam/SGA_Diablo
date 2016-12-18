@@ -6,6 +6,10 @@ class cMonsterDetecting :
 	public iState<cMonster>
 {
 private:
+	int		m_nState;
+	float	m_fIdleTime;
+	float	m_fTraceTime;
+private:
 	cMonsterDetecting() {}
 	virtual ~cMonsterDetecting() {}
 

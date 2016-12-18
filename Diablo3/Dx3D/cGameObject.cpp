@@ -178,7 +178,7 @@ bool cGameObject::IsDoneCurAni()
 	double dTotalTime = pCurAS->GetPeriod();
 	double dPercent = dCurTime / dTotalTime;
 
-	if (dPercent >= dTotalTime/* - dTotalTime  * 0.1f*/) return true;
+	if (dPercent >= (dTotalTime / dTotalTime) - 0.2f) return true;
 
 	return false;
 }

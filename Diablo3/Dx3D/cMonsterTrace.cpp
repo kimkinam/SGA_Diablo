@@ -8,7 +8,9 @@
 
 void cMonsterTrace::Enter(cMonster * pOwner)
 {
-	if (pOwner)
+	if (!pOwner) return;
+
+	if (pOwner->GetStat().chType != CHARACTER_DIABLO)
 	{
 		cActionTrace* pAction = new cActionTrace;
 
@@ -49,7 +51,22 @@ void cMonsterTrace::Enter(cMonster * pOwner)
 			SOUNDMANAGER->play("ZombieDogAttack", 0.5f);
 
 	}
-	
+	else
+	{
+		m_fTraceTime = 2.0f;
+
+		cActionTrace* pAction = new cActionTrace;
+
+		pAction->SetTraceTarget(pOwner->GetTarget());
+		pAction->SetTarget(pOwner);
+		pAction->SetDelegate(pOwner);
+		pAction->SetSpeed(pOwner->GetStat().fSpeed);
+		pAction->SetOBB(pOwner->GetBoundBox());
+		pAction->Start();
+		pOwner->SetAction(pAction);
+	}
+		
+
 	pOwner->SetAnimation("run");
 }
 
@@ -59,6 +76,24 @@ void cMonsterTrace::Execute(cMonster * pOwner)
 		- pOwner->GetPosition();
 
 	float distance = D3DXVec3Length(&vLength);
+
+	if (pOwner->GetStat().chType == CHARACTER_DIABLO)
+	{
+		m_fTraceTime -= g_pTimeManager->GetDeltaTime();
+
+		if (m_fTraceTime <=0)
+		{
+			pOwner->m_pSateMachnie->ChangeState(cMonsterDetecting::Instance());
+		}
+		else if (distance < pOwner->GetStat().fAttackRange)
+		{
+			pOwner->m_pSateMachnie->ChangeState(cMonsterAttack::Instance());
+		}
+
+		return;
+	}
+
+	
 
 	std::map<int, cGameObject*> map;
 	std::map<int, cGameObject*>::iterator iter;

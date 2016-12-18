@@ -127,8 +127,13 @@ void cParticleEmitter::Burst( int num, float minSpeed, float maxSpeed, float max
 
 void cParticleEmitter::Fire(int num, D3DXVECTOR3 startPos, float minSpeed, float maxSpeed, float maxLife, float minLife)
 {
-	for (int i = 0; i < num; i++)
-	{
+	m_fEmisionDeltaTime += g_pTimeManager->GetDeltaTime();
+
+	while (m_fEmisionDeltaTime >= 1.0f / num) {
+
+		m_fEmisionDeltaTime -= 1.0f / num;
+	//for (int i = 0; i < num; i++)
+	//{
 		D3DXVECTOR3 randVec(
 			RandomFloatRange(-0.05f, 0.05f),
 			RandomFloatRange(0.08f, 1.0f),
@@ -146,12 +151,21 @@ void cParticleEmitter::Fire(int num, D3DXVECTOR3 startPos, float minSpeed, float
 
 		StartOneParticle(randVec, startPos,randVec2, RandomFloatRange(maxLife, minLife));
 	}
+	//}
 }
 
 void cParticleEmitter::FireTail(int num, D3DXVECTOR3 startPos, float minSpeed, float maxSpeed, float maxLife, float minLife)
 {
-	for (int i = 0; i < num; i++)
-	{
+	m_fEmisionDeltaTime += g_pTimeManager->GetDeltaTime();
+
+	while (m_fEmisionDeltaTime >= 1.0f /num) {
+
+		m_fEmisionDeltaTime -= 1.0f / num;
+		
+	
+
+	//for (int i = 0; i < num; i++)
+	//{
 		//D3DXVECTOR3 randVec(
 		//	RandomFloatRange(-0.05f, 0.05f),
 		//	RandomFloatRange(-0.01f, 0.01f),
@@ -173,7 +187,49 @@ void cParticleEmitter::FireTail(int num, D3DXVECTOR3 startPos, float minSpeed, f
 		randVec2 *= RandomFloatRange(minSpeed, maxSpeed);
 
 		StartOneParticle(randVec, startPos, randVec2, RandomFloatRange(maxLife, minLife));
+
 	}
+	//}
+}
+
+void cParticleEmitter::LighteningBreath(int num, D3DXVECTOR3 startPos, D3DXVECTOR3 dir, float minSpeed, float maxSpeed, float minLife, float maxLife)
+{
+	m_fEmisionDeltaTime += g_pTimeManager->GetDeltaTime();
+
+	while (m_fEmisionDeltaTime >= 1.0f / num) {
+
+		m_fEmisionDeltaTime -= 1.0f/num;
+
+		D3DXVECTOR3 vNormDir, vNormUp, vNormRight;
+		D3DXVec3Normalize(&vNormDir, &dir);
+
+		D3DXVec3Cross(&vNormRight, &D3DXVECTOR3(0, 1, 0), &vNormDir);
+		D3DXVec3Normalize(&vNormRight, &vNormRight);
+
+		D3DXVec3Cross(&vNormUp, &vNormDir, &vNormRight);
+		D3DXVec3Normalize(&vNormUp, &vNormUp);
+
+		D3DXMATRIXA16 matWorld;
+		D3DXMatrixIdentity(&matWorld);
+
+		memcpy(&matWorld._11, &vNormRight, sizeof(D3DXVECTOR3));
+		memcpy(&matWorld._21, &vNormUp, sizeof(D3DXVECTOR3));
+		memcpy(&matWorld._31, &vNormDir, sizeof(D3DXVECTOR3));
+
+		//for (int i = 0; i < num; i++)
+		//{
+		D3DXVECTOR3 velocity = dir*3.0f;
+
+		D3DXVECTOR3 randVec2(
+			RandomFloatRange(0, 0),
+			RandomFloatRange(0.3f, -0.3f),
+			RandomFloatRange(-0.1f, 7.0));
+
+		D3DXVec3TransformCoord(&randVec2, &randVec2, &matWorld);
+		//life time = 2.3, 3.0f;
+		StartOneParticle(dir, startPos, randVec2, RandomFloatRange(maxLife, minLife));
+	}
+	//}
 }
 
 
@@ -248,7 +304,7 @@ void cParticleEmitter::BaseObjectRender()
 	g_pD3DDevice->SetRenderState( D3DRS_POINTSPRITEENABLE, true );	//포인트 스플라이트 활성화
 	g_pD3DDevice->SetRenderState( D3DRS_POINTSCALEENABLE, true );	//포인트의 스케일값 먹이겠다.
 	g_pD3DDevice->SetRenderState( D3DRS_POINTSIZE_MIN, FloatToDWORD( 0.0f ) );		//포인트의 최소 크기 ( 화면기준 )
-	g_pD3DDevice->SetRenderState( D3DRS_POINTSIZE_MAX, FloatToDWORD( 500.0f ) );		//포인트의 최대 크기 ( 화면기준 )
+	g_pD3DDevice->SetRenderState( D3DRS_POINTSIZE_MAX, FloatToDWORD( 250.0f ) );		//포인트의 최대 크기 ( 화면기준 )
 	//g_pD3DDevice->SetRenderState( D3DRS_POINTSIZE, FloatToDWORD( 10.0f ) );			//포인트 기준 사이즈 ( 정점의 포인트 사이즈가 있으면 무시되는듯 );
 
 	g_pD3DDevice->SetRenderState( D3DRS_ZWRITEENABLE, false );	//z 버퍼의 쓰기를 막는다.

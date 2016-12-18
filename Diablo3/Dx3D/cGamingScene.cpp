@@ -515,6 +515,7 @@ void cGamingScene::PlayerMoveTest()
 			}
 		}
 	}
+	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON)) return;
 	if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
 	{
 
@@ -539,6 +540,11 @@ void cGamingScene::PlayerMoveTest()
 		}
 	}
 
+	if (g_pKeyManager->isOnceKeyUp(VK_RBUTTON))
+	{
+		m_pPlayer->SetAction(NULL);
+		m_pPlayer->m_pSateMachnie->ChangeState(cPlayerIdleState::Instance());
+	}
 	if (g_pKeyManager->isOnceKeyDown('2'))
 	{
 		//m_pPlayer->GetMesh()->SetAnimationIndex("whirlwinding");
