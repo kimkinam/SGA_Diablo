@@ -81,64 +81,6 @@ void cBoss::Update()
 	//m_player->Update();
 	LightingBreathUpdate();
 
-	// 쉐이더 불판 업데이트
-<<<<<<< HEAD
-	//Red -= 0.03;
-	//if (Red < 0.5)
-	//{
-	//	Red = 1.2;
-	//}
-	//
-	//Alpha -= 0.002;//A
-	//if (Alpha < 0)
-	//{
-	//	Alpha = 1.0f;
-	//}
-	//
-	//Yellow -= 0.03;
-	//if (Yellow<0.5f)
-	//{
-	//	Yellow = 0.8f;
-	//}
-=======
-	Red -= 0.03;
-	if (Red < 0.5)
-	{
-		Red = 1.2;
-	}
-	Alpha -= 0.002;//A
-	if (Alpha < 0)
-	{
-		Alpha = 1.0f;
-	}
-	Yellow -= 0.03;
-	if (Yellow<0.5f)
-	{
-		Yellow = 0.8f;
-	}
->>>>>>> 2b6b7f0461585e1bec4175a4b088e0cb696d50c6
-	//cPlayerPosition = m_player->GetPosition();
-	//cPlayerPosition = D3DXVECTOR3(0, 5, -5);
-	//FireBomb->SetPosition_xyz(cPlayerPosition); // 불판 포지션 
-	//D3DXVECTOR3 FireBomgScaling(0.05, 0.001, 0.05);
-	//FireBomb->SetScaling_xyz(FireBomgScaling);
-	//
-	//FireBomb->Update();
-	
-
-	//if (g_pKeyManager->isOnceKeyDown(VK_NUMPAD3))
-	//	BreathSkillStart(3.0f);
-	//
-	//if (g_pKeyManager->isStayKeyDown(VK_SPACE))
-	//{
-	//	m_pBreathParticle->StartEmission();
-	//}
-	//else
-	//{
-	//	m_pBreathParticle->StopEmission();
-	//}
-	
-
 	ParticleTestUpdate();
 
 	if (m_bIsBreathActive)
@@ -383,7 +325,7 @@ void cBoss::ParticleTestSetUp()
 	//D3DXMATRIX* matP = m_pMesh->AttachItem("Jaw");
 	//m_pBreathParticle->SetParent((D3DXMATRIXA16*)matP);
 	m_pBreathParticle->Init(
-		3000,
+		1000,
 		10.0f,
 		3,
 		3.5f,
@@ -445,7 +387,7 @@ void cBoss::ParticleTestUpdate()
 		D3DXMATRIXA16 matJaw = *((D3DXMATRIXA16*) (m_pMesh->AttachItem("Jaw") )) ;
 		D3DXVECTOR3 pos(matJaw._41,matJaw._42,matJaw._43);
 		
-		m_pBreathParticle->LighteningBreath(100,pos, m_vDirection,0,0, 2.f, 4.f);//스피드안씀
+		m_pBreathParticle->LighteningBreath(50,pos, m_vDirection,0,0, 2.f, 4.f);//스피드안씀
 
 		m_fBreathLifeTime -= g_pTimeManager->GetDeltaTime() ;
 

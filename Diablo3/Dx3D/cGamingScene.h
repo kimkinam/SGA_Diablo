@@ -8,7 +8,7 @@ class cBoundBox;
 class cMonster;
 class cPlayer;
 class cShaderManager;
-
+class cParticleEmitter;
 
 class cGamingScene : public cSceneObject
 {
@@ -36,6 +36,8 @@ private:
 	D3DXMATRIX*						   PointLightWorldTM;
 
 
+	cParticleEmitter*				m_ptcGuideLine;
+
 public:
 	cGamingScene();
 	virtual ~cGamingScene();
@@ -47,10 +49,18 @@ public:
 	void SetLight(); //Α¶Έν
 	void SetPointLight();
 	
+	void GuidePtcSetUp();
+	void GuidePtcUpdate();
+	void GuidePtcRender();
+
+
+
 	//cScene override;
 	virtual HRESULT SetUp()	override;
 	virtual void Update()	override;
 	virtual void Render()	override;
 	virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;
+
+
 };
 

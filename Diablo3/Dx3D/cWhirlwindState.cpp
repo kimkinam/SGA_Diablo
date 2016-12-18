@@ -27,13 +27,13 @@ void cWhirlwindState::Enter(cPlayer * pOwner)
 
 	m_bIsAtk = false;
 
-	if (pOwner->GetTarget()->GetStat().chType != CHARACTER_DIABLO)
-	{
+	//if (pOwner->GetTarget()->GetStat().chType != CHARACTER_DIABLO)
+	//{
 		for (m_mapMonsterIter = m_mapMonster.begin(); m_mapMonsterIter != m_mapMonster.end(); ++m_mapMonsterIter)
 		{
 			m_vecMonster.push_back(m_mapMonsterIter->second);
 		}
-	}
+//	}
 
 
 }

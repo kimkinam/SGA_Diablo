@@ -5,7 +5,9 @@ class cMonster;
 class cDiabloDetectingState :
 	public iState<cMonster>
 {
-
+private:
+	float m_fIdleTime;
+	int	m_nState;
 public:
 	cDiabloDetectingState() {};
 	virtual  ~cDiabloDetectingState() {};

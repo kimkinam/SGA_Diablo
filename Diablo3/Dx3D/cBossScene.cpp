@@ -19,14 +19,10 @@ cBossScene::cBossScene()
 	, m_pPlayer(NULL)
 	, m_pMap(NULL)
 	, m_vpickPos(0, 0, 0)
-<<<<<<< HEAD
-	, m_bIsCutScene(true)
+	, m_bIsCutScene(false)
 	, m_fCutSceneTimer(0)
 	, m_nBossTellCount(1)
-=======
 	, m_pUI(NULL)
-	
->>>>>>> 2b6b7f0461585e1bec4175a4b088e0cb696d50c6
 {
 }
 
@@ -85,12 +81,6 @@ HRESULT cBossScene::SetUp()
 	m_pMap = new cObj;
 	m_pMap->SetUp("DiabloMap.objobj", "./Resources/Object/");
 
-<<<<<<< HEAD
-	g_pAIManager->RegisterAIBase(m_pPlayer);
-	g_pAIManager->RegisterAIBase(m_pBoss);
-=======
-	
->>>>>>> 2b6b7f0461585e1bec4175a4b088e0cb696d50c6
 
 	D3DXVECTOR3 vDir;
 	vDir = m_pPlayer->GetPosition() - BOSSSCENE_CAMERAPOS;/*D3DXVECTOR3(24, 10, -17)*/;
@@ -149,8 +139,7 @@ void cBossScene::Update()
 		if (!CutScene()) return;
 
 	PlayerMove();
-	if (m_pUI)
-		m_pUI->Update();
+	
 
 	if (m_pPlayer)
 		m_pPlayer->Update();
@@ -165,14 +154,12 @@ void cBossScene::Update()
 		//m_pCamera->Update();
 	}
 
-	
+	if (m_pUI)
+		m_pUI->Update();
 
 
 	SetLight();
 	SetPointLight();
-
-	if (m_pPlayer)
-		m_pPlayer->SkillRender();
 	
 }
 
@@ -181,8 +168,6 @@ void cBossScene::Render()
 	if (m_pGrid)
 		m_pGrid->Render();
 
-	if (m_pUI)
-		m_pUI->Render();
 
 	if (m_pCamera)
 		m_pCamera->Render();
@@ -196,28 +181,19 @@ void cBossScene::Render()
 	
 	if (m_pMap)
 		m_pMap->Render();
-<<<<<<< HEAD
 	
-	
-=======
-	//
-	//
->>>>>>> 2b6b7f0461585e1bec4175a4b088e0cb696d50c6
 	if (m_pPlayer)
 	{
 	//if (m_pPlayer->m_pSateMachnie->GetCurState() == cPlayerAttackState::Instance())
 			m_pPlayer->TrailRender();
 	}
-<<<<<<< HEAD
 
 	if(m_pBoss)
 		m_pBoss->ParticleTestRender();
-	//if (m_pPlayer)
-	//	m_pPlayer->SkillRender();
-=======
-	if (m_pPlayer)
-		m_pPlayer->SkillRender();
->>>>>>> 2b6b7f0461585e1bec4175a4b088e0cb696d50c6
+	
+
+	if (m_pUI)
+		m_pUI->Render();
 }
 
 
@@ -232,15 +208,13 @@ void cBossScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 void cBossScene::PlayerMove()
 {
 	cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
-	ST_RUN_EXTRAINFO MSG;
+
 	D3DXVECTOR3 vPickPos;
 
 	////플레이어 피킹
 	if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
 	{
-		//충돌처리 해야할 박스정보와 플레이어 스피드를 메시지에 포함한다.
-
-		MSG.fSpeed = m_pPlayer->GetStat().fSpeed;
+		
 
 		//레이를 월드좌표로 변환한다.
 		//cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
@@ -251,6 +225,10 @@ void cBossScene::PlayerMove()
 		{
 			if (m_pBoss->GetStat().fHp <= 0) return;
 			//공격할 타겟을 메세지에 담는다.
+			//충돌처리 해야할 박스정보와 플레이어 스피드를 메시지에 포함한다.
+			ST_RUN_EXTRAINFO MSG;
+			ZeroMemory(&MSG, sizeof(ST_RUN_EXTRAINFO));
+			MSG.fSpeed = m_pPlayer->GetStat().fSpeed;
 			MSG.nTarget = m_pBoss->GetID();
 
 			//몬스터까지의 방향을 구한다.
@@ -261,7 +239,7 @@ void cBossScene::PlayerMove()
 
 			//몬스터방향으로의 캐릭터 사거리를 구한다.
 			D3DXVec3Normalize(&vDir, &vDir);
-			float fRange = D3DXVec3Length(&(vDir * m_pPlayer->GetStat().fAttackRange));
+			float fRange = D3DXVec3Length(&(vDir * m_pPlayer->GetStat().fAttackRange)) - 1.5f;
 
 			//공격사거리보다 멀리 있는 경우
 			if (fRange < fDisToMonster)
@@ -292,7 +270,9 @@ void cBossScene::PlayerMove()
 			{
 				vPickPos.y = 3.4f;
 
-				MSG.nTarget = m_pBoss->GetID();
+				ST_RUN_EXTRAINFO MSG;
+				ZeroMemory(&MSG, sizeof(ST_RUN_EXTRAINFO));
+				MSG.nTarget = m_pPlayer->GetID();
 				MSG.vDest = vPickPos;
 
 				g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_RUN, &MSG);
@@ -301,7 +281,7 @@ void cBossScene::PlayerMove()
 	}
 	if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
 	{
-
+		ST_RUN_EXTRAINFO MSG;
 		MSG.fSpeed = m_pPlayer->GetStat().fSpeed;
 
 		for (size_t i = 0; i < m_vecTiles.size(); i += 3)
@@ -368,6 +348,8 @@ void cBossScene::PlayerMove()
 
 bool cBossScene::CutScene()
 {
+	if (m_pUI)
+		m_pUI->Update();
 	m_fCutSceneTimer += g_pTimeManager->GetDeltaTime();
 	if (m_fCutSceneTimer <= 6.0f)
 	{
@@ -475,13 +457,8 @@ void cBossScene::SetLight()
 	//g_pD3DDevice->SetMaterial(&Mtl);
 
 	D3DLIGHT9 stLight;
-<<<<<<< HEAD
-	stLight.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	stLight.Diffuse = D3DXCOLOR(0.3f, 0.3f, 0.3f, 1.0f);
 	stLight.Ambient = stLight.Specular = D3DXCOLOR(0.3f, 0.3f, 0.3f, 1.0f);
-=======
-	stLight.Diffuse = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
-	stLight.Ambient = stLight.Specular = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
->>>>>>> 2b6b7f0461585e1bec4175a4b088e0cb696d50c6
 	stLight.Type = D3DLIGHT_DIRECTIONAL;
 	D3DXVECTOR3 vDir(1, -1, 0);
 	D3DXVec3Normalize(&vDir, &vDir);

@@ -25,18 +25,15 @@ private:
 	float						m_fTotalFireTime;
 	float						m_fFireInterval;
 
-<<<<<<< HEAD
 	bool						m_bIsCutScene;
 
 	float						m_fCutSceneTimer;
 
 	int							m_nBossTellCount;
-=======
 	D3DXMATRIX*					PointLightWorldTM;
 
 
 
->>>>>>> 2b6b7f0461585e1bec4175a4b088e0cb696d50c6
 public:
 	cBossScene();
 	virtual ~cBossScene();
@@ -52,12 +49,9 @@ public:
 	void SetLight();
 	void SetPointLight();
 	void PlayerMove();
-<<<<<<< HEAD
 
 	bool CutScene();
 	bool CutScene2();
-=======
 	void UISetting();
->>>>>>> 2b6b7f0461585e1bec4175a4b088e0cb696d50c6
 };
 

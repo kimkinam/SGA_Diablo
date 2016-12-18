@@ -4,43 +4,43 @@
 
 void cDiabloDetectingState::Enter(cMonster * pOwner)
 {
-	//pOwner->GetMesh()->SetAnimationIndex("idle");
-	//
-	//m_fIdleTime = 3.0f;
-	//
-	//int nRandom[100] =
-	//{	0,1,1,1,2,2,3,3,4,4,
-	//	0,1,1,1,2,2,3,3,4,4,
-	//	0,1,1,1,2,2,3,3,4,4,
-	//	0,1,1,1,2,2,3,3,4,4,
-	//	0,1,1,1,2,2,3,3,4,4,
-	//	0,1,1,1,2,2,3,3,4,4,
-	//	0,1,1,1,2,2,3,3,4,4,
-	//	0,1,1,1,2,2,3,3,4,4,
-	//	0,1,1,1,2,2,3,3,4,4,
-	//	0,1,1,1,2,2,3,3,4,4
-	//};
-	//
-	//for (size_t i = 0; i < 333; ++i)
-	//{
-	//	int nRandom1 = rand() % 100;
-	//
-	//	int nRandom2 = rand() % 100;
-	//
-	//	while (nRandom1 == nRandom2)
-	//	{
-	//		nRandom2 = rand() % 100;
-	//	}
-	//
-	//
-	//	int nTemp = nRandom[nRandom1];
-	//	nRandom[nRandom1] = nRandom[nRandom2];
-	//	nRandom[nRandom2] = nTemp;
-	//}
-	//
-	//int nIndex = rand() % 100;
-	//
-	//m_nState = nRandom[nIndex];
+	pOwner->GetMesh()->SetAnimationIndex("idle");
+	
+	m_fIdleTime = 3.0f;
+	
+	int nRandom[100] =
+	{	0,1,1,1,2,2,3,3,4,4,
+		0,1,1,1,2,2,3,3,4,4,
+		0,1,1,1,2,2,3,3,4,4,
+		0,1,1,1,2,2,3,3,4,4,
+		0,1,1,1,2,2,3,3,4,4,
+		0,1,1,1,2,2,3,3,4,4,
+		0,1,1,1,2,2,3,3,4,4,
+		0,1,1,1,2,2,3,3,4,4,
+		0,1,1,1,2,2,3,3,4,4,
+		0,1,1,1,2,2,3,3,4,4
+	};
+	
+	for (size_t i = 0; i < 333; ++i)
+	{
+		int nRandom1 = rand() % 100;
+	
+		int nRandom2 = rand() % 100;
+	
+		while (nRandom1 == nRandom2)
+		{
+			nRandom2 = rand() % 100;
+		}
+	
+	
+		int nTemp = nRandom[nRandom1];
+		nRandom[nRandom1] = nRandom[nRandom2];
+		nRandom[nRandom2] = nTemp;
+	}
+	
+	int nIndex = rand() % 100;
+	
+	m_nState = nRandom[nIndex];
 }
 
 void cDiabloDetectingState::Execute(cMonster * pOwner)

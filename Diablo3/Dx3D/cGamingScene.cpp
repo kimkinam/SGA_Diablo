@@ -437,7 +437,7 @@ void cGamingScene::UISetting()
 void cGamingScene::PlayerMoveTest()
 {
 	cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
-	ST_RUN_EXTRAINFO MSG;
+	
 	D3DXVECTOR3 vPickPos;
 
 	//몬스터를 클릭할 경우
@@ -469,7 +469,8 @@ void cGamingScene::PlayerMoveTest()
 	if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
 	{
 		//충돌처리 해야할 박스정보와 플레이어 스피드를 메시지에 포함한다.
-		
+		ST_RUN_EXTRAINFO MSG;
+		ZeroMemory(&MSG, sizeof(ST_RUN_EXTRAINFO));
 		MSG.nBoxCount = m_vecBoundBox.size();
 		MSG.vecBox = m_vecBoundBox;
 		MSG.fSpeed = m_pPlayer->GetStat().fSpeed;
@@ -518,6 +519,9 @@ void cGamingScene::PlayerMoveTest()
 		
 		for (size_t i = 0; i < m_vecTiles.size(); i += 3)
 		{
+			ST_RUN_EXTRAINFO MSG;
+			ZeroMemory(&MSG, sizeof(ST_RUN_EXTRAINFO));
+
 			if (r.IntersectTri(m_vecTiles[i].p,
 				m_vecTiles[i + 1].p,
 				m_vecTiles[i + 2].p,
@@ -535,6 +539,8 @@ void cGamingScene::PlayerMoveTest()
 	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON)) return;
 	if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
 	{
+		ST_RUN_EXTRAINFO MSG;
+		ZeroMemory(&MSG, sizeof(ST_RUN_EXTRAINFO));
 
 		MSG.nBoxCount = m_vecBoundBox.size();
 		MSG.vecBox = m_vecBoundBox;
@@ -557,7 +563,6 @@ void cGamingScene::PlayerMoveTest()
 		}
 	}
 
-<<<<<<< HEAD
 	if (g_pKeyManager->isOnceKeyUp(VK_RBUTTON))
 	{
 		m_pPlayer->SetAction(NULL);
@@ -568,8 +573,6 @@ void cGamingScene::PlayerMoveTest()
 		//m_pPlayer->GetMesh()->SetAnimationIndex("whirlwinding");
 		
 	}
-=======
->>>>>>> 2b6b7f0461585e1bec4175a4b088e0cb696d50c6
 
 	//플레이어 아이템 변화 테스트
 

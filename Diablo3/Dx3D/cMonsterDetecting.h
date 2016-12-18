@@ -9,6 +9,7 @@ private:
 	int		m_nState;
 	float	m_fIdleTime;
 	float	m_fTraceTime;
+	float	m_fPatternSelecTime;
 private:
 	cMonsterDetecting() {}
 	virtual ~cMonsterDetecting() {}

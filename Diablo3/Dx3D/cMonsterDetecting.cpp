@@ -12,53 +12,12 @@
 void cMonsterDetecting::Enter(cMonster * pOwner)
 {
 	m_fTraceTime = 2.0f;
+	m_fPatternSelecTime = 2.0f;
 
 	pOwner->GetMesh()->SetAnimationIndex("idle");
 	
-	//pOwner->GetMesh()->SetAnimationIndex("idle");
 
-	if (pOwner->GetStat().chType == CHARACTER_TYPE::CHARACTER_DIABLO)
-	{
-		m_fIdleTime = 2.0f;
-
-		int nRandom[100] =
-		{	0,0,1,1,1,2,2,2,3,3,
-			0,0,1,1,1,2,2,2,3,3,
-			0,0,1,1,1,2,2,2,3,3,
-			0,0,1,1,1,2,2,2,3,3,
-			0,0,1,1,1,2,2,2,3,3,
-			0,0,1,1,1,2,2,2,3,3,
-			0,0,1,1,1,2,2,2,3,3,
-			0,0,1,1,1,2,2,2,3,3,
-			0,0,1,1,1,2,2,2,3,3,
-			0,0,1,1,1,2,2,2,3,3
-		};
-		// 20	//0
-		// 30	//1
-		// 30	//2
-		// 20	//3
-
-		for (size_t i = 0; i < 333; ++i)
-		{
-			int nRandom1 = rand() % 100;
-
-			int nRandom2 = rand() % 100;
-
-			while (nRandom1 == nRandom2)
-			{
-				nRandom2 = rand() % 100;
-			}
-
-
-			int nTemp = nRandom[nRandom1];
-			nRandom[nRandom1] = nRandom[nRandom2];
-			nRandom[nRandom2] = nTemp;
-		}
-
-		int nIndex = rand() % 100;
-
-		m_nState = nRandom[nIndex];
-	}
+	
 	
 
 }
@@ -67,15 +26,65 @@ void cMonsterDetecting::Execute(cMonster * pOwner)
 {
 	if (!pOwner->GetTarget()) return;
 	
+	m_fPatternSelecTime -= g_pTimeManager->GetDeltaTime();
+
+	if (m_fPatternSelecTime <= 0)
+	{
+		if (pOwner->GetStat().chType == CHARACTER_TYPE::CHARACTER_DIABLO)
+		{
+			m_fIdleTime = 2.0f;
+
+			int nRandom[100] =
+			{ 0,0,1,1,1,2,2,2,3,3,
+				0,0,1,1,1,2,2,2,3,3,
+				0,0,1,1,1,2,2,2,3,3,
+				0,0,1,1,1,2,2,2,3,3,
+				0,0,1,1,1,2,2,2,3,3,
+				0,0,1,1,1,2,2,2,3,3,
+				0,0,1,1,1,2,2,2,3,3,
+				0,0,1,1,1,2,2,2,3,3,
+				0,0,1,1,1,2,2,2,3,3,
+				0,0,1,1,1,2,2,2,3,3
+			};
+			// 20	//0
+			// 30	//1
+			// 30	//2
+			// 20	//3
+
+			//idle		//				// 20	//0
+			//breath	//				// 30	//1
+			//attack	//기본공격		// 30	//2
+			//stom		//8방향 확장	// 20	//3
+			///idle	//바바닥판			// 20	//0
+			for (size_t i = 0; i < 333; ++i)
+			{
+				int nRandom1 = rand() % 100;
+
+				int nRandom2 = rand() % 100;
+
+				while (nRandom1 == nRandom2)
+				{
+					nRandom2 = rand() % 100;
+				}
+
+
+				int nTemp = nRandom[nRandom1];
+				nRandom[nRandom1] = nRandom[nRandom2];
+				nRandom[nRandom2] = nTemp;
+			}
+
+			int nIndex = rand() % 100;
+
+			m_nState = nRandom[nIndex];
+		}
+
+		m_fPatternSelecTime = 999.9f;
+	}
 	
 
 	if (pOwner->GetStat().chType == CHARACTER_TYPE::CHARACTER_DIABLO)
 	{
-		//idle		//				// 20	//0
-		//breath	//				// 30	//1
-		//attack	//기본공격		// 30	//2
-		//stom		//8방향 확장	// 20	//3
-		///idle	//바바닥판			// 20	//0
+		
 		switch (m_nState)
 		{
 		case 0:
