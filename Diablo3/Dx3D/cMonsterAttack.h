@@ -55,6 +55,8 @@ public:
 		double totalTime = pOwner->GetCurAniTime();
 		g_pMessageManager->MessageSend(totalTime * 2 / 3, pOwner->GetID(), pOwner->GetTarget()->GetID(),
 			MESSAGE_TYPE::MSG_HITTED, &msgHit);
+
+		
 	}
 
 	//상태에 진입해서 갱신
@@ -67,8 +69,12 @@ public:
 		D3DXVec3Normalize(&vDir, &vDir);
 
 		if (pOwner->IsDoneCurAni())
+		{
 			pOwner->SetNewDirection(vDir);
+			this->Enter(pOwner);
+		}
 			
+		
 
 		//공격사거리 밖으로 나가면
 		if (distance > pOwner->GetStat().fAttackRange)

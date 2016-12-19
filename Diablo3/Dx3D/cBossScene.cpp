@@ -11,10 +11,6 @@
 #include "cObj.h"
 #include "cObjLoader.h"
 #include "cUiManager.h"
-<<<<<<< HEAD
-=======
-
->>>>>>> 67aa77e3eecb03a61445d9c5915c3740ec5413e2
 
 cBossScene::cBossScene()
 	: m_pGrid(NULL)
@@ -26,6 +22,7 @@ cBossScene::cBossScene()
 	, m_fCutSceneTimer(0)
 	, m_nBossTellCount(1)
 	, m_pUI(NULL)
+	, m_pDiaUI(NULL)
 {
 }
 
@@ -37,12 +34,9 @@ cBossScene::~cBossScene()
 	SAFE_RELEASE(m_pMap);
 	SAFE_RELEASE(m_pBoss);
 	SAFE_RELEASE(m_pPlayer);
-<<<<<<< HEAD
 	SAFE_DELETE(m_pDiaUI);
-=======
 	SAFE_DELETE(m_pUI);
 
->>>>>>> 67aa77e3eecb03a61445d9c5915c3740ec5413e2
 }
 
 HRESULT cBossScene::SetUp()
@@ -58,10 +52,7 @@ HRESULT cBossScene::SetUp()
 	m_pGrid = new cGrid;
 	m_pGrid->Setup(30);
 
-<<<<<<< HEAD
-=======
 	
->>>>>>> 67aa77e3eecb03a61445d9c5915c3740ec5413e2
 
 	ST_PC_VERTEX v;
 	D3DXCOLOR c;
@@ -81,7 +72,6 @@ HRESULT cBossScene::SetUp()
 	D3DXVec3Normalize(&vDirection, &vDirection);
 	m_pPlayer->Setup(&vDirection);
 
-<<<<<<< HEAD
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);
 
@@ -89,9 +79,7 @@ HRESULT cBossScene::SetUp()
 	m_pDiaUI->SetAddressLink(m_pPlayer);
 	m_pDiaUI->SetUp();
 	m_pDiaUI->SetUpEnemyBar(rc, "./Resources/UI/Diablo_HpBar_BG.png", "./Resources/UI/Diablo_HpBar_Red.png");
-=======
 	
->>>>>>> 67aa77e3eecb03a61445d9c5915c3740ec5413e2
 
 	m_pBoss = new cBoss;
 	m_pBoss->SetTarget(m_pPlayer);
@@ -130,13 +118,13 @@ HRESULT cBossScene::SetUp()
 	m_pPlayer->Update();
 	m_pBoss->Update();
 
-	m_pBoss->SetState();
-
 	D3DXVECTOR3 cutSceneCamDir = D3DXVECTOR3(-0.65f, -0.4f, 0.65f);
 	D3DXVec3Normalize(&cutSceneCamDir, &cutSceneCamDir);
 	m_pCamera->SetEye(D3DXVECTOR3(22 ,7.5f ,-22));
 
 	m_pCamera->SetNewDirection(cutSceneCamDir);
+
+	SOUNDMANAGER->play("BossCutSceneBGM", 0.8f);
 	
 }
 
@@ -174,13 +162,11 @@ void cBossScene::Update()
 		//m_pCamera->Update();
 	}
 
-<<<<<<< HEAD
 	m_pDiaUI->Update();
-=======
+
 	if (m_pUI)
 		m_pUI->Update();
 
->>>>>>> 67aa77e3eecb03a61445d9c5915c3740ec5413e2
 
 	SetLight();
 	SetPointLight();
@@ -192,10 +178,7 @@ void cBossScene::Render()
 	if (m_pGrid)
 		m_pGrid->Render();
 
-<<<<<<< HEAD
 	
-=======
->>>>>>> 67aa77e3eecb03a61445d9c5915c3740ec5413e2
 
 	if (m_pCamera)
 		m_pCamera->Render();
@@ -209,7 +192,6 @@ void cBossScene::Render()
 	
 	if (m_pMap)
 		m_pMap->Render();
-<<<<<<< HEAD
 	//
 
 	m_pDiaUI->Render();
@@ -221,7 +203,6 @@ void cBossScene::Render()
 	//}
 	//if (m_pPlayer)
 	//	m_pPlayer->SkillRender();
-=======
 	
 	if (m_pPlayer)
 	{
@@ -235,7 +216,33 @@ void cBossScene::Render()
 
 	if (m_pUI)
 		m_pUI->Render();
->>>>>>> 67aa77e3eecb03a61445d9c5915c3740ec5413e2
+
+	if (m_pDiaUI->m_bIsEnemyBar)
+	{
+		LPD3DXFONT font;
+		font = g_pFontManger->GetFont(cFontManager::E_CHAT);
+
+		char temp[128];
+
+		string name = m_pBoss->GetObjName();
+		int lastDotIndex = name.find_last_not_of(".");
+		string result = name.substr(0, lastDotIndex - 1);
+		sprintf_s(temp, "%s", result.c_str(), 128);
+
+		RECT rc;
+		GetClientRect(g_hWnd, &rc);
+
+		SetRect(&rc, DEBUG_STARTX + WINSIZE_X / 2.3f + result.length() + 40,/* - 25*/ DEBUG_STARTY - 28, DEBUG_STARTX + WINSIZE_X, DEBUG_STARTY + 280);
+
+		font->DrawText(NULL,
+			temp,
+			128,
+			&rc,
+			DT_LEFT,
+			D3DCOLOR_XRGB(255, 255, 255));
+	}
+
+
 }
 
 
@@ -250,7 +257,6 @@ void cBossScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 void cBossScene::PlayerMove()
 {
 	cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
-<<<<<<< HEAD
 	D3DXVECTOR3 vPickPos;
 
 	if (r.IntersectShpere(m_pBoss->GetMesh()->GetBoundingSphere()))
@@ -262,14 +268,8 @@ void cBossScene::PlayerMove()
 	else
 		m_pDiaUI->m_bIsEnemyBar = false;
 
-	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
-=======
-
-	D3DXVECTOR3 vPickPos;
-
 	////플레이어 피킹
 	if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
->>>>>>> 67aa77e3eecb03a61445d9c5915c3740ec5413e2
 	{
 		
 
@@ -318,11 +318,8 @@ void cBossScene::PlayerMove()
 		
 		//바닥과의 피킹처리
 
-<<<<<<< HEAD
 		//cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
 		
-=======
->>>>>>> 67aa77e3eecb03a61445d9c5915c3740ec5413e2
 		for (size_t i = 0; i < m_vecTiles.size(); i += 3)
 		{
 			if (r.IntersectTri(m_vecTiles[i].p,
@@ -338,27 +335,6 @@ void cBossScene::PlayerMove()
 				MSG.vDest = vPickPos;
 
 				g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_RUN, &MSG);
-			}
-		}
-	}
-	if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
-	{
-		ST_RUN_EXTRAINFO MSG;
-		MSG.fSpeed = m_pPlayer->GetStat().fSpeed;
-
-		for (size_t i = 0; i < m_vecTiles.size(); i += 3)
-		{
-			if (r.IntersectTri(m_vecTiles[i].p,
-				m_vecTiles[i + 1].p,
-				m_vecTiles[i + 2].p,
-				vPickPos))
-			{
-				vPickPos.y = 3.4f;
-
-				MSG.nTarget = m_pPlayer->GetID();
-				MSG.vDest = vPickPos;
-
-				g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_WHIRLWIND, &MSG);
 			}
 		}
 	}
@@ -412,12 +388,14 @@ bool cBossScene::CutScene()
 {
 	if (m_pUI)
 		m_pUI->Update();
+	
 	m_fCutSceneTimer += g_pTimeManager->GetDeltaTime();
+
 	if (m_fCutSceneTimer <= 6.0f)
 	{
 		return false;
 	}
-
+	
 	D3DXVECTOR3 vStart = m_pCamera->GetEye();
 	vStart.y = m_pBoss->GetPosition().y;
 
@@ -446,7 +424,6 @@ bool cBossScene::CutScene()
 	m_pCamera->SetEye(vPosition);
 	m_pCamera->SetNewDirection(cutSceneCamDir);
 
-
 	//m_pCamera->Update();
 	//m_pPlayer->Update();
 	//m_pBoss->Update();
@@ -468,7 +445,10 @@ bool cBossScene::CutScene2()
 	string name = m_pBoss->GetCurAnimation()->GetName();
 
 	if (name != "stom")
+	{
+		SOUNDMANAGER->play("DiabloCutSceneWarCry", 0.6f);
 		m_pBoss->SetAnimation("stom");
+	}
 	else
 	{
 		LPD3DXANIMATIONSET pCurAS = this->m_pBoss->GetCurAnimation();
@@ -486,6 +466,9 @@ bool cBossScene::CutScene2()
 			m_nBossTellCount--;
 			m_pBoss->SetAnimation("stom");
 			//return true;
+
+			
+
 			return false;
 		}
 		if (m_nBossTellCount <= 0)
@@ -502,6 +485,13 @@ bool cBossScene::CutScene2()
 			m_pBoss->SetAnimation("idle");
 			m_bIsCutScene = true;
 			m_pBoss->SetState();
+
+			if (SOUNDMANAGER->isPlaySound("BossCutSceneBGM"))
+			{
+				SOUNDMANAGER->stop("BossCutSceneBGM");
+				SOUNDMANAGER->play("BossSceneBGM", 0.8f);
+			}
+
 			return true;
 		}
 	}

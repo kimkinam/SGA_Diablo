@@ -15,12 +15,9 @@ private:
 	cObj*			m_pMap;
 	cBoss*			m_pBoss; // º¸½º
 	cPlayer*		m_pPlayer;
-<<<<<<< HEAD
 	cUiManager*		m_pDiaUI;
 
-=======
 	cUiManager*		m_pUI;
->>>>>>> 67aa77e3eecb03a61445d9c5915c3740ec5413e2
 	std::vector<ST_PC_VERTEX>	m_vecTiles;
 	D3DXVECTOR3					m_vpickPos;
 

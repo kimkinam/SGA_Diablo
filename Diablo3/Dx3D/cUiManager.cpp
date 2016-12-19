@@ -114,8 +114,8 @@ void cUiManager::Update()
 	//	MP_sphere->Update(); // HP ±¸
 
 
-	if (pBaba_skill_1)
-		pBaba_skill_1->Update();
+	//if (pBaba_skill_1)
+	//	pBaba_skill_1->Update();
 
 	HpSphereUpdate();
 
@@ -143,8 +143,8 @@ void cUiManager::Render()
 			m_pEnemyBar->Render(m_pSprite);
 	}
 
-	if (pBaba_skill_1)
-		pBaba_skill_1->Render(m_pSprite);	
+	//if (pBaba_skill_1)
+	//	pBaba_skill_1->Render(m_pSprite);	
 }
 
 void cUiManager::HpSphereUpdate()
@@ -164,25 +164,32 @@ void cUiManager::HpSphereUpdate()
 	}
 
 	m_fCurHp = m_pPlayer->GetStat().fHp;
-	if (m_fMaxHp - m_fCurHp > EPSILON)
+
+	if (m_fCurHp > 0 && m_fMaxHp - m_fCurHp > EPSILON)
 	{
 		m_fMinusHp = m_fMaxHp - m_fCurHp;
 
 		for (size_t i = 0; i < 60; ++i)
 		{
-			m_Hp.pRect[i].top += (m_fMinusHp) / 10.0f;
-			m_Hp.pCenter[i].y -= (m_fMinusHp) / 10.0f;
+			m_Hp.pRect[i].top += (m_fMinusHp);
+			m_Hp.pCenter[i].y -= (m_fMinusHp);
 
 			m_fMaxHp = m_fCurHp;
 		}
 	}
 	if (g_pKeyManager->isOnceKeyDown('H'))
 	{
-		for (size_t i = 0; i < 60; ++i)
+		if (m_fCurHp < 1000.0f)
 		{
-			m_Hp.pRect[i].top -= 10;
-			m_Hp.pCenter[i].y += 10;
+			for (size_t i = 0; i < 60; ++i)
+			{
+				m_Hp.pRect[i].top -= 10;
+				m_Hp.pCenter[i].y += 10;
+			}
+
+			m_fCurHp += 10;
 		}
+		
 	}
 }
 
@@ -198,13 +205,13 @@ void cUiManager::HpSphereRender()
 	m_pAniSprite->Draw(m_pHpTex,
 		&m_Hp.pRect[m_Hp.nIndex],
 		&m_Hp.pCenter[m_Hp.nIndex],
-		&D3DXVECTOR3(rc.right / 2 - 45 - 100, rc.bottom + (49 + 24), 0),
+		&D3DXVECTOR3(rc.right / 2 - 45 - 85, rc.bottom + (49 + 75), 0),
 		D3DCOLOR_XRGB(255, 255, 255));
 
 	m_pAniSprite->Draw(m_pMpTex,
 		&m_Mp.pRect[m_Mp.nIndex],
 		&m_Mp.pCenter[m_Mp.nIndex],
-		&D3DXVECTOR3(rc.right / 2 + 45 + 390, rc.bottom + (49 + 24), 0),
+		&D3DXVECTOR3(rc.right / 2 + 45 + 410, rc.bottom + (49 + 75), 0),
 		D3DCOLOR_XRGB(255, 255, 255));
 
 	m_pAniSprite->End();
@@ -316,10 +323,10 @@ void cUiManager::SetUpHpBar(RECT rc)
 	SetSphere(m_Hp);
 	SetSphere(m_Mp);
 
-	if (m_fCurHp)
+	//if (m_fCurHp)
 	m_fCurHp = m_pPlayer->GetStat().fHp;
 
-	if (m_fMaxHp)
+	//if (m_fMaxHp)
 	m_fMaxHp = m_pPlayer->GetStat().fMaxHp;
 
 }

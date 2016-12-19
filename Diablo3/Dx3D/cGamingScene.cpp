@@ -292,11 +292,11 @@ void cGamingScene::Render()
 		
 	
 		if (m_pCurMonster->GetStat().chType == CHARACTER_GARHANTUAN)
-			SetRect(&rc, DEBUG_STARTX + WINSIZE_X / 2.3f - result.length() - 30, DEBUG_STARTY - 22, DEBUG_STARTX + WINSIZE_X, DEBUG_STARTY + 315);
+			SetRect(&rc, DEBUG_STARTX + WINSIZE_X / 2.3f - result.length() + 22,/* - 30*/ DEBUG_STARTY - 22, DEBUG_STARTX + WINSIZE_X, DEBUG_STARTY + 315);
 		else if (m_pCurMonster->GetStat().chType == CHARACTER_SKELETON || m_pCurMonster->GetStat().chType == CHARACTER_ZOMBIEDOG)
-			SetRect(&rc, DEBUG_STARTX + WINSIZE_X / 2.3f - result.length() - 30, DEBUG_STARTY - 22, DEBUG_STARTX + WINSIZE_X, DEBUG_STARTY + 315);
+			SetRect(&rc, DEBUG_STARTX + WINSIZE_X / 2.3f - result.length() + 35,/* - 30*/ DEBUG_STARTY - 22, DEBUG_STARTX + WINSIZE_X, DEBUG_STARTY + 315);
 		else
-			SetRect(&rc, DEBUG_STARTX + WINSIZE_X / 2.3f + result.length() - 25, DEBUG_STARTY - 22, DEBUG_STARTX + WINSIZE_X, DEBUG_STARTY + 315);
+			SetRect(&rc, DEBUG_STARTX + WINSIZE_X / 2.3f + result.length() + 40,/* - 25*/ DEBUG_STARTY - 22, DEBUG_STARTX + WINSIZE_X, DEBUG_STARTY + 315);
 	
 		font->DrawText(NULL,
 			temp,

@@ -13,7 +13,7 @@ cZombieDog::~cZombieDog()
 
 void cZombieDog::Setup(D3DXVECTOR3* vLookAt)
 {
-	m_stStat = ST_MONSTER_STAT(100, 0, 10, 5, 0.05f, 1.0f, 4.0f, CHARACTER_ZOMBIEDOG);
+	m_stStat = ST_MONSTER_STAT(100, 0, 3, 5, 0.1f, 1.0f, 4.0f, CHARACTER_ZOMBIEDOG);
 
 	cMonster::Setup("ZombieDog.x");
 
