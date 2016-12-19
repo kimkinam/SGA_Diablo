@@ -34,8 +34,6 @@
 #define WINSIZE_Y	800//g_recWinsize.bottom		//초기 윈도우 세로 크기
 #define WINPOS_X	0			//초기 윈도우 시작 위치 X
 #define WINPOS_Y	0			//초기 윈도우 시작 위치 Y
-#define WIN_CLASS	"Unknown - BoundTool"		//윈도우 클레스 이름
-#define WIN_TITLE	"Unknown - BoundTool"		//윈도우 타이틀 이름
 #define WIN_STYLE	WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN	//윈도우 형태
 #define WIN_STYLEEX NULL
 

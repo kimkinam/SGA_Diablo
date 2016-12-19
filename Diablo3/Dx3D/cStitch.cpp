@@ -13,7 +13,7 @@ cStitch::~cStitch()
 
 void cStitch::Setup(D3DXVECTOR3* vLookAt)
 {
-	m_stStat = ST_MONSTER_STAT(200, 0, 10, 5, 0.05f, 1.0f, 4.0f, CHARACTER_STITCH);
+	m_stStat = ST_MONSTER_STAT(200, 0, 5, 5, 0.05f, 1.0f, 4.0f, CHARACTER_STITCH);
 	
 	cMonster::Setup("stitch.x");
 

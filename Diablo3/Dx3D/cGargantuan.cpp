@@ -13,7 +13,7 @@ cGargantuan::~cGargantuan()
 
 void cGargantuan::Setup(D3DXVECTOR3* vLookAt)
 {
-	m_stStat = ST_MONSTER_STAT(100, 0, 10, 5, 0.05f, 1.0f, 4.0f, CHARACTER_GARHANTUAN);
+	m_stStat = ST_MONSTER_STAT(250, 0, 10, 5, 0.05f, 1.0f, 4.0f, CHARACTER_GARHANTUAN);
 
 	cMonster::Setup("Gargantuan.x");
 

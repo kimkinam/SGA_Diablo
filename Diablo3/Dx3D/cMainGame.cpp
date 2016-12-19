@@ -33,6 +33,8 @@ void cMainGame::Setup()
 	g_pSceneManager->addScene("BossScene", new cBossScene);
 
 	SOUNDMANAGER->addSound("GamingSceneBGM", "Sound/GamingScene_BGM.mp3", true, true);
+	SOUNDMANAGER->addSound("BossSceneBGM", "Sound/Diablo_Scene_BGM.mp3", true, true);
+	SOUNDMANAGER->addSound("BossCutSceneBGM", "Sound/Diablo_CutScene_BGM.mp3", true, true);
 
 	SOUNDMANAGER->addSound("SwordSwing", "Sound/Sword_Swing.mp3", false, true);
 	SOUNDMANAGER->addSound("FootStep", "Sound/Foot_Step.mp3", false, true);
@@ -59,9 +61,18 @@ void cMainGame::Setup()
 	SOUNDMANAGER->addSound("ZombieDogAttack", "Sound/ZombieDog_Attack.mp3", false, false);
 	SOUNDMANAGER->addSound("ZombieDogGetHit", "Sound/ZombieDog_GetHit.mp3", false, false);
 	SOUNDMANAGER->addSound("ZombieDogDead", "Sound/ZombieDog_Dead.mp3", false, false);
+<<<<<<< HEAD
 	
 	g_pSceneManager->changeScene("BossScene");
 	
+=======
+
+	SOUNDMANAGER->addSound("DiabloCutSceneWarCry", "Sound/Diablo_CutScene_WarCry.mp3", false, false);
+	SOUNDMANAGER->addSound("DiabloLightBreath", "Sound/Diablo_LightBreath.mp3", false, false);
+	SOUNDMANAGER->addSound("DiabloAttack", "Sound/Diablo_Attack.mp3", false, false);
+
+	g_pSceneManager->changeScene("BossScene");
+>>>>>>> bebf78c0c7140b26794f91e23bf41c6eef3de9ee
 }
 
 void cMainGame::Update()

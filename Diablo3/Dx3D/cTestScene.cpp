@@ -300,10 +300,10 @@ void cTestScene::Update()
 	if (m_pUIRoot)
 		m_pUIRoot->Update();
 
-	//if (g_pKeyManager->isOnceKeyDown('L'))
-	//{
-	//	Save("map1");
-	//}
+	if (g_pKeyManager->isOnceKeyDown('L'))
+	{
+		Save("map1");
+	}
 	//
 	if (g_pKeyManager->isOnceKeyDown('P'))
 	{

@@ -15,6 +15,8 @@ private:
 	cObj*			m_pMap;
 	cBoss*			m_pBoss; // º¸½º
 	cPlayer*		m_pPlayer;
+	cUiManager*		m_pDiaUI;
+
 	cUiManager*		m_pUI;
 	std::vector<ST_PC_VERTEX>	m_vecTiles;
 	D3DXVECTOR3					m_vpickPos;

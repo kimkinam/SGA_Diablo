@@ -52,6 +52,8 @@ void cPlayerMoveState::Exit(cPlayer * pOwner)
 //매세지를 처리한다.
 bool cPlayerMoveState::OnMessage(cPlayer * pOwner, const Telegram & msg)
 {
+	if (msg.emMessageType == MSG_HITTED) return false;
+
 	switch (msg.emMessageType)
 	{
 		case MSG_RUN:

@@ -12,6 +12,8 @@ HINSTANCE hInst;								// 현재 인스턴스입니다.
 TCHAR szTitle[MAX_LOADSTRING];					// 제목 표시줄 텍스트입니다.
 TCHAR szWindowClass[MAX_LOADSTRING];			// 기본 창 클래스 이름입니다.
 
+
+
 cMainGame*	g_pMainGame;
 HWND		g_hWnd;
 POINT		g_ptMouse;
@@ -133,7 +135,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
    hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-	   CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
+	   0, 0, WINSIZE_X, WINSIZE_Y, NULL, NULL, hInstance, NULL);
 
    if (!hWnd)
    {

@@ -35,6 +35,7 @@ private:
 
 	cUIObject*			m_pEnemyBarBG;
 
+
 	cUISkill*			pBaba_skill_1;
 	POINT				m_ptClickPoint;
 
@@ -82,6 +83,7 @@ public:
 	void SetUp();
 	void SetUpHpBar(RECT rc);
 	void SetUpEnemyBar(RECT rc);
+	void SetUpEnemyBar(RECT rc, char* textureBGName, char* textureName);
 	void Update();
 	void Render();
 
@@ -96,6 +98,5 @@ public:
 	//iButtonDelegate override
 	virtual void OnClick(cUIButton* pSender) override;
 
-	
 };
 
