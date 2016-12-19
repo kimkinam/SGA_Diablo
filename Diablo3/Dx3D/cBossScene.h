@@ -15,8 +15,12 @@ private:
 	cObj*			m_pMap;
 	cBoss*			m_pBoss; // º¸½º
 	cPlayer*		m_pPlayer;
+<<<<<<< HEAD
 	cUiManager*		m_pDiaUI;
 
+=======
+	cUiManager*		m_pUI;
+>>>>>>> 67aa77e3eecb03a61445d9c5915c3740ec5413e2
 	std::vector<ST_PC_VERTEX>	m_vecTiles;
 	D3DXVECTOR3					m_vpickPos;
 
@@ -25,6 +29,15 @@ private:
 
 	float						m_fTotalFireTime;
 	float						m_fFireInterval;
+
+	bool						m_bIsCutScene;
+
+	float						m_fCutSceneTimer;
+
+	int							m_nBossTellCount;
+	D3DXMATRIX*					PointLightWorldTM;
+
+
 
 public:
 	cBossScene();
@@ -39,6 +52,11 @@ public:
 
 
 	void SetLight();
+	void SetPointLight();
 	void PlayerMove();
+
+	bool CutScene();
+	bool CutScene2();
+	void UISetting();
 };
 

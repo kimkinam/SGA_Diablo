@@ -8,7 +8,7 @@ class cBoundBox;
 class cMonster;
 class cPlayer;
 class cShaderManager;
-
+class cParticleEmitter;
 
 class cGamingScene : public cSceneObject
 {
@@ -30,7 +30,13 @@ private:
 	SYNTHESIZE(std::vector<cMonster*>, m_vecMonster, vecMonster);
 
 	cShaderManager*					   m_Cloud;
+	D3DXVECTOR3              CloudTranselation;
+	D3DXVECTOR3					  CloudScaling;
 
+	D3DXMATRIX*						   PointLightWorldTM;
+
+
+	cParticleEmitter*				m_ptcGuideLine;
 
 public:
 	cGamingScene();
@@ -41,11 +47,20 @@ public:
 	void PlayerMoveTest();
 	bool CollisionTest();
 	void SetLight(); //Α¶Έν
+	void SetPointLight();
 	
+	void GuidePtcSetUp();
+	void GuidePtcUpdate();
+	void GuidePtcRender();
+
+
+
 	//cScene override;
 	virtual HRESULT SetUp()	override;
 	virtual void Update()	override;
 	virtual void Render()	override;
 	virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;
+
+
 };
 

@@ -3,8 +3,6 @@
 #include "cMonster.h"	
 #include "cActionAtk.h"
 #include "cMonsterDetecting.h"
-#include "cArrow.h"
-#include "cSkeletonArcher.h"
 
 class cMonster;
 

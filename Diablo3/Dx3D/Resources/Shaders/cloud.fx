@@ -161,12 +161,12 @@ float4 Default_DirectX_Effect_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLO
       specular = pow(specular, 20.0f);    
    }
    
-   float3 ambient = float3(0.01f, 0.01f, 0.01f) * albedo;
+   float3 ambient = float3(0.15f, 0.15f, 0.15f) * albedo.a;
 
 
 
    
-   return (float4(ambient+ diffuse + specular,0.5f));
+   return (float4(ambient + specular,0.5f));
 }
 
 

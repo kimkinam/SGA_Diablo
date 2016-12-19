@@ -45,7 +45,8 @@ void cMonster::Setup(char * szMonsterName, D3DXVECTOR3* vLookAt)
 
 	cGameObject::Setup(vLookAt);
 
-	m_pSateMachnie->ChangeState(cMonsterDetecting::Instance());
+	if(m_pSateMachnie->GetCurState())
+		m_pSateMachnie->ChangeState(cMonsterDetecting::Instance());
 }
 
 void cMonster::Setup(ST_SAVEOBJECT wObj)
@@ -96,7 +97,7 @@ void cMonster::Render()
 		m_pMesh->UpdateAndRender(&m_matWorld);
 
 	//공격사거리 그리는 부분
-	if (g_pKeyManager->isToggleKey('1'))
+	if (g_pKeyManager->isToggleKey(VK_TAB))
 	{
 		D3DXMATRIXA16 mat;
 		D3DXMatrixTranslation(&mat, 0, m_stStat.fAttackRange / 2, 0);

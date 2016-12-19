@@ -137,7 +137,7 @@ float4 Default_DirectX_Effect_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLO
 
 
    
-   return (float4(ambient+ diffuse + specular,1.0f));
+   return (float4(ambient+ specular,1.0f));
 }
 
 

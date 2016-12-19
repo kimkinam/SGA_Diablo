@@ -5,6 +5,8 @@ class cMonster;
 class cMonsterTrace :
 	public iState<cMonster>
 {
+private:
+	float m_fTraceTime;
 public:
 	cMonsterTrace(){ }
 	virtual ~cMonsterTrace() { }

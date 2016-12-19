@@ -88,6 +88,9 @@
     <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="cZombieDog.cpp" />
+    <ClCompile Include="cDiabloDetectingState.cpp" />
+    <ClCompile Include="cDiabloLightingBreath.cpp" />
+    <ClCompile Include="cDiabloStom.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Asciitok.h" />
@@ -187,6 +190,9 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="MessageTypes.h" />
     <ClInclude Include="cZombieDog.h" />
+    <ClInclude Include="cDiabloDetectingState.h" />
+    <ClInclude Include="cDiabloLightingBreath.h" />
+    <ClInclude Include="cDiabloStom.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dx3D.rc" />

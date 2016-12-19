@@ -86,6 +86,9 @@ public:
 	void Save(string fileName);
 	void Load(string fileName);
 
+	void SetLight();
+
+
 
 };
 

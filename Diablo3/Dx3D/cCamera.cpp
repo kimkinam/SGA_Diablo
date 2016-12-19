@@ -127,9 +127,9 @@ void cCamera::Update(D3DXVECTOR3* pTarget)
 
 		//m_vLookAt = m_vEye + m_vForward *30.0;
 
-		D3DXMATRIXA16 matView;
-		D3DXMatrixLookAtLH(&matView, &m_vEye, &m_vLookAt, &m_vUp);
-		g_pD3DDevice->SetTransform(D3DTS_VIEW, &matView);
+		//D3DXMATRIXA16 matView;
+		//D3DXMatrixLookAtLH(&matView, &m_vEye, &m_vLookAt, &m_vUp);
+		//g_pD3DDevice->SetTransform(D3DTS_VIEW, &matView);
 	}
 	D3DXMATRIXA16 matView;
 	m_vLookAt = m_vEye + m_vForward;
@@ -152,7 +152,7 @@ void cCamera::SetNewDirection(D3DXVECTOR3 vDirection)
 	D3DXVec3Normalize(&m_vUp, &vUp);
 
 	D3DXMATRIXA16 matView;
-	D3DXMatrixLookAtLH(&matView, &m_vEye, &m_vForward, &m_vUp);
+	D3DXMatrixLookAtLH(&matView, &m_vEye, &(m_vEye+m_vForward), &m_vUp);
 	g_pD3DDevice->SetTransform(D3DTS_VIEW, &matView);
 
 }
