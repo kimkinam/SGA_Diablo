@@ -261,6 +261,29 @@ void cUiManager::SetUpEnemyBar(RECT rc)
 	m_pEnemyBar = pEnemyBar;
 }
 
+void cUiManager::SetUpEnemyBar(RECT rc, char* textureBGName, char* textureName)
+{
+	D3DXMATRIXA16 matS;
+
+	cUIImage* pEnemyBarBG = new cUIImage;
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.7f, 0.7f, 1);
+	pEnemyBarBG->SetmatS(matS);
+	pEnemyBarBG->SetTexture(textureBGName);
+	pEnemyBarBG->SetPosition(rc.right / 2 - pEnemyBarBG->GetCollider().nWidth / 2,
+		rc.top + pEnemyBarBG->GetCollider().nHeight * 1.5f, 0);
+	m_pEnemyBarBG = pEnemyBarBG;
+
+	cUIImage* pEnemyBar = new cUIImage;
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.7f, 0.7f, 1);
+	pEnemyBar->SetmatS(matS);
+	pEnemyBar->SetTexture(textureName);
+	pEnemyBar->SetPosition(rc.right / 2 - pEnemyBar->GetCollider().nWidth / 2 + 0.5,
+		rc.top + pEnemyBar->GetCollider().nHeight * 4.75f, 0);
+	m_pEnemyBar = pEnemyBar;
+}
+
 void cUiManager::SetUpHpBar(RECT rc)
 {
 	D3DXMATRIXA16 matS;

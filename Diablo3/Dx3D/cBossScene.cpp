@@ -10,7 +10,7 @@
 #include "cBoss.h"
 #include "cObj.h"
 #include "cObjLoader.h"
-
+#include "cUiManager.h"
 
 cBossScene::cBossScene()
 	: m_pGrid(NULL)
@@ -30,7 +30,7 @@ cBossScene::~cBossScene()
 	SAFE_RELEASE(m_pMap);
 	SAFE_RELEASE(m_pBoss);
 	SAFE_RELEASE(m_pPlayer);
-
+	SAFE_DELETE(m_pDiaUI);
 }
 
 HRESULT cBossScene::SetUp()
@@ -45,6 +45,7 @@ HRESULT cBossScene::SetUp()
 
 	m_pGrid = new cGrid;
 	m_pGrid->Setup(30);
+
 
 	ST_PC_VERTEX v;
 	D3DXCOLOR c;
@@ -63,6 +64,14 @@ HRESULT cBossScene::SetUp()
 	D3DXVECTOR3 vDirection = D3DXVECTOR3(-1, 0, 1);
 	D3DXVec3Normalize(&vDirection, &vDirection);
 	m_pPlayer->Setup(&vDirection);
+
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
+
+	m_pDiaUI = new cUiManager;
+	m_pDiaUI->SetAddressLink(m_pPlayer);
+	m_pDiaUI->SetUp();
+	m_pDiaUI->SetUpEnemyBar(rc, "./Resources/UI/Diablo_HpBar_BG.png", "./Resources/UI/Diablo_HpBar_Red.png");
 
 	m_pBoss = new cBoss;
 	m_pBoss->SetTarget(m_pPlayer);
@@ -123,6 +132,8 @@ void cBossScene::Update()
 		m_pCamera->Update();
 	}
 
+	m_pDiaUI->Update();
+
 	SetLight();
 	
 }
@@ -132,7 +143,7 @@ void cBossScene::Render()
 	if (m_pGrid)
 		m_pGrid->Render();
 
-
+	
 
 	if (m_pCamera)
 		m_pCamera->Render();
@@ -147,6 +158,8 @@ void cBossScene::Render()
 	if (m_pMap)
 		m_pMap->Render();
 	//
+
+	m_pDiaUI->Render();
 	//
 	//if (m_pPlayer)
 	//{
@@ -168,11 +181,23 @@ void cBossScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 void cBossScene::PlayerMove()
 {
+	cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
+	D3DXVECTOR3 vPickPos;
+
+	if (r.IntersectShpere(m_pBoss->GetMesh()->GetBoundingSphere()))
+	{
+		m_pDiaUI->m_bIsEnemyBar = true;
+		m_pDiaUI->GetpEnemyBar()->GetDrawRc().right =
+			(m_pBoss->GetStat().fHp / m_pBoss->GetStat().fMaxHp) * m_pDiaUI->GetpEnemyBar()->GetDrawRc().right;
+	}
+	else
+		m_pDiaUI->m_bIsEnemyBar = false;
+
 	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
 	{
 
-		cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
-		D3DXVECTOR3 vPickPos;
+		//cRay r = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
+		
 		for (size_t i = 0; i < m_vecTiles.size(); i += 3)
 		{
 			if (r.IntersectTri(m_vecTiles[i].p,

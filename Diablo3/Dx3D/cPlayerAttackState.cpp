@@ -49,6 +49,7 @@ void cPlayerAttackState::Exit(cPlayer * pOwner)
 
 bool cPlayerAttackState::OnMessage(cPlayer * pOwner, const Telegram & msg)
 {
+	if (msg.emMessageType == MSG_HITTED) return false;
 	switch (msg.emMessageType)
 	{
 	case MSG_RUN:

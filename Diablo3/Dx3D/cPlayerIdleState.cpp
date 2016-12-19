@@ -31,12 +31,9 @@ void cPlayerIdleState::Exit(cPlayer * pOwner)
 bool cPlayerIdleState::OnMessage(cPlayer * pOwner, const Telegram & msg)
 {
 	if (!pOwner) return false;
-	
+	if (msg.emMessageType == MSG_HITTED) return false;
 	switch (msg.emMessageType)
 	{
-	case MSG_HITTED:
-		return false;
-		break;
 	case MSG_IDLE:
 		//공격타겟을 초기화 한다.
 		pOwner->SetTarget(NULL);
