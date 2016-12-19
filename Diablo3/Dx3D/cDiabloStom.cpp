@@ -12,6 +12,8 @@ void cDiabloStom::Enter(cMonster * pOwner)
 
 	if(name != "stom")
 		pOwner->SetAnimation("stom");
+
+	SOUNDMANAGER->play("Diablo_Fire", 0.5f);
 }
 
 void cDiabloStom::Execute(cMonster * pOwner)

@@ -19,8 +19,6 @@ void cMonsterDetecting::Enter(cMonster * pOwner)
 
 	if (pOwner->GetStat().chType == CHARACTER_TYPE::CHARACTER_DIABLO)
 	{
-		m_fIdleTime = 2.0f;
-
 		int nRandom[100] =
 		{ 0,0,1,1,1,2,2,2,3,3,
 			0,0,1,1,1,2,2,2,3,3,
@@ -71,36 +69,37 @@ void cMonsterDetecting::Execute(cMonster * pOwner)
 
 	if (pOwner->GetStat().chType == CHARACTER_TYPE::CHARACTER_DIABLO)
 	{
+		m_fTraceTime -= g_pTimeManager->GetDeltaTime();
 		//idle		//				// 20	//0
 		//breath	//				// 30	//1
 		//attack	//기본공격		// 30	//2
 		//stom		//8방향 확장	// 20	//3
 		///idle	//바바닥판			// 20	//0
-		switch (m_nState)
+
+		if (m_fTraceTime <= 0)
 		{
-		case 0:
-			m_fIdleTime -= g_pTimeManager->GetDeltaTime();
-
-			if (m_fIdleTime <= 0)
+			switch (m_nState)
 			{
+			case 0:
 				pOwner->m_pSateMachnie->ChangeState(cMonsterDetecting::Instance());
+				break;
+			case 1:
+				
+				pOwner->m_pSateMachnie->ChangeState(cDiabloLightingBreath::Instance());
+				break;
+			case 2:
+				g_pMessageManager->MessageSend(0.0f, pOwner->GetID(), pOwner->GetID(),
+					MESSAGE_TYPE::MSG_RUN, NULL);
+				break;
+			case 3:
+				if (((cBoss*)pOwner)->GetIsActive())
+					pOwner->m_pSateMachnie->ChangeState(cMonsterDetecting::Instance());
+				else
+					pOwner->m_pSateMachnie->ChangeState(cDiabloStom::Instance());
+				break;
 			}
-
-			break;
-		case 1:
-			pOwner->m_pSateMachnie->ChangeState(cDiabloLightingBreath::Instance());
-			break;
-		case 2:
-			g_pMessageManager->MessageSend(0.0f, pOwner->GetID(), pOwner->GetID(),
-				MESSAGE_TYPE::MSG_RUN, NULL);
-			break;
-		case 3:
-			if (((cBoss*)pOwner)->GetIsActive())
-				pOwner->m_pSateMachnie->ChangeState(cMonsterDetecting::Instance());
-			else
-				pOwner->m_pSateMachnie->ChangeState(cDiabloStom::Instance());
-			break;
 		}
+		
 	}
 	else
 	{

@@ -40,14 +40,17 @@ void cDiabloLightingBreath::Execute(cMonster * pOwner)
 			//น฿ป็
 			if (!m_bIsBreath)
 			{
+				SOUNDMANAGER->play("DiabloLightBreath", 1.0f);
 				dynamic_cast<cBoss*>(pOwner)->BreathSkillStart(5.0f);
 				m_bIsBreath = true;
 			}
+
 			
 		}
 		else
 		{
 			pOwner->SetAnimation("breathEnd");
+			SOUNDMANAGER->stop("DiabloLightBreath");
 		}
 	}
 

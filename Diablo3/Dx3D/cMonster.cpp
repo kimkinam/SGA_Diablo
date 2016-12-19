@@ -116,25 +116,25 @@ void cMonster::Render()
 		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
 	//디버그 정보
-	LPD3DXFONT font;
-	font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
-
-	char temp[128];
-	RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 200, DEBUG_STARTX + 250, DEBUG_STARTY + 315 };
-
-	if (m_pAction)
-	{
-		//D3DXVECTOR3 v = ((cActionTrace*)m_pAction)->GetDirToTargetX();
-		sprintf_s(temp, "dX : %f, %f, %f", m_vPosition.x, m_vPosition.y, m_vPosition.z
-			, 128);//m_pMesh->GetCurAnimationName().c_str(), 128);
-		rc = { DEBUG_STARTX, DEBUG_STARTY + 300, DEBUG_STARTX + 250, DEBUG_STARTY + 415 };
-		font->DrawText(NULL,
-			temp,
-			128,
-			&rc,
-			DT_LEFT,
-			D3DCOLOR_XRGB(255, 255, 255));
-	}
+	//LPD3DXFONT font;
+	//font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
+	//
+	//char temp[128];
+	//RECT rc = { DEBUG_STARTX, DEBUG_STARTY + 200, DEBUG_STARTX + 250, DEBUG_STARTY + 315 };
+	//
+	//if (m_pAction)
+	//{
+	//	//D3DXVECTOR3 v = ((cActionTrace*)m_pAction)->GetDirToTargetX();
+	//	sprintf_s(temp, "dX : %f, %f, %f", m_vPosition.x, m_vPosition.y, m_vPosition.z
+	//		, 128);//m_pMesh->GetCurAnimationName().c_str(), 128);
+	//	rc = { DEBUG_STARTX, DEBUG_STARTY + 300, DEBUG_STARTX + 250, DEBUG_STARTY + 415 };
+	//	font->DrawText(NULL,
+	//		temp,
+	//		128,
+	//		&rc,
+	//		DT_LEFT,
+	//		D3DCOLOR_XRGB(255, 255, 255));
+	//}
 
 }
 

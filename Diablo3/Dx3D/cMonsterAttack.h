@@ -47,6 +47,9 @@ public:
 				
 			}
 		}
+
+		if(pOwner->GetStat().chType == CHARACTER_DIABLO)
+			SOUNDMANAGER->play("DiabloAttack", 0.6f);
 		
 		ST_HIT_EXTRAINFO msgHit;
 		msgHit.dwHitType = 1;
@@ -79,26 +82,29 @@ public:
 		//공격사거리 밖으로 나가면
 		if (distance > pOwner->GetStat().fAttackRange)
 		{
-			LPD3DXANIMATIONSET pCurAS = NULL;
-			pOwner->GetMesh()->GetAnimController()->GetTrackAnimationSet(0, &pCurAS);
-			if (pCurAS)
-			{
+			//LPD3DXANIMATIONSET pCurAS = NULL;
+			//pOwner->GetMesh()->GetAnimController()->GetTrackAnimationSet(0, &pCurAS);
+			//if (pCurAS)
+			//{
 				//현재 애니메이션이 돌아가는 트랙정보를 가져온다.
 				D3DXTRACK_DESC td;
 				pOwner->GetMesh()->GetAnimController()->GetTrackDesc(0, &td);
 
 				//현재 애니메이션의 전체 길이를 실행하고
 				//if(pOwner->IsDoneCurAni())
-				if (td.Position > pCurAS->GetPeriod() - EPSILON - 0.2f)
-				{
+				//if (td.Position > pCurAS->GetPeriod() - EPSILON - 0.2f)
+				//{
 					//상태를 변화시켜준다.
 					//pOwner->SetIsAtk(false);
 
 					pOwner->SetAction(NULL);
 					//pOwner->OnActionFinish(pOwner->GetAction());
 					pOwner->m_pSateMachnie->ChangeState(cMonsterDetecting::Instance());
-				}
-			}
+				//}
+			//}
+
+				if(SOUNDMANAGER->isPlaySound("DiabloAttack"))
+					SOUNDMANAGER->stop("DiabloAttack");
 		}
 	}
 

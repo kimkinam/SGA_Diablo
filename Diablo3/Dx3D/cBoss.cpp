@@ -365,7 +365,7 @@ void cBoss::ParticleTestUpdate()
 
 			//m_aryStoms[i].m_pFireParticle->StartEmission();
 			m_aryStoms[i].m_pFireParticle->Fire(160, matPos, 0.7f, 0.9f, 0.7f, 2.0f);
-			m_aryStoms[i].m_pFireTail->FireTail(80, matPos, 0.5f, 0.8f, 0.5f, 2.0f);
+			m_aryStoms[i].m_pFireTail->FireTail(70, matPos, 0.5f, 0.8f, 0.5f, 2.0f);
 
 			m_aryStoms[i].fLiveTimer -= g_pTimeManager->GetDeltaTime();
 			if (m_aryStoms[i].fLiveTimer <= 0)
@@ -387,7 +387,7 @@ void cBoss::ParticleTestUpdate()
 		D3DXMATRIXA16 matJaw = *((D3DXMATRIXA16*) (m_pMesh->AttachItem("Jaw") )) ;
 		D3DXVECTOR3 pos(matJaw._41,matJaw._42,matJaw._43);
 		
-		m_pBreathParticle->LighteningBreath(100,pos, m_vDirection,0,0, 2.f, 4.f);//½ºÇÇµå¾È¾¸
+		m_pBreathParticle->LighteningBreath(50,pos, m_vDirection,0,0, 2.f, 4.f);//½ºÇÇµå¾È¾¸
 
 		m_fBreathLifeTime -= g_pTimeManager->GetDeltaTime();
 

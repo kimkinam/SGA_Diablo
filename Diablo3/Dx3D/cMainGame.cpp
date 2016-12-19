@@ -61,18 +61,15 @@ void cMainGame::Setup()
 	SOUNDMANAGER->addSound("ZombieDogAttack", "Sound/ZombieDog_Attack.mp3", false, false);
 	SOUNDMANAGER->addSound("ZombieDogGetHit", "Sound/ZombieDog_GetHit.mp3", false, false);
 	SOUNDMANAGER->addSound("ZombieDogDead", "Sound/ZombieDog_Dead.mp3", false, false);
-<<<<<<< HEAD
 	
-	g_pSceneManager->changeScene("BossScene");
+	g_pSceneManager->changeScene("GamingScene");
 	
-=======
-
 	SOUNDMANAGER->addSound("DiabloCutSceneWarCry", "Sound/Diablo_CutScene_WarCry.mp3", false, false);
 	SOUNDMANAGER->addSound("DiabloLightBreath", "Sound/Diablo_LightBreath.mp3", false, false);
-	SOUNDMANAGER->addSound("DiabloAttack", "Sound/Diablo_Attack.mp3", false, false);
+	SOUNDMANAGER->addSound("Diablo_Fire", "Sound/Diablo_Fire.mp3", false, false);
+	
+	SOUNDMANAGER->addSound("DiabloAttack", "Sound/Diablo_Attack.mp3", false, true);
 
-	g_pSceneManager->changeScene("BossScene");
->>>>>>> bebf78c0c7140b26794f91e23bf41c6eef3de9ee
 }
 
 void cMainGame::Update()
@@ -110,23 +107,23 @@ void cMainGame::Render()
 	//	m_pCurScene->Render();
 
 
-	g_pTimeManager->Render();
+	//g_pTimeManager->Render();
 
 
-	LPD3DXFONT font;
-	font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
-
-	char temp[512];
-	sprintf_s(temp, "F1 : LoadingScene\nF2 : TestScene\nF3 : GamingScene\nF4 : BossScene",512);
-	
-	RECT rc;
-	SetRect(&rc, DEBUG_STARTX, DEBUG_STARTY + 40, DEBUG_STARTX + 250, DEBUG_STARTY + 130);
-	font->DrawText(NULL,
-		temp,
-		128,
-		&rc,
-		DT_LEFT,
-		D3DCOLOR_XRGB(255, 255, 255));
+	//LPD3DXFONT font;
+	//font = g_pFontManger->GetFont(cFontManager::E_NORMAL);
+	//
+	//char temp[512];
+	//sprintf_s(temp, "F1 : LoadingScene\nF2 : TestScene\nF3 : GamingScene\nF4 : BossScene",512);
+	//
+	//RECT rc;
+	//SetRect(&rc, DEBUG_STARTX, DEBUG_STARTY + 40, DEBUG_STARTX + 250, DEBUG_STARTY + 130);
+	//font->DrawText(NULL,
+	//	temp,
+	//	128,
+	//	&rc,
+	//	DT_LEFT,
+	//	D3DCOLOR_XRGB(255, 255, 255));
 
 	g_pD3DDevice->EndScene();
 

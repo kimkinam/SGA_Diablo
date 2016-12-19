@@ -180,8 +180,8 @@ void cBossScene::Render()
 
 	
 
-	if (m_pCamera)
-		m_pCamera->Render();
+	//if (m_pCamera)
+	//	m_pCamera->Render();
 	
 	if (m_pPlayer)
 		m_pPlayer->Render();
@@ -217,30 +217,30 @@ void cBossScene::Render()
 	if (m_pUI)
 		m_pUI->Render();
 
-	if (m_pDiaUI->m_bIsEnemyBar)
-	{
-		LPD3DXFONT font;
-		font = g_pFontManger->GetFont(cFontManager::E_CHAT);
-
-		char temp[128];
-
-		string name = m_pBoss->GetObjName();
-		int lastDotIndex = name.find_last_not_of(".");
-		string result = name.substr(0, lastDotIndex - 1);
-		sprintf_s(temp, "%s", result.c_str(), 128);
-
-		RECT rc;
-		GetClientRect(g_hWnd, &rc);
-
-		SetRect(&rc, DEBUG_STARTX + WINSIZE_X / 2.3f + result.length() + 40,/* - 25*/ DEBUG_STARTY - 28, DEBUG_STARTX + WINSIZE_X, DEBUG_STARTY + 280);
-
-		font->DrawText(NULL,
-			temp,
-			128,
-			&rc,
-			DT_LEFT,
-			D3DCOLOR_XRGB(255, 255, 255));
-	}
+	//if (m_pDiaUI->m_bIsEnemyBar)
+	//{
+	//	LPD3DXFONT font;
+	//	font = g_pFontManger->GetFont(cFontManager::E_CHAT);
+	//
+	//	char temp[128];
+	//
+	//	string name = m_pBoss->GetObjName();
+	//	int lastDotIndex = name.find_last_not_of(".");
+	//	string result = name.substr(0, lastDotIndex - 1);
+	//	sprintf_s(temp, "%s", result.c_str(), 128);
+	//
+	//	RECT rc;
+	//	GetClientRect(g_hWnd, &rc);
+	//
+	//	SetRect(&rc, DEBUG_STARTX + WINSIZE_X / 2.3f + result.length() + 40,/* - 25*/ DEBUG_STARTY - 28, DEBUG_STARTX + WINSIZE_X, DEBUG_STARTY + 280);
+	//
+	//	font->DrawText(NULL,
+	//		temp,
+	//		128,
+	//		&rc,
+	//		DT_LEFT,
+	//		D3DCOLOR_XRGB(255, 255, 255));
+	//}
 
 
 }
@@ -338,7 +338,6 @@ void cBossScene::PlayerMove()
 			}
 		}
 	}
-<<<<<<< HEAD
 	//if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
 	//{
 	//	ST_RUN_EXTRAINFO MSG;
@@ -360,8 +359,6 @@ void cBossScene::PlayerMove()
 	//		}
 	//	}
 	//}
-=======
->>>>>>> bebf78c0c7140b26794f91e23bf41c6eef3de9ee
 
 	//if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
 	//{
