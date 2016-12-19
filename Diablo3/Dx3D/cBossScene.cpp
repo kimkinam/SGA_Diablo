@@ -279,27 +279,27 @@ void cBossScene::PlayerMove()
 			}
 		}
 	}
-	if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
-	{
-		ST_RUN_EXTRAINFO MSG;
-		MSG.fSpeed = m_pPlayer->GetStat().fSpeed;
-
-		for (size_t i = 0; i < m_vecTiles.size(); i += 3)
-		{
-			if (r.IntersectTri(m_vecTiles[i].p,
-				m_vecTiles[i + 1].p,
-				m_vecTiles[i + 2].p,
-				vPickPos))
-			{
-				vPickPos.y = 3.4f;
-
-				MSG.nTarget = m_pPlayer->GetID();
-				MSG.vDest = vPickPos;
-
-				g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_WHIRLWIND, &MSG);
-			}
-		}
-	}
+	//if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
+	//{
+	//	ST_RUN_EXTRAINFO MSG;
+	//	MSG.fSpeed = m_pPlayer->GetStat().fSpeed;
+	//
+	//	for (size_t i = 0; i < m_vecTiles.size(); i += 3)
+	//	{
+	//		if (r.IntersectTri(m_vecTiles[i].p,
+	//			m_vecTiles[i + 1].p,
+	//			m_vecTiles[i + 2].p,
+	//			vPickPos))
+	//		{
+	//			vPickPos.y = 3.4f;
+	//
+	//			MSG.nTarget = m_pPlayer->GetID();
+	//			MSG.vDest = vPickPos;
+	//
+	//			g_pMessageManager->MessageSend(0.0f, m_pPlayer->GetID(), m_pPlayer->GetID(), MESSAGE_TYPE::MSG_WHIRLWIND, &MSG);
+	//		}
+	//	}
+	//}
 
 	//if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
 	//{

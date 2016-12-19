@@ -23,7 +23,6 @@
     <ClCompile Include="cLighting.cpp" />
     <ClCompile Include="cMessageManager.cpp" />
     <ClCompile Include="cMonsterAttack.cpp" />
-    <ClCompile Include="cMonsterDetecting.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />
     <ClCompile Include="cFontManager.cpp" />
     <ClCompile Include="cGameManager.cpp" />
@@ -91,6 +90,7 @@
     <ClCompile Include="cDiabloDetectingState.cpp" />
     <ClCompile Include="cDiabloLightingBreath.cpp" />
     <ClCompile Include="cDiabloStom.cpp" />
+    <ClCompile Include="cMonsterDetecting.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Asciitok.h" />

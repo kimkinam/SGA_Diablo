@@ -387,9 +387,9 @@ void cBoss::ParticleTestUpdate()
 		D3DXMATRIXA16 matJaw = *((D3DXMATRIXA16*) (m_pMesh->AttachItem("Jaw") )) ;
 		D3DXVECTOR3 pos(matJaw._41,matJaw._42,matJaw._43);
 		
-		m_pBreathParticle->LighteningBreath(50,pos, m_vDirection,0,0, 2.f, 4.f);//½ºÇÇµå¾È¾¸
+		m_pBreathParticle->LighteningBreath(100,pos, m_vDirection,0,0, 2.f, 4.f);//½ºÇÇµå¾È¾¸
 
-		m_fBreathLifeTime -= g_pTimeManager->GetDeltaTime() ;
+		m_fBreathLifeTime -= g_pTimeManager->GetDeltaTime();
 
 		if (m_fBreathLifeTime <= 0)
 		{

@@ -194,7 +194,7 @@ void cParticleEmitter::FireTail(int num, D3DXVECTOR3 startPos, float minSpeed, f
 
 void cParticleEmitter::LighteningBreath(int num, D3DXVECTOR3 startPos, D3DXVECTOR3 dir, float minSpeed, float maxSpeed, float minLife, float maxLife)
 {
-	m_fEmisionDeltaTime += g_pTimeManager->GetDeltaTime();
+	m_fEmisionDeltaTime += g_pTimeManager->GetDeltaTime() * 3;
 
 	while (m_fEmisionDeltaTime >= 1.0f / num) {
 
@@ -223,7 +223,7 @@ void cParticleEmitter::LighteningBreath(int num, D3DXVECTOR3 startPos, D3DXVECTO
 		D3DXVECTOR3 randVec2(
 			RandomFloatRange(0, 0),
 			RandomFloatRange(0.3f, -0.3f),
-			RandomFloatRange(-0.1f, 7.0));
+			RandomFloatRange(-0.1f, 5.0));
 
 		D3DXVec3TransformCoord(&randVec2, &randVec2, &matWorld);
 		//life time = 2.3, 3.0f;
